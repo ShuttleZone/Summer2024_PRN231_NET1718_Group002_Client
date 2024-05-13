@@ -1,0 +1,12 @@
+#! /bin/bash
+
+current_branch=$(git symbolic-ref --short HEAD)
+
+# Check if the current branch is 'main' or 'dev'
+if [ "$current_branch" = "main" ] || [ "$current_branch" = "dev" ]; then
+    echo "Cannot push directly to the '$current_branch' branch. Please create a pull request."
+    exit 1
+fi
+
+npm run lint
+npm run build
