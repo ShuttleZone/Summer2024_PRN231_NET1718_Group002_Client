@@ -4,9 +4,11 @@ import Footer from "./components/Footer";
 
 function UserLayout() {
     return (
-        <div>
+        <div className="h-screen flex flex-col">
             <Header />
-            <Outlet />
+            <main className="flex-grow bg-yellow-500">
+                <Outlet />
+            </main>
             <Footer />
         </div>
     );
