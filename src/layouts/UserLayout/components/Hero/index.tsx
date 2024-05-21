@@ -11,7 +11,7 @@ import {
 function Hero() {
     return (
         <div className="relative text-white flex flex-col justify-center items-center">
-            <div className="absolute w-full h-full bg-black/60 z-0"></div>
+            <div className="absolute w-full h-full bg-black/60 z-0" />
             <img
                 src={HeroBackgroundImage}
                 alt="hero background"

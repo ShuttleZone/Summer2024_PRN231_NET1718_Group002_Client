@@ -19,6 +19,7 @@ function Footer() {
                         <ButtonWithIcon
                             icon={<BsPersonPlus size={20} />}
                             text="Join With Us"
+                            className="hover:bg-white hover:text-primary"
                         />
                     </div>
                     <Separator className="opacity-30" />
