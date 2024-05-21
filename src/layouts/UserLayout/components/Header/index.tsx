@@ -1,8 +1,8 @@
-import {Button} from "@/components/ui/button";
 import Logo from "./components/Logo";
 import Navbar from "./components/Navbar";
 import {IoPeopleOutline} from "react-icons/io5";
 import {Link} from "react-router-dom";
+import ButtonWithIcon from "@/components/ui/buttonWithIcon";
 
 function Header() {
     return (
@@ -10,10 +10,10 @@ function Header() {
             <Logo />
             <Navbar />
             <Link to="/login">
-                <Button className="bg-[#0a7e53] flex justify-between items-center gap-1">
-                    <IoPeopleOutline size={20} />
-                    <span>Login/Register</span>
-                </Button>
+                <ButtonWithIcon
+                    icon={<IoPeopleOutline size={20} />}
+                    text="Login/Register"
+                />
             </Link>
         </header>
     );
