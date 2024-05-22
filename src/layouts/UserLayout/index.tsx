@@ -7,7 +7,7 @@ function UserLayout() {
     return (
         <div className="h-screen flex flex-col">
             <Header />
-            <main className="flex-grow">
+            <main className="flex-grow h-fit">
                 <Hero />
                 <Outlet />
             </main>
