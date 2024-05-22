@@ -1,5 +1,7 @@
 import Filter from "./components/Filter";
 import ClubCard from "./components/ClubCard";
+// import {useEffect} from "react";
+// import {useGetClubsQuery} from "@/store/services/clubs/club.api";
 
 interface ClubType {
     id: string;
@@ -66,6 +68,14 @@ const clubs: ClubType[] = [
 ];
 
 function ClubsList() {
+    // const {data, isLoading, isError, error} = useGetClubsQuery("");
+    // useEffect(() => {
+    //     console.log(data);
+    //     console.log(isLoading);
+    //     console.log(isError);
+    //     console.log(error);
+    // }, [isLoading]);
+
     return (
         <div className="w-full flex justify-center py-12">
             <div className="w-3/4">
