@@ -3,7 +3,7 @@ import commonApi from "@/store/common.api";
 const clubApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
         getClubs: build.query({
-            query: () => "/clubs",
+            query: () => "/api/clubs",
         }),
     }),
     overrideExisting: true,
