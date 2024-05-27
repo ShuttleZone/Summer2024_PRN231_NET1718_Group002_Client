@@ -52,10 +52,9 @@ function ClubCard({
                 <div className="absolute top-4 left-4">
                     <ul className="grid grid-cols-2 gap-2">
                         <li className="col-span-1">
-                            <Tag text={formatTime(openTime)} />
-                        </li>
-                        <li className="col-span-1">
-                            <Tag text={formatTime(closeTime)} />
+                            <Tag
+                                text={`${formatTime(openTime)} - ${formatTime(closeTime)}`}
+                            />
                         </li>
                     </ul>
                 </div>
