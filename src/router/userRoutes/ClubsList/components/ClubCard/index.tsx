@@ -1,9 +1,9 @@
 import formatTime from "@/lib/time.util";
-import {ClubImageType, ReviewType} from "../..";
 import Tag from "../Tag";
 import {CiLocationOn} from "react-icons/ci";
 import {MdOutlineShoppingBag} from "react-icons/md";
 import {useNavigate} from "react-router-dom";
+import {ClubImageType, ReviewType} from "@/@types/api";
 
 interface ClubCardProps {
     id: string;
