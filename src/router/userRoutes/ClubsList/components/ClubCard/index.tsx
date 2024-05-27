@@ -2,6 +2,8 @@ import formatTime from "@/lib/time.util";
 import {ClubImageType, ReviewType} from "../..";
 import Tag from "../Tag";
 import {CiLocationOn} from "react-icons/ci";
+import {MdOutlineShoppingBag} from "react-icons/md";
+import {useNavigate} from "react-router-dom";
 
 interface ClubCardProps {
     id: string;
@@ -34,14 +36,15 @@ function ClubCard({
                   reviews.reduce((acc, review) => acc + review.rating, 0) /
                   reviews.length
               ).toFixed(1);
+    const navigate = useNavigate();
     const handleCardClick = () => {
-        console.log(id); // eslint-disable-line no-console
+        navigate(`/clubs/${id}`);
     };
 
     return (
         <div
             onClick={handleCardClick}
-            className="flex flex-col justify-between items-center shadow-md shadow-gray-200 group hover:shadow-xl hover:rounded-t-xl hover:scale-[1.03] transition-all duration-300"
+            className="flex flex-col justify-between items-center cursor-pointer shadow-md shadow-gray-200 group hover:shadow-xl hover:rounded-t-xl hover:scale-[1.03] transition-all duration-300"
         >
             <div className="relative w-full h-60 overflow-hidden">
                 <img
@@ -52,10 +55,9 @@ function ClubCard({
                 <div className="absolute top-4 left-4">
                     <ul className="grid grid-cols-2 gap-2">
                         <li className="col-span-1">
-                            <Tag text={formatTime(openTime)} />
-                        </li>
-                        <li className="col-span-1">
-                            <Tag text={formatTime(closeTime)} />
+                            <Tag
+                                text={`${formatTime(openTime)} - ${formatTime(closeTime)}`}
+                            />
                         </li>
                     </ul>
                 </div>
@@ -73,12 +75,16 @@ function ClubCard({
                     <CiLocationOn size={20} className="opacity-50" />
                     <p>{clubAddress}</p>
                 </div>
-                <div>
+                <div className="w-full flex justify-between items-center">
                     <img
                         src={profileImage}
                         alt="club"
                         className="w-8 aspect-square rounded-full"
                     />
+                    <button className="flex justify-between items-center gap-2 py-1 px-2 rounded-lg border border-black/10 hover:bg-green-300 hover:border-green-300 transition-colors">
+                        <MdOutlineShoppingBag size={20} />
+                        <p>Book Now</p>
+                    </button>
                 </div>
             </div>
         </div>
