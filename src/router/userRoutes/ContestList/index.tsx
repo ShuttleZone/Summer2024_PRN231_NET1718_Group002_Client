@@ -24,7 +24,7 @@ interface ContestInfo {
 
 const contests: ContestInfo[] = [
     {
-        id: "851e80b3-c3d3-4f1d-b5d8-462cab592b84",
+        id: "2",
         contestDate: "2024-05-24T00:00:00",
         maxPlayer: 8,
         policy: "Follow the rules",
@@ -51,7 +51,7 @@ const contests: ContestInfo[] = [
         ],
     },
     {
-        id: "3d6e11e2-8914-495b-b3d7-798960a5fe91",
+        id: "1",
         contestDate: "2024-05-24T00:00:00",
         maxPlayer: 10,
         policy: "No cheating allowed",
@@ -65,6 +65,60 @@ const contests: ContestInfo[] = [
                 isCreatedPerson: false,
                 isWinner: false,
                 point: 0,
+            },
+        ],
+    },
+    {
+        id: "1",
+        contestDate: "2024-06-01",
+        maxPlayer: 10,
+        policy: "Open",
+        contestStatus: 1,
+        participants: [
+            {
+                id: "1",
+                fullname: "John Doe",
+                point: 100,
+                gender: 0,
+                userStatusEnum: 0,
+                isCreatedPerson: false,
+                isWinner: false,
+            },
+            {
+                id: "2",
+                fullname: "Jane Smith",
+                point: 90,
+                gender: 0,
+                userStatusEnum: 0,
+                isCreatedPerson: false,
+                isWinner: false,
+            },
+        ],
+    },
+    {
+        id: "2",
+        contestDate: "2024-06-15",
+        maxPlayer: 8,
+        policy: "Invitation Only",
+        contestStatus: 1,
+        participants: [
+            {
+                id: " 3",
+                fullname: "Alice Johnson",
+                point: 85,
+                gender: 0,
+                userStatusEnum: 0,
+                isCreatedPerson: false,
+                isWinner: false,
+            },
+            {
+                id: "4",
+                fullname: "Bob Brown",
+                point: 95,
+                gender: 0,
+                userStatusEnum: 0,
+                isCreatedPerson: false,
+                isWinner: false,
             },
         ],
     },
@@ -84,10 +138,7 @@ function ContestList() {
             <div className="w-3/4">
                 <Filter />
 
-                {contests.map((contest) => (
-                    <ContestTable {...contest} />
-                ))}
-                {/* <ContestMapper contests={contestData} /> */}
+                <ContestTable contests={contests} />
             </div>
         </div>
     );

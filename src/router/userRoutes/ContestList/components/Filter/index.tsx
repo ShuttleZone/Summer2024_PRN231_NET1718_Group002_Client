@@ -1,10 +1,10 @@
 function SortBar() {
     return (
         <div className="sorting-panel">
-            <ul className="flex justify-start flex-wrap bg-gray-100 p- rounded-md p-5">
+            <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 p-5 bg-gray-50 rounded-md">
                 <li className="mr-3">
                     <a
-                        className="inline-block border border-slate-900 rounded-md bg-slate-900 text-white py-3 px-7"
+                        className="inline-block text-white bg-slate-900 rounded-lg active py-3 px-7 aria-selected:"
                         href="#"
                     >
                         All Contest
@@ -13,7 +13,7 @@ function SortBar() {
 
                 <li className="mr-3">
                     <a
-                        className="inline-block border border-white hover:bg-slate-900 hover:border-slate-900 hover:text-white rounded-md bg-white text-stone-500 py-3 px-7"
+                        className="inline-block rounded-lg hover:bg-slate-900 hover:border-slate-900 hover:text-white text-stone-500 py-3 px-7"
                         href="#"
                     >
                         Upcoming
@@ -22,7 +22,7 @@ function SortBar() {
 
                 <li className="mr-3">
                     <a
-                        className="inline-block border border-white hover:bg-slate-900 hover:border-slate-900 hover:text-white rounded-md bg-white text-stone-500 py-3 px-7"
+                        className="inline-block rounded-lg hover:bg-slate-900 hover:border-slate-900 hover:text-white text-stone-500 py-3 px-7"
                         href="#"
                     >
                         On Going
@@ -31,7 +31,7 @@ function SortBar() {
 
                 <li className="mr-3">
                     <a
-                        className="inline-block border border-white hover:bg-slate-900 hover:border-slate-900 hover:text-white rounded-md bg-white text-stone-500 py-3 px-7"
+                        className="inline-block rounded-lg hover:bg-slate-900 hover:border-slate-900 hover:text-white text-stone-500 py-3 px-7"
                         href="#"
                     >
                         Cancelled
