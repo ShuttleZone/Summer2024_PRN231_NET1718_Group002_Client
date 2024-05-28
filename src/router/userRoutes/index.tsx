@@ -2,6 +2,7 @@ import {RouteObject} from "react-router-dom";
 import Home from "./Home";
 import PrivateRoute from "../PrivateRoute";
 import ClubsList from "./ClubsList";
+import ContestList from "./ContestList";
 import ClubDetail from "./ClubDetail";
 import CourtBooking from "./CourtBooking";
 import TypeOfBooking from "./CourtBooking/TypeOfBooking";
@@ -17,6 +18,10 @@ const publicRoutes: RouteObject[] = [
     {
         path: "/clubs",
         element: <ClubsList />,
+    },
+    {
+        path: "/contests",
+        element: <ContestList />,
     },
     {
         path: "/clubs/:clubId",

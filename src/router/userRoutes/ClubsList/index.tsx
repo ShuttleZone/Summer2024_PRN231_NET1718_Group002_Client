@@ -1,4 +1,6 @@
 import Filter from "./components/Filter";
+// import Filter from "@/router/userRoutes/ContestList/components/Filter";
+
 import ClubCard from "./components/ClubCard";
 import {useGetClubsQuery} from "@/store/services/clubs/club.api";
 
