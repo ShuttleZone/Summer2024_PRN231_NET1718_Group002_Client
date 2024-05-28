@@ -39,7 +39,8 @@ function InputDataTable({
                 <div className="ps-3">
                     <div className="text-base font-semibold">Neil Sims</div>
                     <div className="font-normal text-gray-500">
-                        neil.sims@flowbite.com
+                        {/* neil.sims@flowbite.com */}
+                        {id}
                     </div>
                 </div>
             </th>
@@ -56,13 +57,13 @@ function InputDataTable({
                 >
                     Action
                 </a>
-                {/* <ul>
+                <ul>
                     {participants.map((participant) => (
                         <li key={participant.id}>
                             {participant.fullname} - Points: {participant.point}
                         </li>
                     ))}
-                </ul> */}
+                </ul>
             </td>
         </tr>
     );
