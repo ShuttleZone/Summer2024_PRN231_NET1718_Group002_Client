@@ -4,11 +4,11 @@ import {Button} from "@/components/ui/button";
 import {useState} from "react";
 import {CiCalendarDate} from "react-icons/ci";
 import {GoClock} from "react-icons/go";
-interface CourtInfomation {
-    id: string;
-    rate: string;
-    totalReviews: number;
-}
+// interface CourtInfomation {
+//     id: string;
+//     rate: string;
+//     totalReviews: number;
+// }
 
 function TimeAndDateBooking() {
     const [selectedDate, setSelectedDate] = useState(new Date(2023, 3, 24));
