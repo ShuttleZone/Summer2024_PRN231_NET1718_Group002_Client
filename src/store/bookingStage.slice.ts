@@ -82,10 +82,7 @@ const bookingStageSlice = createSlice({
 
 // Selector function to get a stage by its ID
 const selectStageById = createSelector(
-    [
-        (state: BookingStageState, id: number) => id,
-        (state: BookingStageState) => state,
-    ],
+    [(id: number) => id, (state: BookingStageState) => state],
     (id, state) => {
         if (state.TypeOfBooking.Id === id) {
             return state.TypeOfBooking;
