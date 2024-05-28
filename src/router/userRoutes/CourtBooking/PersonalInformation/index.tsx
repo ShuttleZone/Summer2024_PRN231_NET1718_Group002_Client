@@ -62,7 +62,7 @@ function PersonalInformation() {
                         className="w-full rounded-md h-32 bg-gray-100 text-gray-600 text-xl my-4 pl-8 font-semibold pt-2 focus:outline-none focus:ring-2 focus:ring-gray-700"
                         placeholder="Enter your note"
                         aria-label="Notes"
-                    ></textarea>
+                    />
                 </div>
                 <div className="py-4 flex justify-center items-center">
                     <button
