@@ -24,7 +24,7 @@ function BookingBreadcrumb() {
                 <BreadcrumbItem>
                     <BreadcrumbLink
                         className="font-semibold text-gray-400 transition-colors duration-200 hover:text-black flex flex-row gap-2"
-                        href="/components"
+                        href="/court-booking/time-date"
                     >
                         <div className="w-8 h-8 rounded-full px-3 bg-gray-400 flex justify-center items-center">
                             <span className="text-white text-center">2</span>
@@ -36,7 +36,7 @@ function BookingBreadcrumb() {
                 <BreadcrumbItem>
                     <BreadcrumbLink
                         className="font-semibold text-gray-400 transition-colors duration-200 hover:text-black flex flex-row gap-2"
-                        href="/components"
+                        href="/court-booking/personal-info"
                     >
                         <div className="w-8 h-8 rounded-full px-3 bg-gray-400 flex justify-center items-center">
                             <span className="text-white text-center">3</span>
@@ -48,7 +48,7 @@ function BookingBreadcrumb() {
                 <BreadcrumbItem>
                     <BreadcrumbLink
                         className="font-semibold text-gray-400 transition-colors duration-200 hover:text-black flex flex-row gap-2"
-                        href="/components"
+                        href="/court-booking/confirm"
                     >
                         <div className="w-8 h-8 rounded-full px-3 bg-gray-400 flex justify-center items-center">
                             <span className="text-white text-center">4</span>

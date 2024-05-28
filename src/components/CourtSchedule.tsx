@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 interface CourtScheduleProps {
     selectedDate: Date;
@@ -10,6 +10,8 @@ interface Slot {
 }
 
 const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
+    const [selectedSlots, setSelectedSlots] = useState<Slot[]>([]);
+
     const formatDateKey = (date: Date): string =>
         date.toISOString().split("T")[0];
 
@@ -47,6 +49,19 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
         };
 
         return slotsByDate[dateKey] || [];
+    };
+
+    const handleSlotClick = (court: string, time: string) => {
+        const slot = {court, time};
+        if (selectedSlots.some((s) => s.court === court && s.time === time)) {
+            setSelectedSlots(
+                selectedSlots.filter(
+                    (s) => !(s.court === court && s.time === time)
+                )
+            );
+        } else {
+            setSelectedSlots([...selectedSlots, slot]);
+        }
     };
 
     const slots = getSlotsForDate(selectedDate);
@@ -91,17 +106,32 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                         ))}
                         {courts.map((court) => (
                             <React.Fragment key={court}>
-                                {timeSlots.map((slot) => (
-                                    <div key={slot} className="border p-2">
-                                        {slots.some(
-                                            (s) =>
-                                                s.court === court &&
-                                                s.time === slot
-                                        )
-                                            ? "Booked"
-                                            : "Available"}
-                                    </div>
-                                ))}
+                                {timeSlots.map((slot) => {
+                                    const isBooked = slots.some(
+                                        (s) =>
+                                            s.court === court && s.time === slot
+                                    );
+                                    const isSelected = selectedSlots.some(
+                                        (s) =>
+                                            s.court === court && s.time === slot
+                                    );
+                                    return (
+                                        <div
+                                            key={slot}
+                                            onClick={() =>
+                                                !isBooked &&
+                                                handleSlotClick(court, slot)
+                                            }
+                                            className={`border p-2 ${isBooked ? "bg-gray-200 hover:cursor-not-allowed" : isSelected ? "bg-green-200" : "hover:cursor-pointer"}`}
+                                        >
+                                            {isBooked
+                                                ? "Booked"
+                                                : isSelected
+                                                  ? "Selected"
+                                                  : "Available"}
+                                        </div>
+                                    );
+                                })}
                             </React.Fragment>
                         ))}
                     </div>

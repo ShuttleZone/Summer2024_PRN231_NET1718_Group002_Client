@@ -5,6 +5,8 @@ import ClubsList from "./ClubsList";
 import CourtBooking from "./CourtBooking";
 import TypeOfBooking from "./CourtBooking/TypeOfBooking";
 import TimeAndDateBooking from "./CourtBooking/TimeAndDateBooking";
+import PersonalInformation from "./CourtBooking/PersonalInformation";
+import ConfirmBooking from "./CourtBooking/ConfirmBooking";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -26,6 +28,14 @@ const publicRoutes: RouteObject[] = [
             {
                 path: "time-date",
                 element: <TimeAndDateBooking />,
+            },
+            {
+                path: "personal-info",
+                element: <PersonalInformation />,
+            },
+            {
+                path: "confirm",
+                element: <ConfirmBooking />,
             },
         ],
     },
