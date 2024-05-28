@@ -1,11 +1,7 @@
 // import Filter from "./components/Filter";
 import Filter from "@/router/userRoutes/ContestList/components/Filter";
 
-import DataTable from "@/router/userRoutes/ContestList/components/ContestTable";
-import {Column} from "react-table";
-
-// import {useEffect} from "react";
-// import {useGetClubsQuery} from "@/store/services/clubs/club.api";
+import ContestTable from "@/router/userRoutes/ContestList/components/ContestTable";
 
 interface Participant {
     id: string;
@@ -74,17 +70,6 @@ const contests: ContestInfo[] = [
     },
 ];
 
-const data: ContestInfo[] = contests;
-
-const columns: Column<ContestInfo>[] = [
-    {Header: "Contest ID", accessor: "id"},
-    {Header: "Contest Date", accessor: "contestDate"},
-    {Header: "Status", accessor: "contestStatus"},
-    {Header: "Number of Players", accessor: "maxPlayer"},
-    {Header: "Policy", accessor: "policy"},
-    // {Header: "Participants", accessor: "participants"},
-];
-
 function ContestList() {
     // const {data, isLoading, isError, error} = useGetClubsQuery("");
     // useEffect(() => {
@@ -98,9 +83,11 @@ function ContestList() {
         <div className="w-full flex justify-center py-12">
             <div className="w-3/4">
                 <Filter />
-                <h1>All Contests Information</h1>
-                <h4>Manage and track all the contests on the platform.</h4>
-                <DataTable columns={columns} data={data} />
+
+                {contests.map((contest) => (
+                    <ContestTable {...contest} />
+                ))}
+                {/* <ContestMapper contests={contestData} /> */}
             </div>
         </div>
     );
