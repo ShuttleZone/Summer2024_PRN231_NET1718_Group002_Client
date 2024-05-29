@@ -19,8 +19,8 @@ const publicRoutes: RouteObject[] = [
         path: "/clubs",
         element: <ClubsList />,
     },
-    {
-        path: "/contests",
+    {   
+      path: "/contests",
         element: <ContestList />,
     },
     {
@@ -28,7 +28,7 @@ const publicRoutes: RouteObject[] = [
         element: <ClubDetail />,
     },
     {
-        path: "/court-booking",
+        path: "/clubs/:id/court-booking",
         element: <CourtBooking />,
         children: [
             {
