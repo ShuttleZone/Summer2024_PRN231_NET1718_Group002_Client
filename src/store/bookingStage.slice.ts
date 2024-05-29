@@ -83,7 +83,7 @@ const bookingStageSlice = createSlice({
 // Selector function to get a stage by its ID
 const selectStageById = createSelector(
     [
-        (state: BookingStageState, id: number) => id, // eslint-disable-line
+        (state: BookingStageState, id: number) => id, // eslint-disable-line no-unused-var
         (state: BookingStageState) => state,
     ],
     (id, state) => {
