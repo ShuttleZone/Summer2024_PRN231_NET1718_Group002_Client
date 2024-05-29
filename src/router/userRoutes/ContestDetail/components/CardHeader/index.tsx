@@ -1,4 +1,31 @@
-function CardHeader() {
+import {ContestInfo} from "@/@types/api";
+
+export interface Participant {
+    email: string;
+    phoneNumer: string;
+    id: string;
+    fullname: string;
+    gender: number;
+    userStatusEnum: number;
+    isCreatedPerson: boolean;
+    isWinner: boolean;
+    point: number;
+}
+
+export interface ContestInfo {
+    id: string;
+    contestDate: string;
+    maxPlayer: number;
+    policy: string;
+    contestStatus: number;
+    participants: Participant[];
+}
+
+interface ContestTableProps {
+    contests?: ContestInfo[];
+}
+
+function CardHeader({contests}: ContestTableProps) {
     return (
         // <div className="relative">
         <div className="absolute mt-2 bottom-0 left-0 w-full">
@@ -34,12 +61,12 @@ function CardHeader() {
                                     Court Name
                                 </div>
                                 <div className="w-full">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Repudiandae rerum
-                                    voluptatibus aspernatur eveniet quos
-                                    impedit, perspiciatis cum. Maxime odit
-                                    fugiat nisi? Nostrum eos repellendus optio,
-                                    impedit animi architecto ipsum id?
+                                    Lorem ipsum dolor, sit amet consectetur
+                                    adipisicing elit. Alias architecto quam unde
+                                    velit enim deserunt sed tempore soluta,
+                                    pariatur ullam consectetur blanditiis,
+                                    laudantium repudiandae eligendi minus vel
+                                    temporibus, ea doloremque?
                                 </div>
                             </div>
                         </label>
@@ -65,12 +92,7 @@ function CardHeader() {
                                     Date & Time
                                 </div>
                                 <div className="w-full">
-                                    Lorem ipsum dolor sit amet consectetur,
-                                    adipisicing elit. A reiciendis voluptatibus
-                                    nulla eos laboriosam, totam autem dolor
-                                    quae, consequatur animi quidem placeat sint
-                                    necessitatibus eligendi odit delectus soluta
-                                    aliquid minus.
+                                    {contests.contestDate}
                                 </div>
                             </div>
                         </label>

@@ -1,4 +1,29 @@
-function CardBody() {
+export interface Participant {
+    email: string;
+    phoneNumer: string;
+    id: string;
+    fullname: string;
+    gender: number;
+    userStatusEnum: number;
+    isCreatedPerson: boolean;
+    isWinner: boolean;
+    point: number;
+}
+
+export interface ContestInfo {
+    id: string;
+    contestDate: string;
+    maxPlayer: number;
+    policy: string;
+    contestStatus: number;
+    participants: Participant[];
+}
+
+interface ContestTableProps {
+    contests?: ContestInfo[];
+}
+
+function CardBody({contests}: ContestTableProps) {
     return (
         <div className="grid grid-cols-2 gap-4">
             <div className="relative contest-information grid grid-cols-1 grid-rows-3 gap-4 row-span-2">
@@ -11,11 +36,7 @@ function CardBody() {
                             Challenger Information
                         </h5>
                         <p className="font-normal text-gray-700 dark:text-gray-400">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Vel dolorem aliquid laboriosam, quidem iusto
-                            temporibus neque ipsam dolorum non pariatur ea,
-                            consequatur dicta et quos assumenda, voluptatibus
-                            error provident omnis.
+                            {contests.id}
                         </p>
                     </a>
                 </div>
@@ -28,11 +49,13 @@ function CardBody() {
                             Contest Information
                         </h5>
                         <p className="font-normal text-gray-700 dark:text-gray-400">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Vel dolorem aliquid laboriosam, quidem iusto
-                            temporibus neque ipsam dolorum non pariatur ea,
-                            consequatur dicta et quos assumenda, voluptatibus
-                            error provident omnis.
+                            Rules: {contests.policy}
+                        </p>
+                        <p className="font-normal text-gray-700 dark:text-gray-400">
+                            Number of players: {contests.maxPlayer}
+                        </p>
+                        <p className="font-normal text-gray-700 dark:text-gray-400">
+                            Status: {contests.contestStatus}
                         </p>
                     </a>
                 </div>
@@ -81,7 +104,7 @@ function CardBody() {
                             <iframe
                                 className="w-full  h-96 aspect-video"
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.1640561681966!2d106.79814311188517!3d10.875123789234998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8a6b19d6763%3A0x143c54525028b2e!2zTmjDoCBWxINuIGjDs2EgU2luaCB2acOqbiBUUC5IQ00!5e0!3m2!1svi!2s!4v1716964598367!5m2!1svi!2s"
-                            ></iframe>
+                            />
                         </p>
                     </a>
                 </div>

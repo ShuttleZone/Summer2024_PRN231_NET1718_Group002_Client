@@ -1,4 +1,8 @@
+import {useNavigate} from "react-router-dom";
+
 export interface Participant {
+    email: string;
+    phoneNumer: string;
     id: string;
     fullname: string;
     gender: number;
@@ -25,6 +29,11 @@ function InputDataTable({
     contestStatus,
     participants,
 }: ContestInfo) {
+    const navigate = useNavigate();
+    const handleCardClick = () => {
+        navigate(`/contests/details/${id}`);
+    };
+
     return (
         <tr className="text-gray-700  hover:bg-white ">
             <th
@@ -37,17 +46,55 @@ function InputDataTable({
                     alt="Neil Sims"
                 />
                 <div className="ps-3">
-                    <div className="text-base font-semibold">Neil Sims</div>
+                    <div
+                        className="text-base font-semibold"
+                        onClick={handleCardClick}
+                    >
+                        {participants.map((participant) => {
+                            if (participant.isCreatedPerson == false) {
+                                return (
+                                    <div key={participant.id}>
+                                        {participant.fullname}
+                                    </div>
+                                );
+                            } else {
+                                return (
+                                    <div key={participant.id}>
+                                        No name provided
+                                    </div>
+                                );
+                            }
+                        })}
+                    </div>
                     <div className="font-normal text-gray-500">
-                        {/* neil.sims@flowbite.com */}
-                        {id}
+                        {participants.map((participant) => {
+                            if (participant.isCreatedPerson == false) {
+                                return (
+                                    <div key={participant.id}>
+                                        {participant.email}
+                                    </div>
+                                );
+                            } else {
+                                return (
+                                    <div key={participant.id}>
+                                        No email provided
+                                    </div>
+                                );
+                            }
+                        })}
                     </div>
                 </div>
             </th>
             {/* <td className=" px-4 py-2">{id}</td> */}
             <td className=" px-4 py-2">{policy}</td>
             <td className=" px-4 py-2">{contestDate}</td>
-            <td className=" px-4 py-2">{contestStatus}</td>
+            <td className=" px-4 py-2">
+                {contestStatus === 1
+                    ? "Upcoming"
+                    : contestStatus === 0
+                      ? "On Going"
+                      : ""}
+            </td>
             <td className=" px-4 py-2">{maxPlayer}</td>
             <td className=" px-4 py-2">{policy}</td>
             <td className=" px-4 py-2">
@@ -70,7 +117,7 @@ function InputDataTable({
 }
 
 interface ContestTableProps {
-    contests: ContestInfo[];
+    contests?: ContestInfo[];
 }
 
 function ContestTable({contests}: ContestTableProps) {
@@ -87,7 +134,7 @@ function ContestTable({contests}: ContestTableProps) {
                     <thead className="bg-gray-100 font-sans">
                         <tr>
                             <th className="text-left px-6 py-3">
-                                User Information
+                                Challenger Information
                             </th>
                             <th className="text-left px-6 py-3">Court Name</th>
                             <th className="text-left px-6 py-3">Date & Time</th>
