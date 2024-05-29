@@ -1,4 +1,4 @@
-interface Participant {
+export interface Participant {
     id: string;
     fullname: string;
     gender: number;
@@ -8,7 +8,7 @@ interface Participant {
     point: number;
 }
 
-interface ContestInfo {
+export interface ContestInfo {
     id: string;
     contestDate: string;
     maxPlayer: number;
@@ -69,7 +69,11 @@ function InputDataTable({
     );
 }
 
-function ContestTable({contests}) {
+interface ContestTableProps {
+    contests: ContestInfo[];
+}
+
+function ContestTable({contests}: ContestTableProps) {
     return (
         <div className="bg-gray-50 p-6 mt-4 rounded-md">
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

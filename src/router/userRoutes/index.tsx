@@ -9,6 +9,7 @@ import TypeOfBooking from "./CourtBooking/TypeOfBooking";
 import TimeAndDateBooking from "./CourtBooking/TimeAndDateBooking";
 import PersonalInformation from "./CourtBooking/PersonalInformation";
 import ConfirmBooking from "./CourtBooking/ConfirmBooking";
+import ContestDetail from "./ContestDetail";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -22,6 +23,10 @@ const publicRoutes: RouteObject[] = [
     {
         path: "/contests",
         element: <ContestList />,
+    },
+    {
+        path: "/contests/details",
+        element: <ContestDetail />,
     },
     {
         path: "/clubs/:clubId",
