@@ -2,6 +2,8 @@ import {useParams} from "react-router-dom";
 import Carousel from "./components/Carousel";
 import {useGetClubDetailQuery} from "@/store/services/clubs/club.api";
 import ClubHeader from "./components/ClubHeader";
+import ClubDescription from "./components/ClubDescription";
+import ClubReviews from "./components/ClubReviews";
 
 const mockImages: string[] = [
     "https://us.123rf.com/450wm/anankkml/anankkml2204/anankkml220400024/184341315-shuttlecock-on-green-badminton-playing-court-with-player-in-background.jpg?ver=6",
@@ -28,13 +30,15 @@ function ClubDetail() {
                     mockImages
                 }
             />
-            <div className="w-3/4 m-auto py-4">
+            <div className="w-3/4 m-auto py-4 flex flex-col gap-4">
                 <ClubHeader
                     name={clubDetail.clubName}
                     address={clubDetail.clubAddress}
                     phone={clubDetail.clubPhone}
                     reviews={clubDetail.reviews.length}
                 />
+                <ClubDescription description={clubDetail.clubDescription} />
+                <ClubReviews />
             </div>
         </div>
     );
