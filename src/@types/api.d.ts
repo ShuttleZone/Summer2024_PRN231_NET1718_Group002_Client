@@ -40,3 +40,12 @@ export interface ContestInfo {
     contestStatus: number;
     participants: Participant[];
 }
+
+export interface ReservationDetailType {
+    id: string;
+    courtName: string;
+    startTime: string;
+    endTime: string;
+    price: string;
+    reservationDetailStatus: int;
+}
