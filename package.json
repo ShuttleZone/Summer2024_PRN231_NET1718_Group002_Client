@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/google-map-react": "^2.1.10",
     "@types/node": "^20.12.11",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
