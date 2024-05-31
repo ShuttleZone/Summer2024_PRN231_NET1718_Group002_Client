@@ -34,6 +34,15 @@ function SortBar() {
                         className="inline-block rounded-lg hover:bg-slate-900 hover:border-slate-900 hover:text-white text-stone-500 py-3 px-7"
                         href="#"
                     >
+                        Completed
+                    </a>
+                </li>
+
+                <li className="mr-3">
+                    <a
+                        className="inline-block rounded-lg hover:bg-slate-900 hover:border-slate-900 hover:text-white text-stone-500 py-3 px-7"
+                        href="#"
+                    >
                         Cancelled
                     </a>
                 </li>

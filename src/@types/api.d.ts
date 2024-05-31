@@ -32,4 +32,26 @@ export interface CourtScheduleType {
 export interface CourtInformationType {
     Id: string;
     Name: string;
+} 
+
+export interface Participant {
+    email: string;
+    phoneNumer: string;
+    id: string;
+    fullname: string;
+    gender: number;
+    userStatusEnum: number;
+    isCreatedPerson: boolean;
+    isWinner: boolean;
+    point: number;
+}
+
+export interface ContestInfo {
+    id: string;
+    contestDate: string;
+    maxPlayer: number;
+    policy: string;
+    contestStatus: number;
+    participants: Participant[];
+
 }
