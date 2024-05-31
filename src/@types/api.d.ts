@@ -19,3 +19,17 @@ export interface ClubType {
     clubImages: ClubImageType[];
     reviews: ReviewType[];
 }
+
+export interface CourtScheduleType {
+    Id: string;
+    OpenTime: string;
+    CloseTime: string;
+    MinDuration: number;
+    ClubId: string;
+    Courts: CourtInformationType[];
+}
+
+export interface CourtInformationType {
+    Id: string;
+    Name: string;
+}
