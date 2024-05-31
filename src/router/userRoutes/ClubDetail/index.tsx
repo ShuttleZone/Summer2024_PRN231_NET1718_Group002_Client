@@ -4,6 +4,7 @@ import {useGetClubDetailQuery} from "@/store/services/clubs/club.api";
 import ClubHeader from "./components/ClubHeader";
 import ClubDescription from "./components/ClubDescription";
 import ClubReviews from "./components/ClubReviews";
+import ClubLocation from "./components/ClubLocation";
 
 const mockImages: string[] = [
     "https://us.123rf.com/450wm/anankkml/anankkml2204/anankkml220400024/184341315-shuttlecock-on-green-badminton-playing-court-with-player-in-background.jpg?ver=6",
@@ -39,6 +40,7 @@ function ClubDetail() {
                 />
                 <ClubDescription description={clubDetail.clubDescription} />
                 <ClubReviews />
+                <ClubLocation lat={10.822} lng={106.6257} />
             </div>
         </div>
     );
