@@ -20,6 +20,20 @@ export interface ClubType {
     reviews: ReviewType[];
 }
 
+export interface CourtScheduleType {
+    Id: string;
+    OpenTime: string;
+    CloseTime: string;
+    MinDuration: number;
+    ClubId: string;
+    Courts: CourtInformationType[];
+}
+
+export interface CourtInformationType {
+    Id: string;
+    Name: string;
+} 
+
 export interface Participant {
     email: string;
     phoneNumer: string;
@@ -39,4 +53,5 @@ export interface ContestInfo {
     policy: string;
     contestStatus: number;
     participants: Participant[];
+
 }

@@ -20,8 +20,8 @@ const publicRoutes: RouteObject[] = [
         path: "/clubs",
         element: <ClubsList />,
     },
-    {   
-      path: "/contests",
+    {
+        path: "/contests",
         element: <ContestList />,
     },
     {

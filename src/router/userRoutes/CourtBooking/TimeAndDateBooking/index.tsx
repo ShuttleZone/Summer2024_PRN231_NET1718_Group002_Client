@@ -23,7 +23,7 @@ import {GoClock} from "react-icons/go";
 // }
 
 function TimeAndDateBooking() {
-    const [selectedDate, setSelectedDate] = useState(new Date(2023, 3, 24));
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     return (
         <div>
