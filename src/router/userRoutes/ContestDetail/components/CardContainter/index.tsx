@@ -1,7 +1,12 @@
 import CardBody from "../CardBody";
 import CardHeader from "../CardHeader";
+import {ContestInfo} from "@/@types/api";
 
-function CardContainter() {
+interface ContestTableProps {
+    contest: ContestInfo;
+}
+
+function CardContainter({contest}: ContestTableProps) {
     return (
         <div className="bg-gray-50 p-8 mt-4 rounded-md">
             <div className="static object-cover">
@@ -16,10 +21,10 @@ function CardContainter() {
                 </figure>
                 <div className="grid grid-cols- md:grid-cols-1 gap-4">
                     <div className="relative">
-                        <CardHeader />
+                        <CardHeader contest={contest} />
                     </div>
                     <div className="relative">
-                        <CardBody />
+                        <CardBody contest={contest} />
                     </div>
                 </div>
             </div>

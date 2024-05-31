@@ -25,7 +25,7 @@ const publicRoutes: RouteObject[] = [
         element: <ContestList />,
     },
     {
-        path: "/contests/details",
+        path: "/contests/details/:contestId",
         element: <ContestDetail />,
     },
     {
