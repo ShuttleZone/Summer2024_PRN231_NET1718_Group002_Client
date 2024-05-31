@@ -1,29 +1,10 @@
-export interface Participant {
-    email: string;
-    phoneNumer: string;
-    id: string;
-    fullname: string;
-    gender: number;
-    userStatusEnum: number;
-    isCreatedPerson: boolean;
-    isWinner: boolean;
-    point: number;
-}
-
-export interface ContestInfo {
-    id: string;
-    contestDate: string;
-    maxPlayer: number;
-    policy: string;
-    contestStatus: number;
-    participants: Participant[];
-}
+import {ContestInfo} from "@/@types/api";
 
 interface ContestTableProps {
-    contests?: ContestInfo[];
+    contest: ContestInfo;
 }
 
-function CardBody({contests}: ContestTableProps) {
+function CardBody({contest}: ContestTableProps) {
     return (
         <div className="grid grid-cols-2 gap-4">
             <div className="relative contest-information grid grid-cols-1 grid-rows-3 gap-4 row-span-2">
@@ -36,7 +17,7 @@ function CardBody({contests}: ContestTableProps) {
                             Challenger Information
                         </h5>
                         <p className="font-normal text-gray-700 dark:text-gray-400">
-                            {contests.id}
+                            {contest.id}
                         </p>
                     </a>
                 </div>
@@ -49,13 +30,13 @@ function CardBody({contests}: ContestTableProps) {
                             Contest Information
                         </h5>
                         <p className="font-normal text-gray-700 dark:text-gray-400">
-                            Rules: {contests.policy}
+                            Rules: {contest.policy}
                         </p>
                         <p className="font-normal text-gray-700 dark:text-gray-400">
-                            Number of players: {contests.maxPlayer}
+                            Number of players: {contest.maxPlayer}
                         </p>
                         <p className="font-normal text-gray-700 dark:text-gray-400">
-                            Status: {contests.contestStatus}
+                            Status: {contest.contestStatus}
                         </p>
                     </a>
                 </div>

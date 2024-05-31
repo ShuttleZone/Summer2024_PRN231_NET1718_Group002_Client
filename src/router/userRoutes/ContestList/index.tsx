@@ -6,7 +6,7 @@ import {useGetContestsQuery} from "@/store/services/contests/contest.api";
 
 function ContestList() {
     const {data: contests, isError} = useGetContestsQuery(undefined);
-    console.log(contests);
+
     if (contests == undefined) {
         return <div>Error</div>;
     }

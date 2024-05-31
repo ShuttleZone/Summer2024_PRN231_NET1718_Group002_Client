@@ -1,33 +1,12 @@
 import CardBody from "../CardBody";
 import CardHeader from "../CardHeader";
-// import {ContestInfo} from "@/@types/api";
-
-export interface Participant {
-    email: string;
-    phoneNumer: string;
-    id: string;
-    fullname: string;
-    gender: number;
-    userStatusEnum: number;
-    isCreatedPerson: boolean;
-    isWinner: boolean;
-    point: number;
-}
-
-export interface ContestInfo {
-    id: string;
-    contestDate: string;
-    maxPlayer: number;
-    policy: string;
-    contestStatus: number;
-    participants: Participant[];
-}
+import {ContestInfo} from "@/@types/api";
 
 interface ContestTableProps {
-    contests?: ContestInfo[];
+    contest: ContestInfo;
 }
 
-function CardContainter({contests}: ContestTableProps) {
+function CardContainter({contest}: ContestTableProps) {
     return (
         <div className="bg-gray-50 p-8 mt-4 rounded-md">
             <div className="static object-cover">
@@ -42,10 +21,10 @@ function CardContainter({contests}: ContestTableProps) {
                 </figure>
                 <div className="grid grid-cols- md:grid-cols-1 gap-4">
                     <div className="relative">
-                        <CardHeader contests={contests} />
+                        <CardHeader contest={contest} />
                     </div>
                     <div className="relative">
-                        <CardBody contests={contests} />
+                        <CardBody contest={contest} />
                     </div>
                 </div>
             </div>

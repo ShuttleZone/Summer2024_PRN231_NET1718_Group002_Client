@@ -1,31 +1,10 @@
 import {ContestInfo} from "@/@types/api";
 
-export interface Participant {
-    email: string;
-    phoneNumer: string;
-    id: string;
-    fullname: string;
-    gender: number;
-    userStatusEnum: number;
-    isCreatedPerson: boolean;
-    isWinner: boolean;
-    point: number;
-}
-
-export interface ContestInfo {
-    id: string;
-    contestDate: string;
-    maxPlayer: number;
-    policy: string;
-    contestStatus: number;
-    participants: Participant[];
-}
-
 interface ContestTableProps {
-    contests?: ContestInfo[];
+    contest: ContestInfo;
 }
 
-function CardHeader({contests}: ContestTableProps) {
+function CardHeader({contest}: ContestTableProps) {
     return (
         // <div className="relative">
         <div className="absolute mt-2 bottom-0 left-0 w-full">
@@ -92,7 +71,7 @@ function CardHeader({contests}: ContestTableProps) {
                                     Date & Time
                                 </div>
                                 <div className="w-full">
-                                    {contests.contestDate}
+                                    {contest.contestDate}
                                 </div>
                             </div>
                         </label>
