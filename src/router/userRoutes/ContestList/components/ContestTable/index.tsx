@@ -1,15 +1,16 @@
 import {useNavigate} from "react-router-dom";
 
-export interface Participant {
-    email: string;
-    phoneNumer: string;
-    id: string;
-    fullname: string;
-    gender: number;
-    userStatusEnum: number;
+export interface UserContest {
+    contestId: string;
+    participantsId: string;
     isCreatedPerson: boolean;
     isWinner: boolean;
     point: number;
+    id: string;
+    fullname: string;
+    gender: number;
+    email: string;
+    phoneNumber: string;
 }
 
 export interface ContestInfo {
@@ -18,7 +19,7 @@ export interface ContestInfo {
     maxPlayer: number;
     policy: string;
     contestStatus: number;
-    participants: Participant[];
+    userContests: UserContest[];
 }
 
 function InputDataTable({
@@ -27,13 +28,14 @@ function InputDataTable({
     maxPlayer,
     policy,
     contestStatus,
-    participants,
+    userContests,
 }: ContestInfo) {
     const navigate = useNavigate();
     const handleCardClick = () => {
         navigate(`/contests/details/${id}`);
     };
 
+    // const formattedDate = contestDate.toLocaleString("en-US");
     return (
         <tr className="text-gray-700  hover:bg-white ">
             <th
@@ -50,51 +52,35 @@ function InputDataTable({
                         className="text-base font-semibold"
                         onClick={handleCardClick}
                     >
-                        {participants.map((participant) => {
-                            if (participant.isCreatedPerson == false) {
-                                return (
-                                    <div key={participant.id}>
-                                        {participant.fullname}
-                                    </div>
-                                );
-                            } else {
-                                return (
-                                    <div key={participant.id}>
-                                        No name provided
-                                    </div>
-                                );
-                            }
-                        })}
+                        {userContests &&
+                            userContests.map((userContest) => {
+                                if (userContest.isCreatedPerson == true) {
+                                    return (
+                                        <div key={userContest.participantsId}>
+                                            {userContest.fullname}
+                                        </div>
+                                    );
+                                }
+                            })}
                     </div>
                     <div className="font-normal text-gray-500">
-                        {participants.map((participant) => {
-                            if (participant.isCreatedPerson == false) {
-                                return (
-                                    <div key={participant.id}>
-                                        {participant.email}
-                                    </div>
-                                );
-                            } else {
-                                return (
-                                    <div key={participant.id}>
-                                        No email provided
-                                    </div>
-                                );
-                            }
-                        })}
+                        {userContests &&
+                            userContests.map((userContest) => {
+                                if (userContest.isCreatedPerson == true) {
+                                    return (
+                                        <div key={userContest.participantsId}>
+                                            {userContest.email}
+                                        </div>
+                                    );
+                                }
+                            })}
                     </div>
                 </div>
             </th>
             {/* <td className=" px-4 py-2">{id}</td> */}
             <td className=" px-4 py-2">{policy}</td>
             <td className=" px-4 py-2">{contestDate}</td>
-            <td className=" px-4 py-2">
-                {contestStatus === 1
-                    ? "Upcoming"
-                    : contestStatus === 0
-                      ? "On Going"
-                      : ""}
-            </td>
+            <td className=" px-4 py-2">{contestStatus}</td>
             <td className=" px-4 py-2">{maxPlayer}</td>
             <td className=" px-4 py-2">{policy}</td>
             <td className=" px-4 py-2">
@@ -105,11 +91,11 @@ function InputDataTable({
                     Action
                 </a>
                 <ul>
-                    {participants.map((participant) => (
+                    {/* {participants.map((participant) => (
                         <li key={participant.id}>
                             {participant.fullname} - Points: {participant.point}
                         </li>
-                    ))}
+                    ))} */}
                 </ul>
             </td>
         </tr>
@@ -156,8 +142,8 @@ function ContestTable({contests}: ContestTableProps) {
                                     maxPlayer={contest.maxPlayer}
                                     policy={contest.policy}
                                     contestStatus={contest.contestStatus}
-                                    participants={contest.participants}
-                                />
+                                    userContests={contest.userContests}
+                />
                             ))}
                     </tbody>
                 </table>

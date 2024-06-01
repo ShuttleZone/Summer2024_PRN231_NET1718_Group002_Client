@@ -5,16 +5,17 @@ import commonApi from "@/store/common.api";
 const contestApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
         getContests: build.query<ContestInfo[], string | undefined>({
-            query: () => "/api/Contest",
+            query: () => "api/Contests?$expand=userContests",
+            transformResponse(baseQueryReturnValue: any) {
+                return baseQueryReturnValue.value;
+            },
         }),
         getContestsDetail: build.query<ContestInfo, string | undefined>({
             query: (id) => {
-                const routeBuilder = new ApiRouteBuilder("/api/Contest");
-                routeBuilder.filter("id", id || "");
+                const routeBuilder = new ApiRouteBuilder(
+                    `/api/Contests(${id})?$expand=userContests`
+                );
                 return routeBuilder.build();
-            },
-            transformResponse(baseQueryReturnValue) {
-                return (baseQueryReturnValue as ContestInfo[])[0];
             },
         }),
     }),

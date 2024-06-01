@@ -7,7 +7,7 @@ function ContestDetail() {
     const {data: contestDetail, isError} = useGetContestsDetailQuery(contestId);
     console.log(contestDetail);
     if (contestDetail == undefined) {
-        return <div>Error</div>;
+        return <div>ABC</div>;
     }
     if (isError) {
         return <div>Error</div>;

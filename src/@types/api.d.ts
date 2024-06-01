@@ -34,16 +34,17 @@ export interface CourtInformationType {
     name: string;
 }
 
-export interface Participant {
-    email: string;
-    phoneNumer: string;
-    id: string;
-    fullname: string;
-    gender: number;
-    userStatusEnum: number;
+export interface UserContest {
+    contestId: string;
+    participantsId: string;
     isCreatedPerson: boolean;
     isWinner: boolean;
     point: number;
+    id: string;
+    fullname: string;
+    gender: number;
+    email: string;
+    phoneNumber: string;
 }
 
 export interface ContestInfo {
@@ -52,7 +53,8 @@ export interface ContestInfo {
     maxPlayer: number;
     policy: string;
     contestStatus: number;
-    participants: Participant[];
+    userContests: UserContest[];
+
 }
 
 export interface ReservationDetailType {
