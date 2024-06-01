@@ -32,7 +32,7 @@ export interface CourtScheduleType {
 export interface CourtInformationType {
     Id: string;
     Name: string;
-} 
+}
 
 export interface Participant {
     email: string;
@@ -53,7 +53,6 @@ export interface ContestInfo {
     policy: string;
     contestStatus: number;
     participants: Participant[];
-
 }
 
 export interface ReservationDetailType {
