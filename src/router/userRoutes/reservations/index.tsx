@@ -4,31 +4,66 @@ import {useState} from "react";
 import {useGetReservationDetailsQuery} from "@/store/services/reservations/apiMyReservation";
 import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
 import {SerializedError} from "@reduxjs/toolkit";
-
+const formatDateTime = (dateTime: string) => {
+    const date = new Date(dateTime);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
+};
 function MyReservationList() {
     const [sort, setSort] = useState<string | undefined>(undefined);
     const [filter, setFilter] = useState<string | undefined>(undefined);
+    const [page, setPage] = useState<number>(1);
+    const [pageSize, setPageSize] = useState<number>(10);
 
-    const {
-        data: reservations,
-        error,
-        isLoading,
-    } = useGetReservationDetailsQuery({sort, filter});
+    const {data, error, isLoading} = useGetReservationDetailsQuery({
+        sort,
+        filter,
+        page,
+        pageSize,
+    });
+
+    const reservations = data?.items;
+    const totalItems = data?.total || 0;
+    const totalPages = Math.ceil(totalItems / pageSize);
+
     const getErrorMessage = (
         error: FetchBaseQueryError | SerializedError
     ): string => {
         if ("status" in error) {
-            // FetchBaseQueryError
             const fetchError = error as FetchBaseQueryError;
             return `Error: ${fetchError.status}`;
         } else {
-            // SerializedError
             const serializedError = error as SerializedError;
             return serializedError.message ?? "An unknown error occurred";
         }
     };
+
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error: {getErrorMessage(error)}</div>;
+
+    const handleFilterChange = (status: string) => {
+        const now = new Date().toISOString();
+        let filterStr = "";
+
+        switch (status) {
+            case "ongoing":
+                filterStr = `startTime le ${now} and endTime ge ${now}`;
+                break;
+            case "upcoming":
+                filterStr = `startTime gt ${now}`;
+                break;
+            case "completed":
+                filterStr = `endTime lt ${now}`;
+                break;
+            case "cancelled":
+                filterStr = `status eq 'cancelled'`;
+                break;
+            default:
+                filterStr = "";
+                break;
+        }
+
+        setFilter(filterStr);
+    };
 
     return (
         <div className="bg-gray-100 font-sans antialiased">
@@ -38,31 +73,31 @@ function MyReservationList() {
                         <div className="flex space-x-5">
                             <NavButton
                                 className="py-2 px-4 bg-gray-200 text-gray-700 rounded-md active:bg-green-600"
-                                onClick={() => setFilter("")}
+                                onClick={() => handleFilterChange("")}
                             >
                                 All
                             </NavButton>
                             <NavButton
                                 className="py-2 px-4 bg-gray-200 text-gray-700 rounded-md active:bg-green-600"
-                                onClick={() => setFilter("")}
+                                onClick={() => handleFilterChange("upcoming")}
                             >
                                 Upcoming
                             </NavButton>
                             <NavButton
                                 className="py-2 px-4 bg-gray-200 text-gray-700 rounded-md active:bg-green-600"
-                                onClick={() => setFilter("")}
+                                onClick={() => handleFilterChange("completed")}
                             >
                                 Completed
                             </NavButton>
                             <NavButton
                                 className="py-2 px-4 bg-gray-200 text-gray-700 rounded-md active:bg-green-600"
-                                onClick={() => setFilter("")}
+                                onClick={() => handleFilterChange("ongoing")}
                             >
                                 On Going
                             </NavButton>
                             <NavButton
                                 className="py-2 px-4 bg-gray-200 text-gray-700 rounded-md active:bg-green-600"
-                                onClick={() => setFilter("")}
+                                onClick={() => handleFilterChange("cancelled")}
                             >
                                 Cancelled
                             </NavButton>
@@ -103,13 +138,14 @@ function MyReservationList() {
                         </thead>
                         <tbody>
                             {reservations &&
-                                reservations?.map((r) => (
+                                reservations.map((r) => (
                                     <ReservationDetailsItem
+                                        key={r.id}
                                         courtName={r.courtName}
                                         price={r.price}
                                         status={r.reservationDetailStatus}
-                                        datetime={`${r.startTime} - ${r.endTime}`}
-                                    ></ReservationDetailsItem>
+                                        datetime={`${formatDateTime(r.startTime)} - ${formatDateTime(r.endTime)}`}
+                                    />
                                 ))}
                         </tbody>
                     </table>
@@ -117,16 +153,36 @@ function MyReservationList() {
                     <div className="flex justify-between items-center mt-6">
                         <div className="flex items-center space-x-2">
                             <span>Show</span>
-                            <select className="border border-gray-300 rounded p-1">
-                                <option>10</option>
+                            <select
+                                className="border border-gray-300 rounded p-1"
+                                value={pageSize}
+                                onChange={(e) =>
+                                    setPageSize(Number(e.target.value))
+                                }
+                            >
+                                <option value={1}>1</option>
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={50}>50</option>
                             </select>
                         </div>
                         <div className="flex space-x-2">
-                            <button className="border border-gray-300 rounded p-1">
-                                1
+                            <button
+                                className="border border-gray-300 rounded p-1"
+                                onClick={() =>
+                                    setPage((prev) => Math.max(prev - 1, 1))
+                                }
+                                disabled={page === 1}
+                            >
+                                Previous
                             </button>
-                            <button className="border border-gray-300 rounded p-1">
-                                2
+                            <span>{page}</span>
+                            <button
+                                className="border border-gray-300 rounded p-1"
+                                onClick={() => setPage((prev) => prev + 1)}
+                                disabled={page === totalPages}
+                            >
+                                Next
                             </button>
                         </div>
                     </div>

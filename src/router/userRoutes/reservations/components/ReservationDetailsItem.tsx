@@ -2,7 +2,7 @@ import React from "react";
 
 interface ReservationDetailsItemProps {
     courtName: string;
-    price: string;
+    price: number;
     datetime: string;
     status: string;
 }

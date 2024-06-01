@@ -46,6 +46,6 @@ export interface ReservationDetailType {
     courtName: string;
     startTime: string;
     endTime: string;
-    price: string;
+    price: number;
     reservationDetailStatus: int;
 }
