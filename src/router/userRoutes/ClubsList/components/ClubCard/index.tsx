@@ -23,12 +23,13 @@ function ClubCard({
     clubAddress,
     openTime,
     closeTime,
-    reviews,
-    clubImages,
+    reviews = [],
+    clubImages = [],
 }: ClubCardProps) {
     const profileImage =
-        clubImages[0]?.imageUrl ||
-        "https://lightwidget.com/wp-content/uploads/localhost-file-not-found-480x480.avif";
+        clubImages.length > 0
+            ? clubImages[0]?.imageUrl
+            : "https://lightwidget.com/wp-content/uploads/localhost-file-not-found-480x480.avif";
     const clubRating =
         reviews.length === 0
             ? 0

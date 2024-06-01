@@ -5,10 +5,12 @@ import ClubCard from "./components/ClubCard";
 import {useGetClubsQuery} from "@/store/services/clubs/club.api";
 
 function ClubsList() {
-    const {data: clubs, isError} = useGetClubsQuery(undefined);
+    const {data: clubs, isError, isLoading} = useGetClubsQuery(undefined);
 
-    if (isError) {
-        return <div>Error</div>;
+    if (isLoading) {
+        return <div>Loading</div>;
+    } else if (isError) {
+        return <div>An error occurred</div>;
     }
 
     return (
@@ -16,12 +18,11 @@ function ClubsList() {
             <div className="w-3/4">
                 <Filter />
                 <ul className="grid grid-cols-3 gap-8 mt-12">
-                    {clubs &&
-                        clubs.map((club) => (
-                            <li key={club.id} className="col-span-1">
-                                <ClubCard {...club} />
-                            </li>
-                        ))}
+                    {clubs?.map((club) => (
+                        <li key={club.id} className="col-span-1">
+                            <ClubCard {...club} />
+                        </li>
+                    ))}
                 </ul>
             </div>
         </div>
