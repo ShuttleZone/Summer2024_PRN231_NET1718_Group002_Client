@@ -147,17 +147,18 @@ function ContestTable({contests}: ContestTableProps) {
                         </tr>
                     </thead>
                     <tbody>
-                        {contests.map((contest) => (
-                            <InputDataTable
-                                key={contest.id}
-                                id={contest.id}
-                                contestDate={contest.contestDate}
-                                maxPlayer={contest.maxPlayer}
-                                policy={contest.policy}
-                                contestStatus={contest.contestStatus}
-                                participants={contest.participants}
-                            />
-                        ))}
+                        {contests &&
+                            contests.map((contest) => (
+                                <InputDataTable
+                                    key={contest.id}
+                                    id={contest.id}
+                                    contestDate={contest.contestDate}
+                                    maxPlayer={contest.maxPlayer}
+                                    policy={contest.policy}
+                                    contestStatus={contest.contestStatus}
+                                    participants={contest.participants}
+                                />
+                            ))}
                     </tbody>
                 </table>
             </div>
