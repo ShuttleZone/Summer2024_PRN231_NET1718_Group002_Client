@@ -17,7 +17,21 @@ function CardBody({contest}: ContestTableProps) {
                             Challenger Information
                         </h5>
                         <p className="font-normal text-gray-700 dark:text-gray-400">
-                            {contest.id}
+                            {contest.userContests.map((user) => {
+                                if (user.isCreatedPerson == true) {
+                                    return (
+                                        <div key={user.participantsId}>
+                                            Full Name: {user.fullname}
+                                            <br />
+                                            Phone Number: {user.phoneNumber}
+                                            <br />
+                                            Email: {user.email}
+                                            <br />
+                                            Gender: {user.gender}
+                                        </div>
+                                    );
+                                }
+                            })}
                         </p>
                     </a>
                 </div>
