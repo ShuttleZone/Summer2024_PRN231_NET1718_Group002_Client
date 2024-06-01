@@ -6,18 +6,15 @@ const clubApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
         getClubs: build.query<ClubType[], string | undefined>({
             query: () => "/api/clubs",
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             transformResponse(baseQueryReturnValue: any) {
                 return baseQueryReturnValue.value;
             },
         }),
         getClubDetail: build.query<ClubType, string | undefined>({
             query: (id) => {
-                const routeBuilder = new ApiRouteBuilder("/api/clubs");
-                routeBuilder.filter("id", id || "");
+                const routeBuilder = new ApiRouteBuilder(`/api/clubs(${id})`);
                 return routeBuilder.build();
-            },
-            transformResponse(baseQueryReturnValue) {
-                return (baseQueryReturnValue as ClubType[])[0];
             },
         }),
     }),

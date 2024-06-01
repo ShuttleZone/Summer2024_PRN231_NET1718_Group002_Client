@@ -17,17 +17,20 @@ const mockImages: string[] = [
 
 function ClubDetail() {
     const {clubId} = useParams();
-    const {data: clubDetail, isError} = useGetClubDetailQuery(clubId);
+    const {
+        data: clubDetail,
+        isError,
+        isLoading,
+    } = useGetClubDetailQuery(clubId);
 
-    if (isError || !clubDetail) {
-        return <div>Error</div>;
-    }
+    if (isLoading) return <div>Loading...</div>;
+    else if (isError || !clubDetail) return <div>Error</div>;
 
     return (
         <div>
             <Carousel
                 images={
-                    clubDetail.clubImages.map((img) => img.imageUrl) ||
+                    clubDetail.clubImages?.map((img) => img.imageUrl) ||
                     mockImages
                 }
             />
@@ -36,7 +39,7 @@ function ClubDetail() {
                     name={clubDetail.clubName}
                     address={clubDetail.clubAddress}
                     phone={clubDetail.clubPhone}
-                    reviews={clubDetail.reviews.length}
+                    reviews={clubDetail.reviews?.length || 0}
                 />
                 <ClubDescription description={clubDetail.clubDescription} />
                 <ClubReviews />
