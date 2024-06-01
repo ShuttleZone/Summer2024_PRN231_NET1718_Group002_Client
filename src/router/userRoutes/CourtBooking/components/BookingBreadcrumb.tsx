@@ -1,69 +1,105 @@
 import {
     Breadcrumb,
     BreadcrumbItem,
-    BreadcrumbLink,
     BreadcrumbList,
-    BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import {useAppDispatch, useAppSelector} from "@/store";
+import {selectStageById, setStage} from "@/store/bookingStage.slice";
+import {useEffect} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
 function BookingBreadcrumb() {
+    const navigate = useNavigate();
+    const currentStageId = useAppSelector(
+        (state) => state.bookingStage.CurrentStage
+    );
+    const currentStage = useAppSelector((state) =>
+        selectStageById(state.bookingStage, currentStageId)
+    );
+    const dispatch = useAppDispatch();
+    const {id} = useParams();
+    const bookingLocation = `/clubs/${id}/court-booking`;
+    const handleClick = (id: number) => {
+        dispatch(setStage(id));
+    };
+    useEffect(() => {
+        if (currentStage?.Path) {
+            navigate(bookingLocation + currentStage.Path);
+        }
+    }, [currentStage, navigate, bookingLocation]);
+
     return (
         <Breadcrumb className="flex flex-row justify-center items-center my-8">
             <BreadcrumbList className="text-2xl text-black">
                 <BreadcrumbItem>
-                    <BreadcrumbPage className="font-semibold transition-colors duration-200 text-black flex flex-row gap-2">
-                        {" "}
-                        <div className="w-8 h-8 rounded-full px-3 bg-green-600 flex justify-center items-center">
+                    <p
+                        className={`font-semibold transition-colors duration-200 text-black flex flex-row gap-2 ${currentStageId === 1 ? "hover:cursor-default" : "hover:cursor-pointer"}`}
+                        onClick={() => handleClick(1)}
+                    >
+                        <div
+                            className={`w-8 h-8 rounded-full px-3 ${currentStageId === 1 ? "bg-green-600 text-black" : "bg-gray-400"} flex justify-center items-center`}
+                        >
                             <span className="text-white text-center">1</span>
                         </div>{" "}
                         Type Of Booking
-                    </BreadcrumbPage>
+                    </p>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="text-gray-400 transition-colors duration-200 hover:text-black scale-150" />
                 <BreadcrumbItem>
-                    <BreadcrumbLink
-                        className="font-semibold text-gray-400 transition-colors duration-200 hover:text-black flex flex-row gap-2"
-                        href="/court-booking/time-date"
+                    <p
+                        className={`font-semibold transition-colors duration-200 text-black flex flex-row gap-2 ${currentStageId === 2 ? "hover:cursor-default" : "hover:cursor-pointer"}`}
+                        onClick={() => handleClick(2)}
                     >
-                        <div className="w-8 h-8 rounded-full px-3 bg-gray-400 flex justify-center items-center">
+                        <div
+                            className={`w-8 h-8 rounded-full px-3 ${currentStageId === 2 ? "bg-green-600 text-black" : "bg-gray-400"}  flex justify-center items-center`}
+                        >
                             <span className="text-white text-center">2</span>
-                        </div>{" "}
+                        </div>
                         Time & Date
-                    </BreadcrumbLink>
+                    </p>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="text-gray-400 transition-colors duration-200 hover:text-black scale-150" />
                 <BreadcrumbItem>
-                    <BreadcrumbLink
-                        className="font-semibold text-gray-400 transition-colors duration-200 hover:text-black flex flex-row gap-2"
-                        href="/court-booking/personal-info"
+                    <p
+                        className={`font-semibold transition-colors duration-200 text-black flex flex-row gap-2 ${currentStageId === 3 ? "hover:cursor-default" : "hover:cursor-pointer"}`}
+                        onClick={() => handleClick(3)}
                     >
-                        <div className="w-8 h-8 rounded-full px-3 bg-gray-400 flex justify-center items-center">
+                        <div
+                            className={`w-8 h-8 rounded-full px-3 ${currentStageId === 3 ? "bg-green-600 text-black" : "bg-gray-400"}  flex justify-center items-center`}
+                        >
                             <span className="text-white text-center">3</span>
-                        </div>{" "}
+                        </div>
                         Personal Information
-                    </BreadcrumbLink>
+                    </p>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="text-gray-400 transition-colors duration-200 hover:text-black scale-150" />
                 <BreadcrumbItem>
-                    <BreadcrumbLink
-                        className="font-semibold text-gray-400 transition-colors duration-200 hover:text-black flex flex-row gap-2"
-                        href="/court-booking/confirm"
+                    <p
+                        className={`font-semibold transition-colors duration-200 text-black flex flex-row gap-2 ${currentStageId === 4 ? "hover:cursor-default" : "hover:cursor-pointer"}`}
+                        onClick={() => handleClick(4)}
                     >
-                        <div className="w-8 h-8 rounded-full px-3 bg-gray-400 flex justify-center items-center">
+                        <div
+                            className={`w-8 h-8 rounded-full px-3 ${currentStageId === 4 ? "bg-green-600 text-black" : "bg-gray-400"}  flex justify-center items-center`}
+                        >
                             <span className="text-white text-center">4</span>
-                        </div>{" "}
+                        </div>
                         Order Conformation
-                    </BreadcrumbLink>
+                    </p>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="text-gray-400 transition-colors duration-200 hover:text-black scale-150" />
                 <BreadcrumbItem>
-                    <BreadcrumbLink className="font-semibold text-gray-400 transition-colors duration-200 hover:text-black flex flex-row gap-2">
-                        <div className="w-8 h-8 rounded-full px-3 bg-gray-400 flex justify-center items-center">
+                    <p
+                        className={`font-semibold transition-colors duration-200 text-black flex flex-row gap-2 ${currentStageId === 5 ? "hover:cursor-default" : "hover:cursor-pointer"}`}
+                        onClick={() => handleClick(5)}
+                    >
+                        <div
+                            className={`w-8 h-8 rounded-full px-3 ${currentStageId === 5 ? "bg-green-600 text-black" : "bg-gray-400"}  flex justify-center items-center`}
+                        >
                             <span className="text-white text-center">5</span>
-                        </div>{" "}
-                        Payment{" "}
-                    </BreadcrumbLink>
+                        </div>
+                        Payment
+                    </p>
                 </BreadcrumbItem>
             </BreadcrumbList>
         </Breadcrumb>

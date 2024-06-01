@@ -9,6 +9,8 @@ import TypeOfBooking from "./CourtBooking/TypeOfBooking";
 import TimeAndDateBooking from "./CourtBooking/TimeAndDateBooking";
 import PersonalInformation from "./CourtBooking/PersonalInformation";
 import ConfirmBooking from "./CourtBooking/ConfirmBooking";
+import ContestDetail from "./ContestDetail";
+import MyReservationList from "./reservations";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -24,11 +26,15 @@ const publicRoutes: RouteObject[] = [
         element: <ContestList />,
     },
     {
+        path: "/contests/details/:contestId",
+        element: <ContestDetail />,
+    },
+    {
         path: "/clubs/:clubId",
         element: <ClubDetail />,
     },
     {
-        path: "/court-booking",
+        path: "/clubs/:id/court-booking",
         element: <CourtBooking />,
         children: [
             {
@@ -48,6 +54,10 @@ const publicRoutes: RouteObject[] = [
                 element: <ConfirmBooking />,
             },
         ],
+    },
+    {
+        path: "/my-reservation",
+        element: <MyReservationList />,
     },
 ];
 

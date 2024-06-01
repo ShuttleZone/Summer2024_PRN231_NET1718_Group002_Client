@@ -1,4 +1,4 @@
-import {ClubType} from "@/@types/api";
+import {ClubType, CourtScheduleType} from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
@@ -17,8 +17,30 @@ const clubApi = commonApi.injectEndpoints({
                 return routeBuilder.build();
             },
         }),
+        getCourtSchedule: build.query<CourtScheduleType, string | undefined>({
+            query: (id) => {
+                const routeBuilder = new ApiRouteBuilder("/api/clubs");
+                routeBuilder
+                    .filter("id", id || "")
+                    .select([
+                        "clubName",
+                        "minDuration",
+                        "openTime",
+                        "closeTime",
+                    ])
+                    .expand("courts", ["id", "name"]);
+                return routeBuilder.build();
+            },
+            transformResponse(baseQueryReturnValue) {
+                return (baseQueryReturnValue as CourtScheduleType[])[0];
+            },
+        }),
     }),
     overrideExisting: true,
 });
 
-export const {useGetClubsQuery, useGetClubDetailQuery} = clubApi;
+export const {
+    useGetClubsQuery,
+    useGetClubDetailQuery,
+    useGetCourtScheduleQuery,
+} = clubApi;

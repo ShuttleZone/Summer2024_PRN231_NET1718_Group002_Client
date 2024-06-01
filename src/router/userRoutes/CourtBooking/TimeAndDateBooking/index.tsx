@@ -10,8 +10,20 @@ import {GoClock} from "react-icons/go";
 //     totalReviews: number;
 // }
 
+// interface Court {
+//     Id: string;
+//     Name: string;
+// }
+
+// interface Club {
+//     Id: string;
+//     OpenTime: string;
+//     CloseTime: string;
+//     Courts: Court[];
+// }
+
 function TimeAndDateBooking() {
-    const [selectedDate, setSelectedDate] = useState(new Date(2023, 3, 24));
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     return (
         <div>
