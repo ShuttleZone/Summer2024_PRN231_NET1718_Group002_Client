@@ -10,6 +10,7 @@ import TimeAndDateBooking from "./CourtBooking/TimeAndDateBooking";
 import PersonalInformation from "./CourtBooking/PersonalInformation";
 import ConfirmBooking from "./CourtBooking/ConfirmBooking";
 import ContestDetail from "./ContestDetail";
+import MyReservationList from "./reservations";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -53,6 +54,10 @@ const publicRoutes: RouteObject[] = [
                 element: <ConfirmBooking />,
             },
         ],
+    },
+    {
+        path: "/my-reservation",
+        element: <MyReservationList />,
     },
 ];
 

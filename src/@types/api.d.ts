@@ -55,3 +55,12 @@ export interface ContestInfo {
     participants: Participant[];
 
 }
+
+export interface ReservationDetailType {
+    id: string;
+    courtName: string;
+    startTime: string;
+    endTime: string;
+    price: number;
+    reservationDetailStatus: int;
+}
