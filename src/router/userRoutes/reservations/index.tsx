@@ -55,7 +55,7 @@ function MyReservationList() {
                 filterStr = `endTime lt ${now}`;
                 break;
             case "cancelled":
-                filterStr = `status eq 'cancelled'`;
+                filterStr = "status eq 'cancelled'";
                 break;
             default:
                 filterStr = "";
