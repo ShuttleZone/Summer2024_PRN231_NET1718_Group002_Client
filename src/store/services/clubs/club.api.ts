@@ -6,6 +6,9 @@ const clubApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
         getClubs: build.query<ClubType[], string | undefined>({
             query: () => "/api/clubs",
+            transformResponse(baseQueryReturnValue: any) {
+                return baseQueryReturnValue.value;
+            },
         }),
         getClubDetail: build.query<ClubType, string | undefined>({
             query: (id) => {
