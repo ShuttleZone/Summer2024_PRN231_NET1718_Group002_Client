@@ -7,12 +7,14 @@ import userRoutes from "./userRoutes";
 import adminRoutes from "./adminRoutes";
 import managerRoutes from "./managerRoutes";
 import staffRoutes from "./staffRoutes";
+import NotFound from "@/components/pages/NotFound";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <UserLayout />,
         children: [...userRoutes],
+        errorElement: <NotFound />,
     },
     {
         path: "/admin",
