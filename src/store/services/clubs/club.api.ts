@@ -19,9 +19,8 @@ const clubApi = commonApi.injectEndpoints({
         }),
         getCourtSchedule: build.query<CourtScheduleType, string | undefined>({
             query: (id) => {
-                const routeBuilder = new ApiRouteBuilder("/api/clubs");
+                const routeBuilder = new ApiRouteBuilder(`/api/clubs(${id})`);
                 routeBuilder
-                    .filter("id", id || "")
                     .select([
                         "clubName",
                         "minDuration",
@@ -30,9 +29,6 @@ const clubApi = commonApi.injectEndpoints({
                     ])
                     .expand("courts", ["id", "name"]);
                 return routeBuilder.build();
-            },
-            transformResponse(baseQueryReturnValue) {
-                return (baseQueryReturnValue as CourtScheduleType[])[0];
             },
         }),
     }),

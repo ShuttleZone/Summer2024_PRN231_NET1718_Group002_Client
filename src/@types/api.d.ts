@@ -21,18 +21,18 @@ export interface ClubType {
 }
 
 export interface CourtScheduleType {
-    Id: string;
-    OpenTime: string;
-    CloseTime: string;
-    MinDuration: number;
-    ClubId: string;
-    Courts: CourtInformationType[];
+    id: string;
+    openTime: string;
+    closeTime: string;
+    minDuration: number;
+    clubId: string;
+    courts: CourtInformationType[];
 }
 
 export interface CourtInformationType {
-    Id: string;
-    Name: string;
-} 
+    id: string;
+    name: string;
+}
 
 export interface Participant {
     email: string;
@@ -53,7 +53,6 @@ export interface ContestInfo {
     policy: string;
     contestStatus: number;
     participants: Participant[];
-
 }
 
 export interface ReservationDetailType {
