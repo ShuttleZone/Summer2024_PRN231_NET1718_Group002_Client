@@ -1,30 +1,17 @@
 import AppLogo from "@/assets/images/app-logo.png";
 import {Link} from "react-router-dom";
 import NavItem from "./components/NavItem";
-import {IoHome} from "react-icons/io5";
-import {FaThList} from "react-icons/fa";
-import {FaNewspaper} from "react-icons/fa6";
 import {Button} from "@/components/ui/button";
 
-const navItems = [
-    {
-        title: "Home",
-        to: "/admin/home",
-        icon: IoHome,
-    },
-    {
-        title: "Clubs List",
-        to: "/admin/clubs",
-        icon: FaThList,
-    },
-    {
-        title: "Club Requests",
-        to: "/admin/club-requests",
-        icon: FaNewspaper,
-    },
-];
+interface SidebarProps {
+    navItems: {
+        title: string;
+        to: string;
+        icon: any;
+    }[];
+}
 
-function Sidebar() {
+function Sidebar({navItems}: SidebarProps) {
     return (
         <div className="w-full h-full flex flex-col justify-between px-4 py-4">
             <div>
