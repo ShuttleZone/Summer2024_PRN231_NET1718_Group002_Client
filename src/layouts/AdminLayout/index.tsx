@@ -4,7 +4,7 @@ import Sidebar from "./components/Sidebar";
 function AdminLayout() {
     return (
         <div className="min-h-screen grid grid-cols-12">
-            <div className="col-span-2">
+            <div className="col-span-2 bg-slate-900">
                 <Sidebar />
             </div>
             <div className="col-span-10">
