@@ -54,7 +54,6 @@ export interface ContestInfo {
     policy: string;
     contestStatus: number;
     userContests: UserContest[];
-
 }
 
 export interface ReservationDetailType {

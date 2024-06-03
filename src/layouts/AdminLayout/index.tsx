@@ -1,13 +1,15 @@
 import {Outlet} from "react-router-dom";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Sidebar from "./components/Sidebar";
 
 function AdminLayout() {
     return (
-        <div>
-            <Header />
-            <Outlet />
-            <Footer />
+        <div className="min-h-screen grid grid-cols-12">
+            <div className="col-span-2">
+                <Sidebar />
+            </div>
+            <div className="col-span-10">
+                <Outlet />
+            </div>
         </div>
     );
 }

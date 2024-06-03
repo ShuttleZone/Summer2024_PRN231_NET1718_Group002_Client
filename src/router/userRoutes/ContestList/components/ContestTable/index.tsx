@@ -143,7 +143,7 @@ function ContestTable({contests}: ContestTableProps) {
                                     policy={contest.policy}
                                     contestStatus={contest.contestStatus}
                                     userContests={contest.userContests}
-                />
+                                />
                             ))}
                     </tbody>
                 </table>
