@@ -2,12 +2,15 @@ import {ClubType, CourtScheduleType} from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
+type ClubsListQueryReturnType = {
+    value: ClubType[];
+};
+
 const clubApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
         getClubs: build.query<ClubType[], string | undefined>({
             query: () => "/api/clubs",
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            transformResponse(baseQueryReturnValue: any) {
+            transformResponse(baseQueryReturnValue: ClubsListQueryReturnType) {
                 return baseQueryReturnValue.value;
             },
         }),

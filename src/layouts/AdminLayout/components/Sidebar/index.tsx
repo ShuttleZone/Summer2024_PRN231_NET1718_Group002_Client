@@ -2,12 +2,13 @@ import AppLogo from "@/assets/images/app-logo.png";
 import {Link} from "react-router-dom";
 import NavItem from "./components/NavItem";
 import {Button} from "@/components/ui/button";
+import {IconType} from "react-icons/lib";
 
 interface SidebarProps {
     navItems: {
         title: string;
         to: string;
-        icon: any;
+        icon: IconType;
     }[];
 }
 
