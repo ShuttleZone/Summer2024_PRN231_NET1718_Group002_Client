@@ -18,6 +18,7 @@ export interface ClubType {
     closeTime: string;
     clubImages: ClubImageType[];
     reviews: ReviewType[];
+    minDuration: number;
 }
 
 export interface CourtScheduleType {
@@ -54,7 +55,6 @@ export interface ContestInfo {
     policy: string;
     contestStatus: number;
     userContests: UserContest[];
-
 }
 
 export interface ReservationDetailType {
@@ -64,4 +64,11 @@ export interface ReservationDetailType {
     endTime: string;
     price: number;
     reservationDetailStatus: int;
+}
+
+export interface BookedSlotType {
+    CourtName: string;
+    StartTime: string;
+    EndTime: string;
+    Date: string;
 }
