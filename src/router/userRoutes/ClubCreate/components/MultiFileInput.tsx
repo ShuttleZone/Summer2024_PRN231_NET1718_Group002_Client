@@ -2,44 +2,11 @@ import React, {useState} from "react";
 
 const MultiFileInput: React.FC = () => {
     const [files, setFiles] = useState<File[]>([]);
-    const [fileDragging, setFileDragging] = useState<number | null>(null);
-    const [fileDropping, setFileDropping] = useState<number | null>(null);
-
-    const humanFileSize = (size: number): string => {
-        const i = Math.floor(Math.log(size) / Math.log(1024));
-        return (
-            (size / Math.pow(1024, i)).toFixed(2) +
-            " " +
-            ["B", "kB", "MB", "GB", "TB"][i]
-        );
-    };
 
     const removeFile = (index: number): void => {
         const updatedFiles = [...files];
         updatedFiles.splice(index, 1);
         setFiles(updatedFiles);
-    };
-
-    const handleDragStart = (e: React.DragEvent<HTMLDivElement>): void => {
-        const index = parseInt(
-            e.currentTarget.getAttribute("data-index") || "0",
-            10
-        );
-        setFileDragging(index);
-        e.dataTransfer.effectAllowed = "move";
-    };
-
-    const handleDragEnter = (e: React.DragEvent<HTMLDivElement>): void => {
-        const targetIndex = parseInt(
-            e.currentTarget.getAttribute("data-index") || "0",
-            10
-        );
-        setFileDropping(targetIndex);
-    };
-
-    const loadFile = (file: File): string => {
-        const blobUrl = URL.createObjectURL(file);
-        return blobUrl;
     };
 
     const addFiles = (event: React.ChangeEvent<HTMLInputElement>): void => {

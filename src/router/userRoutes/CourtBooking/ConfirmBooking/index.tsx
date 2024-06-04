@@ -71,7 +71,7 @@ function ConfirmBooking() {
                             <h1 className="text-lg font-semibold">
                                 Appointment slot
                             </h1>
-                            {bookedSlot.map((item, key) => (
+                            {bookedSlot.map((item) => (
                                 <p>
                                     {item.Date} | {item.StartTime} -{" "}
                                     {item.EndTime} | {item.CourtName}

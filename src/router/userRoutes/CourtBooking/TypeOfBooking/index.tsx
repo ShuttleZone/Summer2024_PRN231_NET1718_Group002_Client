@@ -1,8 +1,4 @@
-import {useAppDispatch} from "@/store";
-
 function TypeOfBooking() {
-    const dispatch = useAppDispatch();
-
     return (
         <div className="flex flex-col my-20">
             <div className="flex flex-col justify-center items-center py-4 px-16 my-8">

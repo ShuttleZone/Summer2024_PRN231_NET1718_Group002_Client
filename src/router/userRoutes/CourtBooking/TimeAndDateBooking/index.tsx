@@ -42,7 +42,7 @@ function TimeAndDateBooking() {
         let duration = 0;
 
         bookedDate.forEach((item) => {
-            const [date, startTime, endTime] = item.split(" - ");
+            const [startTime, endTime] = item.split(" - ");
             const [startHour, startMinute] = startTime.split(":").map(Number);
             const [endHour, endMinute] = endTime.split(":").map(Number);
 
