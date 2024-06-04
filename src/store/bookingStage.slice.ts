@@ -1,9 +1,27 @@
-import {createSelector, createSlice} from "@reduxjs/toolkit";
+import {PayloadAction, createSelector, createSlice} from "@reduxjs/toolkit";
 interface BookingSlot {
     CourtName: string;
     Date: string;
-    Duration: string;
+    StartTime: string;
+    EndTime: string;
 }
+
+interface BookingPersonInformation {
+    Name: string;
+    Email: string;
+    Phone: string;
+    Note: string;
+}
+interface ClubDetail {
+    id: string;
+    clubName: string;
+    minDuration: number;
+    openTime: string;
+    closeTime: string;
+    clubAddress: string;
+    clubPhone: string;
+}
+
 interface BookingStageState {
     TypeOfBooking: {
         Id: 1;
@@ -17,8 +35,7 @@ interface BookingStageState {
     };
     PersonaInformation: {
         Id: 3;
-        CourtName: string;
-        Slot: string;
+        BookingPersonInformation: BookingPersonInformation;
         Path: string;
     };
     OrderConfirm: {
@@ -34,6 +51,7 @@ interface BookingStageState {
         Path: string;
     };
     CurrentStage: number;
+    ClubDetail: ClubDetail;
 }
 
 const initialState: BookingStageState = {
@@ -49,8 +67,12 @@ const initialState: BookingStageState = {
     },
     PersonaInformation: {
         Id: 3,
-        CourtName: "",
-        Slot: "",
+        BookingPersonInformation: {
+            Name: "",
+            Note: "",
+            Phone: "",
+            Email: "",
+        },
         Path: "/personal-info",
     },
     OrderConfirm: {
@@ -66,6 +88,15 @@ const initialState: BookingStageState = {
         Path: "/payment",
     },
     CurrentStage: 1,
+    ClubDetail: {
+        id: "",
+        clubName: "",
+        closeTime: "",
+        openTime: "",
+        minDuration: 0,
+        clubAddress: "",
+        clubPhone: "",
+    },
 };
 const bookingStageSlice = createSlice({
     name: "bookingStage",
@@ -76,6 +107,39 @@ const bookingStageSlice = createSlice({
         },
         setStage(state, action) {
             state.CurrentStage = action.payload;
+        },
+        setBookingSlots(state, action) {
+            state.TimeAndDate.Slots.push(action.payload);
+        },
+        removeBookingSlots(state, action) {
+            const indexToRemove = state.TimeAndDate.Slots.findIndex(
+                (slot) =>
+                    slot.Date === action.payload.Date &&
+                    slot.StartTime === action.payload.StartTime &&
+                    slot.EndTime === action.payload.EndTime &&
+                    slot.CourtName === action.payload.CourtName
+            );
+
+            if (indexToRemove !== -1) {
+                state.TimeAndDate.Slots = [
+                    ...state.TimeAndDate.Slots.slice(0, indexToRemove),
+                    ...state.TimeAndDate.Slots.slice(indexToRemove + 1),
+                ];
+            }
+        },
+        setBookingPersonInformation(
+            state,
+            action: PayloadAction<{
+                Name: string;
+                Email: string;
+                Phone: string;
+                Note: string;
+            }>
+        ) {
+            state.PersonaInformation.BookingPersonInformation = action.payload;
+        },
+        setClubDetail(state, action) {
+            state.ClubDetail = action.payload;
         },
     },
 });
@@ -107,4 +171,11 @@ const selectStageById = createSelector(
 );
 export {selectStageById};
 export default bookingStageSlice.reducer;
-export const {setStage, setTypeOfBooking} = bookingStageSlice.actions;
+export const {
+    setStage,
+    setTypeOfBooking,
+    setBookingSlots,
+    removeBookingSlots,
+    setBookingPersonInformation,
+    setClubDetail,
+} = bookingStageSlice.actions;

@@ -1,6 +1,7 @@
 import {CiLocationOn, CiShare2} from "react-icons/ci";
 import {FaStar} from "react-icons/fa";
 import {FiPhoneCall} from "react-icons/fi";
+import {Link} from "react-router-dom";
 
 interface ClubHeaderProps {
     name: string;
@@ -26,6 +27,12 @@ function ClubHeader({name, address, phone, reviews}: ClubHeaderProps) {
                 </div>
             </div>
             <div className="flex justify-between items-center gap-6">
+                <Link
+                    to={"court-booking"}
+                    className="flex justify-between items-center gap-2 border border-black/10 rounded px-2 py-1 bg-green-300"
+                >
+                    <span className="px-12">Book</span>
+                </Link>
                 <button className="flex justify-between items-center gap-2 border border-black/10 rounded px-2 py-1">
                     <CiShare2 />
                     <span>Share</span>

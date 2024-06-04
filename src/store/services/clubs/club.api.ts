@@ -1,4 +1,4 @@
-import {ClubType, CourtScheduleType} from "@/@types/api";
+import {BookedSlotType, ClubType, CourtScheduleType} from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
@@ -34,6 +34,23 @@ const clubApi = commonApi.injectEndpoints({
                 return routeBuilder.build();
             },
         }),
+        getClubReservationDetail: build.query<
+            BookedSlotType[],
+            string | undefined
+        >({
+            query: (id) => {
+                const routeBuilder = new ApiRouteBuilder(
+                    `/Clubs(${id})/reservations-details`
+                );
+                routeBuilder.select([
+                    "courtName",
+                    "startTime",
+                    "endTime",
+                    "Date",
+                ]);
+                return routeBuilder.build();
+            },
+        }),
     }),
     overrideExisting: true,
 });
@@ -42,4 +59,5 @@ export const {
     useGetClubsQuery,
     useGetClubDetailQuery,
     useGetCourtScheduleQuery,
+    useGetClubReservationDetailQuery,
 } = clubApi;
