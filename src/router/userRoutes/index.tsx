@@ -12,11 +12,16 @@ import ConfirmBooking from "./CourtBooking/ConfirmBooking";
 import ContestDetail from "./ContestDetail";
 import MyReservationList from "./reservations";
 import ClubCreate from "./ClubCreate";
+import LoginForm from "../guestRoutes/Login";
 
 const publicRoutes: RouteObject[] = [
     {
         path: "/",
         element: <Home />,
+    },
+    {
+        path: "/login",
+        element: <LoginForm />,
     },
     {
         path: "/clubs",
