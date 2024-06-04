@@ -1,4 +1,25 @@
+import {useAppSelector} from "@/store";
+
 function ConfirmBooking() {
+    const clubDetailData = useAppSelector(
+        (state) => state.bookingStage.ClubDetail
+    );
+    const personalInformationData = useAppSelector(
+        (state) =>
+            state.bookingStage.PersonaInformation.BookingPersonInformation
+    );
+
+    const bookedSlot = useAppSelector(
+        (state) => state.bookingStage.TimeAndDate.Slots
+    );
+    console.log(bookedSlot);
+    const today =
+        new Date().getDate() +
+        "-" +
+        new Date().getMonth() +
+        "-" +
+        new Date().getFullYear();
+
     return (
         <div className="mb-16">
             <div className="flex flex-col justify-center items-center py-4 px-16 my-4">
@@ -17,23 +38,23 @@ function ConfirmBooking() {
                     <div className="flex flex-row mt-4 gap-20 border-b-2 border-b-gray-300 pb-8 my-4">
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">User Name</h1>
-                            <p>nguyen hung hai</p>
+                            <p>{personalInformationData.Name}</p>
                         </div>
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">
                                 Created reservation date
                             </h1>
-                            <p>27th April 2024</p>
+                            <p>{today}</p>
                         </div>
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">
                                 Phone Number
                             </h1>
-                            <p>0123456789</p>
+                            <p>{personalInformationData.Phone}</p>
                         </div>
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">Email</h1>
-                            <p>abc@gmail.com</p>
+                            <p>{personalInformationData.Email}</p>
                         </div>
                     </div>
 
@@ -43,16 +64,19 @@ function ConfirmBooking() {
                             <h1 className="text-lg font-semibold">
                                 Total slot
                             </h1>
-                            <p>3</p>
+                            <p>{bookedSlot.length}</p>
                         </div>
 
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">
                                 Appointment slot
                             </h1>
-                            <p>27/5/2024 | 7:00-8:00 | Court A</p>
-                            <p>27/5/2024 | 7:00-8:00 | Court B</p>
-                            <p>27/5/2024 | 8:00-9:00 | Court B</p>
+                            {bookedSlot.map((item, key) => (
+                                <p>
+                                    {item.Date} | {item.StartTime} -{" "}
+                                    {item.EndTime} | {item.CourtName}
+                                </p>
+                            ))}
                         </div>
 
                         <div className="w-62 h-fit">
@@ -65,19 +89,19 @@ function ConfirmBooking() {
                     <div className="flex flex-row mt-4 gap-20 border-b-2 border-b-gray-300 pb-8 my-4">
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">Club Name</h1>
-                            <p>badminton pro vip club</p>
+                            <p>{clubDetailData.clubName}</p>
                         </div>
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">
                                 Club Address
                             </h1>
-                            <p>123 Pham Van Dong, Go Vap, Tp.HCM</p>
+                            <p>{clubDetailData.clubAddress}</p>
                         </div>
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">
                                 Club Phone
                             </h1>
-                            <p>0789456123</p>
+                            <p>{clubDetailData.clubPhone}</p>
                         </div>
                     </div>
                 </div>
