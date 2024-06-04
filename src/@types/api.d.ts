@@ -72,3 +72,16 @@ export interface BookedSlotType {
     EndTime: string;
     Date: string;
 }
+
+export interface CourtType {
+    id: string;
+    name: string;
+    courtType: string;
+    courtStatus: number;
+    clubId: string;
+    clubName: string;
+    openTime: string;
+    closeTime: string;
+    minDuration: number;
+    price: number;
+}
