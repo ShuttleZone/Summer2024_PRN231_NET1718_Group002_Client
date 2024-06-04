@@ -8,6 +8,8 @@ import adminRoutes from "./adminRoutes";
 import managerRoutes from "./managerRoutes";
 import staffRoutes from "./staffRoutes";
 import NotFound from "@/components/pages/NotFound";
+import guestRoutes from "./guestRoutes";
+import LoginPage from "./guestRoutes/Login";
 
 const router = createBrowserRouter([
     {
@@ -30,6 +32,11 @@ const router = createBrowserRouter([
         path: "/staff",
         element: <StaffLayout />,
         children: [...staffRoutes],
+    },
+    {
+        path: "/login",
+        element: <LoginPage />,
+        children: [...guestRoutes],
     },
 ]);
 
