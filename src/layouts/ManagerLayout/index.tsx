@@ -2,6 +2,7 @@ import {Outlet} from "react-router-dom";
 import Sidebar from "../AdminLayout/components/Sidebar";
 import {IoHome} from "react-icons/io5";
 import {FaNewspaper, FaThList} from "react-icons/fa";
+import {IoCreateOutline} from "react-icons/io5";
 
 const managerNavItems = [
     {
@@ -19,15 +20,20 @@ const managerNavItems = [
         to: "/manager/club-requests",
         icon: FaNewspaper,
     },
+    {
+        title: "New Club",
+        to: "/manager/clubs/new",
+        icon: IoCreateOutline,
+    },
 ];
 
 function ManagerLayout() {
     return (
-        <div className="min-h-screen grid grid-cols-12 overflow-y-auto">
+        <div className="min-h-screen grid grid-cols-12">
             <div className="col-span-2 bg-slate-900">
                 <Sidebar navItems={managerNavItems} />
             </div>
-            <div className="col-span-10">
+            <div className="col-span-10 overflow-y-auto">
                 <div className="px-8 py-8">
                     <h2 className="text-2xl font-semibold">Manager Panel</h2>
                 </div>

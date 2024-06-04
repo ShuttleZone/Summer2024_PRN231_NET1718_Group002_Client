@@ -17,8 +17,7 @@ const MultiFileInput: React.FC = () => {
     };
 
     return (
-        <div className="p-4 border rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Multi-File Input</h2>
+        <div className="p-4 w-full border rounded-lg shadow-md">
             <input
                 type="file"
                 id="fileInput"
