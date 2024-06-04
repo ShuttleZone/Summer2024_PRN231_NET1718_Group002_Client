@@ -1,12 +1,3 @@
-import MultiFileInput from "@/router/userRoutes/ClubCreate/components/MultiFileInput";
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from "@/components/ui/accordion";
-
-import {useState} from "react";
 import BasicInfoInput from "./components/BasicInfoInput";
 import SettingInput from "./components/SettingsInput";
 import AvailabilityInput from "./components/AvailabilityInput";
