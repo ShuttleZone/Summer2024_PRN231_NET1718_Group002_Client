@@ -1,4 +1,5 @@
 import {RouteObject} from "react-router-dom";
+import CreateCourt from "./CreateCourt";
 
 const managerRoutes: RouteObject[] = [
     {
@@ -7,7 +8,7 @@ const managerRoutes: RouteObject[] = [
     },
     {
         path: "courts/new",
-        element: <div>new court</div>,
+        element: <CreateCourt />,
     },
 ];
 

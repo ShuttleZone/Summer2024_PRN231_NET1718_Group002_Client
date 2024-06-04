@@ -31,7 +31,7 @@ function StaffLayout() {
                 <div className="px-8 py-8">
                     <h2 className="text-2xl font-semibold">Staff Panel</h2>
                 </div>
-                <main className="px-8">
+                <main className="px-8 h-full">
                     <Outlet />
                 </main>
             </div>
