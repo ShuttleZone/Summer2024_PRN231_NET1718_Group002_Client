@@ -52,9 +52,6 @@ function CreateCourt() {
     const defaultValues = {
         clubId: "",
         name: "",
-        courtStatus: 0,
-        courtType: 0,
-        price: 0,
     };
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -157,8 +154,7 @@ function CreateCourt() {
                                     </FormLabel>
                                     <Select
                                         onValueChange={field.onChange}
-                                        value={field.value.toString()}
-                                        defaultValue={field.value.toString()}
+                                        value={field.value?.toString()}
                                     >
                                         <FormControl>
                                             <SelectTrigger>
@@ -167,13 +163,13 @@ function CreateCourt() {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectItem value="0">
-                                                Outdoor
+                                                Standard
                                             </SelectItem>
                                             <SelectItem value="1">
-                                                Indoor
+                                                Premium
                                             </SelectItem>
                                             <SelectItem value="2">
-                                                WTF
+                                                VIP
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
@@ -191,8 +187,7 @@ function CreateCourt() {
                                     </FormLabel>
                                     <Select
                                         onValueChange={field.onChange}
-                                        value={field.value.toString()}
-                                        defaultValue={field.value.toString()}
+                                        value={field.value?.toString()}
                                     >
                                         <FormControl>
                                             <SelectTrigger>
@@ -207,7 +202,7 @@ function CreateCourt() {
                                                 Occupied
                                             </SelectItem>
                                             <SelectItem value="2">
-                                                Maintainance
+                                                Under Maintainance
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
