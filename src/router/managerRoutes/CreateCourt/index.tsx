@@ -76,11 +76,13 @@ function CreateCourt() {
         const {error} = await createCourt(formData);
         if (error) {
             toast({
+                variant: "destructive",
                 title: "Error",
                 description: "Failed to create court",
             });
         } else {
             toast({
+                variant: "default",
                 title: "Success",
                 description: "Court created successfully",
             });
