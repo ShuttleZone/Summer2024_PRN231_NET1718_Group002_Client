@@ -1,144 +1,284 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
+import {
+    useGetClubReservationDetailQuery,
+    useGetCourtScheduleQuery,
+} from "@/store/services/clubs/club.api";
+import {useAppDispatch, useAppSelector} from "@/store";
+import {removeBookingSlots, setBookingSlots} from "@/store/bookingStage.slice";
 
 interface CourtScheduleProps {
     selectedDate: Date;
 }
 
-interface Slot {
-    time: string;
-    court: string;
+interface BookedSlot {
+    CourtName: string;
+    Date: string;
+    EndTime: string;
+    StartTime: string;
 }
 
 const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
-    const [selectedSlots, setSelectedSlots] = useState<Slot[]>([]);
+    const {id} = useParams();
+    const dispatch = useAppDispatch();
+    const {data, isLoading} = useGetCourtScheduleQuery(id);
+    const {data: bookedData} = useGetClubReservationDetailQuery(id);
 
-    const formatDateKey = (date: Date): string =>
-        date.toISOString().split("T")[0];
+    const [selectedSlots, setSelectedSlots] = useState<BookedSlot[]>([]);
 
-    const getSlotsForDate = (date: Date): Slot[] => {
-        const dateKey = formatDateKey(date);
-        const slotsByDate: {[key: string]: Slot[]} = {
-            "2023-04-24": [
-                {time: "7:00 - 8:00", court: "court A"},
-                {time: "8:00 - 9:00", court: "court A"},
-                {time: "9:00 - 10:00", court: "court A"},
-                {time: "7:00 - 8:00", court: "court B"},
-                {time: "8:00 - 9:00", court: "court B"},
-                {time: "9:00 - 10:00", court: "court B"},
-                {time: "8:00 - 9:00", court: "court C"},
-                {time: "9:00 - 10:00", court: "court C"},
-                {time: "10:00 - 11:00", court: "court C"},
-                {time: "7:00 - 8:00", court: "court D"},
-                {time: "9:00 - 10:00", court: "court D"},
-                {time: "10:00 - 11:00", court: "court D"},
-            ],
-            "2023-04-25": [
-                {time: "7:00 - 8:00", court: "court A"},
-                {time: "8:00 - 9:00", court: "court A"},
-                {time: "7:00 - 8:00", court: "court B"},
-                {time: "8:00 - 9:00", court: "court B"},
-                {time: "9:00 - 10:00", court: "court B"},
-                {time: "8:00 - 9:00", court: "court C"},
-                {time: "10:00 - 11:00", court: "court C"},
-                {time: "11:00 - 12:00", court: "court C"},
-                {time: "9:00 - 10:00", court: "court D"},
-                {time: "10:00 - 11:00", court: "court D"},
-                {time: "11:00 - 12:00", court: "court D"},
-            ],
-            // Add more dates and bookings as needed
-        };
+    const courts = data?.courts || [];
 
-        return slotsByDate[dateKey] || [];
+    function divideSlot(
+        openTime: string,
+        closedTime: string,
+        minDuration: number
+    ): string[] {
+        // Helper function to convert time string to Date object
+        function timeStringToDate(time: string): Date {
+            const [hours, minutes] = time.split(":").map(Number);
+            const date = new Date();
+            date.setHours(hours, minutes, 0, 0);
+            return date;
+        }
+
+        // Helper function to format Date object to time string
+        function formatTime(date: Date): string {
+            return date.toTimeString().slice(0, 5); // Get only HH:MM
+        }
+
+        // Convert openTime and closedTime to Date objects
+        const openDt = timeStringToDate(openTime);
+        const closedDt = timeStringToDate(closedTime);
+
+        // Calculate the interval duration in milliseconds
+        const intervalDuration = minDuration * 60 * 60 * 1000;
+
+        // Generate the slots
+        const slots: string[] = [];
+        let currentTime = openDt;
+        while (currentTime < closedDt) {
+            const nextTime = new Date(currentTime.getTime() + intervalDuration);
+            if (nextTime > closedDt) {
+                break;
+            }
+            slots.push(`${formatTime(currentTime)} - ${formatTime(nextTime)}`);
+            currentTime = nextTime;
+        }
+
+        // If there's remaining time that doesn't fit into a full slot, handle it
+        if (currentTime < closedDt) {
+            slots.push(`${formatTime(currentTime)} - ${formatTime(closedDt)}`);
+        }
+
+        return slots;
+    }
+
+    const timeSlots = divideSlot(
+        data?.openTime || "6:00:00",
+        data?.closeTime || "22:00:00",
+        data?.minDuration || 1
+    );
+
+    const recentlyBookedSlot = useAppSelector(
+        (state) => state.bookingStage.TimeAndDate.Slots
+    );
+
+    recentlyBookedSlot.map(
+        (x): BookedSlot => ({
+            CourtName: x.CourtName,
+            Date: x.Date,
+            EndTime: x.EndTime,
+            StartTime: x.StartTime,
+        })
+    );
+    useEffect(() => {
+        const tempList: BookedSlot[] = [...selectedSlots];
+        tempList.push(...recentlyBookedSlot);
+        setSelectedSlots(tempList);
+    }, [recentlyBookedSlot, selectedSlots]);
+    const bookedSlots: BookedSlot[] = bookedData ?? [];
+
+    const isBooked = (courtName: string, slot: string) => {
+        const [slotStartTime, slotEndTime] = slot.split(" - ");
+        return bookedSlots.some(
+            (booking) =>
+                booking.CourtName === courtName &&
+                booking.StartTime.split("T")[1].slice(0, 5) === slotStartTime &&
+                booking.EndTime.split("T")[1].slice(0, 5) === slotEndTime &&
+                booking.Date.split("T")[0] ===
+                    selectedDate.toISOString().split("T")[0]
+        );
     };
+    const handleSlotClick = (
+        courtId: string,
+        courtName: string,
+        slot: string,
+        price: number
+    ) => {
+        // Check if the slot is already selected
+        const isSelected = selectedSlots.some(
+            (selectedSlot) =>
+                selectedSlot.Date ===
+                    selectedDate.toISOString().split("T")[0] &&
+                selectedSlot.StartTime === slot.split(" - ")[0] &&
+                selectedSlot.EndTime === slot.split(" - ")[1] &&
+                selectedSlot.CourtName === courtName
+        );
 
-    const handleSlotClick = (court: string, time: string) => {
-        const slot = {court, time};
-        if (selectedSlots.some((s) => s.court === court && s.time === time)) {
-            setSelectedSlots(
-                selectedSlots.filter(
-                    (s) => !(s.court === court && s.time === time)
+        // If already selected, remove it from selectedSlots
+        if (isSelected) {
+            setSelectedSlots((prevSelectedSlots) =>
+                prevSelectedSlots.filter(
+                    (selectedSlot) =>
+                        selectedSlot.Date !==
+                            selectedDate.toISOString().split("T")[0] ||
+                        selectedSlot.StartTime !== slot.split(" - ")[0] ||
+                        selectedSlot.EndTime !== slot.split(" - ")[1] ||
+                        selectedSlot.CourtName !== courtName
                 )
             );
+            dispatch(
+                removeBookingSlots({
+                    Date: selectedDate.toISOString().split("T")[0],
+                    StartTime: slot.split(" - ")[0],
+                    EndTime: slot.split(" - ")[1],
+                    CourtName: courtName,
+                })
+            );
         } else {
-            setSelectedSlots([...selectedSlots, slot]);
+            // If not selected, add it to selectedSlots
+            setSelectedSlots((prevSelectedSlots) => [
+                ...prevSelectedSlots,
+                {
+                    CourtName: courtName,
+                    Date: selectedDate.toISOString().split("T")[0],
+                    StartTime: slot.split(" - ")[0],
+                    EndTime: slot.split(" - ")[1],
+                },
+            ]);
+            dispatch(
+                setBookingSlots({
+                    Date: selectedDate.toISOString().split("T")[0],
+                    StartTime: slot.split(" - ")[0],
+                    EndTime: slot.split(" - ")[1],
+                    CourtName: courtName,
+                    CourtId: courtId,
+                    Price: price,
+                })
+            );
         }
     };
 
-    const slots = getSlotsForDate(selectedDate);
-    const courts = ["court A", "court B", "court C", "court D"];
-    const timeSlots = [
-        "5:00 - 6:00",
-        "6:00 - 7:00",
-        "7:00 - 8:00",
-        "8:00 - 9:00",
-        "9:00 - 10:00",
-        "10:00 - 11:00",
-        "11:00 - 12:00",
-        "12:00 - 1:00",
-        "1:00 - 2:00",
-        "2:00 - 3:00",
-        "3:00 - 4:00",
-        "4:00 - 5:00",
-        "5:00 - 6:00",
-        "6:00 - 7:00",
-        "7:00 - 8:00",
-        "8:00 - 9:00",
-        "9:00 - 10:00",
-    ];
-
     return (
-        <div className="p-4">
-            <div className="flex">
-                <div className="flex flex-col">
-                    <div className="font-semibold">Courts</div>
-                    {courts.map((court) => (
-                        <div key={court} className="font-semibold py-2">
-                            {court}
-                        </div>
-                    ))}
-                </div>
-                <div className="overflow-x-auto ml-4">
-                    <div className="min-w-full grid grid-cols-[repeat(17,_minmax(100px,_1fr))] gap-4">
+        <>
+            {isLoading ? (
+                <div>Loading...</div>
+            ) : (
+                <div className="p-4 overflow-x-auto">
+                    <div
+                        className="grid"
+                        style={{
+                            gridTemplateColumns: `repeat(${timeSlots.length + 1}, minmax(100px, 1fr))`,
+                        }}
+                    >
+                        <div className="font-semibold">Courts</div>
                         {timeSlots.map((slot) => (
-                            <div key={slot} className="font-semibold">
+                            <div
+                                key={slot}
+                                className="font-semibold w-28 text-center"
+                            >
                                 {slot}
                             </div>
                         ))}
                         {courts.map((court) => (
-                            <React.Fragment key={court}>
-                                {timeSlots.map((slot) => {
-                                    const isBooked = slots.some(
-                                        (s) =>
-                                            s.court === court && s.time === slot
-                                    );
-                                    const isSelected = selectedSlots.some(
-                                        (s) =>
-                                            s.court === court && s.time === slot
-                                    );
-                                    return (
-                                        <div
-                                            key={slot}
-                                            onClick={() =>
-                                                !isBooked &&
-                                                handleSlotClick(court, slot)
-                                            }
-                                            className={`border p-2 ${isBooked ? "bg-gray-200 hover:cursor-not-allowed" : isSelected ? "bg-green-200" : "hover:cursor-pointer"}`}
-                                        >
-                                            {isBooked
-                                                ? "Booked"
-                                                : isSelected
-                                                  ? "Selected"
-                                                  : "Available"}
-                                        </div>
-                                    );
-                                })}
-                            </React.Fragment>
+                            <>
+                                <div
+                                    key={court.name}
+                                    className="font-semibold py-2 flex items-center"
+                                >
+                                    {court.name}
+                                </div>
+                                {data &&
+                                    divideSlot(
+                                        data.openTime,
+                                        data.closeTime,
+                                        data.minDuration
+                                    ).map((slot) => {
+                                        const isSlotBooked = isBooked(
+                                            court.name,
+                                            slot
+                                        );
+                                        return (
+                                            <div
+                                                key={slot}
+                                                className={`text-center rounded-lg mx-2 my-2 py-2 border-2 border-black ${
+                                                    selectedSlots.some(
+                                                        (selectedSlot) =>
+                                                            selectedSlot.Date ===
+                                                                selectedDate
+                                                                    .toISOString()
+                                                                    .split(
+                                                                        "T"
+                                                                    )[0] &&
+                                                            selectedSlot.StartTime ===
+                                                                slot.split(
+                                                                    " - "
+                                                                )[0] &&
+                                                            selectedSlot.EndTime ===
+                                                                slot.split(
+                                                                    " - "
+                                                                )[1] &&
+                                                            selectedSlot.CourtName ===
+                                                                court.name
+                                                    )
+                                                        ? "bg-green-500"
+                                                        : isSlotBooked
+                                                          ? "bg-gray-500 hover:cursor-not-allowed"
+                                                          : "bg-white hover:bg-gray-200 cursor-pointer"
+                                                }`}
+                                                onClick={() =>
+                                                    // Call handleSlotClick on slot click
+                                                    !isSlotBooked &&
+                                                    handleSlotClick(
+                                                        court.id,
+                                                        court.name,
+                                                        slot,
+                                                        court.price
+                                                    )
+                                                }
+                                            >
+                                                {selectedSlots.some(
+                                                    (selectedSlot) =>
+                                                        selectedSlot.Date ===
+                                                            selectedDate
+                                                                .toISOString()
+                                                                .split(
+                                                                    "T"
+                                                                )[0] &&
+                                                        selectedSlot.StartTime ===
+                                                            slot.split(
+                                                                " - "
+                                                            )[0] &&
+                                                        selectedSlot.EndTime ===
+                                                            slot.split(
+                                                                " - "
+                                                            )[1] &&
+                                                        selectedSlot.CourtName ===
+                                                            court.name
+                                                )
+                                                    ? "Selected"
+                                                    : isSlotBooked
+                                                      ? "Booked"
+                                                      : "Available"}
+                                            </div>
+                                        );
+                                    })}
+                            </>
                         ))}
                     </div>
                 </div>
-            </div>
-        </div>
+            )}
+        </>
     );
 };
-
 export default CourtSchedule;

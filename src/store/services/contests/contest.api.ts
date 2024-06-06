@@ -2,19 +2,26 @@ import {ContestInfo} from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
+type ContestsListQueryReturnType = {
+    value: ContestInfo[];
+};
+
 const contestApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
         getContests: build.query<ContestInfo[], string | undefined>({
-            query: () => "/api/Contest",
+            query: () => "api/Contests?$expand=userContests",
+            transformResponse(
+                baseQueryReturnValue: ContestsListQueryReturnType
+            ) {
+                return baseQueryReturnValue.value;
+            },
         }),
         getContestsDetail: build.query<ContestInfo, string | undefined>({
             query: (id) => {
-                const routeBuilder = new ApiRouteBuilder("/api/Contest");
-                routeBuilder.filter("id", id || "");
+                const routeBuilder = new ApiRouteBuilder(
+                    `/api/Contests(${id})?$expand=userContests`
+                );
                 return routeBuilder.build();
-            },
-            transformResponse(baseQueryReturnValue) {
-                return (baseQueryReturnValue as ContestInfo[])[0];
             },
         }),
     }),

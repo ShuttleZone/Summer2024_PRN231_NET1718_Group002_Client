@@ -11,11 +11,23 @@ import PersonalInformation from "./CourtBooking/PersonalInformation";
 import ConfirmBooking from "./CourtBooking/ConfirmBooking";
 import ContestDetail from "./ContestDetail";
 import MyReservationList from "./reservations";
+import LoginForm from "../guestRoutes/Login";
+import RegisterForm from "../guestRoutes/Register/RegisterForm";
+
+import ClubCreate from "./ClubCreate";
 
 const publicRoutes: RouteObject[] = [
     {
         path: "/",
         element: <Home />,
+    },
+    {
+        path: "/login",
+        element: <LoginForm />,
+    },
+    {
+        path: "/register",
+        element: <RegisterForm />,
     },
     {
         path: "/clubs",
@@ -54,6 +66,10 @@ const publicRoutes: RouteObject[] = [
                 element: <ConfirmBooking />,
             },
         ],
+    },
+    {
+        path: "/clubs/register",
+        element: <ClubCreate />,
     },
     {
         path: "/my-reservation",

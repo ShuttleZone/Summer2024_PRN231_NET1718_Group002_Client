@@ -4,6 +4,7 @@ import {CiLocationOn} from "react-icons/ci";
 import {MdOutlineShoppingBag} from "react-icons/md";
 import {useNavigate} from "react-router-dom";
 import {ClubImageType, ReviewType} from "@/@types/api";
+import PlaceHolderImage from "@/assets/images/file-not-found-480x480.jpg";
 
 interface ClubCardProps {
     id: string;
@@ -23,12 +24,11 @@ function ClubCard({
     clubAddress,
     openTime,
     closeTime,
-    reviews,
-    clubImages,
+    reviews = [],
+    clubImages = [],
 }: ClubCardProps) {
     const profileImage =
-        clubImages[0]?.imageUrl ||
-        "https://lightwidget.com/wp-content/uploads/localhost-file-not-found-480x480.avif";
+        clubImages.length > 0 ? clubImages[0]?.imageUrl : PlaceHolderImage;
     const clubRating =
         reviews.length === 0
             ? 0

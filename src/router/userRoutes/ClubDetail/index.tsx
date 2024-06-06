@@ -1,6 +1,13 @@
 import {useParams} from "react-router-dom";
 import Carousel from "./components/Carousel";
 import {useGetClubDetailQuery} from "@/store/services/clubs/club.api";
+import ClubHeader from "./components/ClubHeader";
+import ClubDescription from "./components/ClubDescription";
+import ClubReviews from "./components/ClubReviews";
+import ClubLocation from "./components/ClubLocation";
+import {useAppDispatch} from "@/store";
+import {useEffect} from "react";
+import {setClubDetail} from "@/store/bookingStage.slice";
 
 const mockImages: string[] = [
     "https://us.123rf.com/450wm/anankkml/anankkml2204/anankkml220400024/184341315-shuttlecock-on-green-badminton-playing-court-with-player-in-background.jpg?ver=6",
@@ -13,16 +20,39 @@ const mockImages: string[] = [
 
 function ClubDetail() {
     const {clubId} = useParams();
-    const {data: clubDetail, isError} = useGetClubDetailQuery(clubId);
+    const dispatch = useAppDispatch();
+    const {
+        data: clubDetail,
+        isError,
+        isLoading,
+    } = useGetClubDetailQuery(clubId);
 
-    if (isError || !clubDetail) {
-        return <div>Error</div>;
-    }
+    useEffect(() => {
+        dispatch(setClubDetail(clubDetail));
+    }, [dispatch, clubId, clubDetail]);
+
+    if (isLoading) return <div>Loading...</div>;
+    else if (isError || !clubDetail) return <div>Error</div>;
 
     return (
         <div>
-            <Carousel images={mockImages} />
-            <h1>{clubDetail.clubName}</h1>
+            <Carousel
+                images={
+                    clubDetail.clubImages?.map((img) => img.imageUrl) ||
+                    mockImages
+                }
+            />
+            <div className="w-3/4 m-auto py-4 flex flex-col gap-4">
+                <ClubHeader
+                    name={clubDetail.clubName}
+                    address={clubDetail.clubAddress}
+                    phone={clubDetail.clubPhone}
+                    reviews={clubDetail.reviews?.length || 0}
+                />
+                <ClubDescription description={clubDetail.clubDescription} />
+                <ClubReviews />
+                <ClubLocation lat={10.822} lng={106.6257} />
+            </div>
         </div>
     );
 }

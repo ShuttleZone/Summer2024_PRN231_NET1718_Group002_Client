@@ -7,12 +7,17 @@ import userRoutes from "./userRoutes";
 import adminRoutes from "./adminRoutes";
 import managerRoutes from "./managerRoutes";
 import staffRoutes from "./staffRoutes";
+import NotFound from "@/components/pages/NotFound";
+import guestRoutes from "./guestRoutes";
+import LoginPage from "./guestRoutes/Login";
+import RegisterPage from "./guestRoutes/Register";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <UserLayout />,
         children: [...userRoutes],
+        errorElement: <NotFound />,
     },
     {
         path: "/admin",
@@ -28,6 +33,16 @@ const router = createBrowserRouter([
         path: "/staff",
         element: <StaffLayout />,
         children: [...staffRoutes],
+    },
+    {
+        path: "/login",
+        element: <LoginPage />,
+        children: [...guestRoutes],
+    },
+    {
+        path: "/register",
+        element: <RegisterPage />,
+        children: [...guestRoutes],
     },
 ]);
 

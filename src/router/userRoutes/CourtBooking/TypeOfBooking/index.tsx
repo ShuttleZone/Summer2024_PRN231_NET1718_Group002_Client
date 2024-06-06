@@ -1,4 +1,17 @@
+import {useAppDispatch} from "@/store";
+import {setClubDetail} from "@/store/bookingStage.slice";
+import {useGetClubDetailQuery} from "@/store/services/clubs/club.api";
+import {useEffect} from "react";
+import {useParams} from "react-router-dom";
+
 function TypeOfBooking() {
+    const {id} = useParams();
+    const {data: clubDetail} = useGetClubDetailQuery(id);
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(setClubDetail(clubDetail));
+    }, [dispatch, id, clubDetail]);
+
     return (
         <div className="flex flex-col my-20">
             <div className="flex flex-col justify-center items-center py-4 px-16 my-8">

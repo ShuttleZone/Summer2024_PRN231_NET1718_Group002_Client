@@ -2,11 +2,13 @@ class ApiRouteBuilder {
     private route: string;
     private filters: string;
     private selections: string = "";
+    private expansions: string = "";
 
     constructor(route: string) {
         this.route = route;
         this.filters = "";
         this.selections = "";
+        this.expansions = "";
     }
 
     public filter(field: string, value: string): ApiRouteBuilder {
@@ -23,6 +25,22 @@ class ApiRouteBuilder {
         return this;
     }
 
+    public expand(
+        property: string,
+        fields?: string | string[]
+    ): ApiRouteBuilder {
+        if (fields) {
+            if (typeof fields === "string") {
+                this.expansions += `${this.isEmptyExpansions() ? "" : ","}${property}($select=${fields})`;
+            } else {
+                this.expansions += `${this.isEmptyExpansions() ? "" : ","}${property}($select=${fields.join(",")})`;
+            }
+        } else {
+            this.expansions += `${this.isEmptyExpansions() ? "" : ","}${property}`;
+        }
+        return this;
+    }
+
     // add more query methods when needed
     public build(): string {
         if (!this.isEmptyFilter()) {
@@ -31,8 +49,12 @@ class ApiRouteBuilder {
         if (!this.isEmptySelections()) {
             this.selections = `$select=${this.selections}`;
         }
-        return this.appendQuery(this.filters).appendQuery(this.selections)
-            .route;
+        if (!this.isEmptyExpansions()) {
+            this.expansions = `$expand=${this.expansions}`;
+        }
+        return this.appendQuery(this.filters)
+            .appendQuery(this.selections)
+            .appendQuery(this.expansions).route;
     }
 
     private appendQuery(query: string): ApiRouteBuilder {
@@ -49,6 +71,10 @@ class ApiRouteBuilder {
 
     private isEmptySelections(): boolean {
         return this.selections.length === 0;
+    }
+
+    private isEmptyExpansions(): boolean {
+        return this.expansions.length === 0;
     }
 }
 

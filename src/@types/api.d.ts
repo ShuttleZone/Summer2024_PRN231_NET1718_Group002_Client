@@ -7,6 +7,10 @@ export interface ClubImageType {
     id: string;
     imageUrl: string;
 }
+export interface ClubOpenDayType {
+    id: number;
+    date: string;
+}
 
 export interface ClubType {
     id: string;
@@ -16,20 +20,38 @@ export interface ClubType {
     clubDescription: string;
     openTime: string;
     closeTime: string;
+    minDuration: number;
     clubImages: ClubImageType[];
+    openDays: ClubOpenDayType[];
     reviews: ReviewType[];
 }
 
-export interface Participant {
-    email: string;
-    phoneNumer: string;
+export interface CourtScheduleType {
     id: string;
-    fullname: string;
-    gender: number;
-    userStatusEnum: number;
+    openTime: string;
+    closeTime: string;
+    minDuration: number;
+    clubId: string;
+    courts: CourtInformationType[];
+}
+
+export interface CourtInformationType {
+    id: string;
+    name: string;
+    price: number;
+}
+
+export interface UserContest {
+    contestId: string;
+    participantsId: string;
     isCreatedPerson: boolean;
     isWinner: boolean;
     point: number;
+    id: string;
+    fullname: string;
+    gender: number;
+    email: string;
+    phoneNumber: string;
 }
 
 export interface ContestInfo {
@@ -38,7 +60,7 @@ export interface ContestInfo {
     maxPlayer: number;
     policy: string;
     contestStatus: number;
-    participants: Participant[];
+    userContests: UserContest[];
 }
 
 export interface ReservationDetailType {
@@ -48,4 +70,52 @@ export interface ReservationDetailType {
     endTime: string;
     price: number;
     reservationDetailStatus: string;
+}
+
+export interface LoginAccount {
+    id: string;
+    account: string;
+    password: string;
+    token: string;
+}
+
+export interface RegisterAccount {
+    fullname: string;
+    username: string;
+    email: string;
+    phoneNumber: string;
+    password: string;
+    repassword: string;
+    token: string;
+}
+
+export interface RegisterResponse {
+    token: string;
+}
+export interface BookedSlotType {
+    CourtName: string;
+    StartTime: string;
+    EndTime: string;
+    Date: string;
+}
+
+export interface PaymentPayload {
+    orderInfo: string;
+    fullName: string;
+    orderType: string;
+    description: string;
+    amount: 0;
+    createdDate: Date;
+}
+export interface CourtType {
+    id: string;
+    name: string;
+    courtType: string;
+    courtStatus: number;
+    clubId: string;
+    clubName: string;
+    openTime: string;
+    closeTime: string;
+    minDuration: number;
+    price: number;
 }

@@ -3,7 +3,6 @@ import BookingBreadcrumb from "./components/BookingBreadcrumb";
 import {Button} from "@/components/ui/button";
 import {FaArrowCircleRight} from "react-icons/fa";
 import {FaArrowCircleLeft} from "react-icons/fa";
-
 function CourtBooking() {
     return (
         <div className="w-3/4 flex flex-col justify-center mx-auto pb-12">
