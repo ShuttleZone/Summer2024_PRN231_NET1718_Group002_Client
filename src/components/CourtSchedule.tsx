@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {
     useGetClubReservationDetailQuery,
     useGetCourtScheduleQuery,
 } from "@/store/services/clubs/club.api";
-import {useAppDispatch} from "@/store";
+import {useAppDispatch, useAppSelector} from "@/store";
 import {removeBookingSlots, setBookingSlots} from "@/store/bookingStage.slice";
 
 interface CourtScheduleProps {
@@ -78,7 +78,26 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
         data?.closeTime || "22:00:00",
         data?.minDuration || 1
     );
+
+    const recentlyBookedSlot = useAppSelector(
+        (state) => state.bookingStage.TimeAndDate.Slots
+    );
+
+    recentlyBookedSlot.map(
+        (x): BookedSlot => ({
+            CourtName: x.CourtName,
+            Date: x.Date,
+            EndTime: x.EndTime,
+            StartTime: x.StartTime,
+        })
+    );
+    useEffect(() => {
+        const tempList: BookedSlot[] = [...selectedSlots];
+        tempList.push(...recentlyBookedSlot);
+        setSelectedSlots(tempList);
+    }, [recentlyBookedSlot, selectedSlots]);
     const bookedSlots: BookedSlot[] = bookedData ?? [];
+
     const isBooked = (courtName: string, slot: string) => {
         const [slotStartTime, slotEndTime] = slot.split(" - ");
         return bookedSlots.some(
@@ -90,7 +109,6 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                     selectedDate.toISOString().split("T")[0]
         );
     };
-
     const handleSlotClick = (
         courtId: string,
         courtName: string,

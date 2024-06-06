@@ -30,8 +30,16 @@ const reservationApi = commonApi.injectEndpoints({
                 };
             },
         }),
+        createReservation: build.mutation({
+            query: (data) => ({
+                url: "/make-booking",
+                method: "POST",
+                body: data,
+            }),
+        }),
     }),
     overrideExisting: true,
 });
 
-export const {useGetReservationDetailsQuery} = reservationApi;
+export const {useGetReservationDetailsQuery, useCreateReservationMutation} =
+    reservationApi;

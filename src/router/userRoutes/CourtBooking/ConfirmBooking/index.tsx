@@ -1,7 +1,17 @@
 import {useAppSelector} from "@/store";
-import {MdPayment} from "react-icons/md";
+import {useCreateReservationMutation} from "@/store/services/reservations/apiMyReservation";
+import {FormEvent} from "react";
+
+interface ReservationDetail {
+    startTime: string;
+    endTime: string;
+    price: number;
+    courtId: string;
+}
 
 function ConfirmBooking() {
+    const [createReservation] = useCreateReservationMutation();
+
     const clubDetailData = useAppSelector(
         (state) => state.bookingStage.ClubDetail
     );
@@ -9,20 +19,62 @@ function ConfirmBooking() {
         (state) =>
             state.bookingStage.PersonaInformation.BookingPersonInformation
     );
-
     const bookedSlot = useAppSelector(
         (state) => state.bookingStage.TimeAndDate.Slots
     );
-
     const totalPrice = useAppSelector(
         (state) => state.bookingStage.TimeAndDate.TotalPrice
     );
-    const today =
-        new Date().getDate() +
-        "-" +
-        new Date().getMonth() +
-        "-" +
-        new Date().getFullYear();
+    function getCurrentDateFormatted(): string {
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, "0");
+        const month = String(now.getMonth() + 1).padStart(2, "0"); // getMonth() returns 0-indexed month
+        const year = now.getFullYear();
+
+        return `${day}/${month}/${year}`;
+    }
+    const today = getCurrentDateFormatted();
+
+    const handleSubmit = async (e: FormEvent) => {
+        console.log(today);
+        const reservationDetails: ReservationDetail[] = bookedSlot.map(
+            (slot) => ({
+                startTime: today + " " + slot.StartTime,
+                endTime: today + " " + slot.EndTime,
+                price: slot.Price,
+                courtId: slot.CourtId,
+            })
+        );
+
+        e.preventDefault();
+        const formData = new FormData();
+
+        formData.append("TotalPrice", totalPrice.toString());
+        formData.append("Note", personalInformationData.Note);
+        formData.append("Phone", personalInformationData.Phone);
+        formData.append("FullName", personalInformationData.Name);
+
+        reservationDetails.forEach((detail, index) => {
+            formData.append(
+                `ReservationDetails[${index}][StartTime]`,
+                detail.startTime
+            );
+            formData.append(
+                `ReservationDetails[${index}][EndTime]`,
+                detail.endTime
+            );
+            formData.append(
+                `ReservationDetails[${index}][Price]`,
+                detail.price.toString()
+            );
+            formData.append(
+                `ReservationDetails[${index}][CourtId]`,
+                detail.courtId
+            );
+        });
+
+        await createReservation(formData);
+    };
 
     return (
         <div className="mb-16">
@@ -86,7 +138,7 @@ function ConfirmBooking() {
 
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">Subtotal</h1>
-                            <p className="bg-green-600 text-white px-4 rounded-2xl">
+                            <p className="bg-green-600 text-white px-4 py-2 rounded-2xl">
                                 {totalPrice} VND
                             </p>
                         </div>
@@ -111,9 +163,13 @@ function ConfirmBooking() {
                             <p>{clubDetailData.clubPhone}</p>
                         </div>
                     </div>
-                    <button className="w-56 h-20 bg-green-600 rounded-3xl flex flex-row justify-start items-center gap-5 pl-4 hover:bg-green-400 transition-colors duration-300">
-                        <MdPayment className="text-4xl" />
-                        <h1 className="text-xl font-semibold">Check out</h1>
+                    <button
+                        className="mx-auto w-56 h-20 border-2 border-green-600 rounded-3xl flex flex-row justify-center items-center text-green-600  hover:bg-green-600 hover:text-white transition-colors duration-300"
+                        onClick={handleSubmit}
+                    >
+                        <h1 className="text-xl font-semibold ">
+                            Make reservation
+                        </h1>
                     </button>
                 </div>
             </div>

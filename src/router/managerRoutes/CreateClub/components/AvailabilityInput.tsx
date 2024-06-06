@@ -37,8 +37,9 @@ function AvailabilityInput() {
             type="single"
             collapsible
             className="w-full h-fit bg-slate-100 py-8 px-8 my-4"
+            defaultValue="item-1"
         >
-            <AccordionItem value="item-3">
+            <AccordionItem value="item-1">
                 <AccordionTrigger>
                     <h1 className="text-2xl font-semibold ">Availability</h1>
                 </AccordionTrigger>
