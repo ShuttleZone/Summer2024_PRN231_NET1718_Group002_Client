@@ -7,6 +7,10 @@ export interface ClubImageType {
     id: string;
     imageUrl: string;
 }
+export interface ClubOpenDayType {
+    id: number;
+    date: string;
+}
 
 export interface ClubType {
     id: string;
@@ -16,9 +20,10 @@ export interface ClubType {
     clubDescription: string;
     openTime: string;
     closeTime: string;
-    clubImages: ClubImageType[];
-    reviews: ReviewType[];
     minDuration: number;
+    clubImages: ClubImageType[];
+    openDays: ClubOpenDayType[];
+    reviews: ReviewType[];
 }
 
 export interface CourtScheduleType {
@@ -33,6 +38,7 @@ export interface CourtScheduleType {
 export interface CourtInformationType {
     id: string;
     name: string;
+    price: number;
 }
 
 export interface UserContest {
@@ -92,4 +98,25 @@ export interface BookedSlotType {
     StartTime: string;
     EndTime: string;
     Date: string;
+}
+
+export interface PaymentPayload {
+    orderInfo: string;
+    fullName: string;
+    orderType: string;
+    description: string;
+    amount: 0;
+    createdDate: Date;
+}
+export interface CourtType {
+    id: string;
+    name: string;
+    courtType: string;
+    courtStatus: number;
+    clubId: string;
+    clubName: string;
+    openTime: string;
+    closeTime: string;
+    minDuration: number;
+    price: number;
 }

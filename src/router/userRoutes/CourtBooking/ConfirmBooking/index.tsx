@@ -1,6 +1,17 @@
 import {useAppSelector} from "@/store";
+import {useCreateReservationMutation} from "@/store/services/reservations/apiMyReservation";
+import {FormEvent} from "react";
+
+interface ReservationDetail {
+    startTime: string;
+    endTime: string;
+    price: number;
+    courtId: string;
+}
 
 function ConfirmBooking() {
+    const [createReservation] = useCreateReservationMutation();
+
     const clubDetailData = useAppSelector(
         (state) => state.bookingStage.ClubDetail
     );
@@ -8,17 +19,62 @@ function ConfirmBooking() {
         (state) =>
             state.bookingStage.PersonaInformation.BookingPersonInformation
     );
-
     const bookedSlot = useAppSelector(
         (state) => state.bookingStage.TimeAndDate.Slots
     );
-    console.log(bookedSlot);
-    const today =
-        new Date().getDate() +
-        "-" +
-        new Date().getMonth() +
-        "-" +
-        new Date().getFullYear();
+    const totalPrice = useAppSelector(
+        (state) => state.bookingStage.TimeAndDate.TotalPrice
+    );
+    function getCurrentDateFormatted(): string {
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, "0");
+        const month = String(now.getMonth() + 1).padStart(2, "0"); // getMonth() returns 0-indexed month
+        const year = now.getFullYear();
+
+        return `${day}/${month}/${year}`;
+    }
+    const today = getCurrentDateFormatted();
+
+    const handleSubmit = async (e: FormEvent) => {
+        console.log(today);
+        const reservationDetails: ReservationDetail[] = bookedSlot.map(
+            (slot) => ({
+                startTime: today + " " + slot.StartTime,
+                endTime: today + " " + slot.EndTime,
+                price: slot.Price,
+                courtId: slot.CourtId,
+            })
+        );
+
+        e.preventDefault();
+        const formData = new FormData();
+
+        formData.append("TotalPrice", totalPrice.toString());
+        formData.append("Note", personalInformationData.Note);
+        formData.append("Phone", personalInformationData.Phone);
+        formData.append("FullName", personalInformationData.Name);
+
+        reservationDetails.forEach((detail, index) => {
+            formData.append(
+                `ReservationDetails[${index}][StartTime]`,
+                detail.startTime
+            );
+            formData.append(
+                `ReservationDetails[${index}][EndTime]`,
+                detail.endTime
+            );
+            formData.append(
+                `ReservationDetails[${index}][Price]`,
+                detail.price.toString()
+            );
+            formData.append(
+                `ReservationDetails[${index}][CourtId]`,
+                detail.courtId
+            );
+        });
+
+        await createReservation(formData);
+    };
 
     return (
         <div className="mb-16">
@@ -71,22 +127,25 @@ function ConfirmBooking() {
                             <h1 className="text-lg font-semibold">
                                 Appointment slot
                             </h1>
-                            {bookedSlot.map((item) => (
-                                <p>
-                                    {item.Date} | {item.StartTime} -{" "}
-                                    {item.EndTime} | {item.CourtName}
-                                </p>
-                            ))}
+                            {bookedSlot &&
+                                bookedSlot.map((item) => (
+                                    <p>
+                                        {item.Date} | {item.StartTime} -{" "}
+                                        {item.EndTime} | {item.CourtName}
+                                    </p>
+                                ))}
                         </div>
 
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">Subtotal</h1>
-                            <p className="text-green-700">200000 VND</p>
+                            <p className="bg-green-600 text-white px-4 py-2 rounded-2xl">
+                                {totalPrice} VND
+                            </p>
                         </div>
                     </div>
 
                     <h1 className="text-xl font-semibold">Court Detail</h1>
-                    <div className="flex flex-row mt-4 gap-20 border-b-2 border-b-gray-300 pb-8 my-4">
+                    <div className="flex flex-row mt-4 gap-20 pb-8 my-4">
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">Club Name</h1>
                             <p>{clubDetailData.clubName}</p>
@@ -104,6 +163,14 @@ function ConfirmBooking() {
                             <p>{clubDetailData.clubPhone}</p>
                         </div>
                     </div>
+                    <button
+                        className="mx-auto w-56 h-20 border-2 border-green-600 rounded-3xl flex flex-row justify-center items-center text-green-600  hover:bg-green-600 hover:text-white transition-colors duration-300"
+                        onClick={handleSubmit}
+                    >
+                        <h1 className="text-xl font-semibold ">
+                            Make reservation
+                        </h1>
+                    </button>
                 </div>
             </div>
         </div>

@@ -1,7 +1,8 @@
 import CourtSchedule from "@/components/CourtSchedule";
 import DatePicker from "@/components/DatePicker";
 import {Button} from "@/components/ui/button";
-import {useAppSelector} from "@/store";
+import {useAppDispatch, useAppSelector} from "@/store";
+import {setBookingTotalPrice} from "@/store/bookingStage.slice";
 import {useEffect, useState} from "react";
 import {CiCalendarDate} from "react-icons/ci";
 import {GoClock} from "react-icons/go";
@@ -27,16 +28,23 @@ function TimeAndDateBooking() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [bookedDate, setBookedDate] = useState<string[]>([]);
     const [totalDuration, setTotalDuration] = useState<number>(0);
+    const [totalPrice, setTotalPrice] = useState<number>(0);
+    const dispatch = useAppDispatch();
     const bookingSlot = useAppSelector(
         (state) => state.bookingStage.TimeAndDate.Slots
     );
 
     useEffect(() => {
+        console.log(bookingSlot);
         const dates = bookingSlot.map(
             (x) => `${x.Date} - ${x.StartTime} - ${x.EndTime}`
         );
         setBookedDate(dates);
-    }, [bookingSlot]);
+        let y = 0;
+        bookingSlot.forEach((x) => (y += x.Price));
+        setTotalPrice(y);
+        dispatch(setBookingTotalPrice(y));
+    }, [dispatch, bookingSlot]);
 
     useEffect(() => {
         let duration = 0;
@@ -72,8 +80,8 @@ function TimeAndDateBooking() {
                     <h1 className="text-xl font-semibold py-7 text-center">
                         Booking Details
                     </h1>
-                    <div className="my-2 pl-2 max-h-56 overflow-x-auto">
-                        <h1 className="text-start h-fit text-lg flex flex-row items-center gap-5 bg-slate-100">
+                    <div className="my-2 pl-2 max-h-56  overflow-x-auto">
+                        <h1 className="text-start h-fit text-lg flex flex-row items-center gap-5 bg-slate-100 min-h-36">
                             <div className="w-12 h-full min-h-12 flex justify-center items-center">
                                 <CiCalendarDate className="text-xl text-green-600" />
                             </div>
@@ -96,7 +104,7 @@ function TimeAndDateBooking() {
                         </h1>
                     </div>
                     <Button className="bg-green-700 rounded-2xl w-full text-xl py-8 mt-8">
-                        Subtotal: 120.000 vnd
+                        Subtotal: {totalPrice} vnd
                     </Button>
                 </div>
             </div>

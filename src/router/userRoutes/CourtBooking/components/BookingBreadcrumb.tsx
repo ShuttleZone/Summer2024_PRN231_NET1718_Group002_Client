@@ -84,21 +84,7 @@ function BookingBreadcrumb() {
                         >
                             <span className="text-white text-center">4</span>
                         </div>
-                        Order Conformation
-                    </p>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="text-gray-400 transition-colors duration-200 hover:text-black scale-150" />
-                <BreadcrumbItem>
-                    <p
-                        className={`font-semibold transition-colors duration-200 text-black flex flex-row gap-2 ${currentStageId === 5 ? "hover:cursor-default" : "hover:cursor-pointer"}`}
-                        onClick={() => handleClick(5)}
-                    >
-                        <div
-                            className={`w-8 h-8 rounded-full px-3 ${currentStageId === 5 ? "bg-green-600 text-black" : "bg-gray-400"}  flex justify-center items-center`}
-                        >
-                            <span className="text-white text-center">5</span>
-                        </div>
-                        Payment
+                        Order Confirmation & Payment
                     </p>
                 </BreadcrumbItem>
             </BreadcrumbList>

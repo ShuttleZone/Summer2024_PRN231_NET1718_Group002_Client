@@ -29,7 +29,7 @@ function ClubDetail() {
 
     useEffect(() => {
         dispatch(setClubDetail(clubDetail));
-    }, [clubId, clubDetail]);
+    }, [dispatch, clubId, clubDetail]);
 
     if (isLoading) return <div>Loading...</div>;
     else if (isError || !clubDetail) return <div>Error</div>;

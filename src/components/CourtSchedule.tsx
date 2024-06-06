@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {
     useGetClubReservationDetailQuery,
     useGetCourtScheduleQuery,
 } from "@/store/services/clubs/club.api";
-import {useAppDispatch} from "@/store";
+import {useAppDispatch, useAppSelector} from "@/store";
 import {removeBookingSlots, setBookingSlots} from "@/store/bookingStage.slice";
 
 interface CourtScheduleProps {
@@ -26,9 +26,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
 
     const [selectedSlots, setSelectedSlots] = useState<BookedSlot[]>([]);
 
-    const courts = (data?.courts || [])
-        .map((court) => court.name)
-        .sort((a, b) => a.localeCompare(b));
+    const courts = data?.courts || [];
 
     function divideSlot(
         openTime: string,
@@ -80,7 +78,26 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
         data?.closeTime || "22:00:00",
         data?.minDuration || 1
     );
+
+    const recentlyBookedSlot = useAppSelector(
+        (state) => state.bookingStage.TimeAndDate.Slots
+    );
+
+    recentlyBookedSlot.map(
+        (x): BookedSlot => ({
+            CourtName: x.CourtName,
+            Date: x.Date,
+            EndTime: x.EndTime,
+            StartTime: x.StartTime,
+        })
+    );
+    useEffect(() => {
+        const tempList: BookedSlot[] = [...selectedSlots];
+        tempList.push(...recentlyBookedSlot);
+        setSelectedSlots(tempList);
+    }, [recentlyBookedSlot, selectedSlots]);
     const bookedSlots: BookedSlot[] = bookedData ?? [];
+
     const isBooked = (courtName: string, slot: string) => {
         const [slotStartTime, slotEndTime] = slot.split(" - ");
         return bookedSlots.some(
@@ -92,8 +109,12 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                     selectedDate.toISOString().split("T")[0]
         );
     };
-
-    const handleSlotClick = (courtName: string, slot: string) => {
+    const handleSlotClick = (
+        courtId: string,
+        courtName: string,
+        slot: string,
+        price: number
+    ) => {
         // Check if the slot is already selected
         const isSelected = selectedSlots.some(
             (selectedSlot) =>
@@ -141,6 +162,8 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                     StartTime: slot.split(" - ")[0],
                     EndTime: slot.split(" - ")[1],
                     CourtName: courtName,
+                    CourtId: courtId,
+                    Price: price,
                 })
             );
         }
@@ -170,10 +193,10 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                         {courts.map((court) => (
                             <>
                                 <div
-                                    key={court}
+                                    key={court.name}
                                     className="font-semibold py-2 flex items-center"
                                 >
-                                    {court}
+                                    {court.name}
                                 </div>
                                 {data &&
                                     divideSlot(
@@ -182,7 +205,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                         data.minDuration
                                     ).map((slot) => {
                                         const isSlotBooked = isBooked(
-                                            court,
+                                            court.name,
                                             slot
                                         );
                                         return (
@@ -206,7 +229,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                                                     " - "
                                                                 )[1] &&
                                                             selectedSlot.CourtName ===
-                                                                court
+                                                                court.name
                                                     )
                                                         ? "bg-green-500"
                                                         : isSlotBooked
@@ -216,7 +239,12 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                                 onClick={() =>
                                                     // Call handleSlotClick on slot click
                                                     !isSlotBooked &&
-                                                    handleSlotClick(court, slot)
+                                                    handleSlotClick(
+                                                        court.id,
+                                                        court.name,
+                                                        slot,
+                                                        court.price
+                                                    )
                                                 }
                                             >
                                                 {selectedSlots.some(
@@ -236,7 +264,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                                                 " - "
                                                             )[1] &&
                                                         selectedSlot.CourtName ===
-                                                            court
+                                                            court.name
                                                 )
                                                     ? "Selected"
                                                     : isSlotBooked
