@@ -12,6 +12,8 @@ import ConfirmBooking from "./CourtBooking/ConfirmBooking";
 import ContestDetail from "./ContestDetail";
 import MyReservationList from "./reservations";
 import LoginForm from "../guestRoutes/Login";
+import RegisterForm from "../guestRoutes/Register/RegisterForm";
+
 import ClubCreate from "./ClubCreate";
 
 const publicRoutes: RouteObject[] = [
@@ -22,6 +24,10 @@ const publicRoutes: RouteObject[] = [
     {
         path: "/login",
         element: <LoginForm />,
+    },
+    {
+        path: "/register",
+        element: <RegisterForm />,
     },
     {
         path: "/clubs",

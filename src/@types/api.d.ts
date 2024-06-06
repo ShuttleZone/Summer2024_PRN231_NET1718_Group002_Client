@@ -72,6 +72,27 @@ export interface ReservationDetailType {
     reservationDetailStatus: int;
 }
 
+<<<<<<< HEAD
+export interface LoginAccount {
+    id: string;
+    account: string;
+    password: string;
+    token: string;
+}
+
+export interface RegisterAccount {
+    fullname: string;
+    username: string;
+    email: string;
+    phoneNumber: string;
+    password: string;
+    repassword: string;
+    token: string;
+}
+
+export interface RegisterResponse {
+    token: string;
+}
 export interface BookedSlotType {
     CourtName: string;
     StartTime: string;

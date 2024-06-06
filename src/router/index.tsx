@@ -10,6 +10,7 @@ import staffRoutes from "./staffRoutes";
 import NotFound from "@/components/pages/NotFound";
 import guestRoutes from "./guestRoutes";
 import LoginPage from "./guestRoutes/Login";
+import RegisterPage from "./guestRoutes/Register";
 
 const router = createBrowserRouter([
     {
@@ -36,6 +37,11 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <LoginPage />,
+        children: [...guestRoutes],
+    },
+    {
+        path: "/register",
+        element: <RegisterPage />,
         children: [...guestRoutes],
     },
 ]);
