@@ -1,4 +1,5 @@
 import {useAppSelector} from "@/store";
+import {MdPayment} from "react-icons/md";
 
 function ConfirmBooking() {
     const clubDetailData = useAppSelector(
@@ -12,7 +13,10 @@ function ConfirmBooking() {
     const bookedSlot = useAppSelector(
         (state) => state.bookingStage.TimeAndDate.Slots
     );
-    console.log(bookedSlot);
+
+    const totalPrice = useAppSelector(
+        (state) => state.bookingStage.TimeAndDate.TotalPrice
+    );
     const today =
         new Date().getDate() +
         "-" +
@@ -71,22 +75,25 @@ function ConfirmBooking() {
                             <h1 className="text-lg font-semibold">
                                 Appointment slot
                             </h1>
-                            {bookedSlot.map((item) => (
-                                <p>
-                                    {item.Date} | {item.StartTime} -{" "}
-                                    {item.EndTime} | {item.CourtName}
-                                </p>
-                            ))}
+                            {bookedSlot &&
+                                bookedSlot.map((item) => (
+                                    <p>
+                                        {item.Date} | {item.StartTime} -{" "}
+                                        {item.EndTime} | {item.CourtName}
+                                    </p>
+                                ))}
                         </div>
 
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">Subtotal</h1>
-                            <p className="text-green-700">200000 VND</p>
+                            <p className="bg-green-600 text-white px-4 rounded-2xl">
+                                {totalPrice} VND
+                            </p>
                         </div>
                     </div>
 
                     <h1 className="text-xl font-semibold">Court Detail</h1>
-                    <div className="flex flex-row mt-4 gap-20 border-b-2 border-b-gray-300 pb-8 my-4">
+                    <div className="flex flex-row mt-4 gap-20 pb-8 my-4">
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">Club Name</h1>
                             <p>{clubDetailData.clubName}</p>
@@ -104,6 +111,10 @@ function ConfirmBooking() {
                             <p>{clubDetailData.clubPhone}</p>
                         </div>
                     </div>
+                    <button className="w-56 h-20 bg-green-600 rounded-3xl flex flex-row justify-start items-center gap-5 pl-4 hover:bg-green-400 transition-colors duration-300">
+                        <MdPayment className="text-4xl" />
+                        <h1 className="text-xl font-semibold">Check out</h1>
+                    </button>
                 </div>
             </div>
         </div>

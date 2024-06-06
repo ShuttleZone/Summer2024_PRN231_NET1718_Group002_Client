@@ -26,9 +26,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
 
     const [selectedSlots, setSelectedSlots] = useState<BookedSlot[]>([]);
 
-    const courts = (data?.courts || [])
-        .map((court) => court.name)
-        .sort((a, b) => a.localeCompare(b));
+    const courts = data?.courts || [];
 
     function divideSlot(
         openTime: string,
@@ -93,7 +91,12 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
         );
     };
 
-    const handleSlotClick = (courtName: string, slot: string) => {
+    const handleSlotClick = (
+        courtId: string,
+        courtName: string,
+        slot: string,
+        price: number
+    ) => {
         // Check if the slot is already selected
         const isSelected = selectedSlots.some(
             (selectedSlot) =>
@@ -141,6 +144,8 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                     StartTime: slot.split(" - ")[0],
                     EndTime: slot.split(" - ")[1],
                     CourtName: courtName,
+                    CourtId: courtId,
+                    Price: price,
                 })
             );
         }
@@ -170,10 +175,10 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                         {courts.map((court) => (
                             <>
                                 <div
-                                    key={court}
+                                    key={court.name}
                                     className="font-semibold py-2 flex items-center"
                                 >
-                                    {court}
+                                    {court.name}
                                 </div>
                                 {data &&
                                     divideSlot(
@@ -182,7 +187,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                         data.minDuration
                                     ).map((slot) => {
                                         const isSlotBooked = isBooked(
-                                            court,
+                                            court.name,
                                             slot
                                         );
                                         return (
@@ -206,7 +211,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                                                     " - "
                                                                 )[1] &&
                                                             selectedSlot.CourtName ===
-                                                                court
+                                                                court.name
                                                     )
                                                         ? "bg-green-500"
                                                         : isSlotBooked
@@ -216,7 +221,12 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                                 onClick={() =>
                                                     // Call handleSlotClick on slot click
                                                     !isSlotBooked &&
-                                                    handleSlotClick(court, slot)
+                                                    handleSlotClick(
+                                                        court.id,
+                                                        court.name,
+                                                        slot,
+                                                        court.price
+                                                    )
                                                 }
                                             >
                                                 {selectedSlots.some(
@@ -236,7 +246,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                                                 " - "
                                                             )[1] &&
                                                         selectedSlot.CourtName ===
-                                                            court
+                                                            court.name
                                                 )
                                                     ? "Selected"
                                                     : isSlotBooked

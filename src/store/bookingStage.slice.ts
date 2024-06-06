@@ -1,9 +1,11 @@
 import {PayloadAction, createSelector, createSlice} from "@reduxjs/toolkit";
 interface BookingSlot {
+    CourtId: string;
     CourtName: string;
     Date: string;
     StartTime: string;
     EndTime: string;
+    Price: number;
 }
 
 interface BookingPersonInformation {
@@ -31,6 +33,7 @@ interface BookingStageState {
     TimeAndDate: {
         Id: 2;
         Slots: BookingSlot[];
+        TotalPrice: number;
         Path: string;
     };
     PersonaInformation: {
@@ -63,6 +66,7 @@ const initialState: BookingStageState = {
     TimeAndDate: {
         Id: 2,
         Slots: [],
+        TotalPrice: 0,
         Path: "/time-date",
     },
     PersonaInformation: {
@@ -110,6 +114,10 @@ const bookingStageSlice = createSlice({
         },
         setBookingSlots(state, action) {
             state.TimeAndDate.Slots.push(action.payload);
+        },
+        setBookingTotalPrice(state, action) {
+            console.log("can save");
+            state.TimeAndDate.TotalPrice = action.payload;
         },
         removeBookingSlots(state, action) {
             const indexToRemove = state.TimeAndDate.Slots.findIndex(
@@ -177,5 +185,6 @@ export const {
     setBookingSlots,
     removeBookingSlots,
     setBookingPersonInformation,
+    setBookingTotalPrice,
     setClubDetail,
 } = bookingStageSlice.actions;

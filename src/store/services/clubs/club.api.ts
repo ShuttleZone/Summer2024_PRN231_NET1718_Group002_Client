@@ -30,7 +30,7 @@ const clubApi = commonApi.injectEndpoints({
                         "openTime",
                         "closeTime",
                     ])
-                    .expand("courts", ["id", "name"]);
+                    .expand("courts", ["id", "name", "price"]);
                 return routeBuilder.build();
             },
         }),
@@ -51,6 +51,13 @@ const clubApi = commonApi.injectEndpoints({
                 return routeBuilder.build();
             },
         }),
+        createClub: build.mutation<ClubType, FormData>({
+            query: (court) => ({
+                url: "/api/clubs",
+                method: "POST",
+                body: court,
+            }),
+        }),
     }),
     overrideExisting: true,
 });
@@ -60,4 +67,5 @@ export const {
     useGetClubDetailQuery,
     useGetCourtScheduleQuery,
     useGetClubReservationDetailQuery,
+    useCreateClubMutation,
 } = clubApi;

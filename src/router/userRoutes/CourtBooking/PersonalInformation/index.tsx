@@ -4,6 +4,7 @@ import {ChangeEvent, useState} from "react";
 
 function PersonalInformation() {
     const dispatch = useAppDispatch();
+    const [isSaved, setIsSaved] = useState(false);
     const [formData, setFormData] = useState({
         Name: "",
         Email: "",
@@ -24,6 +25,7 @@ function PersonalInformation() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(setBookingPersonInformation(formData));
+        setIsSaved(true);
     };
 
     return (
@@ -55,6 +57,7 @@ function PersonalInformation() {
                         value={formData.Name}
                         onChange={handleInputChange}
                         required
+                        disabled={isSaved}
                     />
                 </div>
                 <div className="py-2">
@@ -69,6 +72,7 @@ function PersonalInformation() {
                         value={formData.Email}
                         onChange={handleInputChange}
                         required
+                        disabled={isSaved}
                     />
                 </div>
                 <div className="py-2">
@@ -86,6 +90,7 @@ function PersonalInformation() {
                         aria-label="Phone number"
                         aria-required="true"
                         required
+                        disabled={isSaved}
                     />
                     <small className="text-gray-500">Format: 1234567890</small>
                 </div>
@@ -98,14 +103,15 @@ function PersonalInformation() {
                         value={formData.Note}
                         onChange={handleInputChange}
                         aria-label="Notes"
+                        disabled={isSaved}
                     />
                 </div>
                 <div className="py-4 flex justify-center items-center">
                     <button
                         type="submit"
-                        className="w-1/3 bg-green-500 transition-colors duration-300 text-white text-xl font-semibold py-2 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-700"
+                        className={`w-1/3 transition-colors duration-300 text-white text-xl font-semibold py-2 rounded-3xl focus:outline-none focus:ring-2 ${isSaved ? "bg-slate-500 hover:bg-slate-700 focus:ring-slate-700" : "bg-green-500 hover:bg-green-700 focus:ring-green-700"}`}
                     >
-                        Confirm
+                        {isSaved ? "Saved" : "Save"}
                     </button>
                 </div>
             </form>
