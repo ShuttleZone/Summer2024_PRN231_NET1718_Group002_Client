@@ -1,6 +1,6 @@
-import {useAppDispatch} from "@/store";
+import {useAppDispatch, useAppSelector} from "@/store";
 import {setBookingPersonInformation} from "@/store/bookingStage.slice";
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent, useEffect, useState} from "react";
 
 function PersonalInformation() {
     const dispatch = useAppDispatch();
@@ -11,6 +11,14 @@ function PersonalInformation() {
         Phone: "",
         Note: "",
     });
+    const storedFormData = useAppSelector(
+        (state) =>
+            state.bookingStage.PersonaInformation.BookingPersonInformation
+    );
+
+    useEffect(() => {
+        setFormData(storedFormData);
+    }, [storedFormData]);
 
     const handleInputChange = (
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
