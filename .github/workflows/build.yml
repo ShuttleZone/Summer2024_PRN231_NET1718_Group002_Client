@@ -1,0 +1,25 @@
+name: "Build project"
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - dev
+      - release
+
+  workflow_call:
+    
+jobs:
+  build:
+    name: Build project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Restore dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
