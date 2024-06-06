@@ -54,7 +54,6 @@ export interface ContestInfo {
     policy: string;
     contestStatus: number;
     userContests: UserContest[];
-
 }
 
 export interface ReservationDetailType {
@@ -64,4 +63,25 @@ export interface ReservationDetailType {
     endTime: string;
     price: number;
     reservationDetailStatus: int;
+}
+
+export interface LoginAccount {
+    id: string;
+    account: string;
+    password: string;
+    token: string;
+}
+
+export interface RegisterAccount {
+    fullname: string;
+    username: string;
+    email: string;
+    phoneNumber: string;
+    password: string;
+    repassword: string;
+    token: string;
+}
+
+export interface RegisterResponse {
+    token: string;
 }
