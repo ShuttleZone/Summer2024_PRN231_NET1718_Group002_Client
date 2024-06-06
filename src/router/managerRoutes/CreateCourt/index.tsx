@@ -18,6 +18,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import {useAppDispatch} from "@/store";
+import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
+import {useCreateCourtMutation} from "@/store/services/courts/court.api";
+import {useToast} from "@/components/ui/use-toast";
 
 const formSchema = z.object({
     clubId: z
@@ -50,14 +54,38 @@ function CreateCourt() {
         name: "",
         courtStatus: 0,
         courtType: 0,
+        price: 0,
     };
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues,
     });
+    const {toast} = useToast();
+    const dispatch = useAppDispatch();
+    const [createCourt, {isLoading}] = useCreateCourtMutation();
+
+    isLoading ? dispatch(showSpinner()) : dispatch(hideSpinner());
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log("create court", values);
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("clubId", values.clubId);
+        formData.append("courtType", values.courtType.toString());
+        formData.append("courtStatus", values.courtStatus.toString());
+        formData.append("price", values.price.toString());
+        const {error} = await createCourt(formData);
+        if (error) {
+            toast({
+                title: "Error",
+                description: "Failed to create court",
+            });
+        } else {
+            toast({
+                title: "Success",
+                description: "Court created successfully",
+            });
+            form.reset(defaultValues);
+        }
     };
 
     return (
@@ -100,13 +128,13 @@ function CreateCourt() {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="aodmfadf">
+                                            <SelectItem value="d91de014-9979-4432-af51-430455d233b1">
                                                 Club 1
                                             </SelectItem>
-                                            <SelectItem value="aodmfadsfwjj">
+                                            <SelectItem value="3813333e-6832-4602-b1e4-48919f37bda0">
                                                 Club 2
                                             </SelectItem>
-                                            <SelectItem value="odmfadsf">
+                                            <SelectItem value="229ecfb3-9cb3-44f0-9062-65da986422ed">
                                                 Club 3
                                             </SelectItem>
                                         </SelectContent>

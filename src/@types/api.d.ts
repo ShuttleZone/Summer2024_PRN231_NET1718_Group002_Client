@@ -87,3 +87,15 @@ export interface PaymentPayload {
     amount: 0;
     createdDate: Date;
 }
+export interface CourtType {
+    id: string;
+    name: string;
+    courtType: string;
+    courtStatus: number;
+    clubId: string;
+    clubName: string;
+    openTime: string;
+    closeTime: string;
+    minDuration: number;
+    price: number;
+}
