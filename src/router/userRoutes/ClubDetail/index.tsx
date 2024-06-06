@@ -5,6 +5,9 @@ import ClubHeader from "./components/ClubHeader";
 import ClubDescription from "./components/ClubDescription";
 import ClubReviews from "./components/ClubReviews";
 import ClubLocation from "./components/ClubLocation";
+import {useAppDispatch} from "@/store";
+import {useEffect} from "react";
+import {setClubDetail} from "@/store/bookingStage.slice";
 
 const mockImages: string[] = [
     "https://us.123rf.com/450wm/anankkml/anankkml2204/anankkml220400024/184341315-shuttlecock-on-green-badminton-playing-court-with-player-in-background.jpg?ver=6",
@@ -17,11 +20,16 @@ const mockImages: string[] = [
 
 function ClubDetail() {
     const {clubId} = useParams();
+    const dispatch = useAppDispatch();
     const {
         data: clubDetail,
         isError,
         isLoading,
     } = useGetClubDetailQuery(clubId);
+
+    useEffect(() => {
+        dispatch(setClubDetail(clubDetail));
+    }, [clubId, clubDetail]);
 
     if (isLoading) return <div>Loading...</div>;
     else if (isError || !clubDetail) return <div>Error</div>;
