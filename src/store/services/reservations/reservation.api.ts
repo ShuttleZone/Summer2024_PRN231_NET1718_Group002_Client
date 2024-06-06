@@ -13,19 +13,18 @@ const reservationApi = commonApi.injectEndpoints({
             {items: ReservationDetailType[]; total: number},
             ReservationQueryParams
         >({
-            query: ({sort, filter, page = 0, pageSize = 5}) => {
-                // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+            query: ({sort, filter, page = 0, pageSize = 1}) => {
                 const skip = (page - 1) * pageSize;
                 const filterQuery = filter ? `&$filter=${filter}` : "";
                 const sortQuery = sort ? `&$orderby=${sort}` : "";
-                const url = `/my-reservations?$count=true&${filterQuery}${sortQuery}`;
+                const url = `api/ReservationDetails?$count=true${filterQuery}&$top=${pageSize}&$skip=${skip}${sortQuery}`;
                 // paging "$top=${pageSize}&$skip=${skip}";
                 return url;
             },
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             transformResponse: (response: any) => {
                 return {
-                    items: response,
+                    items: response.value,
                     total: response["@odata.count"],
                 };
             },

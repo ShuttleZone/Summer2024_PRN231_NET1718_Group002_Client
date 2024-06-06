@@ -47,5 +47,5 @@ export interface ReservationDetailType {
     startTime: string;
     endTime: string;
     price: number;
-    reservationDetailStatus: int;
+    reservationDetailStatus: string;
 }

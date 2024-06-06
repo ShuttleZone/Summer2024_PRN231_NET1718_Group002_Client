@@ -17,8 +17,9 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
         <tr>
             <td className="px-4 py-2 border-b">{courtName}</td>
             <td className="px-4 py-2 border-b">{datetime}</td>
-            <td className="px-4 py-2 border-b">${price}</td>
+            <td className="px-4 py-2 border-b">{price} VND</td>
             <td
+                // eslint-disable-next-line no-constant-condition
                 className={`px-4 py-2 border-b ${true ? " text-purple-500" : " text-green-500"}`}
             >
                 {status}
