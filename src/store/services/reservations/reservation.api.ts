@@ -14,6 +14,7 @@ const reservationApi = commonApi.injectEndpoints({
             ReservationQueryParams
         >({
             query: ({sort, filter, page = 0, pageSize = 5}) => {
+                // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
                 const skip = (page - 1) * pageSize;
                 const filterQuery = filter ? `&$filter=${filter}` : "";
                 const sortQuery = sort ? `&$orderby=${sort}` : "";
@@ -21,8 +22,8 @@ const reservationApi = commonApi.injectEndpoints({
                 // paging "$top=${pageSize}&$skip=${skip}";
                 return url;
             },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             transformResponse: (response: any) => {
-                console.log(response["@odata.count"]);
                 return {
                     items: response,
                     total: response["@odata.count"],

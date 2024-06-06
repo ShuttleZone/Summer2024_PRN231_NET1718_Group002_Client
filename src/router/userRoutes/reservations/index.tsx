@@ -1,7 +1,7 @@
 import NavButton from "@/components/ui/NavButton";
 import ReservationDetailsItem from "./components/ReservationDetailsItem";
 import {useState} from "react";
-import {useGetReservationDetailsQuery} from "@/store/services/reservations/apiMyReservation";
+import {useGetReservationDetailsQuery} from "@/store/services/reservations/reservation.api";
 import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
 import {SerializedError} from "@reduxjs/toolkit";
 const formatDateTime = (dateTime: string) => {
@@ -55,7 +55,7 @@ function MyReservationList() {
                 filterStr = `endTime lt ${now}`;
                 break;
             case "cancelled":
-                filterStr = `status eq 'cancelled'`;
+                filterStr = "status eq 'cancelled'";
                 break;
             default:
                 filterStr = "";
