@@ -1,8 +1,10 @@
-import React, {useState} from "react";
+import {useAppDispatch} from "@/store";
+import {setClubGalleries} from "@/store/club.slice";
+import React, {useEffect, useState} from "react";
 
 const MultiFileInput: React.FC = () => {
     const [files, setFiles] = useState<File[]>([]);
-
+    const dispatch = useAppDispatch();
     const removeFile = (index: number): void => {
         const updatedFiles = [...files];
         updatedFiles.splice(index, 1);
@@ -15,7 +17,9 @@ const MultiFileInput: React.FC = () => {
             setFiles([...files, ...fileList]);
         }
     };
-
+    useEffect(() => {
+        dispatch(setClubGalleries(files));
+    }, [dispatch, files]);
     return (
         <div className="p-4 w-full border rounded-lg shadow-md">
             <input

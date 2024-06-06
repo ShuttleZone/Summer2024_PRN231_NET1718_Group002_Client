@@ -4,7 +4,9 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import {useState} from "react";
+import {useAppDispatch} from "@/store";
+import {setClubAvailability} from "@/store/club.slice";
+import {useEffect, useState} from "react";
 function AvailabilityInput() {
     const DayInWeek = [
         "Monday",
@@ -24,6 +26,12 @@ function AvailabilityInput() {
                 : [...prevSelectedDays, day]
         );
     };
+
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(setClubAvailability(selectedDays));
+    }, [dispatch, selectedDays]);
+
     return (
         <Accordion
             type="single"

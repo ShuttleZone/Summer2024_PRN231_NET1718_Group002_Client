@@ -8,7 +8,7 @@ interface BasicInfo {
 interface ClubSetting {
     openTime: string;
     closeTime: string;
-    minDuration: string;
+    minDuration: number;
 }
 
 interface ClubCreateObject {
@@ -20,7 +20,7 @@ interface ClubCreateObject {
 }
 const initialState: ClubCreateObject = {
     BasicInfo: {clubName: "", clubPhone: "", clubAddress: ""},
-    ClubSetting: {openTime: "", closeTime: "", minDuration: ""},
+    ClubSetting: {openTime: "", closeTime: "", minDuration: 0},
     Availability: [],
     Description: "",
     Galleries: [],
@@ -47,7 +47,7 @@ const ClubCreateSlice = createSlice({
         },
     },
 });
-
+export default ClubCreateSlice.reducer;
 export const {
     setClubBasicInfo,
     setClubSetting,

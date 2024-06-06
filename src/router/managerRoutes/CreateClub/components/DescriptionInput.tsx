@@ -4,7 +4,16 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+import {useAppDispatch} from "@/store";
+import {setClubDescription} from "@/store/club.slice";
+import {ChangeEvent, useState} from "react";
 function DescriptionInput() {
+    const [clubIntro, setClubIntro] = useState("");
+    const dispatch = useAppDispatch();
+    const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+        setClubIntro(event.target.value);
+        dispatch(setClubDescription(clubIntro));
+    };
     return (
         <Accordion
             type="single"
@@ -23,7 +32,9 @@ function DescriptionInput() {
                         name=""
                         id=""
                         className="w-full h-36 pl-4 pt-4 text-lg"
-                    ></textarea>
+                        value={clubIntro}
+                        onChange={handleChange}
+                    />
                 </AccordionContent>
             </AccordionItem>
         </Accordion>

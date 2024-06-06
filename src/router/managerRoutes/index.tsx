@@ -1,6 +1,6 @@
 import {RouteObject} from "react-router-dom";
-import CreateCourt from "./CreateCourt";
 import CreateClub from "./CreateClub";
+import CreateCourt from "./CreateCourt";
 
 const managerRoutes: RouteObject[] = [
     {

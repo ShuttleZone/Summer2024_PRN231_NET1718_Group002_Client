@@ -4,7 +4,22 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+import {useAppDispatch} from "@/store";
+import {setClubSetting} from "@/store/club.slice";
+import {ChangeEvent, useState} from "react";
 function SettingInput() {
+    const dispatch = useAppDispatch();
+    const [settings, setSettings] = useState({
+        openTime: "",
+        closeTime: "",
+        minDuration: 0,
+    });
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = event.target;
+        setSettings({...settings, [name]: value});
+        dispatch(setClubSetting(settings));
+    };
     return (
         <Accordion
             type="single"
@@ -26,6 +41,9 @@ function SettingInput() {
                                 type="time"
                                 className="pl-6 bg-white text-black h-12 text-lg pr-4"
                                 placeholder="Enter your club name"
+                                name="openTime"
+                                value={settings.openTime}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="flex flex-col col-span-1 w-4/5">
@@ -37,6 +55,9 @@ function SettingInput() {
                                 type="time"
                                 className="pl-6 bg-white text-black h-12 text-lg pr-4"
                                 placeholder="Enter your club phone"
+                                name="closeTime"
+                                value={settings.closeTime}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="flex flex-col col-span-1 w-4/5">
@@ -45,9 +66,12 @@ function SettingInput() {
                                 <span className="text-red-600 mx-2">*</span>
                             </label>
                             <input
-                                type="text"
+                                type="number"
                                 className="pl-6 bg-white text-black h-12 text-lg"
                                 placeholder="Enter Time per slot"
+                                name="minDuration"
+                                value={settings.minDuration}
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
