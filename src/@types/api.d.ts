@@ -69,10 +69,9 @@ export interface ReservationDetailType {
     startTime: string;
     endTime: string;
     price: number;
-    reservationDetailStatus: int;
+    reservationDetailStatus: string;
 }
 
-<<<<<<< HEAD
 export interface LoginAccount {
     id: string;
     account: string;

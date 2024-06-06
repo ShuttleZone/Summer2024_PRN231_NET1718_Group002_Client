@@ -12,7 +12,7 @@ function LoginForm() {
         password: "",
         token: "",
     };
-    const [login, loginResult] = useLoginMutation();
+    const [login] = useLoginMutation();
     const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

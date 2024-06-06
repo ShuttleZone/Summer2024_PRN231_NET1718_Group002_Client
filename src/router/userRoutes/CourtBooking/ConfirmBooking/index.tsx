@@ -1,5 +1,5 @@
 import {useAppSelector} from "@/store";
-import {useCreateReservationMutation} from "@/store/services/reservations/apiMyReservation";
+import {useCreateReservationMutation} from "@/store/services/reservations/reservation.api";
 import {FormEvent} from "react";
 
 interface ReservationDetail {
