@@ -1,5 +1,5 @@
 import {useAppDispatch} from "@/store";
-import {setClubGalleries} from "@/store/club.slice";
+import {setClubGalleries} from "@/store/slices/club.slice";
 import React, {useEffect, useState} from "react";
 
 const MultiFileInput: React.FC = () => {

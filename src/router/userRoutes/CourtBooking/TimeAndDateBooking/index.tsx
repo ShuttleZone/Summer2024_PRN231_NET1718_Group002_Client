@@ -2,7 +2,7 @@ import CourtSchedule from "@/components/CourtSchedule";
 import DatePicker from "@/components/DatePicker";
 import {Button} from "@/components/ui/button";
 import {useAppDispatch, useAppSelector} from "@/store";
-import {setBookingTotalPrice} from "@/store/bookingStage.slice";
+import {setBookingTotalPrice} from "@/store/slices/bookingStage.slice";
 import {useEffect, useState} from "react";
 import {CiCalendarDate} from "react-icons/ci";
 import {GoClock} from "react-icons/go";

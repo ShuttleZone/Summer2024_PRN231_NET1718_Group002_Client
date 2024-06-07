@@ -1,10 +1,10 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import authReducer, {refreshToken, setLoading} from "./auth.slice";
+import authReducer, {refreshToken, setLoading} from "./slices/auth.slice";
 import spinnerReducer from "./slices/spinner.slice";
 import commonApi from "./common.api";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
-import bookingStageReducer from "./bookingStage.slice";
-import clubCreateReducer from "./club.slice";
+import bookingStageReducer from "./slices/bookingStage.slice";
+import clubCreateReducer from "./slices/club.slice";
 import callbackReducer from "./slices/callback.slice";
 import {setupListeners} from "@reduxjs/toolkit/query";
 

@@ -1,6 +1,6 @@
 import commonApi from "@/store/common.api";
 import {LoginAccount, RegisterAccount} from "@/@types/api";
-import {setAuth} from "@/store/auth.slice";
+import {setAuth} from "@/store/slices/auth.slice";
 
 export const authApi = commonApi.injectEndpoints({
     endpoints: (build) => ({

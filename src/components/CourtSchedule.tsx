@@ -5,7 +5,10 @@ import {
     useGetCourtScheduleQuery,
 } from "@/store/services/clubs/club.api";
 import {useAppDispatch, useAppSelector} from "@/store";
-import {removeBookingSlots, setBookingSlots} from "@/store/bookingStage.slice";
+import {
+    removeBookingSlots,
+    setBookingSlots,
+} from "@/store/slices/bookingStage.slice";
 
 interface CourtScheduleProps {
     selectedDate: Date;
