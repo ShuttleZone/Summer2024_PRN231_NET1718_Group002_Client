@@ -87,7 +87,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
                     onClick={handleGetPaymentUrl}
                     variant="secondary"
                     size="icon"
-                    disabled={isExpired}
+                    disabled={isExpired || isLoading}
                 >
                     Pay
                 </Button>
