@@ -1,4 +1,4 @@
-import {ReservationDetailType} from "@/@types/api";
+import {ReservationDetailType, ReservationType} from "@/@types/api";
 import commonApi from "@/store/common.api";
 interface ReservationQueryParams {
     sort?: string;
@@ -18,7 +18,25 @@ const reservationApi = commonApi.injectEndpoints({
                 const filterQuery = filter ? `&$filter=${filter}` : "";
                 const sortQuery = sort ? `&$orderby=${sort}` : "";
                 const url = `api/ReservationDetails?$count=true${filterQuery}&$top=${pageSize}&$skip=${skip}${sortQuery}`;
-                // paging "$top=${pageSize}&$skip=${skip}";
+                return url;
+            },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            transformResponse: (response: any) => {
+                return {
+                    items: response.value,
+                    total: response["@odata.count"],
+                };
+            },
+        }),
+        getReservations: build.query<
+            {items: ReservationType[]; total: number},
+            ReservationQueryParams
+        >({
+            query: ({sort, filter, page = 0, pageSize = 1}) => {
+                const skip = (page - 1) * pageSize;
+                const filterQuery = filter ? `&$filter=${filter}` : "";
+                const sortQuery = sort ? `&$orderby=${sort}` : "";
+                const url = `api/Reservation?$count=true${filterQuery}&$top=${pageSize}&$skip=${skip}${sortQuery}`;
                 return url;
             },
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -40,5 +58,8 @@ const reservationApi = commonApi.injectEndpoints({
     overrideExisting: true,
 });
 
-export const {useGetReservationDetailsQuery, useCreateReservationMutation} =
-    reservationApi;
+export const {
+    useGetReservationDetailsQuery,
+    useCreateReservationMutation,
+    useGetReservationsQuery,
+} = reservationApi;

@@ -4,16 +4,11 @@ import {useState} from "react";
 import {useGetReservationDetailsQuery} from "@/store/services/reservations/reservation.api";
 import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
 import {SerializedError} from "@reduxjs/toolkit";
+import {StatusNav} from "@/@types/api";
 const formatDateTime = (dateTime: string) => {
     const date = new Date(dateTime);
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
 };
-
-interface StatusNav {
-    Id: number;
-    Status: string;
-    Text: string;
-}
 
 const initStatusNavList: StatusNav[] = [
     {Id: 1, Status: "", Text: "All"},
@@ -23,7 +18,7 @@ const initStatusNavList: StatusNav[] = [
     {Id: 5, Status: "cancelled", Text: "Cancelled"},
 ];
 
-function MyReservationList() {
+function MyReservationDetailList() {
     const [sort, setSort] = useState<string | undefined>(undefined);
     const [filter, setFilter] = useState<string | undefined>(undefined);
     const [page, setPage] = useState<number>(1);
@@ -40,7 +35,7 @@ function MyReservationList() {
     const reservations = data?.items;
     const totalItems = data?.total || 0;
     const totalPages = Math.ceil(totalItems / pageSize);
-
+    console.log(reservations);
     const getErrorMessage = (
         error: FetchBaseQueryError | SerializedError
     ): string => {
@@ -89,6 +84,7 @@ function MyReservationList() {
                         <div className="flex space-x-5">
                             {initStatusNavList.map((item) => (
                                 <NavButton
+                                    key={item.Id}
                                     className={`py-2 px-4 bg-gray-200 text-gray-700 rounded-md ${currentStatus === item.Id ? "bg-green-600" : ""} `}
                                     onClick={() =>
                                         handleFilterChange(item.Status, item.Id)
@@ -203,4 +199,4 @@ function MyReservationList() {
     );
 }
 
-export default MyReservationList;
+export default MyReservationDetailList;
