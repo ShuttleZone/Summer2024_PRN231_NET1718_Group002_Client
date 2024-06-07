@@ -5,7 +5,7 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import {useAppDispatch} from "@/store";
-import {setClubSetting} from "@/store/club.slice";
+import {setClubSetting} from "@/store/slices/club.slice";
 import {ChangeEvent, useState} from "react";
 function SettingInput() {
     const dispatch = useAppDispatch();

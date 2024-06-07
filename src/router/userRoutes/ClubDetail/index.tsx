@@ -7,7 +7,7 @@ import ClubReviews from "./components/ClubReviews";
 import ClubLocation from "./components/ClubLocation";
 import {useAppDispatch} from "@/store";
 import {useEffect} from "react";
-import {setClubDetail} from "@/store/bookingStage.slice";
+import {setClubDetail} from "@/store/slices/bookingStage.slice";
 
 const mockImages: string[] = [
     "https://us.123rf.com/450wm/anankkml/anankkml2204/anankkml220400024/184341315-shuttlecock-on-green-badminton-playing-court-with-player-in-background.jpg?ver=6",

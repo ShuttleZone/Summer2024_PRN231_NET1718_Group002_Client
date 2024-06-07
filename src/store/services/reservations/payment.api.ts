@@ -10,7 +10,6 @@ const paymentApi = commonApi.injectEndpoints({
                 body: request,
                 responseHandler: (response) => response.text(),
             }),
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             transformResponse: (response: string) => {
                 return response;
             },

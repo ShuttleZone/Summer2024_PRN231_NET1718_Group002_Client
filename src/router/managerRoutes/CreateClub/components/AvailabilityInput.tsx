@@ -5,7 +5,7 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import {useAppDispatch} from "@/store";
-import {setClubAvailability} from "@/store/club.slice";
+import {setClubAvailability} from "@/store/slices/club.slice";
 import {useEffect, useState} from "react";
 function AvailabilityInput() {
     const DayInWeek = [

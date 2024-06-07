@@ -1,5 +1,5 @@
 import {useAppDispatch} from "@/store";
-import {setClubDetail} from "@/store/bookingStage.slice";
+import {setClubDetail} from "@/store/slices/bookingStage.slice";
 import {useGetClubDetailQuery} from "@/store/services/clubs/club.api";
 import {useEffect} from "react";
 import {useParams} from "react-router-dom";

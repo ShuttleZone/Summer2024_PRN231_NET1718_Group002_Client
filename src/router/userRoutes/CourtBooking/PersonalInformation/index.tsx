@@ -1,5 +1,5 @@
 import {useAppDispatch, useAppSelector} from "@/store";
-import {setBookingPersonInformation} from "@/store/bookingStage.slice";
+import {setBookingPersonInformation} from "@/store/slices/bookingStage.slice";
 import {ChangeEvent, useEffect, useState} from "react";
 
 function PersonalInformation() {
