@@ -1,6 +1,7 @@
 import commonApi from "@/store/common.api";
 
 import {LoginAccount, RegisterAccount} from "@/@types/api";
+import {setAuth} from "@/store/auth.slice";
 
 export const authApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
@@ -11,6 +12,18 @@ export const authApi = commonApi.injectEndpoints({
                     method: "POST",
                     body,
                 };
+            },
+            onQueryStarted: async (_, {queryFulfilled, dispatch}) => {
+                try {
+                    const response = await queryFulfilled;
+                    const token = response.data?.token;
+                    dispatch(setAuth(token));
+                } catch (err) {
+                    // what should I do when the request fails?
+                    // probably show a toast
+                    // somebody should implement this
+                    // i'm just too lazy
+                }
             },
         }),
         register: build.mutation<RegisterAccount, Omit<RegisterAccount, "">>({

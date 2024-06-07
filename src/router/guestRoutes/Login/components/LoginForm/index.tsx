@@ -18,11 +18,6 @@ function LoginForm() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const result = await login(formData);
-        const token = result.data?.token;
-        // const userId = result.data?.id;
-        // console.log(result.data);
-        if (token != null) sessionStorage.setItem("token", token);
-        // sessionStorage.setItem("userId", userId);
         if (!result.error) {
             toast.success("Login Successful !");
             setTimeout(() => {

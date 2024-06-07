@@ -1,10 +1,11 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import authReducer from "./auth.slice";
+import authReducer, {refreshToken, setLoading} from "./auth.slice";
 import spinnerReducer from "./slices/spinner.slice";
 import commonApi from "./common.api";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import bookingStageReducer from "./bookingStage.slice";
 import clubCreateReducer from "./club.slice";
+import {setupListeners} from "@reduxjs/toolkit/query";
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -19,6 +20,10 @@ const store = configureStore({
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(commonApi.middleware),
 });
+
+store.dispatch(setLoading(true));
+store.dispatch(refreshToken());
+setupListeners(store.dispatch);
 
 export default store;
 export type RootState = ReturnType<typeof store.getState>;
