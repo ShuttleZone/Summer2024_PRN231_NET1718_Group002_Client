@@ -5,7 +5,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import {useAppDispatch, useAppSelector} from "@/store";
-import {selectStageById, setStage} from "@/store/bookingStage.slice";
+import {selectStageById, setStage} from "@/store/slices/bookingStage.slice";
 import {useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
