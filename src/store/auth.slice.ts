@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {jwtDecode} from "jwt-decode";
-import authApi from "@/store/services/accounts/auth.api";
 
 export interface AuthState {
     userId?: string;

@@ -1,5 +1,4 @@
 import commonApi from "@/store/common.api";
-
 import {LoginAccount, RegisterAccount} from "@/@types/api";
 import {setAuth} from "@/store/auth.slice";
 
