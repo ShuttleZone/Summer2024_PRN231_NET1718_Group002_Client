@@ -119,3 +119,17 @@ export interface CourtType {
     minDuration: number;
     price: number;
 }
+export interface StatusNav {
+    Id: number;
+    Status: string;
+    Text: string;
+}
+
+export interface ReservationType {
+    id: string;
+    bookingDate: string;
+    totalPrice: number;
+    reservationStatusEnum: string;
+    courtNames: string[];
+    expiredTime: string;
+}

@@ -10,11 +10,12 @@ import TimeAndDateBooking from "./CourtBooking/TimeAndDateBooking";
 import PersonalInformation from "./CourtBooking/PersonalInformation";
 import ConfirmBooking from "./CourtBooking/ConfirmBooking";
 import ContestDetail from "./ContestDetail";
-import MyReservationList from "./reservations";
 import LoginForm from "../guestRoutes/Login";
 import RegisterForm from "../guestRoutes/Register/RegisterForm";
 
 import ClubCreate from "./ClubCreate";
+import MyReservationDetailList from "./ReservationDetail";
+import MyReservationInvoiceList from "./Reservation";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -73,7 +74,11 @@ const publicRoutes: RouteObject[] = [
     },
     {
         path: "/my-reservation",
-        element: <MyReservationList />,
+        element: <MyReservationDetailList />,
+    },
+    {
+        path: "/my-invoices",
+        element: <MyReservationInvoiceList />,
     },
 ];
 
