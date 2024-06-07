@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {ToastContainer, toast} from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import {LoginAccount} from "@/@types/api";
+import {useAppSelector} from "@/store";
 
 function LoginForm() {
     const initialState: Omit<LoginAccount, ""> = {
@@ -14,23 +15,24 @@ function LoginForm() {
     };
     const [login] = useLoginMutation();
     const navigate = useNavigate();
+    const [formData, setFormData] =
+        useState<Omit<LoginAccount, "">>(initialState);
+    const {shouldCallback, callbackRoute} = useAppSelector(
+        (state) => state.callback
+    );
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const result = await login(formData);
         if (!result.error) {
             toast.success("Login Successful !");
-            setTimeout(() => {
-                navigate("/contests");
-            }, 5000); //
+            shouldCallback ? navigate(callbackRoute || "") : navigate("");
         } else {
             toast.error("Login Failed !");
         }
         setFormData(initialState);
     };
 
-    const [formData, setFormData] =
-        useState<Omit<LoginAccount, "">>(initialState);
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">

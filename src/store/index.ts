@@ -5,6 +5,7 @@ import commonApi from "./common.api";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import bookingStageReducer from "./bookingStage.slice";
 import clubCreateReducer from "./club.slice";
+import callbackReducer from "./slices/callback.slice";
 import {setupListeners} from "@reduxjs/toolkit/query";
 
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     spinner: spinnerReducer,
     [commonApi.reducerPath]: commonApi.reducer,
     clubCreate: clubCreateReducer,
+    callback: callbackReducer,
 });
 
 const store = configureStore({
