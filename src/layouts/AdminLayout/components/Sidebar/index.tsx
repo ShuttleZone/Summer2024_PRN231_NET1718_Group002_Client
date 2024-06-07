@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import NavItem from "./components/NavItem";
 import {Button} from "@/components/ui/button";
 import {IconType} from "react-icons/lib";
-import { useAppSelector } from "@/store";
+import {useAppSelector} from "@/store";
 
 interface SidebarProps {
     navItems: {
