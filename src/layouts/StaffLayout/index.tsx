@@ -10,8 +10,8 @@ const staffNavItems = [
         icon: IoHome,
     },
     {
-        title: "Something",
-        to: "/staff/something",
+        title: "Reservation Management",
+        to: "/staff/reservations",
         icon: FaThList,
     },
     {

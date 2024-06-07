@@ -46,6 +46,39 @@ const publicRoutes: RouteObject[] = [
         path: "/clubs/:clubId",
         element: <ClubDetail />,
     },
+    // {
+    //     path: "/clubs/:id/court-booking",
+    //     element: <CourtBooking />,
+    //     children: [
+    //         {
+    //             path: "",
+    //             element: <TypeOfBooking />,
+    //         },
+    //         {
+    //             path: "time-date",
+    //             element: <TimeAndDateBooking />,
+    //         },
+    //         {
+    //             path: "personal-info",
+    //             element: <PersonalInformation />,
+    //         },
+    //         {
+    //             path: "confirm",
+    //             element: <ConfirmBooking />,
+    //         },
+    //     ],
+    // },
+    {
+        path: "/clubs/register",
+        element: <ClubCreate />,
+    },
+    {
+        path: "/my-reservation",
+        element: <MyReservationDetailList />,
+    },
+];
+
+const privateRoutes: RouteObject[] = [
     {
         path: "/clubs/:id/court-booking",
         element: <CourtBooking />,
@@ -81,8 +114,6 @@ const publicRoutes: RouteObject[] = [
         element: <MyReservationInvoiceList />,
     },
 ];
-
-const privateRoutes: RouteObject[] = [];
 
 const userRoutes: RouteObject[] = [
     {

@@ -26,7 +26,7 @@ function LoginForm() {
         const result = await login(formData);
         if (!result.error) {
             toast.success("Login Successful !");
-            shouldCallback ? navigate(callbackRoute || "") : navigate("");
+            shouldCallback ? navigate(callbackRoute || "") : navigate("/");
         } else {
             toast.error("Login Failed !");
         }
