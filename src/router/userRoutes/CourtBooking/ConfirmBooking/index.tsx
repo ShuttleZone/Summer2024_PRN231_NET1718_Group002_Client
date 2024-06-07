@@ -39,8 +39,8 @@ function ConfirmBooking() {
         console.log(today);
         const reservationDetails: ReservationDetail[] = bookedSlot.map(
             (slot) => ({
-                startTime: today + " " + slot.StartTime,
-                endTime: today + " " + slot.EndTime,
+                startTime: slot.Date + " " + slot.StartTime,
+                endTime: slot.Date + " " + slot.EndTime,
                 price: slot.Price,
                 courtId: slot.CourtId,
             })
