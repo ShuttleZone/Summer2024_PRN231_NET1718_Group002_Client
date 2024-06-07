@@ -48,6 +48,32 @@ const formSchema = z.object({
     ),
 });
 
+const courtTypes = [
+    {
+        value: 0,
+        label: "Date",
+    },
+    {
+        value: 1,
+        label: "Monthly",
+    },
+];
+
+const courtStatuses = [
+    {
+        value: 0,
+        label: "Available",
+    },
+    {
+        value: 1,
+        label: "Occupied",
+    },
+    {
+        value: 2,
+        label: "Under Maintainance",
+    },
+];
+
 function CreateCourt() {
     const defaultValues = {
         clubId: "",
@@ -162,15 +188,14 @@ function CreateCourt() {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="0">
-                                                Standard
-                                            </SelectItem>
-                                            <SelectItem value="1">
-                                                Premium
-                                            </SelectItem>
-                                            <SelectItem value="2">
-                                                VIP
-                                            </SelectItem>
+                                            {courtTypes.map((type) => (
+                                                <SelectItem
+                                                    key={type.value}
+                                                    value={type.value.toString()}
+                                                >
+                                                    {type.label}
+                                                </SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -195,15 +220,14 @@ function CreateCourt() {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="0">
-                                                Available
-                                            </SelectItem>
-                                            <SelectItem value="1">
-                                                Occupied
-                                            </SelectItem>
-                                            <SelectItem value="2">
-                                                Under Maintainance
-                                            </SelectItem>
+                                            {courtStatuses.map((status) => (
+                                                <SelectItem
+                                                    key={status.value}
+                                                    value={status.value.toString()}
+                                                >
+                                                    {status.label}
+                                                </SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
