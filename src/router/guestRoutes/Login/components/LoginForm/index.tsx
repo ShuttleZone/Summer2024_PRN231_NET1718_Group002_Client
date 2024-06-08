@@ -19,10 +19,9 @@ function LoginForm() {
         event.preventDefault();
         const result = await login(formData);
         const token = result.data?.token;
-        // const userId = result.data?.id;
-        // console.log(result.data);
+        const userId: any = result.data?.id;
         if (token != null) sessionStorage.setItem("token", token);
-        // sessionStorage.setItem("userId", userId);
+        sessionStorage.setItem("userId", userId);
         if (!result.error) {
             toast.success("Login Successful !");
             setTimeout(() => {

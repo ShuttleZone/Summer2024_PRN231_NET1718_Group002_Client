@@ -72,7 +72,6 @@ export interface ReservationDetailType {
     reservationDetailStatus: int;
 }
 
-<<<<<<< HEAD
 export interface LoginAccount {
     id: string;
     account: string;
@@ -119,4 +118,20 @@ export interface CourtType {
     closeTime: string;
     minDuration: number;
     price: number;
+}
+
+export interface ClubRequest {
+    clubName: string;
+    clubAddress: string;
+    id: string;
+    clubPhone: string;
+    clubDescription: string;
+    status: string;
+    openTime: Date;
+    closeTime: Date;
+    // acceptClubRequestAdmin: (id: string) => void;
+}
+
+export interface AcceptClubRequest {
+    id: string;
 }
