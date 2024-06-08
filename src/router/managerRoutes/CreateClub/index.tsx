@@ -5,6 +5,8 @@ import DescriptionInput from "./components/DescriptionInput";
 import GalleryInput from "./components/GalleryInput";
 import {useAppSelector} from "@/store";
 import {useCreateClubMutation} from "@/store/services/clubs/club.api";
+import {useToast} from "@/components/ui/use-toast";
+import {useNavigate} from "react-router-dom";
 
 function CreateClub() {
     const clubBasicData = useAppSelector((state) => state.clubCreate.BasicInfo);
@@ -19,6 +21,8 @@ function CreateClub() {
         (state) => state.clubCreate.Description
     );
     const clubGallery = useAppSelector((state) => state.clubCreate.Galleries);
+    const {toast} = useToast();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         console.log("minDuration", clubSettingData);
@@ -46,8 +50,21 @@ function CreateClub() {
 
         // formData.append("Files",JSON.stringify(clubGallery));
         clubGallery.forEach((file) => formData.append("Files", file));
-        const response = await createClub(formData);
-        console.log(response);
+        const {error} = await createClub(formData);
+        if (error) {
+            toast({
+                title: "Error",
+                description: "Error while creating club",
+                variant: "destructive",
+            });
+        } else {
+            toast({
+                title: "Success",
+                description: "Club created successfully",
+                variant: "default",
+            });
+            navigate("/manager/courts/new");
+        }
     };
 
     return (
