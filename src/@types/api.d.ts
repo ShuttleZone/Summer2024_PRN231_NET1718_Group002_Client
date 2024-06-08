@@ -125,7 +125,6 @@ export interface CourtType {
     price: number;
 }
 
-
 export interface ClubRequest {
     clubName: string;
     clubAddress: string;
@@ -154,5 +153,4 @@ export interface ReservationType {
     reservationStatusEnum: string;
     courtNames: string[];
     expiredTime: string;
-
 }

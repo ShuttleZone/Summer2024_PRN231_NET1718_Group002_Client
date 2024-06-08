@@ -1,4 +1,5 @@
-import {AcceptClubRequest, ClubRequest} from "@/@types/api";
+// import {AcceptClubRequest, ClubRequest} from "@/@types/api";
+import {ClubRequest} from "@/@types/api";
 import formatTime from "@/lib/time.util";
 import {useAcceptClubRequestMutation} from "@/store/services/clubsAdmin/clubAdmin.api";
 import {Button} from "@/components/ui/button";
@@ -23,14 +24,16 @@ function InputData({
     clubName,
     clubAddress,
     clubPhone,
-    clubDescription,
+    // clubDescription,
     status,
     openTime,
     closeTime,
 }: ClubRequest) {
-    const [open, setOpen] = React.useState(false);
-    const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
-    const [acceptRequest, acceptRequestResult] = useAcceptClubRequestMutation();
+    // const [open, setOpen] = React.useState(false);
+    const [_, setOpen] = React.useState(false);
+    // const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
+    // const [acceptRequest, acceptRequestResult] = useAcceptClubRequestMutation();
+    const [acceptRequest] = useAcceptClubRequestMutation();
     const {toast} = useToast();
 
     const handleAccept = async (
@@ -40,6 +43,7 @@ function InputData({
         const result = acceptRequest({id});
         if (result.arg.track == true) {
             toast({
+                variant: "default",
                 description: "Request accepted !",
             });
             setOpen(false);
