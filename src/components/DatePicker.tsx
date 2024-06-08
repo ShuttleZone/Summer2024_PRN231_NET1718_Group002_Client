@@ -10,20 +10,33 @@ const DatePicker: React.FC<DatePickerProps> = ({
     setSelectedDate,
 }) => {
     const handlePrev = () => {
-        const newDate = new Date(selectedDate);
+        const newDate = new Date(selectedDate.getTime());
         newDate.setDate(selectedDate.getDate() - 1);
         setSelectedDate(newDate);
     };
 
     const handleNext = () => {
-        const newDate = new Date(selectedDate);
+        const newDate = new Date(selectedDate.getTime());
         newDate.setDate(selectedDate.getDate() + 1);
         setSelectedDate(newDate);
     };
 
+    const isToday = () => {
+        const today = new Date();
+        return (
+            selectedDate.getDate() === today.getDate() &&
+            selectedDate.getMonth() === today.getMonth() &&
+            selectedDate.getFullYear() === today.getFullYear()
+        );
+    };
+
     return (
         <div className="flex items-center w-full justify-between p-4">
-            <button onClick={handlePrev} className="text-2xl mx-2">
+            <button
+                onClick={handlePrev}
+                className={`text-2xl mx-2 ${isToday() ? "opacity-50 cursor-not-allowed" : ""}`}
+                disabled={isToday()}
+            >
                 <p className="w-8 h-8">&lt;</p>
             </button>
             <div className="flex flex-col items-center mx-4">
