@@ -15,7 +15,7 @@ function RegisterForm() {
         token: "",
     };
 
-    const [register, registerResult] = useRegisterMutation();
+    const [register] = useRegisterMutation();
     const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

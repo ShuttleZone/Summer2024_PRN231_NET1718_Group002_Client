@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import NavItem from "./components/NavItem";
 import {Button} from "@/components/ui/button";
 import {IconType} from "react-icons/lib";
+import {useAppSelector} from "@/store";
 
 interface SidebarProps {
     navItems: {
@@ -13,6 +14,8 @@ interface SidebarProps {
 }
 
 function Sidebar({navItems}: SidebarProps) {
+    const {username, email} = useAppSelector((state) => state.auth);
+
     return (
         <div className="w-full h-full flex flex-col justify-between px-4 py-4">
             <div>
@@ -42,9 +45,9 @@ function Sidebar({navItems}: SidebarProps) {
             <div className="flex items-center gap-2 flex-wrap">
                 <img src={AppLogo} alt="logo" className="h-12 rounded-full" />
                 <div className="flex flex-col">
-                    <span className="text-white">Shuttle Zone</span>
+                    <span className="text-white">{username}</span>
                     <span className="text-white text-sm font-medium">
-                        amdin@shuttlezone.com
+                        {email}
                     </span>
                 </div>
                 <Button className="w-full h-12 bg-red-500 text-white hover:bg-slate-700 transition-colors duration-300 text-lg font-medium">

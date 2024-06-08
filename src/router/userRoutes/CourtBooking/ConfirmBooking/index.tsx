@@ -1,6 +1,8 @@
+import {useToast} from "@/components/ui/use-toast";
 import {useAppSelector} from "@/store";
-import {useCreateReservationMutation} from "@/store/services/reservations/apiMyReservation";
+import {useCreateReservationMutation} from "@/store/services/reservations/reservation.api";
 import {FormEvent} from "react";
+import {useNavigate} from "react-router-dom";
 
 interface ReservationDetail {
     startTime: string;
@@ -11,6 +13,9 @@ interface ReservationDetail {
 
 function ConfirmBooking() {
     const [createReservation] = useCreateReservationMutation();
+    const {toast} = useToast();
+    const navigate = useNavigate();
+    const today = getCurrentDateFormatted();
 
     const clubDetailData = useAppSelector(
         (state) => state.bookingStage.ClubDetail
@@ -25,28 +30,19 @@ function ConfirmBooking() {
     const totalPrice = useAppSelector(
         (state) => state.bookingStage.TimeAndDate.TotalPrice
     );
-    function getCurrentDateFormatted(): string {
-        const now = new Date();
-        const day = String(now.getDate()).padStart(2, "0");
-        const month = String(now.getMonth() + 1).padStart(2, "0"); // getMonth() returns 0-indexed month
-        const year = now.getFullYear();
-
-        return `${day}/${month}/${year}`;
-    }
-    const today = getCurrentDateFormatted();
 
     const handleSubmit = async (e: FormEvent) => {
-        console.log(today);
+        e.preventDefault();
+
         const reservationDetails: ReservationDetail[] = bookedSlot.map(
             (slot) => ({
-                startTime: today + " " + slot.StartTime,
-                endTime: today + " " + slot.EndTime,
+                startTime: slot.Date + " " + slot.StartTime,
+                endTime: slot.Date + " " + slot.EndTime,
                 price: slot.Price,
                 courtId: slot.CourtId,
             })
         );
 
-        e.preventDefault();
         const formData = new FormData();
 
         formData.append("TotalPrice", totalPrice.toString());
@@ -73,8 +69,31 @@ function ConfirmBooking() {
             );
         });
 
-        await createReservation(formData);
+        const {error} = await createReservation(formData);
+        if (error) {
+            toast({
+                title: "Error",
+                description: "Failed to make reservation",
+                variant: "destructive",
+            });
+        } else {
+            toast({
+                title: "Success",
+                description: "Reservation made successfully",
+                variant: "default",
+            });
+            navigate("/my-invoices");
+        }
     };
+
+    function getCurrentDateFormatted(): string {
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, "0");
+        const month = String(now.getMonth() + 1).padStart(2, "0"); // getMonth() returns 0-indexed month
+        const year = now.getFullYear();
+
+        return `${day}/${month}/${year}`;
+    }
 
     return (
         <div className="mb-16">

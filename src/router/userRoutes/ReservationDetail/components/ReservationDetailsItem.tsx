@@ -18,7 +18,7 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
         <tr>
             <td className="px-4 py-2 border-b">{courtName}</td>
             <td className="px-4 py-2 border-b">{datetime}</td>
-            <td className="px-4 py-2 border-b">${price}</td>
+            <td className="px-4 py-2 border-b">{price} VND</td>
             <td
                 className={`px-4 py-2 border-b ${shouldBePurple ? " text-purple-500" : " text-green-500"}`}
             >

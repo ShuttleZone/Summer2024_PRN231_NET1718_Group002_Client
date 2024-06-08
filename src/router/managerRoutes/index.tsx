@@ -1,6 +1,7 @@
 import {RouteObject} from "react-router-dom";
 import CreateClub from "./CreateClub";
 import CreateCourt from "./CreateCourt";
+import PrivateRoute from "../PrivateRoute";
 
 const managerRoutes: RouteObject[] = [
     {
@@ -17,4 +18,9 @@ const managerRoutes: RouteObject[] = [
     },
 ];
 
-export default managerRoutes;
+export default [
+    {
+        element: <PrivateRoute />,
+        children: [...managerRoutes],
+    },
+];

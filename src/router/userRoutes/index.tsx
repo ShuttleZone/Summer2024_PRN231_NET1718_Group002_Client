@@ -10,11 +10,12 @@ import TimeAndDateBooking from "./CourtBooking/TimeAndDateBooking";
 import PersonalInformation from "./CourtBooking/PersonalInformation";
 import ConfirmBooking from "./CourtBooking/ConfirmBooking";
 import ContestDetail from "./ContestDetail";
-import MyReservationList from "./reservations";
 import LoginForm from "../guestRoutes/Login";
 import RegisterForm from "../guestRoutes/Register/RegisterForm";
 
 import ClubCreate from "./ClubCreate";
+import MyReservationDetailList from "./ReservationDetail";
+import MyReservationInvoiceList from "./Reservation";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -45,6 +46,39 @@ const publicRoutes: RouteObject[] = [
         path: "/clubs/:clubId",
         element: <ClubDetail />,
     },
+    // {
+    //     path: "/clubs/:id/court-booking",
+    //     element: <CourtBooking />,
+    //     children: [
+    //         {
+    //             path: "",
+    //             element: <TypeOfBooking />,
+    //         },
+    //         {
+    //             path: "time-date",
+    //             element: <TimeAndDateBooking />,
+    //         },
+    //         {
+    //             path: "personal-info",
+    //             element: <PersonalInformation />,
+    //         },
+    //         {
+    //             path: "confirm",
+    //             element: <ConfirmBooking />,
+    //         },
+    //     ],
+    // },
+    {
+        path: "/clubs/register",
+        element: <ClubCreate />,
+    },
+    {
+        path: "/my-reservation",
+        element: <MyReservationDetailList />,
+    },
+];
+
+const privateRoutes: RouteObject[] = [
     {
         path: "/clubs/:id/court-booking",
         element: <CourtBooking />,
@@ -73,11 +107,13 @@ const publicRoutes: RouteObject[] = [
     },
     {
         path: "/my-reservation",
-        element: <MyReservationList />,
+        element: <MyReservationDetailList />,
+    },
+    {
+        path: "/my-invoices",
+        element: <MyReservationInvoiceList />,
     },
 ];
-
-const privateRoutes: RouteObject[] = [];
 
 const userRoutes: RouteObject[] = [
     {

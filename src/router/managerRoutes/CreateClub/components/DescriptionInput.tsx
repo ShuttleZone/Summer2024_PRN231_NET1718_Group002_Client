@@ -5,7 +5,7 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import {useAppDispatch} from "@/store";
-import {setClubDescription} from "@/store/club.slice";
+import {setClubDescription} from "@/store/slices/club.slice";
 import {ChangeEvent, useState} from "react";
 function DescriptionInput() {
     const [clubIntro, setClubIntro] = useState("");

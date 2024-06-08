@@ -5,7 +5,10 @@ import {
     useGetCourtScheduleQuery,
 } from "@/store/services/clubs/club.api";
 import {useAppDispatch, useAppSelector} from "@/store";
-import {removeBookingSlots, setBookingSlots} from "@/store/bookingStage.slice";
+import {
+    removeBookingSlots,
+    setBookingSlots,
+} from "@/store/slices/bookingStage.slice";
 
 interface CourtScheduleProps {
     selectedDate: Date;
@@ -33,7 +36,6 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
         closedTime: string,
         minDuration: number
     ): string[] {
-        // Helper function to convert time string to Date object
         function timeStringToDate(time: string): Date {
             const [hours, minutes] = time.split(":").map(Number);
             const date = new Date();
@@ -41,19 +43,14 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
             return date;
         }
 
-        // Helper function to format Date object to time string
         function formatTime(date: Date): string {
-            return date.toTimeString().slice(0, 5); // Get only HH:MM
+            return date.toTimeString().slice(0, 5);
         }
 
-        // Convert openTime and closedTime to Date objects
         const openDt = timeStringToDate(openTime);
         const closedDt = timeStringToDate(closedTime);
-
-        // Calculate the interval duration in milliseconds
         const intervalDuration = minDuration * 60 * 60 * 1000;
 
-        // Generate the slots
         const slots: string[] = [];
         let currentTime = openDt;
         while (currentTime < closedDt) {
@@ -65,7 +62,6 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
             currentTime = nextTime;
         }
 
-        // If there's remaining time that doesn't fit into a full slot, handle it
         if (currentTime < closedDt) {
             slots.push(`${formatTime(currentTime)} - ${formatTime(closedDt)}`);
         }
@@ -91,11 +87,13 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
             StartTime: x.StartTime,
         })
     );
+
     useEffect(() => {
         const tempList: BookedSlot[] = [...selectedSlots];
         tempList.push(...recentlyBookedSlot);
         setSelectedSlots(tempList);
     }, [recentlyBookedSlot, selectedSlots]);
+
     const bookedSlots: BookedSlot[] = bookedData ?? [];
 
     const isBooked = (courtName: string, slot: string) => {
@@ -109,13 +107,26 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                     selectedDate.toISOString().split("T")[0]
         );
     };
+
+    const isPast = (slot: string) => {
+        const [slotStartTime] = slot.split(" - ");
+        const currentTime = new Date();
+        const selectedSlotTime = new Date(selectedDate);
+        const [hours, minutes] = slotStartTime.split(":").map(Number);
+        selectedSlotTime.setHours(hours, minutes, 0, 0);
+        return selectedSlotTime < currentTime;
+    };
+
     const handleSlotClick = (
         courtId: string,
         courtName: string,
         slot: string,
         price: number
     ) => {
-        // Check if the slot is already selected
+        if (isPast(slot)) {
+            return;
+        }
+
         const isSelected = selectedSlots.some(
             (selectedSlot) =>
                 selectedSlot.Date ===
@@ -125,7 +136,6 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                 selectedSlot.CourtName === courtName
         );
 
-        // If already selected, remove it from selectedSlots
         if (isSelected) {
             setSelectedSlots((prevSelectedSlots) =>
                 prevSelectedSlots.filter(
@@ -146,7 +156,6 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                 })
             );
         } else {
-            // If not selected, add it to selectedSlots
             setSelectedSlots((prevSelectedSlots) => [
                 ...prevSelectedSlots,
                 {
@@ -208,6 +217,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                             court.name,
                                             slot
                                         );
+                                        const isSlotPast = isPast(slot);
                                         return (
                                             <div
                                                 key={slot}
@@ -234,11 +244,13 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                                         ? "bg-green-500"
                                                         : isSlotBooked
                                                           ? "bg-gray-500 hover:cursor-not-allowed"
-                                                          : "bg-white hover:bg-gray-200 cursor-pointer"
+                                                          : isSlotPast
+                                                            ? "bg-gray-300 hover:cursor-not-allowed"
+                                                            : "bg-white hover:bg-gray-200 cursor-pointer"
                                                 }`}
                                                 onClick={() =>
-                                                    // Call handleSlotClick on slot click
                                                     !isSlotBooked &&
+                                                    !isSlotPast &&
                                                     handleSlotClick(
                                                         court.id,
                                                         court.name,
@@ -269,7 +281,9 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                                     ? "Selected"
                                                     : isSlotBooked
                                                       ? "Booked"
-                                                      : "Available"}
+                                                      : isSlotPast
+                                                        ? "Past"
+                                                        : "Available"}
                                             </div>
                                         );
                                     })}
@@ -281,4 +295,5 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
         </>
     );
 };
+
 export default CourtSchedule;

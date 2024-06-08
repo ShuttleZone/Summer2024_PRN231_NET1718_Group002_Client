@@ -26,6 +26,11 @@ export interface ClubType {
     reviews: ReviewType[];
 }
 
+export interface ClubDropdownType {
+    Id: string;
+    ClubName: string;
+}
+
 export interface CourtScheduleType {
     id: string;
     openTime: string;
@@ -69,7 +74,7 @@ export interface ReservationDetailType {
     startTime: string;
     endTime: string;
     price: number;
-    reservationDetailStatus: int;
+    reservationDetailStatus: string;
 }
 
 export interface LoginAccount {
@@ -120,6 +125,7 @@ export interface CourtType {
     price: number;
 }
 
+
 export interface ClubRequest {
     clubName: string;
     clubAddress: string;
@@ -134,4 +140,19 @@ export interface ClubRequest {
 
 export interface AcceptClubRequest {
     id: string;
+}
+export interface StatusNav {
+    Id: number;
+    Status: string;
+    Text: string;
+}
+
+export interface ReservationType {
+    id: string;
+    bookingDate: string;
+    totalPrice: number;
+    reservationStatusEnum: string;
+    courtNames: string[];
+    expiredTime: string;
+
 }

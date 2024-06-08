@@ -1,4 +1,9 @@
-import {BookedSlotType, ClubType, CourtScheduleType} from "@/@types/api";
+import {
+    BookedSlotType,
+    ClubDropdownType,
+    ClubType,
+    CourtScheduleType,
+} from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
@@ -9,7 +14,11 @@ type ClubsListQueryReturnType = {
 const clubApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
         getClubs: build.query<ClubType[], string | undefined>({
-            query: () => "/api/clubs",
+            query: () => {
+                const routeBuilder = new ApiRouteBuilder("/api/clubs");
+                routeBuilder.expand("clubImages", ["id", "imageUrl"]);
+                return routeBuilder.build();
+            },
             transformResponse(baseQueryReturnValue: ClubsListQueryReturnType) {
                 return baseQueryReturnValue.value;
             },
@@ -58,6 +67,13 @@ const clubApi = commonApi.injectEndpoints({
                 body: court,
             }),
         }),
+        getMyClubs: build.query<ClubDropdownType[], string | undefined>({
+            query: () => {
+                const routeBuilder = new ApiRouteBuilder("/api/clubs/my-clubs");
+                routeBuilder.select(["id", "clubName"]);
+                return routeBuilder.build();
+            },
+        }),
     }),
     overrideExisting: true,
 });
@@ -68,4 +84,5 @@ export const {
     useGetCourtScheduleQuery,
     useGetClubReservationDetailQuery,
     useCreateClubMutation,
+    useGetMyClubsQuery,
 } = clubApi;
