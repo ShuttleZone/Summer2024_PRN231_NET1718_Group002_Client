@@ -1,4 +1,5 @@
 import {RouteObject} from "react-router-dom";
+import ClubRequestList from "./ClubRequests";
 
 const adminRoutes: RouteObject[] = [
     {
@@ -6,8 +7,12 @@ const adminRoutes: RouteObject[] = [
         element: <div>this is default page</div>,
     },
     {
-        path: "home",
-        element: <div>Home</div>,
+        path: "club-requests",
+        element: (
+            <div>
+                <ClubRequestList />
+            </div>
+        ),
     },
 ];
 

@@ -1,16 +1,15 @@
 import {
-    Toast,
-    ToastClose,
-    ToastDescription,
-    ToastProvider,
-    ToastTitle,
-    ToastViewport,
-} from "@/components/ui/toast";
-import {useToast} from "@/components/ui/use-toast";
+  Toast,
+  ToastClose,
+  ToastDescription,
+  ToastProvider,
+  ToastTitle,
+  ToastViewport,
+} from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
 
 export function Toaster() {
-    const {toasts} = useToast();
-
+  const { toasts } = useToast()
     return (
         <ToastProvider>
             {toasts.map(function ({
@@ -39,4 +38,3 @@ export function Toaster() {
             <ToastViewport />
         </ToastProvider>
     );
-}

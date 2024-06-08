@@ -124,6 +124,23 @@ export interface CourtType {
     minDuration: number;
     price: number;
 }
+
+
+export interface ClubRequest {
+    clubName: string;
+    clubAddress: string;
+    id: string;
+    clubPhone: string;
+    clubDescription: string;
+    status: string;
+    openTime: Date;
+    closeTime: Date;
+    // acceptClubRequestAdmin: (id: string) => void;
+}
+
+export interface AcceptClubRequest {
+    id: string;
+}
 export interface StatusNav {
     Id: number;
     Status: string;
@@ -137,4 +154,5 @@ export interface ReservationType {
     reservationStatusEnum: string;
     courtNames: string[];
     expiredTime: string;
+
 }
