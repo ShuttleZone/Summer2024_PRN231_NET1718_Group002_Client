@@ -22,6 +22,7 @@ import {useAppDispatch} from "@/store";
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {useCreateCourtMutation} from "@/store/services/courts/court.api";
 import {useToast} from "@/components/ui/use-toast";
+import {useGetMyClubsQuery} from "@/store/services/clubs/club.api";
 
 const formSchema = z.object({
     clubId: z
@@ -48,6 +49,32 @@ const formSchema = z.object({
     ),
 });
 
+const courtTypes = [
+    {
+        value: 0,
+        label: "Date",
+    },
+    {
+        value: 1,
+        label: "Monthly",
+    },
+];
+
+const courtStatuses = [
+    {
+        value: 0,
+        label: "Available",
+    },
+    {
+        value: 1,
+        label: "Occupied",
+    },
+    {
+        value: 2,
+        label: "Under Maintainance",
+    },
+];
+
 function CreateCourt() {
     const defaultValues = {
         clubId: "",
@@ -60,6 +87,7 @@ function CreateCourt() {
     const {toast} = useToast();
     const dispatch = useAppDispatch();
     const [createCourt, {isLoading}] = useCreateCourtMutation();
+    const {data: myclubs} = useGetMyClubsQuery(undefined);
 
     isLoading ? dispatch(showSpinner()) : dispatch(hideSpinner());
 
@@ -127,15 +155,15 @@ function CreateCourt() {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="d91de014-9979-4432-af51-430455d233b1">
-                                                Club 1
-                                            </SelectItem>
-                                            <SelectItem value="3813333e-6832-4602-b1e4-48919f37bda0">
-                                                Club 2
-                                            </SelectItem>
-                                            <SelectItem value="229ecfb3-9cb3-44f0-9062-65da986422ed">
-                                                Club 3
-                                            </SelectItem>
+                                            {myclubs &&
+                                                myclubs.map((club) => (
+                                                    <SelectItem
+                                                        key={club.Id}
+                                                        value={club.Id}
+                                                    >
+                                                        {club.ClubName}
+                                                    </SelectItem>
+                                                ))}
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -162,15 +190,14 @@ function CreateCourt() {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="0">
-                                                Standard
-                                            </SelectItem>
-                                            <SelectItem value="1">
-                                                Premium
-                                            </SelectItem>
-                                            <SelectItem value="2">
-                                                VIP
-                                            </SelectItem>
+                                            {courtTypes.map((type) => (
+                                                <SelectItem
+                                                    key={type.value}
+                                                    value={type.value.toString()}
+                                                >
+                                                    {type.label}
+                                                </SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -195,15 +222,14 @@ function CreateCourt() {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="0">
-                                                Available
-                                            </SelectItem>
-                                            <SelectItem value="1">
-                                                Occupied
-                                            </SelectItem>
-                                            <SelectItem value="2">
-                                                Under Maintainance
-                                            </SelectItem>
+                                            {courtStatuses.map((status) => (
+                                                <SelectItem
+                                                    key={status.value}
+                                                    value={status.value.toString()}
+                                                >
+                                                    {status.label}
+                                                </SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />

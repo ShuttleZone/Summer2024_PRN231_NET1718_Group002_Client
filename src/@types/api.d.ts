@@ -26,6 +26,11 @@ export interface ClubType {
     reviews: ReviewType[];
 }
 
+export interface ClubDropdownType {
+    Id: string;
+    ClubName: string;
+}
+
 export interface CourtScheduleType {
     id: string;
     openTime: string;
