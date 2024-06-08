@@ -14,7 +14,11 @@ type ClubsListQueryReturnType = {
 const clubApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
         getClubs: build.query<ClubType[], string | undefined>({
-            query: () => "/api/clubs",
+            query: () => {
+                const routeBuilder = new ApiRouteBuilder("/api/clubs");
+                routeBuilder.expand("clubImages", ["id", "imageUrl"]);
+                return routeBuilder.build();
+            },
             transformResponse(baseQueryReturnValue: ClubsListQueryReturnType) {
                 return baseQueryReturnValue.value;
             },
