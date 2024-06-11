@@ -24,13 +24,18 @@ function RegisterForm() {
         }
         event.preventDefault();
         const result = await register(formData);
+        console.log(result.error);
         if (result.data != null) {
             toast.success("Register successfully ! Please proceed to login ");
             setTimeout(() => {
                 navigate("/login");
             }, 5000); //
         } else {
-            toast.error("Register failed! Please try again !");
+            if (!result.error.data.description) {
+                toast.error(`${result.error.data}`);
+            } else {
+                toast.error(`${result.error.data.description}`);
+            }
         }
     };
 
