@@ -1,10 +1,11 @@
 import {useLoginMutation} from "@/store/services/accounts/auth.api";
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {ToastContainer, toast} from "react-toastify";
-import "react-toastify/ReactToastify.css";
 import {LoginAccount} from "@/@types/api";
 import {useAppSelector} from "@/store";
+// import {useToast} from "@/components/ui/use-toast";
+// import {Toaster} from "@/components/ui/toaster";
+import {ToastContainer, toast} from "react-toastify";
 
 function LoginForm() {
     const initialState: Omit<LoginAccount, ""> = {
@@ -24,7 +25,7 @@ function LoginForm() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const result = await login(formData);
-
+        console.log(result);
         const token = result.data?.token;
         const userId: any = result.data?.id;
         if (token != null) sessionStorage.setItem("token", token);
@@ -32,11 +33,14 @@ function LoginForm() {
 
         if (!result.error) {
             toast.success("Login Successful !");
-            shouldCallback ? navigate(callbackRoute || "") : navigate("/");
-        } else {
-            toast.error("Login Failed !");
+            setTimeout(() => {
+                shouldCallback ? navigate(callbackRoute || "") : navigate("/");
+            }, 5000); //
+            setFormData(initialState);
+        } else if (result.error.status == 401) toast.error("Wrong password !");
+        else {
+            toast.error(`${result.error.data}`);
         }
-        setFormData(initialState);
     };
 
     return (
@@ -52,7 +56,6 @@ function LoginForm() {
                         alt="logo"
                     />
                     Shuttle Zone
-                    <ToastContainer />
                 </a>
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -66,6 +69,7 @@ function LoginForm() {
                             className="space-y-4 md:space-y-6"
                             onSubmit={handleSubmit}
                         >
+                            <ToastContainer />
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Your email or username
@@ -79,7 +83,7 @@ function LoginForm() {
                                         }))
                                     }
                                     required
-                                    type="text"
+                                    type="email"
                                     name="email"
                                     id="email"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"

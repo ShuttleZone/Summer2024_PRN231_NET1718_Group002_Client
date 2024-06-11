@@ -4,6 +4,7 @@ import formatTime from "@/lib/time.util";
 import {useAcceptClubRequestMutation} from "@/store/services/clubsAdmin/clubAdmin.api";
 import {Button} from "@/components/ui/button";
 import {useToast} from "@/components/ui/use-toast";
+import "react-toastify/ReactToastify.css";
 import {Toaster} from "@/components/ui/toaster";
 import {
     Dialog,
@@ -30,7 +31,7 @@ function InputData({
     closeTime,
 }: ClubRequest) {
     // const [open, setOpen] = React.useState(false);
-    const [_, setOpen] = React.useState(false);
+    const [_, setOpen] = React.useState(true);
     // const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
     // const [acceptRequest, acceptRequestResult] = useAcceptClubRequestMutation();
     const [acceptRequest] = useAcceptClubRequestMutation();
