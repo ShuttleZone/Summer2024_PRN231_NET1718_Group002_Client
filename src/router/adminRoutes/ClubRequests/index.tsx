@@ -8,6 +8,7 @@ function ClubRequestList() {
         data: clubRequests,
         isError,
         isLoading,
+        refetch,
     } = useGetClubRequestsAdminQuery(undefined);
 
     console.log(clubRequests);
@@ -25,7 +26,7 @@ function ClubRequestList() {
         <div className="w-full flex justify-center py-12">
             <div className="w-3/4">
                 <FilterBarModule />
-                <RequestTable requests={clubRequests} />
+                <RequestTable requests={clubRequests} refetch={refetch} />
             </div>
         </div>
     );
