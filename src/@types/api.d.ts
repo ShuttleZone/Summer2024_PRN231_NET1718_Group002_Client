@@ -154,3 +154,29 @@ export interface ReservationType {
     courtNames: string[];
     expiredTime: string;
 }
+
+interface ClubListManagement {
+    ClubName: string;
+    ClubAddress: string;
+    OpenTime: string;
+    CloseTime: string;
+    Courts: CourtId[];
+    Reviews: CourtReview[];
+}
+
+interface CourtId {
+    id: string;
+}
+interface CourtReview {
+    id: string;
+    rating: number;
+}
+
+interface ClubManagement {
+    clubName: string;
+    clubAddress: string;
+    openHours: string;
+    rating: number;
+    totalCourt: number;
+    totalReview: number;
+}

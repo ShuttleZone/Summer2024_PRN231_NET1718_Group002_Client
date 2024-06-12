@@ -23,6 +23,11 @@ const managerNavItems = [
         icon: FaNewspaper,
     },
     {
+        title: "Club Management",
+        to: "/manager/clubs",
+        icon: IoCreateOutline,
+    },
+    {
         title: "New Club",
         to: "/manager/clubs/new",
         icon: IoCreateOutline,

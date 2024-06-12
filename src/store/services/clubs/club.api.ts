@@ -1,13 +1,15 @@
 import {
     BookedSlotType,
     ClubDropdownType,
+    ClubListManagement,
+    ClubManagement,
     ClubType,
     CourtScheduleType,
 } from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
-type ClubsListQueryReturnType = {
+type ClubReturnType = {
     value: ClubType[];
 };
 
@@ -19,7 +21,7 @@ const clubApi = commonApi.injectEndpoints({
                 routeBuilder.expand("clubImages", ["id", "imageUrl"]);
                 return routeBuilder.build();
             },
-            transformResponse(baseQueryReturnValue: ClubsListQueryReturnType) {
+            transformResponse(baseQueryReturnValue: ClubReturnType) {
                 return baseQueryReturnValue.value;
             },
         }),
@@ -74,6 +76,31 @@ const clubApi = commonApi.injectEndpoints({
                 return routeBuilder.build();
             },
         }),
+        getClubList: build.query<ClubManagement[], void>({
+            query: () => {
+                const routeBuilder = new ApiRouteBuilder(
+                    "/api/clubs/my-clubs?$expand=courts,reviews&$select=clubName,clubAddress,openTime,closeTime"
+                );
+
+                return routeBuilder.build();
+            },
+            transformResponse: (
+                baseQueryReturnValue: ClubListManagement[]
+            ): ClubManagement[] => {
+                return baseQueryReturnValue.map((club) => ({
+                    clubName: club.ClubName,
+                    clubAddress: club.ClubAddress,
+                    openHours: `${club.OpenTime} - ${club.CloseTime}`,
+                    rating:
+                        club.Reviews.reduce(
+                            (acc, review) => acc + review.rating,
+                            0
+                        ) / club.Reviews.length || 0,
+                    totalCourt: club.Courts.length,
+                    totalReview: club.Reviews.length,
+                }));
+            },
+        }),
     }),
     overrideExisting: true,
 });
@@ -85,4 +112,5 @@ export const {
     useGetClubReservationDetailQuery,
     useCreateClubMutation,
     useGetMyClubsQuery,
+    useGetClubListQuery,
 } = clubApi;
