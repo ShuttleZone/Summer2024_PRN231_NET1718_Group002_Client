@@ -20,19 +20,46 @@ import {
     DialogClose,
 } from "@/components/ui/dialog";
 import React, {useEffect, useState} from "react";
+import {
+    BaseQueryFn,
+    FetchArgs,
+    FetchBaseQueryError,
+    FetchBaseQueryMeta,
+    QueryActionCreatorResult,
+    QueryDefinition,
+} from "@reduxjs/toolkit/query";
 
-("use client");
+interface InputDataProps {
+    clubRequest: ClubRequest;
+    refetch: () => QueryActionCreatorResult<
+        QueryDefinition<
+            string | undefined,
+            BaseQueryFn<
+                string | FetchArgs,
+                unknown,
+                FetchBaseQueryError,
+                {},
+                FetchBaseQueryMeta
+            >,
+            never,
+            ClubRequest[],
+            "commonApi"
+        >
+    >;
+}
 
 function InputData({
-    id,
-    clubName,
-    clubAddress,
-    clubPhone,
-    // clubDescription,
-    status,
-    openTime,
-    closeTime,
-}: ClubRequest) {
+    // id,
+    // clubName,
+    // clubAddress,
+    // clubPhone,
+    // // clubDescription,
+    // status,
+    // openTime,
+    // closeTime,
+    clubRequest,
+    refetch,
+}: InputDataProps) {
     const [open, setOpen] = React.useState(false);
     const [acceptRequest] = useAcceptClubRequestMutation();
     const [rejectRequest] = useRejectClubRequestMutation();
@@ -42,8 +69,8 @@ function InputData({
     const handleAccept = async () => {
         setOpen(true);
 
-        const result = acceptRequest({id});
-        if (result.arg.track == true) {
+        const {error} = await acceptRequest({id: clubRequest.id});
+        if (!error) {
             toast({
                 variant: "default",
                 description: "Request accepted !",
@@ -56,13 +83,14 @@ function InputData({
                 description: "Error in server !",
             });
         }
+        await refetch();
     };
 
     const handleReject = async () => {
         setOpen(true);
-
-        const result = rejectRequest({id});
-        if (result.arg.track == true) {
+        // var id = clubRequest.id;
+        const {error} = await rejectRequest({id: clubRequest.id});
+        if (!error) {
             toast({
                 variant: "default",
                 description: "Request rejected !",
@@ -75,9 +103,10 @@ function InputData({
                 description: "Error in server !",
             });
         }
+        await refetch();
+        await refetch();
     };
-
-    // useEffect(() => {}, [InputData]);
+    if (!clubRequest) return <div>Nothing</div>;
     return (
         <>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -92,31 +121,37 @@ function InputData({
                     />
                     <div className="ps-3">
                         <div className="text-base font-semibold">
-                            {clubName}
+                            {clubRequest.clubName}
                         </div>
                         {/* <div className="font-normal text-gray-500">
                             neil.sims@flowbite.com
                         </div> */}
                     </div>
                 </th>
-                <td className="px-6 py-4 whitespace-nowrap">{clubAddress}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{clubPhone}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{status}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                    {formatTime(openTime.toString())} -{" "}
-                    {formatTime(closeTime.toString())}
+                    {clubRequest.clubAddress}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                    {status == "CreateRequestAccepted" ? (
+                    {clubRequest.clubPhone}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                    {clubRequest.status}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                    {formatTime(clubRequest.openTime.toString())} -{" "}
+                    {formatTime(clubRequest.closeTime.toString())}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                    {clubRequest.status == "CreateRequestAccepted" ? (
                         <span className="text-green-500">Request Accepted</span>
-                    ) : status == "CreateRequestDenied" ? (
+                    ) : clubRequest.status == "CreateRequestDenied" ? (
                         <span className="text-red-500">Request Rejected</span>
-                    ) : status == "RequestPending" ? (
+                    ) : clubRequest.status == "RequestPending" ? (
                         <div className="flex">
                             <Dialog>
                                 <DialogTrigger
                                     onClick={() => setOpen(true)}
-                                    key={id}
+                                    key={clubRequest.id}
                                     className="p-3 bg-green-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-green-800 text-sm px-5 py-2.5 me-2 mb-2"
                                 >
                                     Accept
@@ -152,7 +187,7 @@ function InputData({
                             <Dialog>
                                 <DialogTrigger
                                     onClick={() => setOpen(true)}
-                                    key={id}
+                                    key={clubRequest.id}
                                     className="p-3 bg-red-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-red-800 text-sm px-5 py-2.5 me-2 mb-2"
                                 >
                                     Reject
@@ -196,9 +231,24 @@ function InputData({
 
 interface RequestTableProps {
     requests?: ClubRequest[];
+    refetch: () => QueryActionCreatorResult<
+        QueryDefinition<
+            string | undefined,
+            BaseQueryFn<
+                string | FetchArgs,
+                unknown,
+                FetchBaseQueryError,
+                {},
+                FetchBaseQueryMeta
+            >,
+            never,
+            ClubRequest[],
+            "commonApi"
+        >
+    >;
 }
 
-function RequestTable({requests}: RequestTableProps) {
+function RequestTable({requests, refetch}: RequestTableProps) {
     // const dispatch = useDispatch();
     // const acceptClubRequestAdmin = (id: string) => {
     //     dispatch(acceptClubRequest(id));
@@ -244,14 +294,17 @@ function RequestTable({requests}: RequestTableProps) {
                             requests.map((request) => (
                                 <InputData
                                     key={request.id}
-                                    id={request.id}
-                                    clubName={request.clubName}
-                                    clubAddress={request.clubAddress}
-                                    clubPhone={request.clubPhone}
-                                    clubDescription={request.clubDescription}
-                                    status={request.status}
-                                    openTime={request.openTime}
-                                    closeTime={request.closeTime}
+                                    clubRequest={request}
+                                    refetch={refetch}
+                                    // id={request.id}
+                                    // clubName={request.clubName}
+                                    // clubAddress={request.clubAddress}
+                                    // clubPhone={request.clubPhone}
+                                    // clubDescription={request.clubDescription}
+                                    // status={request.status}
+                                    // openTime={request.openTime}
+                                    // closeTime={request.closeTime}
+                                    // refetch={refetch}
                                 />
                             ))}
                     </tbody>
