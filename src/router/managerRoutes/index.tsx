@@ -2,6 +2,7 @@ import {RouteObject} from "react-router-dom";
 import CreateClub from "./CreateClub";
 import CreateCourt from "./CreateCourt";
 import PrivateRoute from "../PrivateRoute";
+import ClubList from "./ClubList";
 
 const managerRoutes: RouteObject[] = [
     {
@@ -15,6 +16,10 @@ const managerRoutes: RouteObject[] = [
     {
         path: "clubs/new",
         element: <CreateClub />,
+    },
+    {
+        path: "clubs",
+        element: <ClubList />,
     },
 ];
 
