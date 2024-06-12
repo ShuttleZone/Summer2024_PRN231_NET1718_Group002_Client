@@ -28,6 +28,14 @@ const clubApi = commonApi.injectEndpoints({
                 };
             },
         }),
+        rejectClubRequest: build.mutation<AcceptClubRequest, {id: string}>({
+            query(data) {
+                return {
+                    url: `api/Clubs/rejectRequest/${data.id}`,
+                    method: "PUT",
+                };
+            },
+        }),
     }),
     overrideExisting: true,
 });
@@ -36,4 +44,5 @@ export const {
     useGetClubRequestsAdminQuery,
     useGetClubRequestDetailAdminQuery,
     useAcceptClubRequestMutation,
+    useRejectClubRequestMutation,
 } = clubApi;
