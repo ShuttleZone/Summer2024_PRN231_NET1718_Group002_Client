@@ -1,7 +1,10 @@
 // import {AcceptClubRequest, ClubRequest} from "@/@types/api";
 import {ClubRequest} from "@/@types/api";
 import formatTime from "@/lib/time.util";
-import {useAcceptClubRequestMutation} from "@/store/services/clubsAdmin/clubAdmin.api";
+import {
+    useAcceptClubRequestMutation,
+    useRejectClubRequestMutation,
+} from "@/store/services/clubsAdmin/clubAdmin.api";
 import {Button} from "@/components/ui/button";
 import {useToast} from "@/components/ui/use-toast";
 import "react-toastify/ReactToastify.css";
@@ -16,7 +19,7 @@ import {
     DialogTrigger,
     DialogClose,
 } from "@/components/ui/dialog";
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 ("use client");
 
@@ -30,24 +33,23 @@ function InputData({
     openTime,
     closeTime,
 }: ClubRequest) {
-    // const [open, setOpen] = React.useState(false);
-    const [_, setOpen] = React.useState(true);
-    // const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
-    // const [acceptRequest, acceptRequestResult] = useAcceptClubRequestMutation();
+    const [open, setOpen] = React.useState(false);
     const [acceptRequest] = useAcceptClubRequestMutation();
+    const [rejectRequest] = useRejectClubRequestMutation();
     const {toast} = useToast();
+    const [reloadFlag, setReloadFlag] = useState(false);
 
-    const handleAccept = async (
-        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
-        event.preventDefault();
+    const handleAccept = async () => {
+        setOpen(true);
+
         const result = acceptRequest({id});
         if (result.arg.track == true) {
             toast({
                 variant: "default",
                 description: "Request accepted !",
             });
-            setOpen(false);
+
+            // setReloadFlag((prevFlag) => !prevFlag);
         } else {
             toast({
                 variant: "destructive",
@@ -55,6 +57,27 @@ function InputData({
             });
         }
     };
+
+    const handleReject = async () => {
+        setOpen(true);
+
+        const result = rejectRequest({id});
+        if (result.arg.track == true) {
+            toast({
+                variant: "default",
+                description: "Request rejected !",
+            });
+
+            // setReloadFlag((prevFlag) => !prevFlag);
+        } else {
+            toast({
+                variant: "destructive",
+                description: "Error in server !",
+            });
+        }
+    };
+
+    // useEffect(() => {}, [InputData]);
     return (
         <>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -72,81 +95,99 @@ function InputData({
                             {clubName}
                         </div>
                         {/* <div className="font-normal text-gray-500">
-                                        neil.sims@flowbite.com
-                                    </div> */}
+                            neil.sims@flowbite.com
+                        </div> */}
                     </div>
                 </th>
-                <td className="px-6 py-4">{clubAddress}</td>
-                <td className="px-6 py-4">{clubPhone}</td>
-                <td className="px-6 py-4">{status}</td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 whitespace-nowrap">{clubAddress}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{clubPhone}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{status}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
                     {formatTime(openTime.toString())} -{" "}
                     {formatTime(closeTime.toString())}
                 </td>
-                <td className="px-6 py-4">
-                    <Dialog>
-                        <DialogTrigger
-                            onClick={() => setOpen(true)}
-                            key={id}
-                            className="p-3 bg-green-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-green-800 text-sm px-5 py-2.5 me-2 mb-2"
-                        >
-                            Accept
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle>
-                                    Are you absolutely sure to accept this
-                                    request?
-                                </DialogTitle>
-                                <DialogDescription>
-                                    This action cannot be undone. This will
-                                    permanently delete your account and remove
-                                    your data from our servers.
-                                </DialogDescription>
-                            </DialogHeader>
-                            <DialogFooter>
-                                <DialogClose>
-                                    <Button
-                                        className="p-3 bg-green-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-green-800 text-sm px-5 py-2.5 me-2 mb-2"
-                                        type="submit"
-                                        onClick={handleAccept}
-                                        variant="secondary"
-                                    >
-                                        Accept the request
-                                    </Button>
-                                </DialogClose>
-                            </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
+                <td className="px-6 py-4 whitespace-nowrap">
+                    {status == "CreateRequestAccepted" ? (
+                        <span className="text-green-500">Request Accepted</span>
+                    ) : status == "CreateRequestDenied" ? (
+                        <span className="text-red-500">Request Rejected</span>
+                    ) : status == "RequestPending" ? (
+                        <div className="flex">
+                            <Dialog>
+                                <DialogTrigger
+                                    onClick={() => setOpen(true)}
+                                    key={id}
+                                    className="p-3 bg-green-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-green-800 text-sm px-5 py-2.5 me-2 mb-2"
+                                >
+                                    Accept
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>
+                                            Are you absolutely sure to accept
+                                            this request?
+                                        </DialogTitle>
+                                        <DialogDescription>
+                                            This action cannot be undone. This
+                                            will permanently delete your account
+                                            and remove your data from our
+                                            servers.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <DialogFooter>
+                                        <DialogClose>
+                                            <Button
+                                                className="p-3 bg-green-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-green-800 text-sm px-5 py-2.5 me-2 mb-2"
+                                                type="submit"
+                                                onClick={handleAccept}
+                                                variant="secondary"
+                                            >
+                                                Accept the request
+                                            </Button>
+                                        </DialogClose>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
 
-                    <Dialog>
-                        <DialogTrigger className="p-3 bg-red-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-red-800 text-sm px-5 py-2.5 me-2 mb-2">
-                            Reject
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle>
-                                    Are you absolutely sure to reject this
-                                    request?
-                                </DialogTitle>
-                                <DialogDescription>
-                                    This action cannot be undone. This will
-                                    permanently delete your account and remove
-                                    your data from our servers.
-                                </DialogDescription>
-                            </DialogHeader>
-                            <DialogFooter>
-                                <DialogClose asChild>
-                                    <Button
-                                        className="p-3 bg-red-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-red-800 text-sm px-5 py-2.5 me-2 mb-2"
-                                        type="submit"
-                                    >
-                                        Reject the request
-                                    </Button>
-                                </DialogClose>
-                            </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
+                            <Dialog>
+                                <DialogTrigger
+                                    onClick={() => setOpen(true)}
+                                    key={id}
+                                    className="p-3 bg-red-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-red-800 text-sm px-5 py-2.5 me-2 mb-2"
+                                >
+                                    Reject
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>
+                                            Are you absolutely sure to reject
+                                            this request?
+                                        </DialogTitle>
+                                        <DialogDescription>
+                                            This action cannot be undone. This
+                                            will permanently delete your account
+                                            and remove your data from our
+                                            servers.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <DialogFooter>
+                                        <DialogClose>
+                                            <Button
+                                                className="p-3 bg-red-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-red-800 text-sm px-5 py-2.5 me-2 mb-2"
+                                                type="submit"
+                                                onClick={handleReject}
+                                                variant="secondary"
+                                            >
+                                                Reject the request
+                                            </Button>
+                                        </DialogClose>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                        </div>
+                    ) : (
+                        <span className="text-red-500">No information!</span>
+                    )}
                 </td>
             </tr>
         </>
