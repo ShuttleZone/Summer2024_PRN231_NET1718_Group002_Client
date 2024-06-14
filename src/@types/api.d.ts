@@ -180,3 +180,10 @@ interface ClubManagement {
     totalCourt: number;
     totalReview: number;
 }
+
+interface CourtByClub {
+    name: string;
+    courtType: string;
+    courtStatus: string;
+    price: number;
+}
