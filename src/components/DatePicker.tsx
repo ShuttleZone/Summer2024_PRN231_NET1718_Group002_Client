@@ -33,6 +33,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
     return (
         <div className="flex items-center w-full justify-between p-4">
             <button
+                type="button"
                 onClick={handlePrev}
                 className={`text-2xl mx-2 ${isToday() ? "opacity-50 cursor-not-allowed" : ""}`}
                 disabled={isToday()}
@@ -49,7 +50,11 @@ const DatePicker: React.FC<DatePickerProps> = ({
                     {selectedDate.getDate()}/{selectedDate.getMonth() + 1}
                 </div>
             </div>
-            <button onClick={handleNext} className="text-2xl mx-2">
+            <button
+                type="button"
+                onClick={handleNext}
+                className="text-2xl mx-2"
+            >
                 <p className="w-8 h-8">&gt;</p>
             </button>
         </div>
