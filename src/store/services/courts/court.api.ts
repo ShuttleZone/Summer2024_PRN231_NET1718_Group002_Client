@@ -1,4 +1,5 @@
-import {CourtType} from "@/@types/api";
+import {CourtByClub, CourtType} from "@/@types/api";
+import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
 const clubApi = commonApi.injectEndpoints({
@@ -10,8 +11,18 @@ const clubApi = commonApi.injectEndpoints({
                 body: court,
             }),
         }),
+        getCourtByClub: build.query<CourtByClub[], string | undefined>({
+            query: (clubId) => {
+                const routeBuilder = new ApiRouteBuilder(`/api/Courts`);
+                routeBuilder.filter("clubId", `${clubId}`);
+                return routeBuilder.build();
+            },
+            transformResponse(baseQueryReturnValue: any) {
+                return baseQueryReturnValue.value;
+            },
+        }),
     }),
     overrideExisting: true,
 });
 
-export const {useCreateCourtMutation} = clubApi;
+export const {useCreateCourtMutation, useGetCourtByClubQuery} = clubApi;

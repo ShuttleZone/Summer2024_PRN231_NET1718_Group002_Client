@@ -3,11 +3,16 @@ import CreateClub from "./CreateClub";
 import CreateCourt from "./CreateCourt";
 import PrivateRoute from "../PrivateRoute";
 import ClubList from "./ClubList";
+import CourtList from "./CourtList";
 
 const managerRoutes: RouteObject[] = [
     {
         path: "",
         element: <div>Home</div>,
+    },
+    {
+        path: "courts",
+        element: <CourtList />,
     },
     {
         path: "courts/new",
