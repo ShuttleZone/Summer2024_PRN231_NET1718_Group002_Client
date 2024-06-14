@@ -31,10 +31,11 @@ function RegisterForm() {
                 navigate("/login");
             }, 5000); //
         } else {
-            if (!result.error.data.description) {
-                toast.error(`${result.error.data}`);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            if (!(result.error as any).data.description) {
+                toast.error(`${(result.error as any).data}`); // eslint-disable-line @typescript-eslint/no-explicit-any
             } else {
-                toast.error(`${result.error.data.description}`);
+                toast.error(`${(result.error as any).data.description}`); // eslint-disable-line @typescript-eslint/no-explicit-any
             }
         }
     };

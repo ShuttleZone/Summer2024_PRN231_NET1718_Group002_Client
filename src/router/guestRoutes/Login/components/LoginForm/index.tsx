@@ -27,7 +27,7 @@ function LoginForm() {
         const result = await login(formData);
         console.log(result);
         const token = result.data?.token;
-        const userId: any = result.data?.id;
+        const userId: any = result.data?.id; // eslint-disable-line @typescript-eslint/no-explicit-any
         if (token != null) sessionStorage.setItem("token", token);
         sessionStorage.setItem("userId", userId);
 
@@ -37,9 +37,11 @@ function LoginForm() {
                 shouldCallback ? navigate(callbackRoute || "") : navigate("/");
             }, 5000); //
             setFormData(initialState);
-        } else if (result.error.status == 401) toast.error("Wrong password !");
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } else if ((result.error as any).status == 401)
+            toast.error("Wrong password !");
         else {
-            toast.error(`${result.error.data}`);
+            toast.error(`${(result.error as any).data}`); // eslint-disable-line @typescript-eslint/no-explicit-any
         }
     };
 
