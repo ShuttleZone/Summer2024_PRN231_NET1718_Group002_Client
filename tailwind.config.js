@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ["./node_modules/flowbite/**/*.js"],
+    content: [
+        // ...
+        "node_modules/flowbite-react/lib/esm/**/*.js",
+    ],
     plugins: [require("flowbite/plugin")],
     darkMode: ["class"],
     content: [
@@ -68,6 +71,10 @@ module.exports = {
                     from: {height: "var(--radix-accordion-content-height)"},
                     to: {height: "0"},
                 },
+            },
+            animation: {
+                "accordion-down": "accordion-down 0.2s ease-out",
+                "accordion-up": "accordion-up 0.2s ease-out",
             },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",

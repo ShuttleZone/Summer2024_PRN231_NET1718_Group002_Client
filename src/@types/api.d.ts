@@ -188,3 +188,10 @@ export interface CreateContestResponse {
     policy: string;
     contestStatus: string;
 }
+
+interface CourtByClub {
+    name: string;
+    courtType: string;
+    courtStatus: string;
+    price: number;
+}

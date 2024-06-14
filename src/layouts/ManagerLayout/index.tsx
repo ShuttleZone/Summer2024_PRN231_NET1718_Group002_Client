@@ -19,7 +19,7 @@ const managerNavItems = [
     },
     {
         title: "Courts List",
-        to: "/manager/club-requests",
+        to: "/manager/courts",
         icon: FaNewspaper,
     },
     {
