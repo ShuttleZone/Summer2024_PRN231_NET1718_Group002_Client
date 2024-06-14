@@ -10,6 +10,13 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import {Textarea} from "@/components/ui/textarea";
 import {useToast} from "@/components/ui/use-toast";
 import {formattedTimeToDateTime} from "@/lib/time.util";
@@ -37,14 +44,22 @@ const formSchema = z.object({
             required_error: "Phone number is required",
         })
         .regex(/^\d{10}$/, "Phone number is invalid"),
+    maxPlayer: z
+        .preprocess(
+            (value) => parseInt(value as string),
+            z.number().int().nonnegative()
+        )
+        .refine((value) => value > 0 && value % 2 === 0, {
+            message: "Max players is invalid",
+        }),
 });
 
 function ContestCreate() {
-    const [courtId, setCourtId] = useState<string>("");
     const defaultValues = {
         policy: "",
         name: "",
         phone: "",
+        maxPlayer: 0,
     };
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -85,6 +100,7 @@ function ContestCreate() {
             return;
         }
 
+        const courtId = slots[0].CourtId;
         const response = await createContest({
             ...values,
             contestSlots: slots.map((slot) => ({
@@ -119,11 +135,7 @@ function ContestCreate() {
 
     const allSlotsBelongToOneCourt = (slots: BookingSlot[]) => {
         const courtId = slots[0]?.CourtId || "";
-        const belongToOneCourt = slots.every(
-            (slot) => slot.CourtId === courtId
-        );
-        belongToOneCourt && setCourtId(courtId);
-        return belongToOneCourt;
+        return slots.every((slot) => slot.CourtId === courtId);
     };
 
     const continuousSlots = (slots: BookingSlot[]) => {
@@ -198,6 +210,36 @@ function ContestCreate() {
                                         <FormControl>
                                             <Input {...field} id="phone" />
                                         </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            ></FormField>
+                            <FormField
+                                control={form.control}
+                                name="maxPlayer"
+                                render={({field}) => (
+                                    <FormItem>
+                                        <FormLabel htmlFor="maxPlayer">
+                                            Max players
+                                        </FormLabel>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            // value={field.value.toString()}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select max players" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value="2">
+                                                    2 Players
+                                                </SelectItem>
+                                                <SelectItem value="4">
+                                                    4 Players
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
                                         <FormMessage />
                                     </FormItem>
                                 )}
