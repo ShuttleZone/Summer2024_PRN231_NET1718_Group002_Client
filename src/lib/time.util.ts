@@ -5,4 +5,12 @@ function formatTime(time?: string): string {
     return result;
 }
 
+export function formattedTimeToDateTime(timeString: string, date: Date): Date {
+    const result = new Date();
+    result.setDate(date.getDate());
+    const [hours, minutes] = timeString.split(":").map(Number);
+    result.setHours(hours, minutes, 0, 0);
+    return result;
+}
+
 export default formatTime;

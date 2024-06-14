@@ -12,11 +12,15 @@ import {
 import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
 import {useToast} from "@/components/ui/use-toast";
-import {useAppSelector} from "@/store";
+import {formattedTimeToDateTime} from "@/lib/time.util";
+import {useAppDispatch, useAppSelector} from "@/store";
+import {useCreateContestMutation} from "@/store/services/contests/contest.api";
 import {BookingSlot} from "@/store/slices/bookingStage.slice";
+import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
+import {useNavigate} from "react-router-dom";
 import {z} from "zod";
 
 const formSchema = z.object({
@@ -33,30 +37,27 @@ const formSchema = z.object({
             required_error: "Phone number is required",
         })
         .regex(/^\d{10}$/, "Phone number is invalid"),
-    startTime: z.string({
-        required_error: "Start time is required",
-    }),
-    endTime: z.string({
-        required_error: "End time is required",
-    }),
 });
 
 function ContestCreate() {
     const [courtId, setCourtId] = useState<string>("");
     const defaultValues = {
         policy: "",
-        startTime: "",
-        endTime: "",
+        name: "",
+        phone: "",
     };
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues,
     });
-    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const slots = useAppSelector(
         (state) => state.bookingStage.TimeAndDate.Slots
     );
+    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const {toast} = useToast();
+    const [createContest, {isLoading}] = useCreateContestMutation();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         if (!slots.length) {
@@ -75,7 +76,7 @@ function ContestCreate() {
             });
             return;
         }
-        if (!continuosSlots(slots)) {
+        if (!continuousSlots(slots)) {
             toast({
                 title: "Error",
                 description: "Slots must be continuous",
@@ -83,8 +84,37 @@ function ContestCreate() {
             });
             return;
         }
-        console.log("slots", slots);
-        console.log(values);
+
+        const response = await createContest({
+            ...values,
+            contestSlots: slots.map((slot) => ({
+                startTime: formattedTimeToDateTime(
+                    slot.StartTime,
+                    selectedDate
+                ).toISOString(),
+                endTime: formattedTimeToDateTime(
+                    slot.EndTime,
+                    selectedDate
+                ).toISOString(),
+            })),
+            courtId,
+        });
+
+        if (response.error) {
+            toast({
+                title: "Error",
+                description: "Failed to create contest",
+                variant: "destructive",
+            });
+            return;
+        }
+
+        toast({
+            title: "Success",
+            description: "Contest created successfully",
+            variant: "default",
+        });
+        navigate("/my-invoices");
     };
 
     const allSlotsBelongToOneCourt = (slots: BookingSlot[]) => {
@@ -96,7 +126,7 @@ function ContestCreate() {
         return belongToOneCourt;
     };
 
-    const continuosSlots = (slots: BookingSlot[]) => {
+    const continuousSlots = (slots: BookingSlot[]) => {
         const sortedSlots = [...slots].sort((a, b) =>
             a.StartTime.localeCompare(b.StartTime)
         );
@@ -110,6 +140,8 @@ function ContestCreate() {
             );
         });
     };
+
+    isLoading ? dispatch(showSpinner()) : dispatch(hideSpinner());
 
     return (
         <div className="w-3/4 m-auto">

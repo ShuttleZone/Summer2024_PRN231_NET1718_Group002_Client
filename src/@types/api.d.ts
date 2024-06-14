@@ -180,3 +180,11 @@ interface ClubManagement {
     totalCourt: number;
     totalReview: number;
 }
+
+export interface CreateContestResponse {
+    id: string;
+    contestDate: string;
+    maxPlayer: number;
+    policy: string;
+    contestStatus: string;
+}
