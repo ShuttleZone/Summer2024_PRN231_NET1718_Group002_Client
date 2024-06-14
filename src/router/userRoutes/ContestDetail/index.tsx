@@ -1,13 +1,18 @@
 import {useParams} from "react-router-dom";
 import CardContainter from "./components/CardContainter";
 import {useGetContestsDetailQuery} from "@/store/services/contests/contest.api";
+import {ToastContainer} from "react-toastify";
 
 function ContestDetail() {
     const {contestId} = useParams();
-    const {data: contestDetail, isError} = useGetContestsDetailQuery(contestId);
+    const {
+        data: contestDetail,
+        isError,
+        isLoading,
+    } = useGetContestsDetailQuery(contestId);
     console.log(contestDetail);
-    if (contestDetail == undefined) {
-        return <div>ABC</div>;
+    if (isLoading) {
+        return <div>Loading...</div>;
     }
     if (isError) {
         return <div>Error</div>;

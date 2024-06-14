@@ -13,7 +13,7 @@ const clubApi = commonApi.injectEndpoints({
         }),
         getCourtByClub: build.query<CourtByClub[], string | undefined>({
             query: (clubId) => {
-                const routeBuilder = new ApiRouteBuilder(`/api/Courts`);
+                const routeBuilder = new ApiRouteBuilder("/api/Courts");
                 routeBuilder.filter("clubId", `${clubId}`);
                 return routeBuilder.build();
             },
