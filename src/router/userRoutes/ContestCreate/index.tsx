@@ -11,17 +11,15 @@ import {
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
+import {useToast} from "@/components/ui/use-toast";
+import {useAppSelector} from "@/store";
+import {BookingSlot} from "@/store/slices/bookingStage.slice";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
 
 const formSchema = z.object({
-    courtId: z
-        .string({
-            required_error: "Court is invalid",
-        })
-        .min(1, "Court is required"),
     policy: z
         .string({
             required_error: "Contest policy is required",
@@ -44,8 +42,8 @@ const formSchema = z.object({
 });
 
 function ContestCreate() {
+    const [courtId, setCourtId] = useState<string>("");
     const defaultValues = {
-        courtId: "",
         policy: "",
         startTime: "",
         endTime: "",
@@ -55,9 +53,62 @@ function ContestCreate() {
         defaultValues,
     });
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+    const slots = useAppSelector(
+        (state) => state.bookingStage.TimeAndDate.Slots
+    );
+    const {toast} = useToast();
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        if (!slots.length) {
+            toast({
+                title: "Error",
+                description: "Please select a slot",
+                variant: "destructive",
+            });
+            return;
+        }
+        if (!allSlotsBelongToOneCourt(slots)) {
+            toast({
+                title: "Error",
+                description: "All slots must belong to the same court",
+                variant: "destructive",
+            });
+            return;
+        }
+        if (!continuosSlots(slots)) {
+            toast({
+                title: "Error",
+                description: "Slots must be continuous",
+                variant: "destructive",
+            });
+            return;
+        }
+        console.log("slots", slots);
         console.log(values);
+    };
+
+    const allSlotsBelongToOneCourt = (slots: BookingSlot[]) => {
+        const courtId = slots[0]?.CourtId || "";
+        const belongToOneCourt = slots.every(
+            (slot) => slot.CourtId === courtId
+        );
+        belongToOneCourt && setCourtId(courtId);
+        return belongToOneCourt;
+    };
+
+    const continuosSlots = (slots: BookingSlot[]) => {
+        const sortedSlots = [...slots].sort((a, b) =>
+            a.StartTime.localeCompare(b.StartTime)
+        );
+        return sortedSlots.every((slot, index) => {
+            if (index === 0) return true;
+            const previousSlot = sortedSlots[index - 1];
+            return (
+                slot.CourtId === previousSlot.CourtId &&
+                slot.Date === previousSlot.Date &&
+                slot.StartTime === previousSlot.EndTime
+            );
+        });
     };
 
     return (
