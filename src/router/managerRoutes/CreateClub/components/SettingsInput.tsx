@@ -17,7 +17,11 @@ function SettingInput() {
     });
     const [validationError, setValidationError] = useState("");
 
-    const validateOpenHours = (openTime, closeTime, minDuration) => {
+    const validateOpenHours = (
+        openTime: string,
+        closeTime: string,
+        minDuration: number
+    ) => {
         if (openTime && closeTime && minDuration > 0) {
             const [openHours, openMinutes] = openTime.split(":").map(Number);
             const [closeHours, closeMinutes] = closeTime.split(":").map(Number);
