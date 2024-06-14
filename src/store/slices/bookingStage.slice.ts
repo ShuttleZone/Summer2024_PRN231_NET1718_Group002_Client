@@ -1,5 +1,5 @@
 import {PayloadAction, createSelector, createSlice} from "@reduxjs/toolkit";
-interface BookingSlot {
+export interface BookingSlot {
     CourtId: string;
     CourtName: string;
     Date: string;

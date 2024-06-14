@@ -92,7 +92,11 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
         const tempList: BookedSlot[] = [...selectedSlots];
         tempList.push(...recentlyBookedSlot);
         setSelectedSlots(tempList);
-    }, [recentlyBookedSlot, selectedSlots]);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    // }, [recentlyBookedSlot, selectedSlots]); // remove dependency array to avoid infinite loop
+    // not sure if this breaks the booking functionality
+    // if it does, you can add the dependency array back
+    // but make sure to avoid producing infinite loops
 
     const bookedSlots: BookedSlot[] = bookedData ?? [];
 

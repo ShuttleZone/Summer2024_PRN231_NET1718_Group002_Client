@@ -19,7 +19,7 @@ import {
     DialogTrigger,
     DialogClose,
 } from "@/components/ui/dialog";
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {
     BaseQueryFn,
     FetchArgs,
@@ -38,7 +38,7 @@ interface InputDataProps {
                 string | FetchArgs,
                 unknown,
                 FetchBaseQueryError,
-                {},
+                Record<string, never>,
                 FetchBaseQueryMeta
             >,
             never,
@@ -60,11 +60,11 @@ function InputData({
     clubRequest,
     refetch,
 }: InputDataProps) {
-    const [open, setOpen] = React.useState(false);
+    const [_, setOpen] = React.useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
     const [acceptRequest] = useAcceptClubRequestMutation();
     const [rejectRequest] = useRejectClubRequestMutation();
     const {toast} = useToast();
-    const [reloadFlag, setReloadFlag] = useState(false);
+    // const [reloadFlag, setReloadFlag] = useState(false);
 
     const handleAccept = async () => {
         setOpen(true);
@@ -238,7 +238,7 @@ interface RequestTableProps {
                 string | FetchArgs,
                 unknown,
                 FetchBaseQueryError,
-                {},
+                Record<string, never>,
                 FetchBaseQueryMeta
             >,
             never,

@@ -16,6 +16,7 @@ import RegisterForm from "../guestRoutes/Register/RegisterForm";
 import ClubCreate from "./ClubCreate";
 import MyReservationDetailList from "./ReservationDetail";
 import MyReservationInvoiceList from "./Reservation";
+import ContestCreate from "./ContestCreate";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -100,6 +101,10 @@ const privateRoutes: RouteObject[] = [
                 element: <ConfirmBooking />,
             },
         ],
+    },
+    {
+        path: "/clubs/:id/contests/new",
+        element: <ContestCreate />,
     },
     {
         path: "/clubs/register",

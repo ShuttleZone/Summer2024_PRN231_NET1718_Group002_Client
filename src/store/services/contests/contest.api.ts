@@ -1,4 +1,5 @@
-import {ContestInfo} from "@/@types/api";
+import {ContestInfo, CreateContestResponse} from "@/@types/api";
+import {CreateContestType} from "@/@types/requests";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
@@ -30,6 +31,16 @@ const contestApi = commonApi.injectEndpoints({
                 method: "PUT",
             }),
         }),
+        createContest: build.mutation<CreateContestResponse, CreateContestType>(
+            {
+                query: (contest) => ({
+                    url: "/api/Contests",
+                    method: "POST",
+                    body: contest,
+                }),
+            }
+        ),
+
     }),
     overrideExisting: true,
 });
@@ -38,4 +49,5 @@ export const {
     useGetContestsQuery,
     useGetContestsDetailQuery,
     useJoinContestMutation,
+    useCreateContestMutation,
 } = contestApi;
