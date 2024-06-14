@@ -24,8 +24,18 @@ const contestApi = commonApi.injectEndpoints({
                 return routeBuilder.build();
             },
         }),
+        joinContest: build.mutation({
+            query: ({contestId}) => ({
+                url: `api/Contests/${contestId}`,
+                method: "PUT",
+            }),
+        }),
     }),
     overrideExisting: true,
 });
 
-export const {useGetContestsQuery, useGetContestsDetailQuery} = contestApi;
+export const {
+    useGetContestsQuery,
+    useGetContestsDetailQuery,
+    useJoinContestMutation,
+} = contestApi;
