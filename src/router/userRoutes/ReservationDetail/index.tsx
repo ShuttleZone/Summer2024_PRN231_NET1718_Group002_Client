@@ -133,7 +133,7 @@ function MyReservationDetailList() {
                                             Details
                                         </th>
                                         <th className="px-4 py-2 border-b">
-                                            Chat
+                                            Action
                                         </th>
                                     </tr>
                                 </thead>

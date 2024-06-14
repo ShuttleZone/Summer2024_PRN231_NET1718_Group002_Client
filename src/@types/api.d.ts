@@ -187,3 +187,9 @@ interface CourtByClub {
     courtStatus: string;
     price: number;
 }
+
+interface ReviewRequest {
+    clubId: string;
+    rating: number;
+    comment: string;
+}
