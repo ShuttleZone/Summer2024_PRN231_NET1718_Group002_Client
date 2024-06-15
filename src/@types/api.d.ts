@@ -70,6 +70,7 @@ export interface ContestInfo {
 
 export interface ReservationDetailType {
     id: string;
+    clubId: string;
     courtName: string;
     startTime: string;
     endTime: string;
@@ -190,6 +191,7 @@ export interface CreateContestResponse {
 }
 
 interface CourtByClub {
+    id: string;
     name: string;
     courtType: string;
     courtStatus: string;

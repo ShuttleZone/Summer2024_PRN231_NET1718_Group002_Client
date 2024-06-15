@@ -1,4 +1,4 @@
-import {CourtByClub, CourtType} from "@/@types/api";
+import {ChangeCourtStatus, CourtByClub, CourtType} from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
@@ -21,8 +21,20 @@ const clubApi = commonApi.injectEndpoints({
                 return baseQueryReturnValue.value;
             },
         }),
+        changeStatusCourt: build.mutation<ChangeCourtStatus, {id: string}>({
+            query: (data) => {
+                return {
+                    url: `https://localhost:7015/api/Courts/disableCourt/${data.id}`,
+                    method: "PUT",
+                };
+            },
+        }),
     }),
     overrideExisting: true,
 });
 
-export const {useCreateCourtMutation, useGetCourtByClubQuery} = clubApi;
+export const {
+    useCreateCourtMutation,
+    useGetCourtByClubQuery,
+    useChangeStatusCourtMutation,
+} = clubApi;

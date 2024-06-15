@@ -5,7 +5,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-
+import {useToast} from "@/components/ui/use-toast";
 import {
     Dialog,
     DialogContent,
@@ -20,6 +20,7 @@ import {useCreateClubReviewMutation} from "@/store/services/reviews/review.api";
 import {ReviewRequest} from "@/@types/api";
 
 interface ReservationDetailsItemProps {
+    clubId: string;
     courtName: string;
     price: number;
     datetime: string;
@@ -27,6 +28,7 @@ interface ReservationDetailsItemProps {
 }
 
 const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
+    clubId,
     courtName,
     price,
     datetime,
@@ -34,18 +36,32 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
 }) => {
     const shouldBePurple = true;
 
-    const initialState: Omit<ReviewRequest, ""> = {
+    const initialState: ReviewRequest = {
         clubId: "",
-        rating: -1,
+        rating: 0,
         comment: "",
     };
-    const [formData, setFormData] =
-        useState<Omit<ReviewRequest, "">>(initialState);
+    const {toast} = useToast();
+    const [_, setOpen] = React.useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
+    const [formData, setFormData] = useState<ReviewRequest>(initialState);
     const [sendReview] = useCreateClubReviewMutation();
     const handleSend = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // const result = await sendReview(formData);
-        console.log(formData);
+        const result = await sendReview(formData);
+        setOpen(true);
+
+        if (result.data != null) {
+            toast({
+                description: "Your review has been sent. Thanks for telling us",
+            });
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+        }
+        // console.log(formData);
     };
     return (
         <tr>
@@ -81,11 +97,19 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
                 </button>
 
                 <Dialog>
-                    <DialogTrigger>
+                    <DialogTrigger onClick={() => setOpen(true)}>
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger>
                                     <button
+                                        value={clubId}
+                                        onClick={(event) =>
+                                            setFormData((prev) => ({
+                                                ...prev,
+                                                clubId: event.currentTarget
+                                                    .value,
+                                            }))
+                                        }
                                         data-tooltip-target="tooltip-default"
                                         type="button"
                                         className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

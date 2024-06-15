@@ -6,22 +6,98 @@ import {
 } from "@/components/ui/accordion";
 import {useGetMyClubsQuery} from "@/store/services/clubs/club.api";
 import Description from "./components/HeaderDescription";
-import {useGetCourtByClubQuery} from "@/store/services/courts/court.api";
+import {
+    useChangeStatusCourtMutation,
+    useGetCourtByClubQuery,
+} from "@/store/services/courts/court.api";
+import {useToast} from "@/components/ui/use-toast";
 
 interface InputCourtDataProps {
     clubId: string;
 }
 
 function InputCourtData({clubId}: InputCourtDataProps) {
-    const {data: courts, isLoading, error} = useGetCourtByClubQuery(clubId);
+    const {toast} = useToast();
+    const {
+        data: courts,
+        isLoading,
+        error,
+        refetch,
+    } = useGetCourtByClubQuery(clubId);
+    const [changeCourtStatus] = useChangeStatusCourtMutation();
+
     console.log(courts);
-    if (isLoading) return <div>is loading...</div>;
+    if (isLoading)
+        return (
+            <div>
+                <div
+                    role="status"
+                    className="max-w-md p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700"
+                >
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                            <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                        </div>
+                        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <div className="flex items-center justify-between pt-4">
+                        <div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                            <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                        </div>
+                        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <div className="flex items-center justify-between pt-4">
+                        <div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                            <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                        </div>
+                        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <div className="flex items-center justify-between pt-4">
+                        <div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                            <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                        </div>
+                        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <div className="flex items-center justify-between pt-4">
+                        <div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                            <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                        </div>
+                        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <span className="sr-only">Loading...</span>
+                </div>
+            </div>
+        );
     if (error)
         return (
             <tr>
                 <td>Error loading courts</td>
             </tr>
         );
+
+    const handleChangeStatus = async (courtId: string) => {
+        const {error} = await changeCourtStatus({id: courtId});
+        console.log(error);
+        if (!error) {
+            toast({
+                variant: "default",
+                description: "Changes saved !",
+            });
+            refetch();
+        } else {
+            toast({
+                variant: "destructive",
+                description: "Error in server !",
+            });
+            refetch();
+        }
+    };
+
     return (
         <>
             {courts?.map((court) => (
@@ -34,8 +110,49 @@ function InputCourtData({clubId}: InputCourtDataProps) {
                     </th>
                     <td className="px-6 py-4"> {court.courtType} </td>
                     <td className="px-6 py-4">{court.courtStatus}</td>
-                    <td className="px-6 py-4">{court.price}</td>
-                    <td className="px-6 py-4">Edit - Delete - Maintainence</td>
+                    <td className="px-6 py-4">{court.price} VND</td>
+                    <td className="px-6 py-4">
+                        <button
+                            type="button"
+                            className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                        >
+                            Update
+                        </button>
+                        -{" "}
+                        <button
+                            type="button"
+                            className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                        >
+                            Delete
+                        </button>
+                        -{" "}
+                        <button
+                            type="button"
+                            className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                        >
+                            Maintainance
+                        </button>
+                        -{" "}
+                        {court.courtStatus != "Unavailable" ? (
+                            <button
+                                value={court.id}
+                                onClick={() => handleChangeStatus(court.id)}
+                                type="button"
+                                className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                            >
+                                Set Offline
+                            </button>
+                        ) : (
+                            <button
+                                value={court.id}
+                                onClick={() => handleChangeStatus(court.id)}
+                                type="button"
+                                className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                            >
+                                Set Online
+                            </button>
+                        )}
+                    </td>
                 </tr>
             ))}
         </>
