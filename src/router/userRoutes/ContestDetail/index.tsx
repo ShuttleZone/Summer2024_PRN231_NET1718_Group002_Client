@@ -1,7 +1,6 @@
 import {useParams} from "react-router-dom";
 import CardContainter from "./components/CardContainter";
 import {useGetContestsDetailQuery} from "@/store/services/contests/contest.api";
-import {ToastContainer} from "react-toastify";
 
 function ContestDetail() {
     const {contestId} = useParams();
@@ -14,7 +13,7 @@ function ContestDetail() {
     if (isLoading) {
         return <div>Loading...</div>;
     }
-    if (isError) {
+    if (isError || !contestDetail) {
         return <div>Error</div>;
     }
 

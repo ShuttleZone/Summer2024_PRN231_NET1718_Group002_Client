@@ -3,10 +3,10 @@ import commonApi from "@/store/common.api";
 
 const reviewApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
-        createClubReview: build.mutation<ReviewRequest, "">({
+        createClubReview: build.mutation<ReviewRequest, ReviewRequest>({
             query(body) {
                 return {
-                    url: `/api/Review/create-review`,
+                    url: "/api/Review/create-review",
                     method: "POST",
                     body: body,
                 };
