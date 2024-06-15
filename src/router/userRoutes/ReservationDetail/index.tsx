@@ -141,6 +141,7 @@ function MyReservationDetailList() {
                                     {reservations.map((r) => (
                                         <ReservationDetailsItem
                                             key={r.id}
+                                            clubId={r.clubId}
                                             courtName={r.courtName}
                                             price={r.price}
                                             status={r.reservationDetailStatus}
