@@ -1,6 +1,10 @@
-import {ChangeCourtStatus, CourtByClub, CourtType} from "@/@types/api";
+import {CourtByClub, CourtType} from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
+
+interface CourtByClubResponse {
+    value: CourtByClub[];
+}
 
 const clubApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
@@ -17,11 +21,11 @@ const clubApi = commonApi.injectEndpoints({
                 routeBuilder.filter("clubId", `${clubId}`);
                 return routeBuilder.build();
             },
-            transformResponse(baseQueryReturnValue: any) {
+            transformResponse(baseQueryReturnValue: CourtByClubResponse) {
                 return baseQueryReturnValue.value;
             },
         }),
-        changeStatusCourt: build.mutation<ChangeCourtStatus, {id: string}>({
+        changeStatusCourt: build.mutation<Record<string, never>, {id: string}>({
             query: (data) => {
                 return {
                     url: `https://localhost:7015/api/Courts/disableCourt/${data.id}`,

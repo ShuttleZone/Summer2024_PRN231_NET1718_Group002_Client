@@ -40,7 +40,6 @@ const contestApi = commonApi.injectEndpoints({
                 }),
             }
         ),
-
     }),
     overrideExisting: true,
 });

@@ -20,7 +20,9 @@ const JoinContestButton: React.FC<JoinContestButtonProps> = ({contestId}) => {
         } catch (err) {
             toast({
                 title: "Error",
-                description: err?.data?.value || "Unknown error occurred",
+                description:
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (err as any)?.data?.value || "Unknown error occurred",
                 variant: "destructive",
             });
         }
