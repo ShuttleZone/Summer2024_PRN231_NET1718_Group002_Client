@@ -40,8 +40,8 @@ const formSchema = z.object({
         z.number().int().nonnegative("Court type is required")
     ),
     courtStatus: z.preprocess(
-        (value) => parseInt(value as string),
-        z.number().int().nonnegative()
+        (value) => parseInt(!value ? "-1" : (value as string)),
+        z.number().int().nonnegative("Court status is required")
     ),
     price: z.preprocess(
         (value) => parseFloat(value as string),
@@ -79,6 +79,7 @@ function CreateCourt() {
     const defaultValues = {
         clubId: "",
         name: "",
+        price: 0,
     };
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -112,7 +113,14 @@ function CreateCourt() {
                 description: "Court created successfully",
             });
             form.reset(defaultValues);
+            handleResetForm();
         }
+    };
+
+    const handleResetForm = () => {
+        form.reset(defaultValues);
+        form.setValue("courtType", "" as any); // eslint-disable-line @typescript-eslint/no-explicit-any
+        form.setValue("courtStatus", "" as any); // eslint-disable-line @typescript-eslint/no-explicit-any
     };
 
     return (
@@ -260,7 +268,7 @@ function CreateCourt() {
                     </div>
                     <div className="self-end flex justify-between gap-4">
                         <Button
-                            onClick={() => form.reset(defaultValues)}
+                            onClick={handleResetForm}
                             type="reset"
                             variant={"destructive"}
                         >
