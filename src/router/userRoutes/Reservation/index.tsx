@@ -3,6 +3,13 @@ import {useState} from "react";
 import {useGetReservationsQuery} from "@/store/services/reservations/reservation.api";
 import {StatusNav} from "@/@types/api";
 import ReservationItem from "./components/ReservationItem";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 const initStatusNavList: StatusNav[] = [
     {Id: 1, Status: "", Text: "All"},
@@ -58,27 +65,32 @@ function MyReservationInvoiceList() {
                                 </NavButton>
                             ))}
                         </div>
-                        <div className="flex items-center space-x-2">
-                            <span className="text-gray-500">Sort By:</span>
-                            <select
-                                className="border border-gray-300 rounded p-1"
-                                value={sort}
-                                onChange={(e) => setSort(e.target.value)}
+                        <div className="flex items-center justify-center gap-2">
+                            <span className="text-gray-500 min-w-16">
+                                Sort By:
+                            </span>
+                            <Select
+                                value={sort || "bookingDate desc"}
+                                onValueChange={(value) => setSort(value)}
                             >
-                                <option value={"bookingDate desc"}>
-                                    Booking Date Desc
-                                </option>
-                                <option value={"bookingDate desc"}>
-                                    Booking Date Asc
-                                </option>
-
-                                <option value={"totalPrice desc"}>
-                                    Total Price Desc
-                                </option>
-                                <option value={"totalPrice asc"}>
-                                    Total Price Asc
-                                </option>
-                            </select>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select your club" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="bookingDate desc">
+                                        Booking Date Desc
+                                    </SelectItem>
+                                    <SelectItem value="bookingDate asc">
+                                        Booking Date Asc
+                                    </SelectItem>
+                                    <SelectItem value="totalPrice desc">
+                                        Total Price Desc
+                                    </SelectItem>
+                                    <SelectItem value="totalPrice asc">
+                                        Total Price Asc
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                     </div>
                     {reservations && reservations.length > 0 ? (
@@ -123,18 +135,28 @@ function MyReservationInvoiceList() {
                             <div className="flex justify-between items-center mt-6">
                                 <div className="flex items-center space-x-2">
                                     <span>Show</span>
-                                    <select
-                                        className="border border-gray-300 rounded p-1"
-                                        value={pageSize}
-                                        onChange={(e) =>
-                                            setPageSize(Number(e.target.value))
+                                    <Select
+                                        value={pageSize.toString()}
+                                        onValueChange={(value) =>
+                                            setPageSize(Number(value))
                                         }
                                     >
-                                        <option value={5}>5</option>
-                                        <option value={10}>10</option>
-                                        <option value={20}>20</option>
-                                        <option value={50}>50</option>
-                                    </select>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select your club" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="5">5</SelectItem>
+                                            <SelectItem value="10">
+                                                10
+                                            </SelectItem>
+                                            <SelectItem value="20">
+                                                20
+                                            </SelectItem>
+                                            <SelectItem value="50">
+                                                50
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
                                 </div>
                                 <div className="flex space-x-2">
                                     <button
