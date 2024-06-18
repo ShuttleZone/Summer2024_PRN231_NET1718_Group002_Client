@@ -59,12 +59,41 @@ export interface UserContest {
     phoneNumber: string;
 }
 
+export interface ClubContest {
+    clubName: string;
+    clubAddress: string;
+    clubDescription: string;
+    clubPhone: string;
+    openTime: string;
+    closeTime: string;
+}
+
+export interface CourtContest {
+    courtStatus: string;
+    courtType: string;
+    name: string;
+    club: ClubContest;
+}
+
+export interface ReservationDetailsContest {
+    startTime: string;
+    endTime: string;
+    court: CourtContest;
+}
+
+export interface ReservationContest {
+    bookingDate: string;
+    totalPrice: number;
+    reservationDetailsDtos: ReservationDetailsContest[];
+}
+
 export interface ContestInfo {
     id: string;
     contestDate: string;
     maxPlayer: number;
     policy: string;
     contestStatus: number;
+    reservation: ReservationContest;
     userContests: UserContest[];
 }
 

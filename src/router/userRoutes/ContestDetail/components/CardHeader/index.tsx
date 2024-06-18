@@ -1,5 +1,6 @@
 import {ContestInfo} from "@/@types/api";
 import JoinContestButton from "../JoinContestButton";
+import formatTime from "@/lib/time.util";
 
 interface ContestTableProps {
     contest: ContestInfo;
@@ -41,12 +42,11 @@ function CardHeader({contest}: ContestTableProps) {
                                     Court Name
                                 </div>
                                 <div className="w-full">
-                                    Lorem ipsum dolor, sit amet consectetur
-                                    adipisicing elit. Alias architecto quam unde
-                                    velit enim deserunt sed tempore soluta,
-                                    pariatur ullam consectetur blanditiis,
-                                    laudantium repudiandae eligendi minus vel
-                                    temporibus, ea doloremque?
+                                    {contest.reservation.reservationDetailsDtos.map(
+                                        (rd) => {
+                                            return rd.court.name;
+                                        }
+                                    )}
                                 </div>
                             </div>
                         </label>
@@ -101,15 +101,43 @@ function CardHeader({contest}: ContestTableProps) {
                                 </svg>
 
                                 <div className="w-full inline align-middle mx-1 text-lg font-semibold">
-                                    Court Address
+                                    Club & Court Information
                                 </div>
                                 <div className="w-full">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Reprehenderit nam esse
-                                    similique fugit id inventore, recusandae
-                                    quibusdam veritatis? Minus tempore dolorum
-                                    sunt non aut autem nobis? Facilis ea iure
-                                    reprehenderit.
+                                    {contest.reservation.reservationDetailsDtos.map(
+                                        (rd) => {
+                                            return (
+                                                <div>
+                                                    {" "}
+                                                    <div>
+                                                        Club Address:{" "}
+                                                        {
+                                                            rd.court.club
+                                                                .clubAddress
+                                                        }
+                                                    </div>
+                                                    <div>
+                                                        Working Hours:{" "}
+                                                        {formatTime(
+                                                            rd.court.club
+                                                                .openTime
+                                                        )}{" "}
+                                                        -{" "}
+                                                        {formatTime(
+                                                            rd.court.club
+                                                                .closeTime
+                                                        )}
+                                                        <br />
+                                                        Phone:{" "}
+                                                        {
+                                                            rd.court.club
+                                                                .clubPhone
+                                                        }
+                                                    </div>
+                                                </div>
+                                            );
+                                        }
+                                    )}
                                 </div>
                             </div>
                         </label>
