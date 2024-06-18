@@ -5,6 +5,13 @@ import {useGetReservationDetailsQuery} from "@/store/services/reservations/reser
 import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
 import {SerializedError} from "@reduxjs/toolkit";
 import {StatusNav} from "@/@types/api";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 const formatDateTime = (dateTime: string) => {
     const date = new Date(dateTime);
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
@@ -94,22 +101,32 @@ function MyReservationDetailList() {
                                 </NavButton>
                             ))}
                         </div>
-                        <div className="flex items-center space-x-2">
-                            <span className="text-gray-500">Sort By:</span>
-                            <select
-                                className="border border-gray-300 rounded p-1"
-                                value={sort}
-                                onChange={(e) => setSort(e.target.value)}
+                        <div className="flex items-center justify-between gap-2">
+                            <span className="text-gray-500 min-w-16">
+                                Sort By:
+                            </span>
+                            <Select
+                                value={sort || "startTime desc"}
+                                onValueChange={(value) => setSort(value)}
                             >
-                                <option value={"startTime desc"}>
-                                    Date Desc
-                                </option>
-                                <option value={"startTime asc"}>
-                                    Date Asc
-                                </option>
-                                <option value={"price desc"}>Price Desc</option>
-                                <option value={"price asc"}>Price Asc</option>
-                            </select>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Sort by" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="startTime desc">
+                                        Date Desc
+                                    </SelectItem>
+                                    <SelectItem value="startTime asc">
+                                        Date Asc
+                                    </SelectItem>
+                                    <SelectItem value="price desc">
+                                        Price Desc
+                                    </SelectItem>
+                                    <SelectItem value="price asc">
+                                        Price Asc
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                     </div>
                     {reservations && reservations.length > 0 ? (
@@ -153,18 +170,28 @@ function MyReservationDetailList() {
                             <div className="flex justify-between items-center mt-6">
                                 <div className="flex items-center space-x-2">
                                     <span>Show</span>
-                                    <select
-                                        className="border border-gray-300 rounded p-1"
-                                        value={pageSize}
-                                        onChange={(e) =>
-                                            setPageSize(Number(e.target.value))
+                                    <Select
+                                        value={pageSize.toString()}
+                                        onValueChange={(value) =>
+                                            setPageSize(Number(value))
                                         }
                                     >
-                                        <option value={5}>5</option>
-                                        <option value={10}>10</option>
-                                        <option value={20}>20</option>
-                                        <option value={50}>50</option>
-                                    </select>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Number of rows" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="5">5</SelectItem>
+                                            <SelectItem value="10">
+                                                10
+                                            </SelectItem>
+                                            <SelectItem value="20">
+                                                20
+                                            </SelectItem>
+                                            <SelectItem value="50">
+                                                50
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
                                 </div>
                                 <div className="flex space-x-2">
                                     <button

@@ -28,7 +28,7 @@ const clubApi = commonApi.injectEndpoints({
         changeStatusCourt: build.mutation<Record<string, never>, {id: string}>({
             query: (data) => {
                 return {
-                    url: `https://localhost:7015/api/Courts/disableCourt/${data.id}`,
+                    url: `/api/Courts/disableCourt/${data.id}`,
                     method: "PUT",
                 };
             },
