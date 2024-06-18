@@ -1,3 +1,4 @@
+import {ContestInfo} from "@/@types/api";
 import {useNavigate} from "react-router-dom";
 
 export interface UserContest {
@@ -11,15 +12,6 @@ export interface UserContest {
     gender: number;
     email: string;
     phoneNumber: string;
-}
-
-export interface ContestInfo {
-    id: string;
-    contestDate: string;
-    maxPlayer: number;
-    policy: string;
-    contestStatus: number;
-    userContests: UserContest[];
 }
 
 function InputDataTable({

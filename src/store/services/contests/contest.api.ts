@@ -24,6 +24,9 @@ const contestApi = commonApi.injectEndpoints({
                 );
                 return routeBuilder.build();
             },
+            transformResponse(baseQueryReturnValue: ContestInfo) {
+                return baseQueryReturnValue;
+            },
         }),
         joinContest: build.mutation({
             query: ({contestId}) => ({
