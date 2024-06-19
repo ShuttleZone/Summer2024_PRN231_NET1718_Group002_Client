@@ -1,3 +1,23 @@
+import {Button} from "@/components/ui/button";
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 function AllReviews() {
     return (
         <div className="border-2 rounded-lg p-4 m-2 border-green-500/50">
@@ -97,12 +117,88 @@ function AllReviews() {
                             className="px-2 py-1.5 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                         >
                             Reply
-                        </a>
+                        </a>{" "}
                         <a
                             href="#"
                             className="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600"
                         >
-                            Action
+                            <DropdownMenu>
+                                <DropdownMenuTrigger>
+                                    Action
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuLabel>
+                                        Review Action
+                                    </DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>
+                                        <Dialog>
+                                            <DialogTrigger>
+                                                Hide Review
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>
+                                                        Are you absolutely sure
+                                                        to hide this review?
+                                                    </DialogTitle>
+                                                    <DialogDescription>
+                                                        This action cannot be
+                                                        undone.
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <DialogFooter>
+                                                    <DialogClose>
+                                                        <Button
+                                                            className="p-3 bg-green-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-green-800 text-sm px-5 py-2.5 me-2 mb-2"
+                                                            type="submit"
+                                                            // onClick={
+                                                            //     handleAccept
+                                                            // }
+                                                            variant="secondary"
+                                                        >
+                                                            Hide the review
+                                                        </Button>
+                                                    </DialogClose>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <Dialog>
+                                            <DialogTrigger>
+                                                Delete Review
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>
+                                                        Are you absolutely sure
+                                                        to reject this request?
+                                                    </DialogTitle>
+                                                    <DialogDescription>
+                                                        This action cannot be
+                                                        undone. This will
+                                                        permanently delete your
+                                                        account and remove your
+                                                        data from our servers.
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <DialogFooter>
+                                                    <DialogClose>
+                                                        <Button
+                                                            className="p-3 bg-red-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-red-800 text-sm px-5 py-2.5 me-2 mb-2"
+                                                            type="submit"
+                                                            variant="secondary"
+                                                        >
+                                                            Reject the request
+                                                        </Button>
+                                                    </DialogClose>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </a>
                     </div>
                 </aside>
