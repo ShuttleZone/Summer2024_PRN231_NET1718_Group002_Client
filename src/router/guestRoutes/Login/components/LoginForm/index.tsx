@@ -3,9 +3,8 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {LoginAccount} from "@/@types/api";
 import {useAppSelector} from "@/store";
-// import {useToast} from "@/components/ui/use-toast";
-// import {Toaster} from "@/components/ui/toaster";
-import {ToastContainer, toast} from "react-toastify";
+import {useToast} from "@/components/ui/use-toast";
+import {Toaster} from "@/components/ui/toaster";
 
 function LoginForm() {
     const initialState: Omit<LoginAccount, ""> = {
@@ -21,6 +20,7 @@ function LoginForm() {
     const {shouldCallback, callbackRoute} = useAppSelector(
         (state) => state.callback
     );
+    const {toast} = useToast();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -32,16 +32,25 @@ function LoginForm() {
         sessionStorage.setItem("userId", userId);
 
         if (!result.error) {
-            toast.success("Login Successful !");
+            toast({
+                variant: "default",
+                description: "Login successful !",
+            });
             setTimeout(() => {
                 shouldCallback ? navigate(callbackRoute || "") : navigate("/");
-            }, 5000); //
+            }, 2000); //
             setFormData(initialState);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } else if ((result.error as any).status == 401)
-            toast.error("Wrong password !");
+            toast({
+                variant: "destructive",
+                description: "Wrong password !",
+            });
         else {
-            toast.error(`${(result.error as any).data}`); // eslint-disable-line @typescript-eslint/no-explicit-any
+            toast({
+                variant: "destructive",
+                description: `${(result.error as any).data}`,
+            });
         }
     };
 
@@ -71,7 +80,7 @@ function LoginForm() {
                             className="space-y-4 md:space-y-6"
                             onSubmit={handleSubmit}
                         >
-                            <ToastContainer />
+                            <Toaster />
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Your email or username

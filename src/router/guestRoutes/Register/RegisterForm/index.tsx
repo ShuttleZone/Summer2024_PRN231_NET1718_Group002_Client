@@ -1,8 +1,9 @@
 import {RegisterAccount} from "@/@types/api";
 import {useRegisterMutation} from "@/store/services/accounts/auth.api";
 import {useNavigate} from "react-router-dom";
-import {ToastContainer, toast} from "react-toastify";
 import React, {useState} from "react";
+import {useToast} from "@/components/ui/use-toast";
+import {Toaster} from "@/components/ui/toaster";
 
 function RegisterForm() {
     const initialState: Omit<RegisterAccount, ""> = {
@@ -17,25 +18,38 @@ function RegisterForm() {
 
     const [register] = useRegisterMutation();
     const navigate = useNavigate();
+    const {toast} = useToast();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         if (formData.repassword.match(formData.password)) {
-            toast.error("Password is not match !");
+            toast({
+                variant: "destructive",
+                description: "Password is not match !",
+            });
         }
         event.preventDefault();
         const result = await register(formData);
+        console.log("succeed", result);
         console.log(result.error);
-        if (result.data != null) {
-            toast.success("Register successfully ! Please proceed to login ");
+        if (result.data?.token != null) {
+            toast({
+                variant: "default",
+                description: "Register successful! Please proceed to login.",
+            });
             setTimeout(() => {
                 navigate("/login");
-            }, 5000); //
+            }, 2000); //
         } else {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             if (!(result.error as any).data.description) {
-                toast.error(`${(result.error as any).data}`); // eslint-disable-line @typescript-eslint/no-explicit-any
+                toast({
+                    variant: "destructive",
+                    description: `${(result.error as any).data}`,
+                });
             } else {
-                toast.error(`${(result.error as any).data.description}`); // eslint-disable-line @typescript-eslint/no-explicit-any
+                toast({
+                    variant: "destructive",
+                    description: `${(result.error as any).data.description}`,
+                });
             }
         }
     };
@@ -56,7 +70,7 @@ function RegisterForm() {
                         alt="logo"
                     />
                     Shuttle Zone
-                    <ToastContainer />
+                    <Toaster />
                 </a>
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

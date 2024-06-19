@@ -4,6 +4,7 @@ import CreateCourt from "./CreateCourt";
 import PrivateRoute from "../PrivateRoute";
 import ClubList from "./ClubList";
 import CourtList from "./CourtList";
+import ClubReview from "./ClubReview";
 
 const managerRoutes: RouteObject[] = [
     {
@@ -25,6 +26,10 @@ const managerRoutes: RouteObject[] = [
     {
         path: "clubs",
         element: <ClubList />,
+    },
+    {
+        path: "club-reviews",
+        element: <ClubReview />,
     },
 ];
 

@@ -12,10 +12,14 @@ import {
 import {FaStar} from "react-icons/fa6";
 import {FaRegCommentDots} from "react-icons/fa";
 import {useGetClubListQuery} from "@/store/services/clubs/club.api";
+import {Navigate, useNavigate} from "react-router-dom";
 
 function ClubList() {
     const {data: clubs, isLoading} = useGetClubListQuery();
-
+    const navigate = useNavigate();
+    function handleClick() {
+        navigate("/manager/club-reviews");
+    }
     if (isLoading) return <div>is loading...</div>;
     return (
         <div className="h-fit">
@@ -51,7 +55,10 @@ function ClubList() {
                                 <TableCell>{club.totalCourt}</TableCell>
                                 <TableCell className="flex">
                                     {club.totalReview}
-                                    <FaRegCommentDots className="mx-2 text-lg text-slate-500" />
+                                    <FaRegCommentDots
+                                        onClick={handleClick}
+                                        className="mx-2 text-lg text-slate-500"
+                                    />
                                 </TableCell>
                             </TableRow>
                         ))}
