@@ -1,6 +1,7 @@
 import commonApi from "@/store/common.api";
-import {LoginAccount, RegisterAccount} from "@/@types/api";
+import {LoginAccount, RegisterAccount, UserProfile} from "@/@types/api";
 import {setAuth} from "@/store/slices/auth.slice";
+import ApiRouteBuilder from "@/lib/api.util";
 
 export const authApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
@@ -34,7 +35,30 @@ export const authApi = commonApi.injectEndpoints({
                 };
             },
         }),
+        profile: build.query<UserProfile, void>({
+            query: () => {
+                const routeBuilder = new ApiRouteBuilder("/api/profile");
+                return routeBuilder.build();
+            },
+        }),
+        updateProfile: build.mutation({
+            query(body) {
+                return {
+                    url: "/api/profile",
+                    method: "PUT",
+                    body: JSON.stringify(body),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                };
+            },
+        }),
     }),
 });
 
-export const {useLoginMutation, useRegisterMutation} = authApi;
+export const {
+    useLoginMutation,
+    useRegisterMutation,
+    useProfileQuery,
+    useUpdateProfileMutation,
+} = authApi;
