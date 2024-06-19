@@ -55,6 +55,18 @@ const reservationApi = commonApi.injectEndpoints({
                 body: data,
             }),
         }),
+        cancelReservation: build.mutation({
+            query: ({reservationId}) => ({
+                url: `api/Reservation/${reservationId}`,
+                method: "PUT",
+            }),
+        }),
+        cancelReservationDetail: build.mutation({
+            query: ({reservationDetailId}) => ({
+                url: `api/ReservationDetails/${reservationDetailId}`,
+                method: "PUT",
+            }),
+        }),
     }),
     overrideExisting: true,
 });
@@ -63,4 +75,6 @@ export const {
     useGetReservationDetailsQuery,
     useCreateReservationMutation,
     useGetReservationsQuery,
+    useCancelReservationMutation,
+    useCancelReservationDetailMutation,
 } = reservationApi;

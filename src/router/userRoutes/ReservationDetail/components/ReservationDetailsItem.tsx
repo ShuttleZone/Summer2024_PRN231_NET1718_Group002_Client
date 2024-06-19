@@ -18,8 +18,10 @@ import {Button} from "@/components/ui/button";
 import {Textarea} from "@/components/ui/textarea";
 import {useCreateClubReviewMutation} from "@/store/services/reviews/review.api";
 import {ReviewRequest} from "@/@types/api";
+import CancelReservationDetailButton from "./CancelReservationDetailButton";
 
 interface ReservationDetailsItemProps {
+    id: string;
     clubId: string;
     courtName: string;
     price: number;
@@ -29,6 +31,7 @@ interface ReservationDetailsItemProps {
 }
 
 const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
+    id,
     clubId,
     courtName,
     price,
@@ -76,7 +79,7 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
                 {isPaymentExpired && status === "PENDING" ? "PAY FAIL" : status}
             </td>
             <td className="px-4 py-2 border-b">
-                <button className="text-red-500">View Details</button>
+                <CancelReservationDetailButton reservationDetailId={id} />
             </td>
             <td className="px-4 py-2 border-b">
                 <button

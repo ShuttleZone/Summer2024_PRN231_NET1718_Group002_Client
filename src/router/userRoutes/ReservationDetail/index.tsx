@@ -147,7 +147,7 @@ function MyReservationDetailList() {
                                             Status
                                         </th>
                                         <th className="px-4 py-2 border-b">
-                                            Details
+                                            Cancel
                                         </th>
                                         <th className="px-4 py-2 border-b">
                                             Action
@@ -158,6 +158,7 @@ function MyReservationDetailList() {
                                     {reservations.map((r) => (
                                         <ReservationDetailsItem
                                             key={r.id}
+                                            id={r.id}
                                             clubId={r.clubId}
                                             courtName={r.courtName}
                                             price={r.price}
