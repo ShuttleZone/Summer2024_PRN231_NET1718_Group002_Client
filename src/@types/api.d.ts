@@ -232,3 +232,14 @@ interface ReviewRequest {
     rating: number;
     comment: string;
 }
+interface UserProfile {
+    id: string;
+    userName: string;
+    email: string;
+    fullname: string;
+    phoneNumber: string;
+    profileImage: string;
+    gender: number;
+    totalReservation: number;
+    totalWinContest: number;
+}

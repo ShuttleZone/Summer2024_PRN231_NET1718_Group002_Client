@@ -17,6 +17,7 @@ import ClubCreate from "./ClubCreate";
 import MyReservationDetailList from "./ReservationDetail";
 import MyReservationInvoiceList from "./Reservation";
 import ContestCreate from "./ContestCreate";
+import UserProfile from "./UserProfile";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -117,6 +118,10 @@ const privateRoutes: RouteObject[] = [
     {
         path: "/my-invoices",
         element: <MyReservationInvoiceList />,
+    },
+    {
+        path: "/profile",
+        element: <UserProfile />,
     },
 ];
 
