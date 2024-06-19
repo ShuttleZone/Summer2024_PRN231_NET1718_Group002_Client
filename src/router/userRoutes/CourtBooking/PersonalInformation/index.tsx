@@ -1,20 +1,35 @@
 import {useAppDispatch, useAppSelector} from "@/store";
+import {useProfileQuery} from "@/store/services/accounts/auth.api";
 import {setBookingPersonInformation} from "@/store/slices/bookingStage.slice";
 import {ChangeEvent, useEffect, useState} from "react";
 
 function PersonalInformation() {
     const dispatch = useAppDispatch();
     const [isSaved, setIsSaved] = useState(false);
-    const [formData, setFormData] = useState({
-        Name: "",
-        Email: "",
-        Phone: "",
-        Note: "",
-    });
+    const {data: userInfo} = useProfileQuery();
+
     const storedFormData = useAppSelector(
         (state) =>
             state.bookingStage.PersonaInformation.BookingPersonInformation
     );
+
+    const [formData, setFormData] = useState({
+        Name: storedFormData.Name || userInfo?.fullname || "",
+        Email: storedFormData.Email || userInfo?.email || "",
+        Phone: storedFormData.Phone || userInfo?.phoneNumber || "",
+        Note: storedFormData.Note || "",
+    });
+
+    useEffect(() => {
+        if (userInfo) {
+            setFormData((prevData) => ({
+                ...prevData,
+                Name: userInfo.fullname || prevData.Name,
+                Email: userInfo.email || prevData.Email,
+                Phone: userInfo.phoneNumber || prevData.Phone,
+            }));
+        }
+    }, [userInfo]);
 
     useEffect(() => {
         setFormData(storedFormData);
