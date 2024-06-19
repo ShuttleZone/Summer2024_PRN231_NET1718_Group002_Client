@@ -59,6 +59,7 @@ function MyReservationDetailList() {
 
     const handleFilterChange = (status: string, currentStatusId: number) => {
         const now = new Date().toISOString();
+
         let filterStr = "";
 
         switch (status) {
