@@ -31,7 +31,7 @@ function AllReviews() {
                     <div className="font-medium dark:text-white">
                         <p>
                             Reviewer Name{" "}
-                            <time class="block text-sm text-gray-500 dark:text-gray-400">
+                            <time className="block text-sm text-gray-500 dark:text-gray-400">
                                 Joined time
                             </time>
                         </p>
