@@ -2,6 +2,7 @@ import {Button} from "@/components/ui/button";
 import {useCreatePaymentUrlMutation} from "@/store/services/reservations/payment.api";
 import React, {useState} from "react";
 import CountdownTimer from "./CountDownTimer";
+import CancelReservationButton from "./CancelReservationButton";
 const formatDateTime = (dateTime: string) => {
     const date = new Date(dateTime);
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
@@ -101,7 +102,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
                 )}
             </td>
             <td className="px-4 py-2 border-b">
-                <button className="text-red-500">Cancel</button>
+                <CancelReservationButton reservationId={id} />
             </td>
         </tr>
     );
