@@ -17,9 +17,7 @@ import {Navigate, useNavigate} from "react-router-dom";
 function ClubList() {
     const {data: clubs, isLoading} = useGetClubListQuery();
     const navigate = useNavigate();
-    function handleClick() {
-        navigate("/manager/club-reviews");
-    }
+    function handleClick() {}
     if (isLoading) return <div>is loading...</div>;
     return (
         <div className="h-fit">
@@ -56,7 +54,11 @@ function ClubList() {
                                 <TableCell className="flex">
                                     {club.totalReview}
                                     <FaRegCommentDots
-                                        onClick={handleClick}
+                                        onClick={() => {
+                                            navigate(
+                                                `/manager/club-reviews/${club.Id}`
+                                            );
+                                        }}
                                         className="mx-2 text-lg text-slate-500"
                                     />
                                 </TableCell>

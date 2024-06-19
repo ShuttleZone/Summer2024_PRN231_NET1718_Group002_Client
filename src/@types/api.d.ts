@@ -187,6 +187,7 @@ export interface ReservationType {
 }
 
 interface ClubListManagement {
+    Id: string;
     ClubName: string;
     ClubAddress: string;
     OpenTime: string;
@@ -204,6 +205,7 @@ interface CourtReview {
 }
 
 interface ClubManagement {
+    Id: string;
     clubName: string;
     clubAddress: string;
     openHours: string;
@@ -232,6 +234,22 @@ interface ReviewRequest {
     clubId: string;
     rating: number;
     comment: string;
+}
+
+interface ClubReviews {
+    rating: number;
+    comment: string;
+    replyContent: string;
+    replyTime: string;
+    replyPerson: string;
+    created: string;
+    createdBy: string;
+    lastModified: string;
+    lastModifiedBy: string;
+    clubName: string;
+    clubDescription: string;
+    clubAddress: string;
+    clubPhone: string;
 }
 interface UserProfile {
     id: string;
