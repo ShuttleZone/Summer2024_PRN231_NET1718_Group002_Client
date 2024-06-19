@@ -20,7 +20,7 @@ const initStatusNavList: StatusNav[] = [
 ];
 
 function MyReservationInvoiceList() {
-    const [sort, setSort] = useState<string | undefined>(undefined);
+    const [sort, setSort] = useState<string | undefined>("bookingDate desc");
     const [filter, setFilter] = useState<string | undefined>(undefined);
     const [page, setPage] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(5);

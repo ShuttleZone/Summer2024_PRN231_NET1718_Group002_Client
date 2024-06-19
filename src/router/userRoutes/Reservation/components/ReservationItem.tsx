@@ -42,7 +42,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
     const [isExpired, setIsExpired] = useState(
         calculateInitialTime(expiredTime) <= 0
     );
-    const shouldBePurple = true;
+    const shouldBePurple = status !== "PAYSUCCEED";
     const handleGetPaymentUrl = async () => {
         const requestData: VnPayRequest = {
             orderInfo: id,
@@ -78,22 +78,26 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
             <td
                 className={`px-4 py-2 border-b ${shouldBePurple ? " text-purple-500" : " text-green-500"}`}
             >
-                {status}
+                {Date.parse(expiredTime) < Date.now() && status === "PENDING"
+                    ? "PAY FAIL"
+                    : status}
             </td>
             <td className="px-4 py-2 border-b">
                 <Button
                     onClick={handleGetPaymentUrl}
                     variant="secondary"
                     size="icon"
-                    disabled={isExpired || isLoading}
+                    disabled={isExpired || status !== "PENDING" || isLoading}
                 >
                     Pay
                 </Button>
-                {!isExpired && (
+                {!isExpired && status === "PENDING" ? (
                     <CountdownTimer
                         initialTime={calculateInitialTime(expiredTime)}
                         onTimeExpired={() => setIsExpired(true)}
                     ></CountdownTimer>
+                ) : (
+                    ""
                 )}
             </td>
             <td className="px-4 py-2 border-b">

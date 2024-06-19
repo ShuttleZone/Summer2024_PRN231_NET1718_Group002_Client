@@ -105,6 +105,7 @@ export interface ReservationDetailType {
     endTime: string;
     price: number;
     reservationDetailStatus: string;
+    isPaymentExpired: boolean;
 }
 
 export interface LoginAccount {
