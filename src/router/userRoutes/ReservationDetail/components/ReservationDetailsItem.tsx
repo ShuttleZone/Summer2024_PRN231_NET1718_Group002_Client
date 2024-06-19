@@ -25,6 +25,7 @@ interface ReservationDetailsItemProps {
     price: number;
     datetime: string;
     status: string;
+    isPaymentExpired: boolean;
 }
 
 const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
@@ -33,8 +34,9 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
     price,
     datetime,
     status,
+    isPaymentExpired,
 }) => {
-    const shouldBePurple = true;
+    const shouldBePurple = status !== "PAYSUCCEED";
 
     const initialState: ReviewRequest = {
         clubId: "",
@@ -61,8 +63,8 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
                 description: "There was a problem with your request.",
             });
         }
-        // console.log(formData);
     };
+
     return (
         <tr>
             <td className="px-4 py-2 border-b">{courtName}</td>
@@ -71,7 +73,7 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
             <td
                 className={`px-4 py-2 border-b ${shouldBePurple ? " text-purple-500" : " text-green-500"}`}
             >
-                {status}
+                {isPaymentExpired && status === "PENDING" ? "PAY FAIL" : status}
             </td>
             <td className="px-4 py-2 border-b">
                 <button className="text-red-500">View Details</button>

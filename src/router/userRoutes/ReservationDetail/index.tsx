@@ -38,11 +38,10 @@ function MyReservationDetailList() {
         page,
         pageSize,
     });
-
     const reservations = data?.items;
     const totalItems = data?.total || 0;
     const totalPages = Math.ceil(totalItems / pageSize);
-    console.log(reservations);
+
     const getErrorMessage = (
         error: FetchBaseQueryError | SerializedError
     ): string => {
@@ -73,7 +72,7 @@ function MyReservationDetailList() {
                 filterStr = `endTime lt ${now}`;
                 break;
             case "cancelled":
-                filterStr = "reservationDetailStatus eq cancelled";
+                filterStr = "reservationDetailStatus eq 'CANCELLED'";
                 break;
             default:
                 filterStr = "";
@@ -163,6 +162,9 @@ function MyReservationDetailList() {
                                             price={r.price}
                                             status={r.reservationDetailStatus}
                                             datetime={`${formatDateTime(r.startTime)} - ${formatDateTime(r.endTime)}`}
+                                            isPaymentExpired={
+                                                r.isPaymentExpired
+                                            }
                                         />
                                     ))}
                                 </tbody>
