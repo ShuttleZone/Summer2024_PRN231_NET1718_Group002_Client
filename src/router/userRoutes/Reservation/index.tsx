@@ -10,6 +10,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import ContentSpinner from "@/components/ContentSpinner";
 
 const initStatusNavList: StatusNav[] = [
     {Id: 1, Status: "", Text: "All"},
@@ -37,7 +38,6 @@ function MyReservationInvoiceList() {
     const totalItems = data?.total || 0;
     const totalPages = Math.ceil(totalItems / pageSize);
 
-    if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error...</div>;
 
     const handleFilterChange = (status: string, currentStatusId: number) => {
@@ -93,7 +93,11 @@ function MyReservationInvoiceList() {
                             </Select>
                         </div>
                     </div>
-                    {reservations && reservations.length > 0 ? (
+                    {isLoading ? (
+                        <div className="flex justify-center items-center">
+                            <ContentSpinner />
+                        </div>
+                    ) : reservations && reservations.length > 0 ? (
                         <>
                             <table className="w-full text-left table-auto">
                                 <thead>
