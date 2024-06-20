@@ -4,10 +4,10 @@ function ContentSpinner() {
         <div
             aria-label="Loading..."
             role="status"
-            class="flex items-center space-x-2"
+            className="flex items-center space-x-2"
         >
             <svg
-                class="h-20 w-20 animate-spin stroke-gray-500"
+                className="h-20 w-20 animate-spin stroke-gray-500"
                 viewBox="0 0 256 256"
             >
                 <line
@@ -83,7 +83,9 @@ function ContentSpinner() {
                     stroke-width="24"
                 ></line>
             </svg>
-            <span class="text-4xl font-medium text-gray-500">Loading...</span>
+            <span className="text-4xl font-medium text-gray-500">
+                Loading...
+            </span>
         </div>
     );
 }
