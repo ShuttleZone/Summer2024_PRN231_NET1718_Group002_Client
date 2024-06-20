@@ -21,7 +21,7 @@ function ClubList() {
     function handleClick() {
         navigate("/manager/club-reviews");
     }
-    // if (isLoading) return <div>is loading...</div>;
+
     return (
         <div className="h-fit">
             <Table className="border-2 border-gray-400">
