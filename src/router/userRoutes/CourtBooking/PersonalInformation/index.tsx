@@ -1,12 +1,35 @@
 import {useAppDispatch, useAppSelector} from "@/store";
 import {useProfileQuery} from "@/store/services/accounts/auth.api";
-import {setBookingPersonInformation} from "@/store/slices/bookingStage.slice";
+import {
+    selectStageById,
+    setBookingPersonInformation,
+    setStage,
+} from "@/store/slices/bookingStage.slice";
 import {ChangeEvent, useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
 function PersonalInformation() {
     const dispatch = useAppDispatch();
     const [isSaved, setIsSaved] = useState(false);
     const {data: userInfo} = useProfileQuery();
+
+    const navigate = useNavigate();
+    const currentStageId = useAppSelector(
+        (state) => state.bookingStage.CurrentStage
+    );
+    const currentStage = useAppSelector((state) =>
+        selectStageById(state.bookingStage, currentStageId)
+    );
+    const {id} = useParams();
+    const bookingLocation = `/clubs/${id}/court-booking`;
+    const handleClick = (id: number) => {
+        dispatch(setStage(id));
+    };
+    useEffect(() => {
+        if (currentStage?.Path) {
+            navigate(bookingLocation + currentStage.Path);
+        }
+    }, [currentStage, navigate, bookingLocation]);
 
     const storedFormData = useAppSelector(
         (state) =>
@@ -49,6 +72,7 @@ function PersonalInformation() {
         e.preventDefault();
         dispatch(setBookingPersonInformation(formData));
         setIsSaved(true);
+        handleClick(4);
     };
 
     return (
