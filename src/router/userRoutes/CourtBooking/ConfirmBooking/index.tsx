@@ -69,20 +69,21 @@ function ConfirmBooking() {
             );
         });
 
-        const {error} = await createReservation(formData);
-        if (error) {
-            toast({
-                title: "Error",
-                description: "Failed to make reservation",
-                variant: "destructive",
-            });
-        } else {
+        try {
+            await createReservation(formData).unwrap();
             toast({
                 title: "Success",
                 description: "Reservation made successfully",
                 variant: "default",
             });
             navigate("/my-invoices");
+        } catch (error: any /* eslint-disable-line */) {
+            toast({
+                title: "Error",
+                description:
+                    error?.data?.message || "An unknown error occurred",
+                variant: "destructive",
+            });
         }
     };
 
