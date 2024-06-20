@@ -12,7 +12,7 @@ import {
 import {FaStar} from "react-icons/fa6";
 import {FaRegCommentDots} from "react-icons/fa";
 import {useGetClubListQuery} from "@/store/services/clubs/club.api";
-import {Navigate, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 function ClubList() {
     const {data: clubs, isLoading} = useGetClubListQuery();
