@@ -21,13 +21,17 @@ import {Textarea} from "@/components/ui/textarea";
 import {useToast} from "@/components/ui/use-toast";
 import {formattedTimeToDateTime} from "@/lib/time.util";
 import {useAppDispatch, useAppSelector} from "@/store";
+import {useGetClubReservationDetailQuery} from "@/store/services/clubs/club.api";
 import {useCreateContestMutation} from "@/store/services/contests/contest.api";
-import {BookingSlot} from "@/store/slices/bookingStage.slice";
+import {
+    BookingSlot,
+    clearBookingSlots,
+} from "@/store/slices/bookingStage.slice";
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {z} from "zod";
 
 const formSchema = z.object({
@@ -73,6 +77,8 @@ function ContestCreate() {
     const [createContest, {isLoading}] = useCreateContestMutation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const {id} = useParams();
+    const {refetch} = useGetClubReservationDetailQuery(id);
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         if (!slots.length) {
@@ -130,7 +136,9 @@ function ContestCreate() {
             description: "Contest created successfully",
             variant: "default",
         });
+        dispatch(clearBookingSlots());
         navigate("/my-invoices");
+        refetch();
     };
 
     const allSlotsBelongToOneCourt = (slots: BookingSlot[]) => {
