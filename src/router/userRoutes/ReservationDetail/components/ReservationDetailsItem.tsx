@@ -19,6 +19,8 @@ import {Textarea} from "@/components/ui/textarea";
 import {useCreateClubReviewMutation} from "@/store/services/reviews/review.api";
 import {ReviewRequest} from "@/@types/api";
 import CancelReservationDetailButton from "./CancelReservationDetailButton";
+import {Input} from "@/components/ui/input";
+import {Label} from "@/components/ui/label";
 
 interface ReservationDetailsItemProps {
     id: string;
@@ -45,6 +47,7 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
         clubId: "",
         rating: 0,
         comment: "",
+        title: "",
     };
 
     function handleClick() {
@@ -176,7 +179,17 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
                                 <option value="4">Very Satisfied</option>
                             </select>
 
-                            <div className="grid w-full gap-2">
+                            <div className="grid w-full gap-2 mt-2">
+                                <Input
+                                    placeholder="Review Title"
+                                    onChange={(event) =>
+                                        setFormData((prev) => ({
+                                            ...prev,
+                                            title: event.target.value,
+                                        }))
+                                    }
+                                    value={formData.title}
+                                />
                                 <Textarea
                                     placeholder="Write your thought here..."
                                     onChange={(event) =>
