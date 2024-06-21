@@ -40,7 +40,7 @@ resource "google_compute_instance" "shuttle_zone_web_client" {
   network_interface {
     access_config {
       network_tier = "PREMIUM"
-      nat_ip = var.static_ip
+      nat_ip = "${var.static_ip}"
     }
 
     queue_count = 0

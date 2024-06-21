@@ -12,11 +12,11 @@ packer {
 }
 
 source "googlecompute" "ubuntu" {
-    project_id = "${var.project_id}"
+    project_id = var.project_id
     source_image = "debian-12-bookworm-v20240617"
     zone = "asia-southeast1-a"
 
-    image_name = "${var.os_image_name}"
+    image_name = var.os_image_name
     address = "shuttlezone-static-ip-address"
 
     ssh_username = "${var.email}"
@@ -30,10 +30,10 @@ build {
         playbook_file = "./.deploy/ansible/docker.yml"
     }
 
-    # provisioner "ansible" {
-    #     playbook_file = "./.deploy/ansible/cert-bot.yml"
-    #     extra_arguments = ["--extra-vars", "domain=${var.domain} email=${var.email}"]
-    # }
+    provisioner "ansible" {
+        playbook_file = "./.deploy/ansible/cert-bot.yml"
+        extra_arguments = ["--extra-vars", "domain=${var.domain} email=${var.email}"]
+    }
 
     provisioner "ansible" {
         playbook_file = "./.deploy/ansible/webclient.yml"

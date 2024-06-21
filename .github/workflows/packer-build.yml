@@ -35,9 +35,9 @@ jobs:
             -var 'domain=${{ secrets.DOMAIN }}' \
             -var 'token=${{ secrets.PAT }}' \
             -var 'docker_image=${{ secrets.DOCKER_IMAGE }}' \
-            -var 'project_id=${{ secrets.GCP_PROJECT_ID }}' \
+            -var 'project_id=${{ secrets.GCP_PROJECT_ID_PACKER }}' \
             -var 'gcp_credentials_json=${{ secrets.GCP_CREDENTIALS_JSON }}' \
-            -var 'os_image_name=${{ secrets.OS_IMAGE_NAME }}' \
+            -var 'os_image_name=${{ secrets.PACKER_OS_IMAGE_NAME }}' \
             ${{ env.PACKER_CONTEXT }}
 
       - name: Run packer build
@@ -47,7 +47,7 @@ jobs:
             -var 'domain=${{ secrets.DOMAIN }}' \
             -var 'token=${{ secrets.PAT }}' \
             -var 'docker_image=${{ secrets.DOCKER_IMAGE }}' \
-            -var 'project_id=${{ secrets.GCP_PROJECT_ID }}' \
+            -var 'project_id=${{ secrets.GCP_PROJECT_ID_PACKER }}' \
             -var 'gcp_credentials_json=${{ secrets.GCP_CREDENTIALS_JSON }}' \
-            -var 'os_image_name=${{ secrets.OS_IMAGE_NAME }}' \
+            -var 'os_image_name=${{ secrets.PACKER_OS_IMAGE_NAME }}' \
             ${{ env.PACKER_CONTEXT }}
