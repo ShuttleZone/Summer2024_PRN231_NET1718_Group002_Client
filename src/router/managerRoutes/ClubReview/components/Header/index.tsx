@@ -6,7 +6,7 @@ function Header() {
     const {Id} = useParams();
     const {data: club, isLoading, isError} = useGetClubDetailQuery(Id);
     // console.log(club);
-    var navigate = useNavigate();
+    const navigate = useNavigate();
     if (isLoading) return <div>is loading...</div>;
     if (isError) return <div>Error in loading data</div>;
     return (

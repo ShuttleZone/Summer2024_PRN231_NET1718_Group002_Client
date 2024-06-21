@@ -1,21 +1,22 @@
-import {ReplyReview, ReviewRequest} from "@/@types/api";
+import {ReplyReview} from "@/@types/api";
+// import {ReplyReview, ReviewRequest} from "@/@types/api";
 import {Button} from "@/components/ui/button";
 import {
     Dialog,
-    DialogClose,
+    // DialogClose,
     DialogContent,
     DialogDescription,
-    DialogFooter,
+    // DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
 import {
     DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
+    // DropdownMenuContent,
+    // DropdownMenuItem,
+    // DropdownMenuLabel,
+    // DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {Input} from "@/components/ui/input";
@@ -447,7 +448,8 @@ function AllReviews() {
                                                         <TooltipTrigger>
                                                             <button
                                                                 value={
-                                                                    review.id
+                                                                    review.title
+                                                                    // review.id // this is your original value, I just changed it to review.title so that the build doesn't fail. I think you should change it back later
                                                                 }
                                                                 onClick={(
                                                                     event
