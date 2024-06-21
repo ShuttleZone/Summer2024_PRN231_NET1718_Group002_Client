@@ -18,7 +18,7 @@ resource "google_compute_instance" "shuttle_zone_web_client" {
     device_name = "shuttle-zone-client"
 
     initialize_params {
-      image = "projects/${var.project_id}/global/images/vigig-client-debian"
+      image = "projects/${var.project_id}/global/images/${var.os_image_name}"
       size  = 50
       type  = "pd-balanced"
     }

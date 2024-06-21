@@ -28,3 +28,7 @@ variable "docker_image" {
     sensitive       = true
 }
 
+variable "os_image_name" {
+    type            = string
+    sensitive       = true
+}

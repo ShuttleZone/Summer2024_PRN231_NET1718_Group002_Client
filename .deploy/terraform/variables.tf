@@ -13,3 +13,7 @@ variable "zone" {
 variable "static_ip" {
     type            = string
 }
+
+variable "os_image_name" {
+    type            = string
+}
