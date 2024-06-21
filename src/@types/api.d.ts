@@ -237,7 +237,14 @@ interface ReviewRequest {
     comment: string;
 }
 
+interface ReplyReview {
+    id: string;
+    replyTitle: string;
+    replyContent: string;
+}
+
 interface ClubReviews {
+    id: string;
     rating: number;
     title: string;
     comment: string;
