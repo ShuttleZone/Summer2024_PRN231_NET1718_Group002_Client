@@ -5,6 +5,7 @@ import PrivateRoute from "../PrivateRoute";
 import ClubList from "./ClubList";
 import CourtList from "./CourtList";
 import ClubReview from "./ClubReview";
+import applicationRoles from "@/constants/role.constants";
 
 const managerRoutes: RouteObject[] = [
     {
@@ -35,7 +36,7 @@ const managerRoutes: RouteObject[] = [
 
 export default [
     {
-        element: <PrivateRoute />,
+        element: <PrivateRoute allowedRoles={[applicationRoles.MANAGER]} />,
         children: [...managerRoutes],
     },
 ];
