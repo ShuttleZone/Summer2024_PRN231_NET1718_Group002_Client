@@ -9,6 +9,16 @@ on:
         required: true
       TF_CLOUD_ORGANIZATION:
         required: true
+      GCP_PROJECT_ID:
+        required: true
+      GCP_REGION:
+        required: true
+      GCP_ZONE:
+        required: true
+      GCP_STATIC_IP:
+        required: true
+      OS_IMAGE_NAME:
+        required: true
 
 env:
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
