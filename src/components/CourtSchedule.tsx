@@ -191,14 +191,14 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                     <div
                         className="grid"
                         style={{
-                            gridTemplateColumns: `repeat(${timeSlots.length + 1}, minmax(100px, 1fr))`,
+                            gridTemplateColumns: `repeat(${timeSlots.length + 1}, minmax(80px, 1fr))`,
                         }}
                     >
                         <div className="font-semibold">Courts</div>
                         {timeSlots.map((slot) => (
                             <div
                                 key={slot}
-                                className="font-semibold w-28 text-center"
+                                className="font-semibold w-28 text-start text-xs"
                             >
                                 {slot}
                             </div>
@@ -207,7 +207,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                             <>
                                 <div
                                     key={court.name}
-                                    className="font-semibold py-2 flex items-center"
+                                    className="font-semibold py-2 flex items-center text-s"
                                 >
                                     {court.name}
                                 </div>
@@ -225,7 +225,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                         return (
                                             <div
                                                 key={slot}
-                                                className={`text-center rounded-lg mx-2 my-2 py-2 border-2 border-black ${
+                                                className={`text-center w-18 rounded-md mx-2 my-2 py-2 border-2 border-black ${
                                                     selectedSlots.some(
                                                         (selectedSlot) =>
                                                             selectedSlot.Date ===
@@ -263,7 +263,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                                     )
                                                 }
                                             >
-                                                {selectedSlots.some(
+                                                {/* {selectedSlots.some(
                                                     (selectedSlot) =>
                                                         selectedSlot.Date ===
                                                             selectedDate
@@ -287,7 +287,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                                       ? "Booked"
                                                       : isSlotPast
                                                         ? "Past"
-                                                        : "Available"}
+                                                        : "Available"} */}
                                             </div>
                                         );
                                     })}

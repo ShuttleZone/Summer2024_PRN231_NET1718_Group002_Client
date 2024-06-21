@@ -2,10 +2,15 @@ import CourtSchedule from "@/components/CourtSchedule";
 import DatePicker from "@/components/DatePicker";
 import {Button} from "@/components/ui/button";
 import {useAppDispatch, useAppSelector} from "@/store";
-import {setBookingTotalPrice} from "@/store/slices/bookingStage.slice";
+import {
+    selectStageById,
+    setBookingTotalPrice,
+    setStage,
+} from "@/store/slices/bookingStage.slice";
 import {useEffect, useState} from "react";
 import {CiCalendarDate} from "react-icons/ci";
 import {GoClock} from "react-icons/go";
+import {useNavigate, useParams} from "react-router-dom";
 // interface CourtInfomation {
 //     id: string;
 //     rate: string;
@@ -33,6 +38,23 @@ function TimeAndDateBooking() {
     const bookingSlot = useAppSelector(
         (state) => state.bookingStage.TimeAndDate.Slots
     );
+    const navigate = useNavigate();
+    const currentStageId = useAppSelector(
+        (state) => state.bookingStage.CurrentStage
+    );
+    const currentStage = useAppSelector((state) =>
+        selectStageById(state.bookingStage, currentStageId)
+    );
+    const {id} = useParams();
+    const bookingLocation = `/clubs/${id}/court-booking`;
+    const handleClick = (id: number) => {
+        dispatch(setStage(id));
+    };
+    useEffect(() => {
+        if (currentStage?.Path) {
+            navigate(bookingLocation + currentStage.Path);
+        }
+    }, [currentStage, navigate, bookingLocation]);
 
     useEffect(() => {
         console.log(bookingSlot);
@@ -103,7 +125,10 @@ function TimeAndDateBooking() {
                             {totalDuration} hours
                         </h1>
                     </div>
-                    <Button className="bg-green-700 rounded-2xl w-full text-xl py-8 mt-8">
+                    <Button
+                        className="bg-green-700 rounded-2xl w-full text-xl py-8 mt-8"
+                        onClick={() => handleClick(3)}
+                    >
                         Subtotal: {totalPrice} vnd
                     </Button>
                 </div>
