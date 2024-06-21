@@ -1,4 +1,4 @@
-import {ClubReviews, ReviewRequest} from "@/@types/api";
+import {ClubReviews, ReplyReview, ReviewRequest} from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
@@ -22,8 +22,21 @@ const reviewApi = commonApi.injectEndpoints({
                 return baseQueryReturnValue;
             },
         }),
+        replyClubReview: build.mutation<ReplyReview, ReplyReview>({
+            query(body) {
+                return {
+                    url: "/api/Review/reply-review",
+                    method: "PUT",
+                    body: body,
+                };
+            },
+        }),
     }),
     overrideExisting: true,
 });
 
-export const {useCreateClubReviewMutation, useGetClubReviewsQuery} = reviewApi;
+export const {
+    useCreateClubReviewMutation,
+    useGetClubReviewsQuery,
+    useReplyClubReviewMutation,
+} = reviewApi;

@@ -1,3 +1,4 @@
+import {ReplyReview, ReviewRequest} from "@/@types/api";
 import {Button} from "@/components/ui/button";
 import {
     Dialog,
@@ -17,7 +18,20 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {useGetClubReviewsQuery} from "@/store/services/reviews/review.api";
+import {Input} from "@/components/ui/input";
+import {Textarea} from "@/components/ui/textarea";
+import {useToast} from "@/components/ui/use-toast";
+import {
+    useGetClubReviewsQuery,
+    useReplyClubReviewMutation,
+} from "@/store/services/reviews/review.api";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
+import React, {useState} from "react";
 import {useParams} from "react-router-dom";
 
 function Ostar() {
@@ -302,12 +316,43 @@ function Fistar() {
 
 function AllReviews() {
     const {Id} = useParams();
+
     const formatDateTime = (dateTime: string) => {
         const date = new Date(dateTime);
         return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
     };
 
-    const {data: reviews, isLoading} = useGetClubReviewsQuery(Id);
+    const {data: reviews, isLoading, refetch} = useGetClubReviewsQuery(Id);
+    const initialState: ReplyReview = {
+        id: "",
+        replyTitle: "",
+        replyContent: "",
+    };
+
+    const {toast} = useToast();
+    const [open, setOpen] = React.useState(false);
+    const [formData, setFormData] = useState<ReplyReview>(initialState);
+    const [replyReview] = useReplyClubReviewMutation();
+    const handleSend = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        console.log(formData);
+        const result = await replyReview(formData);
+        setOpen(false);
+
+        if (result.data != null) {
+            toast({
+                description: "Your reply has been sent !",
+            });
+            refetch();
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+            refetch();
+        }
+    };
     console.log(reviews);
     if (isLoading) return <div>is loading...</div>;
     if (reviews?.length == 0) {
@@ -392,12 +437,102 @@ function AllReviews() {
                                             Replied
                                         </a>
                                     ) : (
-                                        <a
-                                            href="#"
-                                            className="px-2 py-1.5 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                        <Dialog
+                                            open={open}
+                                            onOpenChange={setOpen}
                                         >
-                                            Reply
-                                        </a>
+                                            <DialogTrigger>
+                                                <TooltipProvider>
+                                                    <Tooltip>
+                                                        <TooltipTrigger>
+                                                            <button
+                                                                value={
+                                                                    review.id
+                                                                }
+                                                                onClick={(
+                                                                    event
+                                                                ) =>
+                                                                    setFormData(
+                                                                        (
+                                                                            prev
+                                                                        ) => ({
+                                                                            ...prev,
+                                                                            id: event
+                                                                                .currentTarget
+                                                                                .value,
+                                                                        })
+                                                                    )
+                                                                }
+                                                                data-tooltip-target="tooltip-default"
+                                                                type="button"
+                                                                className="px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                                            >
+                                                                Reply
+                                                            </button>
+                                                        </TooltipTrigger>
+                                                        <TooltipContent>
+                                                            <p>
+                                                                Write a review
+                                                                for this club
+                                                            </p>
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                </TooltipProvider>
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>
+                                                        Reply to this review
+                                                    </DialogTitle>
+                                                    <DialogDescription>
+                                                        Let us know your feeling
+                                                        !
+                                                    </DialogDescription>
+                                                </DialogHeader>
+
+                                                <form onSubmit={handleSend}>
+                                                    <div className="grid w-full gap-2 mt-2">
+                                                        <Input
+                                                            placeholder="Reply Title"
+                                                            onChange={(event) =>
+                                                                setFormData(
+                                                                    (prev) => ({
+                                                                        ...prev,
+                                                                        replyTitle:
+                                                                            event
+                                                                                .target
+                                                                                .value,
+                                                                    })
+                                                                )
+                                                            }
+                                                            value={
+                                                                formData.replyTitle
+                                                            }
+                                                        />
+                                                        <Textarea
+                                                            placeholder="What you want to say ..."
+                                                            onChange={(event) =>
+                                                                setFormData(
+                                                                    (prev) => ({
+                                                                        ...prev,
+                                                                        replyContent:
+                                                                            event
+                                                                                .target
+                                                                                .value,
+                                                                    })
+                                                                )
+                                                            }
+                                                            value={
+                                                                formData.replyContent
+                                                            }
+                                                        />
+                                                        <Button type="submit">
+                                                            Send reply
+                                                        </Button>
+                                                    </div>
+                                                </form>
+                                            </DialogContent>
+                                        </Dialog>
                                     )}{" "}
                                     <a
                                         href="#"
@@ -407,13 +542,15 @@ function AllReviews() {
                                             <DropdownMenuTrigger>
                                                 Action
                                             </DropdownMenuTrigger>
-                                            <DropdownMenuContent>
+                                            {/* <DropdownMenuContent>
                                                 <DropdownMenuLabel>
                                                     Review Action
                                                 </DropdownMenuLabel>
                                                 <DropdownMenuSeparator />
                                                 <DropdownMenuItem>
-                                                    <Dialog>
+                                                    <Dialog
+        
+                                                    >
                                                         <DialogTrigger>
                                                             Hide Review
                                                         </DialogTrigger>
@@ -492,7 +629,7 @@ function AllReviews() {
                                                         </DialogContent>
                                                     </Dialog>
                                                 </DropdownMenuItem>
-                                            </DropdownMenuContent>
+                                            </DropdownMenuContent> */}
                                         </DropdownMenu>
                                     </a>
                                 </div>
@@ -514,6 +651,9 @@ function AllReviews() {
                                             {formatDateTime(review.replyTime)}
                                         </span>
                                     </div>
+                                    <p className="text-md font-bold py-2.5 text-gray-900 dark:text-white">
+                                        {review.replyTitle}
+                                    </p>
                                     <p className="text-sm font-normal py-2.5 text-gray-900 dark:text-white">
                                         {review.replyContent}
                                     </p>

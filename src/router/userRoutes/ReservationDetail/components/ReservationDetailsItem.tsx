@@ -20,7 +20,6 @@ import {useCreateClubReviewMutation} from "@/store/services/reviews/review.api";
 import {ReviewRequest} from "@/@types/api";
 import CancelReservationDetailButton from "./CancelReservationDetailButton";
 import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label";
 
 interface ReservationDetailsItemProps {
     id: string;
