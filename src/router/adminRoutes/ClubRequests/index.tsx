@@ -68,8 +68,8 @@ function ClubRequestList() {
     }
 
     return (
-        <div className="w-full flex justify-center py-12">
-            <div className="w-3/4">
+        <div>
+            <div>
                 <FilterBarModule />
                 <RequestTable requests={clubRequests} refetch={refetch} />
             </div>

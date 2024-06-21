@@ -28,7 +28,7 @@ const managerRoutes: RouteObject[] = [
         element: <ClubList />,
     },
     {
-        path: "club-reviews",
+        path: "club-reviews/:Id",
         element: <ClubReview />,
     },
 ];

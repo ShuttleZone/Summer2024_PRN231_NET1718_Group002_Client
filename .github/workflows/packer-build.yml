@@ -1,0 +1,53 @@
+name: "Provisioning with Packer"
+
+on:
+  workflow_call:
+
+env:
+  PRODUCT_VERSION: "latest"
+  PACKER_CONTEXT: "./.deploy/packer/"
+
+jobs:
+  packer:
+    name: "Provisioning with Packer"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup packer
+        uses: hashicorp/setup-packer@main
+        id: setup
+        with:
+          version: ${{ env.PRODUCT_VERSION }}
+
+      - name: Run packer init
+        id: init
+        run: packer init ${{ env.PACKER_CONTEXT }}
+
+      - name: Run packer validate
+        id: validate
+        run: |
+          packer validate \
+            -var 'email=${{ secrets.GCP_EMAIL }}' \
+            -var 'domain=${{ secrets.DOMAIN }}' \
+            -var 'token=${{ secrets.PAT }}' \
+            -var 'docker_image=${{ secrets.DOCKER_IMAGE }}' \
+            -var 'project_id=${{ secrets.GCP_PROJECT_ID_PACKER }}' \
+            -var 'gcp_credentials_json=${{ secrets.GCP_CREDENTIALS_JSON }}' \
+            -var 'os_image_name=${{ secrets.PACKER_OS_IMAGE_NAME }}' \
+            ${{ env.PACKER_CONTEXT }}
+
+      - name: Run packer build
+        run: |
+          packer build -force \
+            -var 'email=${{ secrets.GCP_EMAIL }}' \
+            -var 'domain=${{ secrets.DOMAIN }}' \
+            -var 'token=${{ secrets.PAT }}' \
+            -var 'docker_image=${{ secrets.DOCKER_IMAGE }}' \
+            -var 'project_id=${{ secrets.GCP_PROJECT_ID_PACKER }}' \
+            -var 'gcp_credentials_json=${{ secrets.GCP_CREDENTIALS_JSON }}' \
+            -var 'os_image_name=${{ secrets.PACKER_OS_IMAGE_NAME }}' \
+            ${{ env.PACKER_CONTEXT }}

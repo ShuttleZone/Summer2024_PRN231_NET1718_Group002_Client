@@ -133,9 +133,7 @@ function ClubReviews() {
                         </div>
                     </div>
                     <ul className="flex flex-col gap-8">
-                        {Array.from({length: 3}).map((_, index) => (
-                            <ClubReview key={index} />
-                        ))}
+                        <ClubReview />
                     </ul>
                 </AccordionContent>
             </AccordionItem>
