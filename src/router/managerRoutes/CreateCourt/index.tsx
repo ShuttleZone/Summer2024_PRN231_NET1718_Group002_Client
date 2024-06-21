@@ -22,7 +22,10 @@ import {useAppDispatch} from "@/store";
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {useCreateCourtMutation} from "@/store/services/courts/court.api";
 import {useToast} from "@/components/ui/use-toast";
-import {useGetMyClubsQuery} from "@/store/services/clubs/club.api";
+import {
+    useGetClubListQuery,
+    useGetMyClubsQuery,
+} from "@/store/services/clubs/club.api";
 
 const formSchema = z.object({
     clubId: z
@@ -89,6 +92,7 @@ function CreateCourt() {
     const dispatch = useAppDispatch();
     const [createCourt, {isLoading}] = useCreateCourtMutation();
     const {data: myclubs} = useGetMyClubsQuery(undefined);
+    const {refetch} = useGetClubListQuery();
 
     isLoading ? dispatch(showSpinner()) : dispatch(hideSpinner());
 
@@ -114,6 +118,7 @@ function CreateCourt() {
             });
             form.reset(defaultValues);
             handleResetForm();
+            refetch();
         }
     };
 

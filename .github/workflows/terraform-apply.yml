@@ -9,12 +9,27 @@ on:
         required: true
       TF_CLOUD_ORGANIZATION:
         required: true
+      GCP_PROJECT_ID:
+        required: true
+      GCP_REGION:
+        required: true
+      GCP_ZONE:
+        required: true
+      GCP_STATIC_IP:
+        required: true
+      OS_IMAGE_NAME:
+        required: true
 
 env:
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
   TF_CLOUD_ORGANIZATION: "${{ secrets.TF_CLOUD_ORGANIZATION }}"
   TF_WORKSPACE: "${{ secrets.TF_WORKSPACE }}"
   CONFIG_DIRECTORY: "./.deploy/terraform"
+  TF_VAR_project_id: "${{ secrets.GCP_PROJECT_ID }}"
+  TF_VAR_region: "${{ secrets.GCP_REGION }}"
+  TF_VAR_zone: "${{ secrets.GCP_ZONE }}"
+  TF_VAR_static_ip: "${{ secrets.GCP_STATIC_IP }}"
+  TF_VAR_os_image_name: "${{ secrets.OS_IMAGE_NAME }}"
 
 jobs:
   terraform:

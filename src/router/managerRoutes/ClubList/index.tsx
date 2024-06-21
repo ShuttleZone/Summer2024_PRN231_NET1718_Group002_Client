@@ -13,14 +13,13 @@ import {FaStar} from "react-icons/fa6";
 import {FaRegCommentDots} from "react-icons/fa";
 import {useGetClubListQuery} from "@/store/services/clubs/club.api";
 import {useNavigate} from "react-router-dom";
+import ContentSpinner from "@/components/ContentSpinner";
 
 function ClubList() {
     const {data: clubs, isLoading} = useGetClubListQuery();
     const navigate = useNavigate();
-    function handleClick() {
-        navigate("/manager/club-reviews");
-    }
     if (isLoading) return <div>is loading...</div>;
+
     return (
         <div className="h-fit">
             <Table className="border-2 border-gray-400">
@@ -40,7 +39,16 @@ function ClubList() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {clubs &&
+                    {isLoading ? (
+                        <TableRow>
+                            <TableCell colSpan={6} className="text-center">
+                                <div className="flex justify-center items-center">
+                                    <ContentSpinner />
+                                </div>
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        clubs &&
                         clubs.map((club, index) => (
                             <TableRow key={index}>
                                 <TableCell className="font-medium">
@@ -56,12 +64,17 @@ function ClubList() {
                                 <TableCell className="flex">
                                     {club.totalReview}
                                     <FaRegCommentDots
-                                        onClick={handleClick}
+                                        onClick={() => {
+                                            navigate(
+                                                `/manager/club-reviews/${club.Id}`
+                                            );
+                                        }}
                                         className="mx-2 text-lg text-slate-500"
                                     />
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        ))
+                    )}
                 </TableBody>
                 <TableFooter>
                     <TableRow>

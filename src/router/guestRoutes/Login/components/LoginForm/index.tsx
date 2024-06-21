@@ -49,7 +49,9 @@ function LoginForm() {
         else {
             toast({
                 variant: "destructive",
-                description: `${(result.error as any) /*eslint-disable-line */.data}`,
+
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                description: `${(result.error as any).data}`,
             });
         }
     };

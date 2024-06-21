@@ -15,8 +15,8 @@ function UserLayout() {
                     <Outlet />
                 </main>
                 <Footer />
+                <Spinner />
             </div>
-            <Spinner />
             <Toaster />
         </>
     );

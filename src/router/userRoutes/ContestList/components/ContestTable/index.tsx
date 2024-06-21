@@ -29,7 +29,10 @@ function InputDataTable({
 
     // const formattedDate = contestDate.toLocaleString("en-US");
     return (
-        <tr className="text-gray-700  hover:bg-white ">
+        <tr
+            onClick={handleCardClick}
+            className="text-gray-700  hover:bg-white "
+        >
             <th
                 scope="row"
                 className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
@@ -40,10 +43,7 @@ function InputDataTable({
                     alt="Neil Sims"
                 />
                 <div className="ps-3">
-                    <div
-                        className="text-base font-semibold"
-                        onClick={handleCardClick}
-                    >
+                    <div className="text-base font-semibold">
                         {userContests &&
                             userContests.map((userContest) => {
                                 if (userContest.isCreatedPerson == true) {
@@ -135,6 +135,7 @@ function ContestTable({contests}: ContestTableProps) {
                                     policy={contest.policy}
                                     contestStatus={contest.contestStatus}
                                     userContests={contest.userContests}
+                                    reservation={contest.reservation}
                                 />
                             ))}
                     </tbody>

@@ -64,7 +64,10 @@ const authSlice = createSlice({
             // should be removed after implementing refresh token
             localStorage.setItem("token", action.payload);
         },
-        clearAuth: () => initialState,
+        clearAuth: () => {
+            localStorage.removeItem("token");
+            return initialState;
+        },
         setLoading(state, action: {payload: boolean}) {
             state.isLoading = action.payload;
         },
