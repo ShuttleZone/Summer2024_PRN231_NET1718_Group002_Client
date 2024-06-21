@@ -30,10 +30,10 @@ build {
         playbook_file = "./.deploy/ansible/docker.yml"
     }
 
-    # provisioner "ansible" {
-    #     playbook_file = "./.deploy/ansible/cert-bot.yml"
-    #     extra_arguments = ["--extra-vars", "domain=${var.domain} email=${var.email}"]
-    # }
+    provisioner "ansible" {
+        playbook_file = "./.deploy/ansible/cert-bot.yml"
+        extra_arguments = ["--extra-vars", "domain=${var.domain} email=${var.email}"]
+    }
 
     provisioner "ansible" {
         playbook_file = "./.deploy/ansible/webclient.yml"
