@@ -149,6 +149,7 @@ const bookingStageSlice = createSlice({
         setClubDetail(state, action) {
             state.ClubDetail = action.payload;
         },
+        clearBookingState: () => initialState,
     },
 });
 
@@ -187,4 +188,5 @@ export const {
     setBookingPersonInformation,
     setBookingTotalPrice,
     setClubDetail,
+    clearBookingState,
 } = bookingStageSlice.actions;

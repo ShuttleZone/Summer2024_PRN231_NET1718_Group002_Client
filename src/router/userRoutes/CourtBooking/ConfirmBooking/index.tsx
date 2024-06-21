@@ -1,6 +1,7 @@
 import {useToast} from "@/components/ui/use-toast";
 import {useAppSelector} from "@/store";
 import {useCreateReservationMutation} from "@/store/services/reservations/reservation.api";
+import {clearBookingState} from "@/store/slices/bookingStage.slice";
 import {FormEvent} from "react";
 import {useNavigate} from "react-router-dom";
 
@@ -85,6 +86,7 @@ function ConfirmBooking() {
                 variant: "destructive",
             });
         }
+        clearBookingState();
     };
 
     function getCurrentDateFormatted(): string {

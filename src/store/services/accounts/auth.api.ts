@@ -53,6 +53,18 @@ export const authApi = commonApi.injectEndpoints({
                 };
             },
         }),
+        updatePassword: build.mutation({
+            query(body) {
+                return {
+                    url: "/api/account/password",
+                    method: "PUT",
+                    body: body,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                };
+            },
+        }),
     }),
 });
 
@@ -61,4 +73,5 @@ export const {
     useRegisterMutation,
     useProfileQuery,
     useUpdateProfileMutation,
+    useUpdatePasswordMutation,
 } = authApi;

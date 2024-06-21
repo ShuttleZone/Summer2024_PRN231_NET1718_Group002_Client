@@ -17,8 +17,9 @@ const clubApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
         getClubs: build.query<ClubType[], string | undefined>({
             query: () => {
-                const routeBuilder = new ApiRouteBuilder("/api/clubs");
-                routeBuilder.expand("clubImages", ["id", "imageUrl"]);
+                const routeBuilder = new ApiRouteBuilder(
+                    "/api/clubs?$filter=clubStatusEnum eq 'CreateRequestAccepted' or clubStatusEnum eq 'Open'&$expand=clubImages($select=id,imageUrl)"
+                );
                 return routeBuilder.build();
             },
             transformResponse(baseQueryReturnValue: ClubReturnType) {

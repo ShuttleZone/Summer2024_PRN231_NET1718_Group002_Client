@@ -1,16 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Button} from "@/components/ui/button";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label";
+
 import {Link} from "react-router-dom";
 import {
     useProfileQuery,
@@ -19,6 +8,7 @@ import {
 import {toast} from "@/components/ui/use-toast";
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {useAppDispatch} from "@/store";
+import ChangePassword from "./components/ChangePassword.tsx";
 
 interface UpdateUserProfile {
     fullname: string;
@@ -266,60 +256,7 @@ function UserProfile() {
                         </div>
                     </form>
                     <div className="mt-8 float-right">
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button
-                                    className="bg-gradient-to-r from-[#ececef] via-[#5F9053]/30 to-[#0dde10] h-12 w-52 hover:bg-black hover:text-white"
-                                    variant="outline"
-                                >
-                                    Change Password
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-[425px]">
-                                <DialogHeader>
-                                    <DialogTitle className="text-2xl">
-                                        Change your password
-                                    </DialogTitle>
-                                    <DialogDescription>
-                                        Make changes to your profile here. Click
-                                        save when you're done.
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <div className="grid gap-4 py-4">
-                                    <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label
-                                            htmlFor="name"
-                                            className="text-right"
-                                        >
-                                            Old Password
-                                        </Label>
-                                        <Input
-                                            id="name"
-                                            defaultValue="Pedro Duarte"
-                                            className="col-span-3"
-                                            type="password"
-                                        />
-                                    </div>
-                                    <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label
-                                            htmlFor="username"
-                                            className="text-right"
-                                        >
-                                            New Password
-                                        </Label>
-                                        <Input
-                                            id="username"
-                                            defaultValue="@peduarte"
-                                            className="col-span-3"
-                                            type="password"
-                                        />
-                                    </div>
-                                </div>
-                                <DialogFooter>
-                                    <Button type="submit">Save changes</Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
+                        <ChangePassword />
                     </div>
                 </div>
             </div>
