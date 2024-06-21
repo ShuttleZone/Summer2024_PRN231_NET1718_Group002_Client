@@ -18,8 +18,8 @@ resource "google_compute_instance" "shuttle_zone_web_client" {
     device_name = "shuttle-zone-client"
 
     initialize_params {
-      image = "projects/debian-cloud/global/images/debian-12-bookworm-v20240515"
-      size  = 10
+      image = "projects/${var.project_id}/global/images/vigig-client-debian"
+      size  = 50
       type  = "pd-balanced"
     }
 
@@ -40,11 +40,12 @@ resource "google_compute_instance" "shuttle_zone_web_client" {
   network_interface {
     access_config {
       network_tier = "PREMIUM"
+      nat_ip = var.static_ip
     }
 
     queue_count = 0
     stack_type  = "IPV4_ONLY"
-    subnetwork  = "projects/shuttle-zone-client/regions/asia-southeast1/subnetworks/default"
+    subnetwork  = "projects/${var.project_id}/regions/${var.region}/subnetworks/default"
   }
 
   scheduling {
