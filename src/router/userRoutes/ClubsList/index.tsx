@@ -1,15 +1,12 @@
 import Filter from "./components/Filter";
-// import Filter from "@/router/userRoutes/ContestList/components/Filter";
-
-import ClubCard from "./components/ClubCard";
 import {useGetClubsQuery} from "@/store/services/clubs/club.api";
+import ClubCardSkeletons from "./components/ClubCardSkeletons";
+import ClubCard from "./components/ClubCard";
 
 function ClubsList() {
     const {data: clubs, isError, isLoading} = useGetClubsQuery(undefined);
 
-    if (isLoading) {
-        return <div>Loading</div>;
-    } else if (isError) {
+    if (isError) {
         return <div>An error occurred</div>;
     }
 
@@ -18,11 +15,15 @@ function ClubsList() {
             <div className="w-3/4">
                 <Filter />
                 <ul className="grid grid-cols-3 gap-8 mt-12">
-                    {clubs?.map((club) => (
-                        <li key={club.id} className="col-span-1">
-                            <ClubCard {...club} />
-                        </li>
-                    ))}
+                    {isLoading ? (
+                        <ClubCardSkeletons />
+                    ) : (
+                        clubs?.map((club) => (
+                            <li key={club.id} className="col-span-1">
+                                <ClubCard {...club} />
+                            </li>
+                        ))
+                    )}
                 </ul>
             </div>
         </div>

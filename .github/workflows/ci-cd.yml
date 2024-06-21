@@ -22,7 +22,12 @@ jobs:
     uses: ./.github/workflows/publish.yml
     secrets: inherit
 
-  deploy:
+  provision:
     needs: publish
+    uses: ./.github/workflows/packer-build.yml
+    secrets: inherit
+
+  deploy:
+    needs: provision
     uses: ./.github/workflows/terraform-apply.yml
     secrets: inherit

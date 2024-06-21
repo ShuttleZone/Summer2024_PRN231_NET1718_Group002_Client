@@ -40,14 +40,17 @@ function RegisterForm() {
                 navigate("/login");
             }, 2000); //
         } else {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             if (!(result.error as any).data.description) {
                 toast({
                     variant: "destructive",
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     description: `${(result.error as any).data}`,
                 });
             } else {
                 toast({
                     variant: "destructive",
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     description: `${(result.error as any).data.description}`,
                 });
             }
