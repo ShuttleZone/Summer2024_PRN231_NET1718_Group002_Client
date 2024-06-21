@@ -26,7 +26,7 @@ function PrivateRoute({allowedRoles}: PrivateRouteProps) {
         allowedRoles?.includes(role || "") ? (
             <Outlet />
         ) : (
-            <Navigate to="/login" replace /> // should navigate to 403 page, but for now, navigate to login page, I'll implement 403 page later
+            <Navigate to="/unauthorized" replace />
         )
     ) : (
         <Navigate to="/login" replace />
