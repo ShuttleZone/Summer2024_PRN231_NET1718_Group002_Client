@@ -20,6 +20,7 @@ function ClubList() {
     const navigate = useNavigate();
     if (isLoading) return <div>is loading...</div>;
 
+
     return (
         <div className="h-fit">
             <Table className="border-2 border-gray-400">

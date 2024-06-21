@@ -22,7 +22,6 @@ const reviewApi = commonApi.injectEndpoints({
                 return baseQueryReturnValue;
             },
         }),
-
         replyClubReview: build.mutation<ReplyReview, ReplyReview>({
             query(body) {
                 return {
