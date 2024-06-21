@@ -49,7 +49,7 @@ function LoginForm() {
         else {
             toast({
                 variant: "destructive",
-                description: `${(result.error as any).data}`,
+                description: `${(result.error as any) /*eslint-disable-line */.data}`,
             });
         }
     };
