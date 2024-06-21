@@ -4,6 +4,7 @@ import {useCreateReservationMutation} from "@/store/services/reservations/reserv
 import {clearBookingState} from "@/store/slices/bookingStage.slice";
 import {FormEvent} from "react";
 import {useNavigate} from "react-router-dom";
+import ConfirmBookingButton from "../components/ConfirmBookingButton";
 
 interface ReservationDetail {
     startTime: string;
@@ -185,14 +186,7 @@ function ConfirmBooking() {
                             <p>{clubDetailData.clubPhone}</p>
                         </div>
                     </div>
-                    <button
-                        className="mx-auto w-56 h-20 border-2 border-green-600 rounded-3xl flex flex-row justify-center items-center text-green-600  hover:bg-green-600 hover:text-white transition-colors duration-300"
-                        onClick={handleSubmit}
-                    >
-                        <h1 className="text-xl font-semibold ">
-                            Make reservation
-                        </h1>
-                    </button>
+                    <ConfirmBookingButton onClick={handleSubmit} />
                 </div>
             </div>
         </div>
