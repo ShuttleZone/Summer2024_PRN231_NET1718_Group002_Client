@@ -54,7 +54,10 @@ function ClubReview() {
                                         />
                                         <div className="flex flex-col justify-between gap-4">
                                             <h3 className="text-lg opacity-75">
-                                                {review.createdBy} booked on{" "}
+                                                <strong>
+                                                    {review.createdBy}
+                                                </strong>{" "}
+                                                booked on{" "}
                                                 {formatDateTime(review.created)}
                                             </h3>
                                             <div className="flex gap-2 items-center">
@@ -84,7 +87,7 @@ function ClubReview() {
                                             {review.comment}
                                         </p>
                                         <div className="pr-24">
-                                            <Carousel>
+                                            {/* <Carousel>
                                                 <CarouselContent>
                                                     {mockImages.map(
                                                         (image, index) => (
@@ -103,7 +106,7 @@ function ClubReview() {
                                                 </CarouselContent>
                                                 <CarouselPrevious />
                                                 <CarouselNext />
-                                            </Carousel>
+                                            </Carousel> */}
                                         </div>
                                         <p className="text-sm opacity-75">
                                             On {formatDateTime(review.created)}
