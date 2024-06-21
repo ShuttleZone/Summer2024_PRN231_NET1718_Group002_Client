@@ -1,0 +1,29 @@
+- name: Run webclient container
+  hosts: all
+  become: true
+  become_method: sudo
+
+  tasks:
+    - name: Authenticate to GitHub Container Registry
+      docker_login:
+        registry_url: ghcr.io
+        username: "{{ email }}"
+        password: "{{ token }}"
+    
+    - name: Pull docker image
+      docker_image:
+        name: "{{ docker_image }}"
+        source: pull
+
+    - name: Start docker container
+      docker_container:
+        name: webclient
+        image: "{{ docker_image }}"
+        state: started
+        restart_policy: always
+        ports:
+          - "80:80"
+          - "443:443"
+        volumes:
+          - /etc/letsencrypt:/etc/letsencrypt
+
