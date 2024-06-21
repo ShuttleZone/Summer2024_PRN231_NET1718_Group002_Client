@@ -1,4 +1,3 @@
-// import Filter from "./components/Filter";
 import Filter from "@/router/userRoutes/ContestList/components/Filter";
 
 import ContestTable from "@/router/userRoutes/ContestList/components/ContestTable";
@@ -7,16 +6,12 @@ import {useGetContestsQuery} from "@/store/services/contests/contest.api";
 function ContestList() {
     const {data: contests, isError, isLoading} = useGetContestsQuery(undefined);
 
-    if (contests == undefined) {
-        return <div>Error</div>;
-    }
-
     if (isLoading)
         return (
-            <div>
+            <div className="flex justify-center items-center my-12">
                 <div
                     role="status"
-                    className="max-w-md p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700"
+                    className="w-3/4 p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700"
                 >
                     <div className="flex items-center justify-between">
                         <div>
@@ -58,7 +53,7 @@ function ContestList() {
             </div>
         );
 
-    if (isError) {
+    if (isError || !contests) {
         return (
             <div>
                 <div
@@ -106,7 +101,6 @@ function ContestList() {
         );
     }
 
-    console.log(contests);
     return (
         <div className="w-full flex justify-center py-12">
             <div className="w-3/4">

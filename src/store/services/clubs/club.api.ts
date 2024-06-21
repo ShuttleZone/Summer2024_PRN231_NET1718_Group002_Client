@@ -79,7 +79,7 @@ const clubApi = commonApi.injectEndpoints({
         getClubList: build.query<ClubManagement[], void>({
             query: () => {
                 const routeBuilder = new ApiRouteBuilder(
-                    "/api/clubs/my-clubs?$expand=courts,reviews&$select=clubName,clubAddress,openTime,closeTime,id"
+                    "/api/clubs/my-clubs?$expand=courts,reviews&$select=clubName,clubAddress,openTime,closeTime,Id"
                 );
 
                 return routeBuilder.build();
@@ -97,8 +97,8 @@ const clubApi = commonApi.injectEndpoints({
                             0
                         ) / club.Reviews.length || 0,
                     totalCourt: club.Courts.length,
-                    Id: club.Id,
                     totalReview: club.Reviews.length,
+                    Id: club.Id,
                 }));
             },
         }),

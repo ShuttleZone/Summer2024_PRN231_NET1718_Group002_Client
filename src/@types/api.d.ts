@@ -233,12 +233,22 @@ interface CourtByClub {
 interface ReviewRequest {
     clubId: string;
     rating: number;
+    title: string;
     comment: string;
 }
 
+interface ReplyReview {
+    id: string;
+    replyTitle: string;
+    replyContent: string;
+}
+
 interface ClubReviews {
+    id: string;
     rating: number;
+    title: string;
     comment: string;
+    replyTitle: string;
     replyContent: string;
     replyTime: string;
     replyPerson: string;

@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import ContentSpinner from "@/components/ContentSpinner";
 const formatDateTime = (dateTime: string) => {
     const date = new Date(dateTime);
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
@@ -54,7 +55,6 @@ function MyReservationDetailList() {
         }
     };
 
-    if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error: {getErrorMessage(error)}</div>;
 
     const handleFilterChange = (status: string, currentStatusId: number) => {
@@ -129,7 +129,11 @@ function MyReservationDetailList() {
                             </Select>
                         </div>
                     </div>
-                    {reservations && reservations.length > 0 ? (
+                    {isLoading ? (
+                        <div className="flex justify-center items-center">
+                            <ContentSpinner />
+                        </div>
+                    ) : reservations && reservations.length > 0 ? (
                         <>
                             <table className="w-full text-left table-auto">
                                 <thead>
@@ -147,7 +151,7 @@ function MyReservationDetailList() {
                                             Status
                                         </th>
                                         <th className="px-4 py-2 border-b">
-                                            Details
+                                            Cancel
                                         </th>
                                         <th className="px-4 py-2 border-b">
                                             Action
@@ -158,6 +162,7 @@ function MyReservationDetailList() {
                                     {reservations.map((r) => (
                                         <ReservationDetailsItem
                                             key={r.id}
+                                            id={r.id}
                                             clubId={r.clubId}
                                             courtName={r.courtName}
                                             price={r.price}
