@@ -22,8 +22,15 @@ function PrivateRoute({allowedRoles}: PrivateRouteProps) {
 
     isLoading ? dispatch(showSpinner()) : dispatch(hideSpinner());
 
+    const areRolesValid = allowedRoles?.some((allowedRole) => {
+        if (Array.isArray(role)) {
+            return role.includes(allowedRole);
+        }
+        return role === allowedRole;
+    });
+
     return isAuthenticated ? (
-        allowedRoles?.includes(role || "") ? (
+        areRolesValid ? (
             <Outlet />
         ) : (
             <Navigate to="/unauthorized" replace />

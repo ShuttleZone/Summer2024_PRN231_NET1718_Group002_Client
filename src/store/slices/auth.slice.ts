@@ -6,7 +6,7 @@ export interface AuthState {
     username?: string;
     email?: string;
     token?: string;
-    role?: string;
+    role?: string | string[];
     isLoading: boolean;
     isAuthenticated?: boolean;
 }
@@ -25,7 +25,7 @@ interface AuthPayload extends JwtPayload {
     userId: string;
     username: string;
     email: string;
-    role: string;
+    role: string | string[];
 }
 
 const refreshToken = createAsyncThunk("auth/refreshToken", async () => {
