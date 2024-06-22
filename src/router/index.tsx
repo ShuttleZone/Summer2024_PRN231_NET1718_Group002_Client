@@ -15,7 +15,6 @@ import CallbackConfirmEmail from "./guestRoutes/CallbackConfirmEmail";
 import Unauthorized from "@/components/pages/Unauthorized";
 import guestRoutes from "./guestRoutes";
 
-
 const router = createBrowserRouter([
     {
         path: "/",

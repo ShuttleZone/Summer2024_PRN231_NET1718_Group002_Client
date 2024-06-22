@@ -62,7 +62,7 @@ export const authApi = commonApi.injectEndpoints({
                 method: "GET",
                 params: {userId, token},
             }),
-
+        }),
         updatePassword: build.mutation({
             query(body) {
                 return {
