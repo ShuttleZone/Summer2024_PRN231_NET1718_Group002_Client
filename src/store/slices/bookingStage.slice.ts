@@ -149,6 +149,12 @@ const bookingStageSlice = createSlice({
         setClubDetail(state, action) {
             state.ClubDetail = action.payload;
         },
+
+        clearBookingState: () => initialState,
+
+        clearBookingSlots(state) {
+            state.TimeAndDate.Slots = [];
+        },
     },
 });
 
@@ -187,4 +193,8 @@ export const {
     setBookingPersonInformation,
     setBookingTotalPrice,
     setClubDetail,
+
+    clearBookingState,
+
+    clearBookingSlots,
 } = bookingStageSlice.actions;

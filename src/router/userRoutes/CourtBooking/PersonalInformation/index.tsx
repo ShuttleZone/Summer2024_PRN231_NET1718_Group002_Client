@@ -1,20 +1,58 @@
 import {useAppDispatch, useAppSelector} from "@/store";
-import {setBookingPersonInformation} from "@/store/slices/bookingStage.slice";
+import {useProfileQuery} from "@/store/services/accounts/auth.api";
+import {
+    selectStageById,
+    setBookingPersonInformation,
+    setStage,
+} from "@/store/slices/bookingStage.slice";
 import {ChangeEvent, useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
 function PersonalInformation() {
     const dispatch = useAppDispatch();
     const [isSaved, setIsSaved] = useState(false);
-    const [formData, setFormData] = useState({
-        Name: "",
-        Email: "",
-        Phone: "",
-        Note: "",
-    });
+    const {data: userInfo} = useProfileQuery();
+
+    const navigate = useNavigate();
+    const currentStageId = useAppSelector(
+        (state) => state.bookingStage.CurrentStage
+    );
+    const currentStage = useAppSelector((state) =>
+        selectStageById(state.bookingStage, currentStageId)
+    );
+    const {id} = useParams();
+    const bookingLocation = `/clubs/${id}/court-booking`;
+    const handleClick = (id: number) => {
+        dispatch(setStage(id));
+    };
+    useEffect(() => {
+        if (currentStage?.Path) {
+            navigate(bookingLocation + currentStage.Path);
+        }
+    }, [currentStage, navigate, bookingLocation]);
+
     const storedFormData = useAppSelector(
         (state) =>
             state.bookingStage.PersonaInformation.BookingPersonInformation
     );
+
+    const [formData, setFormData] = useState({
+        Name: storedFormData.Name || userInfo?.fullname || "",
+        Email: storedFormData.Email || userInfo?.email || "",
+        Phone: storedFormData.Phone || userInfo?.phoneNumber || "",
+        Note: storedFormData.Note || "",
+    });
+
+    useEffect(() => {
+        if (userInfo) {
+            setFormData((prevData) => ({
+                ...prevData,
+                Name: userInfo.fullname || prevData.Name,
+                Email: userInfo.email || prevData.Email,
+                Phone: userInfo.phoneNumber || prevData.Phone,
+            }));
+        }
+    }, [userInfo]);
 
     useEffect(() => {
         setFormData(storedFormData);
@@ -34,6 +72,7 @@ function PersonalInformation() {
         e.preventDefault();
         dispatch(setBookingPersonInformation(formData));
         setIsSaved(true);
+        handleClick(4);
     };
 
     return (

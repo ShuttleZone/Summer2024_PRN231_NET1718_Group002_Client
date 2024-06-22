@@ -1,9 +1,22 @@
 import AppLogo from "@/assets/images/app-logo.png";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import NavItem from "./components/NavItem";
 import {Button} from "@/components/ui/button";
 import {IconType} from "react-icons/lib";
-import {useAppSelector} from "@/store";
+import {useAppDispatch, useAppSelector} from "@/store";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {toast} from "@/components/ui/use-toast";
+import {clearAuth} from "@/store/slices/auth.slice";
 
 interface SidebarProps {
     navItems: {
@@ -15,6 +28,18 @@ interface SidebarProps {
 
 function Sidebar({navItems}: SidebarProps) {
     const {username, email} = useAppSelector((state) => state.auth);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        // give it some time to logout because otherwise the page will be unresponsive, idk why :((
+        setTimeout(() => dispatch(clearAuth()), 500);
+        toast({
+            title: "Logged out successfully",
+            description: "You have been logged out from your account.",
+        });
+        navigate("/login");
+    };
 
     return (
         <div className="w-full h-full flex flex-col justify-between px-4 py-4">
@@ -50,9 +75,29 @@ function Sidebar({navItems}: SidebarProps) {
                         {email}
                     </span>
                 </div>
-                <Button className="w-full h-12 bg-red-500 text-white hover:bg-slate-700 transition-colors duration-300 text-lg font-medium">
-                    Logout
-                </Button>
+                <AlertDialog>
+                    <AlertDialogTrigger className="w-full">
+                        <Button className="w-full h-12 bg-red-500 text-white hover:bg-slate-700 transition-colors duration-300 text-lg font-medium">
+                            Logout
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>
+                                Are you sure to logout?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                                You will be logged out from your account.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleLogout}>
+                                Logout
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </div>
         </div>
     );

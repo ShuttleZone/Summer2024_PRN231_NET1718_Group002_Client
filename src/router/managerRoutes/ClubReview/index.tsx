@@ -1,5 +1,6 @@
 import AllReviews from "./components/Body";
 import Header from "./components/Header";
+import ReviewOverview from "./components/Overviews";
 
 function ClubReview() {
     return (
@@ -8,9 +9,9 @@ function ClubReview() {
                 <Header />
             </div>
             <div>
-                <AllReviews />
-                <AllReviews />
-                <AllReviews />
+                <ReviewOverview />
+            </div>
+            <div>
                 <AllReviews />
             </div>
         </div>

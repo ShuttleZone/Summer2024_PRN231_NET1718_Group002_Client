@@ -5,8 +5,12 @@ import {useEffect} from "react";
 import {useSelector} from "react-redux";
 import {Navigate, Outlet, useLocation} from "react-router-dom";
 
-function PrivateRoute() {
-    const {isAuthenticated, isLoading} = useSelector(
+interface PrivateRouteProps {
+    allowedRoles?: string[];
+}
+
+function PrivateRoute({allowedRoles}: PrivateRouteProps) {
+    const {isAuthenticated, isLoading, role} = useSelector(
         (state: RootState) => state.auth
     );
     const dispatch = useAppDispatch();
@@ -18,7 +22,15 @@ function PrivateRoute() {
 
     isLoading ? dispatch(showSpinner()) : dispatch(hideSpinner());
 
-    return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+    return isAuthenticated ? (
+        allowedRoles?.includes(role || "") ? (
+            <Outlet />
+        ) : (
+            <Navigate to="/unauthorized" replace />
+        )
+    ) : (
+        <Navigate to="/login" replace />
+    );
 }
 
 export default PrivateRoute;

@@ -18,6 +18,7 @@ import MyReservationDetailList from "./ReservationDetail";
 import MyReservationInvoiceList from "./Reservation";
 import ContestCreate from "./ContestCreate";
 import UserProfile from "./UserProfile";
+import applicationRoles from "@/constants/role.constants";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -127,7 +128,7 @@ const privateRoutes: RouteObject[] = [
 
 const userRoutes: RouteObject[] = [
     {
-        element: <PrivateRoute />,
+        element: <PrivateRoute allowedRoles={[applicationRoles.CUSTOMER]} />,
         children: privateRoutes,
     },
     ...publicRoutes,

@@ -1,0 +1,50 @@
+- name: Install Cert Bot
+  hosts: all
+  become: true
+  become_method: sudo
+
+  tasks:
+    - name: Upgrade all apt packages
+      apt:
+        force_apt_get: yes
+        upgrade: dist
+
+    - name: Install snapd
+      apt:
+        pkg: snapd
+        state: present
+        update_cache: yes
+
+    - name: Install snapd snap
+      command: snap install snapd
+
+    - name: Install certbot
+      command: snap install --classic certbot
+
+    - name: Make certbot available in PATH
+      file:
+        src: /snap/bin/certbot
+        dest: /usr/bin/certbot
+        state: link
+
+    - name: Ensure the letsencrypt folder exists
+      file:
+        path: /etc/letsencrypt
+        state: directory
+        mode: '0755'
+
+    - name: Get dhparam
+      get_url:
+        url: https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem
+        dest: /etc/letsencrypt/ssl-dhparams.pem
+        force: yes
+
+    - name: Get nginx config
+      get_url:
+        url: https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf
+        dest: /etc/letsencrypt/options-ssl-nginx.conf
+        force: yes
+
+    - name: Get certificate
+      command: certbot certonly --standalone -d {{ domain }} --non-interactive --agree-tos --email {{ email }} --force-renewal
+

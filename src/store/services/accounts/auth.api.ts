@@ -55,12 +55,25 @@ export const authApi = commonApi.injectEndpoints({
                 };
             },
         }),
+
         confirmEmail: build.query({
             query: ({userId, token}) => ({
                 url: "/confirm-email",
                 method: "GET",
                 params: {userId, token},
             }),
+
+        updatePassword: build.mutation({
+            query(body) {
+                return {
+                    url: "/api/account/password",
+                    method: "PUT",
+                    body: body,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                };
+            },
         }),
     }),
 });
@@ -71,4 +84,5 @@ export const {
     useProfileQuery,
     useUpdateProfileMutation,
     useConfirmEmailQuery,
+    useUpdatePasswordMutation,
 } = authApi;
