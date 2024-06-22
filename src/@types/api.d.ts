@@ -247,6 +247,7 @@ interface ReplyReview {
 }
 
 interface ClubReviews {
+    id: string;
     rating: number;
     title: string;
     comment: string;
