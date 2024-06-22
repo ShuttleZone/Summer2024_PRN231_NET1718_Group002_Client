@@ -1,6 +1,6 @@
 const applicationRoles = {
     CUSTOMER: "Customer",
-    ADMIN: "Admin",
+    ADMIN: "SuperAdmin",
     MANAGER: "Manager",
     STAFF: "Staff",
 };

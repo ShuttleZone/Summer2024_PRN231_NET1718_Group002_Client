@@ -448,8 +448,7 @@ function AllReviews() {
                                                         <TooltipTrigger>
                                                             <button
                                                                 value={
-                                                                    review.title
-                                                                    // review.id // this is your original value, I just changed it to review.title so that the build doesn't fail. I think you should change it back later
+                                                                    review.id
                                                                 }
                                                                 onClick={(
                                                                     event
