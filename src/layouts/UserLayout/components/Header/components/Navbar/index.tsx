@@ -9,11 +9,12 @@ interface NavItem {
 
 const navItems: NavItem[] = [
     {name: "Home", link: "/"},
-    {name: "Coaches", link: "/coaches", hasDropdown: true},
-    {name: "User", link: "/user", hasDropdown: true},
-    {name: "Pages", link: "/pages", hasDropdown: true},
-    {name: "Blog", link: "/blog", hasDropdown: true},
-    {name: "Contact Us", link: "/contact-us"},
+    {name: "My Reservations", link: "/my-reservation", hasDropdown: true},
+    {name: "Invoices", link: "/my-invoices", hasDropdown: true},
+    {name: "Clubs", link: "/clubs", hasDropdown: true},
+    {name: "Contest", link: "/contests", hasDropdown: true},
+    {name: "Profile", link: "/profile"},
+    {name: "Manager Role", link: "/manager"},
 ];
 
 function Navbar() {

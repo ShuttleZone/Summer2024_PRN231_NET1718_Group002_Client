@@ -122,7 +122,6 @@ export interface RegisterAccount {
     phoneNumber: string;
     password: string;
     repassword: string;
-    token: string;
 }
 
 export interface RegisterResponse {

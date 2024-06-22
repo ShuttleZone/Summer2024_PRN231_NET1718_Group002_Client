@@ -11,6 +11,8 @@ import NotFound from "@/components/pages/NotFound";
 import guestRoutes from "./guestRoutes";
 import LoginPage from "./guestRoutes/Login";
 import RegisterPage from "./guestRoutes/Register";
+import ConfirmEmail from "./guestRoutes/ConfirmEmail";
+import CallbackConfirmEmail from "./guestRoutes/CallbackConfirmEmail";
 
 const router = createBrowserRouter([
     {
@@ -42,6 +44,16 @@ const router = createBrowserRouter([
     {
         path: "/register",
         element: <RegisterPage />,
+        children: [...guestRoutes],
+    },
+    {
+        path: "/email-confirmation",
+        element: <ConfirmEmail />,
+        children: [...guestRoutes],
+    },
+    {
+        path: "/email-confirming",
+        element: <CallbackConfirmEmail />,
         children: [...guestRoutes],
     },
 ]);
