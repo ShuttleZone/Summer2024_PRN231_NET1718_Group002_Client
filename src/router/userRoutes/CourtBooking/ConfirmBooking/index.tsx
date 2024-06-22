@@ -1,8 +1,10 @@
 import {useToast} from "@/components/ui/use-toast";
 import {useAppSelector} from "@/store";
 import {useCreateReservationMutation} from "@/store/services/reservations/reservation.api";
+import {clearBookingState} from "@/store/slices/bookingStage.slice";
 import {FormEvent} from "react";
 import {useNavigate} from "react-router-dom";
+import ConfirmBookingButton from "../components/ConfirmBookingButton";
 
 interface ReservationDetail {
     startTime: string;
@@ -69,21 +71,23 @@ function ConfirmBooking() {
             );
         });
 
-        const {error} = await createReservation(formData);
-        if (error) {
-            toast({
-                title: "Error",
-                description: "Failed to make reservation",
-                variant: "destructive",
-            });
-        } else {
+        try {
+            await createReservation(formData).unwrap();
             toast({
                 title: "Success",
                 description: "Reservation made successfully",
                 variant: "default",
             });
             navigate("/my-invoices");
+        } catch (error: any /* eslint-disable-line */) {
+            toast({
+                title: "Error",
+                description:
+                    error?.data?.message || "An unknown error occurred",
+                variant: "destructive",
+            });
         }
+        clearBookingState();
     };
 
     function getCurrentDateFormatted(): string {
@@ -182,14 +186,7 @@ function ConfirmBooking() {
                             <p>{clubDetailData.clubPhone}</p>
                         </div>
                     </div>
-                    <button
-                        className="mx-auto w-56 h-20 border-2 border-green-600 rounded-3xl flex flex-row justify-center items-center text-green-600  hover:bg-green-600 hover:text-white transition-colors duration-300"
-                        onClick={handleSubmit}
-                    >
-                        <h1 className="text-xl font-semibold ">
-                            Make reservation
-                        </h1>
-                    </button>
+                    <ConfirmBookingButton onClick={handleSubmit} />
                 </div>
             </div>
         </div>

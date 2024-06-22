@@ -38,12 +38,16 @@ export interface CourtScheduleType {
     minDuration: number;
     clubId: string;
     courts: CourtInformationType[];
+    openDateInWeeks: OpenDateInWeek[];
 }
 
 export interface CourtInformationType {
     id: string;
     name: string;
     price: number;
+}
+export interface OpenDateInWeek {
+    date: string;
 }
 
 export interface UserContest {

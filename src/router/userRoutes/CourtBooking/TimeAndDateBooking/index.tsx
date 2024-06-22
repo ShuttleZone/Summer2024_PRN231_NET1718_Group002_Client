@@ -9,7 +9,6 @@ import {
 } from "@/store/slices/bookingStage.slice";
 import {useEffect, useState} from "react";
 import {CiCalendarDate} from "react-icons/ci";
-import {GoClock} from "react-icons/go";
 import {useNavigate, useParams} from "react-router-dom";
 // interface CourtInfomation {
 //     id: string;
@@ -32,7 +31,6 @@ import {useNavigate, useParams} from "react-router-dom";
 function TimeAndDateBooking() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [bookedDate, setBookedDate] = useState<string[]>([]);
-    const [totalDuration, setTotalDuration] = useState<number>(0);
     const [totalPrice, setTotalPrice] = useState<number>(0);
     const dispatch = useAppDispatch();
     const bookingSlot = useAppSelector(
@@ -68,19 +66,6 @@ function TimeAndDateBooking() {
         dispatch(setBookingTotalPrice(y));
     }, [dispatch, bookingSlot]);
 
-    useEffect(() => {
-        let duration = 0;
-
-        bookedDate.forEach((item) => {
-            const [startTime, endTime] = item.split(" - ");
-            const [startHour, startMinute] = startTime.split(":").map(Number);
-            const [endHour, endMinute] = endTime.split(":").map(Number);
-
-            duration += endHour - startHour + (endMinute - startMinute) / 60;
-        });
-
-        setTotalDuration(duration);
-    }, [bookedDate]);
     return (
         <div>
             <div className="flex flex-col justify-center items-center py-4 px-16 my-4">
@@ -102,7 +87,7 @@ function TimeAndDateBooking() {
                     <h1 className="text-xl font-semibold py-7 text-center">
                         Booking Details
                     </h1>
-                    <div className="my-2 pl-2 max-h-56  overflow-x-auto">
+                    <div className="my-2 pl-2 h-56  overflow-x-auto">
                         <h1 className="text-start h-fit text-lg flex flex-row items-center gap-5 bg-slate-100 min-h-36">
                             <div className="w-12 h-full min-h-12 flex justify-center items-center">
                                 <CiCalendarDate className="text-xl text-green-600" />
@@ -117,14 +102,14 @@ function TimeAndDateBooking() {
                         </h1>
                     </div>
 
-                    <div className="my-2 pl-2">
+                    {/* <div className="my-2 pl-2">
                         <h1 className="text-start text-lg flex flex-row items-center gap-5">
                             <span className="w-16 h-16 bg-slate-100 flex justify-center items-center">
                                 <GoClock className="text-xl text-green-600" />
                             </span>
                             {totalDuration} hours
                         </h1>
-                    </div>
+                    </div> */}
                     <Button
                         className="bg-green-700 rounded-2xl w-full text-xl py-8 mt-8"
                         onClick={() => handleClick(3)}
