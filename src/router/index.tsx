@@ -11,6 +11,7 @@ import NotFound from "@/components/pages/NotFound";
 import LoginPage from "./guestRoutes/Login";
 import RegisterPage from "./guestRoutes/Register";
 import Unauthorized from "@/components/pages/Unauthorized";
+import guestRoutes from "./guestRoutes";
 
 const router = createBrowserRouter([
     {
@@ -37,10 +38,12 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <LoginPage />,
+        children: [...guestRoutes],
     },
     {
         path: "/register",
         element: <RegisterPage />,
+        children: [...guestRoutes],
     },
     {
         path: "/unauthorized",
