@@ -5,60 +5,52 @@ import React, {useState} from "react";
 import {useToast} from "@/components/ui/use-toast";
 import {Toaster} from "@/components/ui/toaster";
 
-function RegisterForm() {
-    const initialState: Omit<RegisterAccount, ""> = {
-        fullname: "",
-        username: "",
-        email: "",
-        phoneNumber: "",
-        password: "",
-        repassword: "",
-        token: "",
-    };
+const initialState = {
+    fullname: "",
+    username: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
+    repassword: "",
+};
 
+const RegisterForm = () => {
+    const [formData, setFormData] = useState(initialState);
     const [register] = useRegisterMutation();
     const navigate = useNavigate();
     const {toast} = useToast();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        if (formData.repassword.match(formData.password)) {
+        event.preventDefault();
+
+        if (formData.password !== formData.repassword) {
+            console.log(formData.password + formData.repassword);
             toast({
                 variant: "destructive",
-                description: "Password is not match !",
+                description: "Passwords do not match!",
             });
+            return;
         }
-        event.preventDefault();
-        const result = await register(formData);
-        console.log("succeed", result);
-        console.log(result.error);
-        if (result.data?.token != null) {
+
+        try {
+            const result = await register(formData).unwrap(); // Use unwrap() to handle errors
+            console.log("succeed", result);
+            navigate("/email-confirmation", {state: {email: formData.email}});
+        } catch (err) {
+            console.log("err", err);
             toast({
-                variant: "default",
-                description: "Register successful! Please proceed to login.",
+                variant: "destructive",
+                description: err?.data || "An error occurred",
             });
-            setTimeout(() => {
-                navigate("/login");
-            }, 2000); //
-        } else {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            if (!(result.error as any).data.description) {
-                toast({
-                    variant: "destructive",
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    description: `${(result.error as any).data}`,
-                });
-            } else {
-                toast({
-                    variant: "destructive",
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    description: `${(result.error as any).data.description}`,
-                });
-            }
         }
     };
 
-    const [formData, setFormData] =
-        useState<Omit<RegisterAccount, "">>(initialState);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
 
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
@@ -107,13 +99,9 @@ function RegisterForm() {
                                     </div>
                                     <input
                                         value={formData.email}
-                                        onChange={(event) =>
-                                            setFormData((prev) => ({
-                                                ...prev,
-                                                email: event.target.value,
-                                            }))
-                                        }
+                                        onChange={handleChange}
                                         type="email"
+                                        name="email"
                                         required
                                         id="email-address-icon"
                                         className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -142,13 +130,9 @@ function RegisterForm() {
                                     </span>
                                     <input
                                         value={formData.username}
-                                        onChange={(event) =>
-                                            setFormData((prev) => ({
-                                                ...prev,
-                                                username: event.target.value,
-                                            }))
-                                        }
+                                        onChange={handleChange}
                                         type="text"
+                                        name="username"
                                         required
                                         id="website-admin"
                                         className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -177,13 +161,9 @@ function RegisterForm() {
                                     </span>
                                     <input
                                         value={formData.fullname}
-                                        onChange={(event) =>
-                                            setFormData((prev) => ({
-                                                ...prev,
-                                                fullname: event.target.value,
-                                            }))
-                                        }
+                                        onChange={handleChange}
                                         type="text"
+                                        name="fullname"
                                         required
                                         className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Bonnie Green"
@@ -211,12 +191,8 @@ function RegisterForm() {
                                     </span>
                                     <input
                                         value={formData.phoneNumber}
-                                        onChange={(event) =>
-                                            setFormData((prev) => ({
-                                                ...prev,
-                                                phoneNumber: event.target.value,
-                                            }))
-                                        }
+                                        name="phoneNumber"
+                                        onChange={handleChange}
                                         type="text"
                                         required
                                         className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -230,12 +206,8 @@ function RegisterForm() {
                                 </label>
                                 <input
                                     value={formData.password}
-                                    onChange={(event) =>
-                                        setFormData((prev) => ({
-                                            ...prev,
-                                            password: event.target.value,
-                                        }))
-                                    }
+                                    name="password"
+                                    onChange={handleChange}
                                     type="password"
                                     id="password"
                                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
@@ -247,7 +219,10 @@ function RegisterForm() {
                                     Repeat password
                                 </label>
                                 <input
+                                    value={formData.repassword}
+                                    onChange={handleChange}
                                     type="password"
+                                    name="repassword"
                                     id="repeat-password"
                                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                                     required
@@ -257,12 +232,7 @@ function RegisterForm() {
                                 <div className="flex items-center h-5">
                                     <input
                                         value={formData.repassword}
-                                        onChange={(event) =>
-                                            setFormData((prev) => ({
-                                                ...prev,
-                                                repassword: event.target.value,
-                                            }))
-                                        }
+                                        onChange={handleChange}
                                         id="terms"
                                         type="checkbox"
                                         className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
@@ -300,6 +270,6 @@ function RegisterForm() {
             </div>
         </section>
     );
-}
+};
 
 export default RegisterForm;

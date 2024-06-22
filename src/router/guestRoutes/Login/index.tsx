@@ -1,6 +1,22 @@
+import {useLocation} from "react-router-dom";
 import LoginForm from "./components/LoginForm";
+import {useToast} from "@/components/ui/use-toast";
+import {useEffect} from "react";
 
 function LoginPage() {
+    const location = useLocation();
+    const {message} = location.state || {};
+    const {toast} = useToast();
+    useEffect(() => {
+        if (message) {
+            toast({
+                title: "Success",
+                description: message,
+                variant: "default",
+            });
+        }
+    }, [message, toast]);
+
     return (
         <div>
             <div className="grid grid-cols-2">

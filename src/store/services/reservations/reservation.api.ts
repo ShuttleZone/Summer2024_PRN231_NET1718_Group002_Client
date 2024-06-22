@@ -54,6 +54,10 @@ const reservationApi = commonApi.injectEndpoints({
                 method: "POST",
                 body: data,
             }),
+            transformResponse: (response) => {
+                // Process the response if necessary
+                return response;
+            },
         }),
         cancelReservation: build.mutation({
             query: ({reservationId}) => ({

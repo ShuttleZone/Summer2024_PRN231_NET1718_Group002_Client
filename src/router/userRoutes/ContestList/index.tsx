@@ -52,6 +52,9 @@ function ContestList() {
                 </div>
             </div>
         );
+    if (contests == undefined) {
+        return <div>Error</div>;
+    }
 
     if (isError || !contests) {
         return (

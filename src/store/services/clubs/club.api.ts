@@ -17,8 +17,9 @@ const clubApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
         getClubs: build.query<ClubType[], string | undefined>({
             query: () => {
-                const routeBuilder = new ApiRouteBuilder("/api/clubs");
-                routeBuilder.expand("clubImages", ["id", "imageUrl"]);
+                const routeBuilder = new ApiRouteBuilder(
+                    "/api/clubs?$filter=clubStatusEnum eq 'CreateRequestAccepted' or clubStatusEnum eq 'Open'&$expand=clubImages($select=id,imageUrl)"
+                );
                 return routeBuilder.build();
             },
             transformResponse(baseQueryReturnValue: ClubReturnType) {
@@ -33,15 +34,17 @@ const clubApi = commonApi.injectEndpoints({
         }),
         getCourtSchedule: build.query<CourtScheduleType, string | undefined>({
             query: (id) => {
-                const routeBuilder = new ApiRouteBuilder(`/api/clubs(${id})`);
-                routeBuilder
-                    .select([
-                        "clubName",
-                        "minDuration",
-                        "openTime",
-                        "closeTime",
-                    ])
-                    .expand("courts", ["id", "name", "price"]);
+                const routeBuilder = new ApiRouteBuilder(
+                    `/api/clubs(${id})?$select=clubName,minDuration,openTime,closeTime&$expand=courts($select=id,name,price),openDateInWeeks($select=date)`
+                );
+                // routeBuilder
+                //     .select([
+                //         "clubName",
+                //         "minDuration",
+                //         "openTime",
+                //         "closeTime",
+                //     ])
+                //     .expand("courts", ["id", "name", "price"]);
                 return routeBuilder.build();
             },
         }),
