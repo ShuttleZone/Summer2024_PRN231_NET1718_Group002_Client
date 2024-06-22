@@ -10,7 +10,10 @@ import staffRoutes from "./staffRoutes";
 import NotFound from "@/components/pages/NotFound";
 import LoginPage from "./guestRoutes/Login";
 import RegisterPage from "./guestRoutes/Register";
+import ConfirmEmail from "./guestRoutes/ConfirmEmail";
+import CallbackConfirmEmail from "./guestRoutes/CallbackConfirmEmail";
 import Unauthorized from "@/components/pages/Unauthorized";
+
 
 const router = createBrowserRouter([
     {
@@ -45,6 +48,16 @@ const router = createBrowserRouter([
     {
         path: "/unauthorized",
         element: <Unauthorized />,
+    },
+    {
+        path: "/email-confirmation",
+        element: <ConfirmEmail />,
+        children: [...guestRoutes],
+    },
+    {
+        path: "/email-confirming",
+        element: <CallbackConfirmEmail />,
+        children: [...guestRoutes],
     },
 ]);
 

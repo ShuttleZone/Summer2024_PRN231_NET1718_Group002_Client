@@ -26,13 +26,15 @@ export const authApi = commonApi.injectEndpoints({
                 }
             },
         }),
-        register: build.mutation<RegisterAccount, Omit<RegisterAccount, "">>({
-            query(body) {
-                return {
-                    url: "/api/account/register",
-                    method: "POST",
-                    body,
-                };
+        register: build.mutation<string, Omit<RegisterAccount, "">>({
+            query: (body) => ({
+                url: "/api/account/register",
+                method: "POST",
+                body,
+                responseHandler: (response) => response.text(),
+            }),
+            transformResponse: (response: string) => {
+                return response;
             },
         }),
         profile: build.query<UserProfile, void>({
@@ -53,6 +55,14 @@ export const authApi = commonApi.injectEndpoints({
                 };
             },
         }),
+
+        confirmEmail: build.query({
+            query: ({userId, token}) => ({
+                url: "/confirm-email",
+                method: "GET",
+                params: {userId, token},
+            }),
+
         updatePassword: build.mutation({
             query(body) {
                 return {
@@ -73,5 +83,6 @@ export const {
     useRegisterMutation,
     useProfileQuery,
     useUpdateProfileMutation,
+    useConfirmEmailQuery,
     useUpdatePasswordMutation,
 } = authApi;
