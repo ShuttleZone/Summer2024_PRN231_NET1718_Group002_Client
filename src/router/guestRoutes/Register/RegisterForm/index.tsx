@@ -1,4 +1,3 @@
-import {RegisterAccount} from "@/@types/api";
 import {useRegisterMutation} from "@/store/services/accounts/auth.api";
 import {useNavigate} from "react-router-dom";
 import React, {useState} from "react";
@@ -40,7 +39,8 @@ const RegisterForm = () => {
             console.log("err", err);
             toast({
                 variant: "destructive",
-                description: err?.data || "An error occurred",
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                description: (err as any)?.data || "An error occurred",
             });
         }
     };
