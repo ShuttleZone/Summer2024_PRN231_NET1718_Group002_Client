@@ -9,6 +9,7 @@ import {toast} from "@/components/ui/use-toast";
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {useAppDispatch} from "@/store";
 import ChangePassword from "./components/ChangePassword.tsx";
+// import {Button} from "@/components/ui/button.tsx";
 
 interface UpdateUserProfile {
     fullname: string;
@@ -96,13 +97,24 @@ function UserProfile() {
                 <div className="w-80 h-80 rounded-full border-2 border-slate-600 gap-7">
                     <img
                         className="w-full h-full object-fill rounded-full"
-                        src="../public/user.jpg"
+                        src={
+                            userProfile?.profileImage !== ""
+                                ? userProfile?.profileImage
+                                : "/public/user.jpg"
+                        }
                         alt=""
                     />
                 </div>
-                <button className="w-52 h-16 bg-gradient-to-r from-[#ececef] via-[#5F9053]/30 to-[#0dde10] text-lg font-semibold rounded-3xl mt-8">
-                    Upload New Avatar
-                </button>
+                <div className="relative">
+                    <label
+                        htmlFor="avatar-upload"
+                        className="w-52 h-16 bg-gradient-to-r from-[#ececef] via-[#5F9053]/30 to-[#0dde10] text-lg font-semibold rounded-3xl mt-8 cursor-pointer flex items-center justify-center"
+                    >
+                        Upload New Avatar
+                    </label>
+                    <input id="avatar-upload" type="file" className="hidden" />
+                </div>
+
                 <div className="flex flex-col items-center">
                     <h1 className="text-xl tracking-widest font-semibold  mt-8">
                         {userProfile?.fullname}

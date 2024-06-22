@@ -155,7 +155,6 @@ const bookingStageSlice = createSlice({
         clearBookingSlots(state) {
             state.TimeAndDate.Slots = [];
         },
-
     },
 });
 
@@ -198,5 +197,4 @@ export const {
     clearBookingState,
 
     clearBookingSlots,
-
 } = bookingStageSlice.actions;

@@ -105,7 +105,12 @@ function ChangePassword() {
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button type="submit">Save changes</Button>
+                        <Button
+                            className="border-2 bg-white border-green-600 rounded-md flex flex-row justify-center items-center text-green-600  hover:bg-green-600 hover:text-white transition-colors duration-200"
+                            type="submit"
+                        >
+                            Save changes
+                        </Button>
                     </DialogFooter>
                 </form>
             </DialogContent>
