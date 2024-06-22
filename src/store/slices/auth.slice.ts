@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {jwtDecode} from "jwt-decode";
+import {JwtPayload, jwtDecode} from "jwt-decode";
 
 export interface AuthState {
     userId?: string;
@@ -21,7 +21,7 @@ const initialState: AuthState = {
     isAuthenticated: false,
 };
 
-interface AuthPayload {
+interface AuthPayload extends JwtPayload {
     userId: string;
     username: string;
     email: string;
@@ -53,9 +53,16 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         setAuth(state, action: {payload: string}) {
+            const token = action.payload;
+            const payload = jwtDecode<AuthPayload>(token);
+            if (!payload || !payload.exp || payload.exp <= Date.now() / 1000) {
+                state.isAuthenticated = false;
+                state.token = undefined;
+                localStorage.removeItem("token");
+                return;
+            }
             state.isAuthenticated = true;
-            state.token = action.payload;
-            const payload = jwtDecode<AuthPayload>(action.payload);
+            state.token = token;
             state.userId = payload.userId;
             state.username = payload.username;
             state.email = payload.email;
@@ -74,13 +81,28 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(refreshToken.fulfilled, (state, action) => {
-            if (!action.payload) {
+            const clearAuth = () => {
                 state.isAuthenticated = false;
                 state.token = undefined;
                 state.isLoading = false;
+                localStorage.removeItem("token");
+            };
+
+            if (!action.payload) {
+                clearAuth();
                 return;
             }
+
             const payload = jwtDecode<AuthPayload>(action.payload);
+            const currentTime = new Date();
+            const expirationTime = new Date();
+            expirationTime.setUTCSeconds(payload.exp || 0);
+
+            if (!payload || expirationTime <= currentTime) {
+                clearAuth();
+                return;
+            }
+
             state.token = action.payload;
             state.role = payload.role;
             state.username = payload.username;

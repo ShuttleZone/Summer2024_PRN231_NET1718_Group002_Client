@@ -29,6 +29,18 @@ import {clearAuth} from "@/store/slices/auth.slice";
 import {useToast} from "@/components/ui/use-toast";
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 
+interface DropdownItemType {
+    href: string;
+    text: string;
+}
+
+const dropdownItems: DropdownItemType[] = [
+    {href: "/my-reservation", text: "My reservations"},
+    {href: "/my-invoices", text: "My invoices"},
+    {href: "/contests", text: "My contests"},
+    {href: "/profile", text: "Profile"},
+];
+
 function Header() {
     const isAuthenticated = useAppSelector(
         (state) => state.auth.isAuthenticated
@@ -71,7 +83,11 @@ function Header() {
                     <DropdownMenuContent>
                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>Profile</DropdownMenuItem>
+                        {dropdownItems.map((item) => (
+                            <DropdownMenuItem key={item.href}>
+                                <Link to={item.href}>{item.text}</Link>
+                            </DropdownMenuItem>
+                        ))}
                         <DropdownMenuSeparator />
                         <AlertDialog>
                             <AlertDialogTrigger>
