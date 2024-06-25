@@ -74,16 +74,15 @@ function ConfirmBooking() {
         try {
             await createReservation(formData).unwrap();
             toast({
-                title: "Success",
-                description: "Reservation made successfully",
+                title: "Thành công",
+                description: "Đặt sân thành công",
                 variant: "default",
             });
             navigate("/my-invoices");
         } catch (error: any /* eslint-disable-line */) {
             toast({
-                title: "Error",
-                description:
-                    error?.data?.message || "An unknown error occurred",
+                title: "Lỗi",
+                description: error?.data?.message || "Lỗi không xác định",
                 variant: "destructive",
             });
         }
@@ -102,32 +101,35 @@ function ConfirmBooking() {
     return (
         <div className="mb-16">
             <div className="flex flex-col justify-center items-center py-4 px-16 my-4">
-                <h1 className="font-semibold text-2xl">Order Confirmation</h1>
+                <h1 className="font-semibold text-2xl">Xác nhận đơn hàng</h1>
                 <p>
-                    Booking confirmed. Contact support for changes/inquiries.
-                    Enjoy your training experience with us.
+                    Đặt phòng đã được xác nhận. Liên hệ với bộ phận hỗ trợ để
+                    thay đổi/thắc mắc. Hãy tận hưởng trải nghiệm đào tạo của bạn
+                    với chúng tôi.
                 </p>
             </div>
             <div className="w-full h-fit border-2 border-gray-200 px-4 py-8">
                 <h1 className="text-2xl font-semibold my-4">
-                    Reservation Detail
+                    Chi tiết đặt chỗ
                 </h1>
                 <div className="w-full ">
-                    <h1 className="text-xl font-semibold">Personal Detail</h1>
+                    <h1 className="text-xl font-semibold">Thông tin cá nhân</h1>
                     <div className="flex flex-row mt-4 gap-20 border-b-2 border-b-gray-300 pb-8 my-4">
                         <div className="w-62 h-fit">
-                            <h1 className="text-lg font-semibold">User Name</h1>
+                            <h1 className="text-lg font-semibold">
+                                Tên người dùng
+                            </h1>
                             <p>{personalInformationData.Name}</p>
                         </div>
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">
-                                Created reservation date
+                                Ngày đặt sân
                             </h1>
                             <p>{today}</p>
                         </div>
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">
-                                Phone Number
+                                Số điện thoại
                             </h1>
                             <p>{personalInformationData.Phone}</p>
                         </div>
@@ -137,22 +139,20 @@ function ConfirmBooking() {
                         </div>
                     </div>
 
-                    <h1 className="text-xl font-semibold">Booking Detail</h1>
+                    <h1 className="text-xl font-semibold">Chi tiết đặt sân</h1>
                     <div className="flex flex-row mt-4 gap-20 border-b-2 border-b-gray-300 pb-8 my-4">
                         <div className="w-62 h-fit">
-                            <h1 className="text-lg font-semibold">
-                                Total slot
-                            </h1>
+                            <h1 className="text-lg font-semibold">Tổng chỗ</h1>
                             <p>{bookedSlot.length}</p>
                         </div>
 
-                        <div className="w-62 h-fit">
+                        <div className="w-62 h-fit overflow-y-scroll px-2 max-h-72">
                             <h1 className="text-lg font-semibold">
-                                Appointment slot
+                                Thời gian đặt chỗ
                             </h1>
                             {bookedSlot &&
                                 bookedSlot.map((item) => (
-                                    <p>
+                                    <p className="my-2">
                                         {item.Date} | {item.StartTime} -{" "}
                                         {item.EndTime} | {item.CourtName}
                                     </p>
@@ -160,28 +160,28 @@ function ConfirmBooking() {
                         </div>
 
                         <div className="w-62 h-fit">
-                            <h1 className="text-lg font-semibold">Subtotal</h1>
+                            <h1 className="text-lg font-semibold">Tổng tiền</h1>
                             <p className="bg-green-600 text-white px-4 py-2 rounded-2xl">
                                 {totalPrice} VND
                             </p>
                         </div>
                     </div>
 
-                    <h1 className="text-xl font-semibold">Court Detail</h1>
+                    <h1 className="text-xl font-semibold">Chi tiết sân</h1>
                     <div className="flex flex-row mt-4 gap-20 pb-8 my-4">
                         <div className="w-62 h-fit">
-                            <h1 className="text-lg font-semibold">Club Name</h1>
+                            <h1 className="text-lg font-semibold">
+                                Câu lạc bộ
+                            </h1>
                             <p>{clubDetailData.clubName}</p>
                         </div>
                         <div className="w-62 h-fit">
-                            <h1 className="text-lg font-semibold">
-                                Club Address
-                            </h1>
+                            <h1 className="text-lg font-semibold">Địa chỉ</h1>
                             <p>{clubDetailData.clubAddress}</p>
                         </div>
                         <div className="w-62 h-fit">
                             <h1 className="text-lg font-semibold">
-                                Club Phone
+                                Số điện thoại
                             </h1>
                             <p>{clubDetailData.clubPhone}</p>
                         </div>
