@@ -42,7 +42,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
             </button>
             <div className="flex flex-col items-center mx-4">
                 <div className="font-semibold">
-                    {selectedDate.toLocaleDateString("en-US", {
+                    {selectedDate.toLocaleDateString("vi-VN", {
                         weekday: "long",
                     })}
                 </div>

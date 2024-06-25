@@ -56,7 +56,7 @@ function BookingBreadcrumb() {
                         >
                             <span className="text-white text-center">2</span>
                         </div>
-                        Time & Date
+                        Thời gian tập luyện
                     </p>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="text-gray-400 transition-colors duration-200 hover:text-black scale-150" />
@@ -70,7 +70,7 @@ function BookingBreadcrumb() {
                         >
                             <span className="text-white text-center">3</span>
                         </div>
-                        Personal Information
+                        Thông tin cá nhân
                     </p>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="text-gray-400 transition-colors duration-200 hover:text-black scale-150" />
@@ -84,7 +84,7 @@ function BookingBreadcrumb() {
                         >
                             <span className="text-white text-center">4</span>
                         </div>
-                        Order Confirmation & Payment
+                        Chi tiết đơn hàng và thanh toán
                     </p>
                 </BreadcrumbItem>
             </BreadcrumbList>

@@ -30,17 +30,17 @@ const ConfirmBookingButton: React.FC<ConfirmBookingButtonProps> = ({
                         variant="outline"
                         className="mx-auto w-56 h-20 border-2 border-green-600 rounded-3xl flex flex-row justify-center items-center text-green-600  hover:bg-green-600 hover:text-white transition-colors duration-300 text-xl"
                     >
-                        Make reservation
+                        Đặt chỗ
                     </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
                         <DialogTitle className="text-xl">
-                            Are you sure to make reservation
+                            Bạn đã chắc chắn đặt chỗ hay chưa?
                         </DialogTitle>
                         <DialogDescription className="text-lg">
-                            Check the information again before doing further
-                            action
+                            Vui lòng xem lại thông tin đặt chỗ một lần nữa trước
+                            khi đặt sân.
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
@@ -48,7 +48,7 @@ const ConfirmBookingButton: React.FC<ConfirmBookingButtonProps> = ({
                             className="border-2 bg-white border-green-600 rounded-md flex flex-row justify-center items-center text-green-600  hover:bg-green-600 hover:text-white transition-colors duration-200"
                             onClick={onClick}
                         >
-                            Confirm
+                            Đồng ý
                         </Button>
                     </DialogFooter>
                 </DialogContent>

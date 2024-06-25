@@ -10,6 +10,7 @@ import {
     setBookingSlots,
 } from "@/store/slices/bookingStage.slice";
 import CloseImage from "/public/sorry-we-closed.png";
+import {PiCourtBasketball} from "react-icons/pi";
 
 interface CourtScheduleProps {
     selectedDate: Date;
@@ -186,6 +187,15 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
         (day) => day.date === selectedDay
     );
 
+    const currentTime = new Date();
+    const filteredTimeSlots = timeSlots.filter((slot) => {
+        const [slotStartTime] = slot.split(" - ");
+        const [hours, minutes] = slotStartTime.split(":").map(Number);
+        const slotDate = new Date(selectedDate);
+        slotDate.setHours(hours, minutes, 0, 0);
+        return slotDate >= currentTime;
+    });
+
     return (
         <>
             {isLoading ? (
@@ -204,11 +214,11 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                         <div
                             className="grid"
                             style={{
-                                gridTemplateColumns: `repeat(${timeSlots.length + 1}, minmax(80px, 1fr))`,
+                                gridTemplateColumns: `repeat(${filteredTimeSlots.length + 1}, minmax(80px, 1fr))`,
                             }}
                         >
-                            <div className="font-semibold">Courts</div>
-                            {timeSlots.map((slot) => (
+                            <div className="font-semibold">Sân</div>
+                            {filteredTimeSlots.map((slot) => (
                                 <div
                                     key={slot}
                                     className="font-semibold w-28 text-start text-xs"
@@ -221,21 +231,16 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                     <div className="font-semibold py-2 flex items-center text-s">
                                         {court.name}
                                     </div>
-                                    {data &&
-                                        divideSlot(
-                                            data.openTime,
-                                            data.closeTime,
-                                            data.minDuration
-                                        ).map((slot) => {
-                                            const isSlotBooked = isBooked(
-                                                court.name,
-                                                slot
-                                            );
-                                            const isSlotPast = isPast(slot);
-                                            return (
-                                                <div
-                                                    key={slot}
-                                                    className={`text-center w-18 rounded-md mx-2 my-2 py-2 border-2 border-black ${
+                                    {filteredTimeSlots.map((slot) => {
+                                        const isSlotBooked = isBooked(
+                                            court.name,
+                                            slot
+                                        );
+                                        const isSlotPast = isPast(slot);
+                                        return (
+                                            <div key={slot}>
+                                                <PiCourtBasketball
+                                                    className={`text-center w-18 text-5xl ${
                                                         selectedSlots.some(
                                                             (selectedSlot) =>
                                                                 selectedSlot.Date ===
@@ -255,12 +260,12 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                                                 selectedSlot.CourtName ===
                                                                     court.name
                                                         )
-                                                            ? "bg-green-500"
+                                                            ? "text-green-500"
                                                             : isSlotBooked
-                                                              ? "bg-gray-500 hover:cursor-not-allowed"
+                                                              ? "text-red-500 hover:cursor-not-allowed"
                                                               : isSlotPast
-                                                                ? "bg-gray-300 hover:cursor-not-allowed"
-                                                                : "bg-white hover:bg-gray-200 cursor-pointer"
+                                                                ? "text-gray-700 hover:cursor-not-allowed"
+                                                                : "text-black hover:text-gray-800 cursor-pointer"
                                                     }`}
                                                     onClick={() =>
                                                         !isSlotBooked &&
@@ -272,29 +277,10 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                                             court.price
                                                         )
                                                     }
-                                                >
-                                                    {/* {selectedSlots.some(
-                                                        (selectedSlot) =>
-                                                            selectedSlot.Date ===
-                                                            selectedDate
-                                                                .toISOString()
-                                                                .split("T")[0] &&
-                                                            selectedSlot.StartTime ===
-                                                            slot.split(" - ")[0] &&
-                                                            selectedSlot.EndTime ===
-                                                            slot.split(" - ")[1] &&
-                                                            selectedSlot.CourtName ===
-                                                            court.name
-                                                    )
-                                                        ? "Selected"
-                                                        : isSlotBooked
-                                                        ? "Booked"
-                                                        : isSlotPast
-                                                        ? "Past"
-                                                        : "Available"} */}
-                                                </div>
-                                            );
-                                        })}
+                                                />
+                                            </div>
+                                        );
+                                    })}
                                 </React.Fragment>
                             ))}
                         </div>

@@ -78,10 +78,10 @@ function PersonalInformation() {
     return (
         <div className="mb-16">
             <div className="flex flex-col justify-center items-center py-4 px-16 my-4">
-                <h1 className="font-semibold text-2xl">Personal Information</h1>
+                <h1 className="font-semibold text-2xl">Thông tin cá nhân</h1>
                 <p>
-                    Ensure accurate and complete information for a smooth
-                    booking process.
+                    Đảm bảo thông tin được nhập là chính xác để thuận tiện cho
+                    quá trình đặt sân.
                 </p>
             </div>
 
@@ -90,15 +90,17 @@ function PersonalInformation() {
                 onSubmit={handleSubmit}
             >
                 <h1 className="text-2xl py-4 border-y-2 border-b-gray-400 font-semibold">
-                    Personal Information
+                    Thông tin cá nhân
                 </h1>
                 <div className="py-2">
-                    <label className="block text-xl font-semibold">Name</label>
+                    <label className="block text-xl font-semibold">
+                        Họ và tên
+                    </label>
                     <input
                         id="Name"
                         className="w-full rounded-md h-10 bg-gray-100 text-gray-600 text-xl my-4 pl-8 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700"
                         type="text"
-                        placeholder="Enter your name"
+                        placeholder="Tên của bạn"
                         aria-label="Name"
                         aria-required="true"
                         value={formData.Name}
@@ -113,7 +115,7 @@ function PersonalInformation() {
                         id="Email"
                         className="w-full rounded-md h-10 bg-gray-100 text-gray-600 text-xl my-4 pl-8 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700"
                         type="email"
-                        placeholder="Enter your email address"
+                        placeholder="Email của bạn"
                         aria-label="Email"
                         aria-required="true"
                         value={formData.Email}
@@ -124,7 +126,7 @@ function PersonalInformation() {
                 </div>
                 <div className="py-2">
                     <label className="block text-xl font-semibold">
-                        Phone number
+                        Số điện thoại
                     </label>
                     <input
                         id="Phone"
@@ -133,20 +135,22 @@ function PersonalInformation() {
                         value={formData.Phone}
                         onChange={handleInputChange}
                         pattern="[0-9]{10}"
-                        placeholder="Enter your phone number"
+                        placeholder="Số điện thoại của bạn"
                         aria-label="Phone number"
                         aria-required="true"
                         required
                         disabled={isSaved}
                     />
-                    <small className="text-gray-500">Format: 1234567890</small>
+                    <small className="text-gray-500">Cú pháp: 1234567890</small>
                 </div>
                 <div className="py-2">
-                    <label className="block text-xl font-semibold">Notes</label>
+                    <label className="block text-xl font-semibold">
+                        Chú thích
+                    </label>
                     <textarea
                         id="Note"
                         className="w-full rounded-md h-32 bg-gray-100 text-gray-600 text-xl my-4 pl-8 font-semibold pt-2 focus:outline-none focus:ring-2 focus:ring-gray-700"
-                        placeholder="Enter your note"
+                        placeholder="Chú thích của bạn"
                         value={formData.Note}
                         onChange={handleInputChange}
                         aria-label="Notes"
@@ -158,7 +162,7 @@ function PersonalInformation() {
                         type="submit"
                         className={`w-1/3 transition-colors duration-300 text-white text-xl font-semibold py-2 rounded-3xl focus:outline-none focus:ring-2 ${isSaved ? "bg-slate-500 hover:bg-slate-700 focus:ring-slate-700" : "bg-green-500 hover:bg-green-700 focus:ring-green-700"}`}
                     >
-                        {isSaved ? "Saved" : "Save"}
+                        {isSaved ? "Đã Lưu" : "Lưu"}
                     </button>
                 </div>
             </form>
