@@ -170,7 +170,7 @@ function ClubList() {
                 </DropdownMenu>
                 <Button
                     className="bg-white border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white ml-8"
-                    onClick={() => navigate("/manager/clubs/new")}
+                    onClick={() => navigate("/home")}
                 >
                     Create new Club
                 </Button>

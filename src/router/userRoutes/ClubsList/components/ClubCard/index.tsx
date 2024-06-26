@@ -50,7 +50,7 @@ function ClubCard({
     return (
         <div
             onClick={handleCardClick}
-            className="h-full flex flex-col justify-between items-center cursor-pointer shadow-md shadow-gray-200 group hover:shadow-xl hover:rounded-t-xl hover:scale-[1.03] transition-all duration-300"
+            className="h-full flex flex-col justify-between items-center cursor-pointer shadow-md shadow-gray-200 group hover:shadow-xl hover:rounded-t-xl hover:scale-[1.03] transition-all duration-300 w-full"
         >
             <div className="relative w-full h-60 overflow-hidden">
                 <img
