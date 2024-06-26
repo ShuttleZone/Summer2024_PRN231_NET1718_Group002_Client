@@ -1,10 +1,13 @@
-import {useRegisterMutation} from "@/store/services/accounts/auth.api";
+import {
+    useRegisterManagerMutation,
+    useRegisterMutation,
+} from "@/store/services/accounts/auth.api";
 import {useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import {useToast} from "@/components/ui/use-toast";
 import {Toaster} from "@/components/ui/toaster";
-
 const initialState = {
+    role: "",
     fullname: "",
     username: "",
     email: "",
@@ -15,13 +18,15 @@ const initialState = {
 
 const RegisterForm = () => {
     const [formData, setFormData] = useState(initialState);
+    const [role, setRole] = useState("");
     const [register] = useRegisterMutation();
+    const [registerManager] = useRegisterManagerMutation();
     const navigate = useNavigate();
     const {toast} = useToast();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
+        formData.role = role;
         if (formData.password !== formData.repassword) {
             console.log(formData.password + formData.repassword);
             toast({
@@ -32,9 +37,19 @@ const RegisterForm = () => {
         }
 
         try {
-            const result = await register(formData).unwrap(); // Use unwrap() to handle errors
-            console.log("succeed", result);
-            navigate("/email-confirmation", {state: {email: formData.email}});
+            if (formData.role == "1") {
+                const result = await register(formData).unwrap(); // Use unwrap() to handle errors
+                console.log("succeed", result);
+                navigate("/email-confirmation", {
+                    state: {email: formData.email},
+                });
+            } else {
+                const result = await registerManager(formData).unwrap(); // Use unwrap() to handle errors
+                console.log("succeed", result);
+                navigate("/email-confirmation", {
+                    state: {email: formData.email},
+                });
+            }
         } catch (err) {
             console.log("err", err);
             toast({
@@ -80,7 +95,41 @@ const RegisterForm = () => {
                             className="max-w-sm mx-auto"
                             onSubmit={handleSubmit}
                         >
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            <div className="flex mb-2 items-center ps-4 border border-gray-200 rounded-lg dark:border-gray-700">
+                                <input
+                                    id="bordered-radio-1"
+                                    type="radio"
+                                    value="1"
+                                    checked
+                                    onChange={(e) => setRole(e.target.value)}
+                                    name="bordered-radio"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                />
+                                <label className="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                    Sign up as{" "}
+                                    <strong className="text-green-700">
+                                        Customer
+                                    </strong>
+                                </label>
+                            </div>
+                            <div className="flex items-center mb-2 ps-4 border border-gray-200 rounded-lg dark:border-gray-700">
+                                <input
+                                    id="bordered-radio-2"
+                                    type="radio"
+                                    value="2"
+                                    onChange={(e) => setRole(e.target.value)}
+                                    name="bordered-radio"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                />
+                                <label className="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                    Sign up as{" "}
+                                    <strong className="text-blue-700">
+                                        Club Manager
+                                    </strong>
+                                </label>
+                            </div>
+
+                            <label className="block mt-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Your Email
                             </label>
                             <div className="mb-5">

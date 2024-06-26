@@ -37,6 +37,17 @@ export const authApi = commonApi.injectEndpoints({
                 return response;
             },
         }),
+        registerManager: build.mutation<string, Omit<RegisterAccount, "">>({
+            query: (body) => ({
+                url: "/api/account/registerManager",
+                method: "POST",
+                body,
+                responseHandler: (response) => response.text(),
+            }),
+            transformResponse: (response: string) => {
+                return response;
+            },
+        }),
         profile: build.query<UserProfile, void>({
             query: () => {
                 const routeBuilder = new ApiRouteBuilder("/api/profile");
@@ -85,4 +96,5 @@ export const {
     useUpdateProfileMutation,
     useConfirmEmailQuery,
     useUpdatePasswordMutation,
+    useRegisterManagerMutation,
 } = authApi;
