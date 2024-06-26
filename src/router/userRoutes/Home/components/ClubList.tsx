@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/carousel";
 
 function ClubList() {
-    const {data: clubs, isError, isLoading} = useGetClubsQuery(undefined);
+    const {data: clubs, isLoading} = useGetClubsQuery(undefined);
 
     return (
         <div className="w-full h-screen flex  flex-col justify-start items-center py-32 gap-20 border-2 border-b-black  ">
