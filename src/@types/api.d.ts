@@ -121,6 +121,7 @@ export interface LoginAccount {
 }
 
 export interface RegisterAccount {
+    role: string;
     fullname: string;
     username: string;
     email: string;

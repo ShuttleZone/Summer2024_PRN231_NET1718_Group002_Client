@@ -22,9 +22,9 @@ function ConfirmEmail() {
                     receiving the email, follow the link provided to complete
                     your registration.
                 </p>
-                <button className="w-full bg-pink-500 text-white py-3 rounded-full shadow-md hover:bg-pink-600 focus:outline-none focus:ring-4 focus:ring-pink-300">
+                {/* <button className="w-full bg-pink-500 text-white py-3 rounded-full shadow-md hover:bg-pink-600 focus:outline-none focus:ring-4 focus:ring-pink-300">
                     Resend Email
-                </button>
+                </button> */}
             </div>
         </div>
     );
