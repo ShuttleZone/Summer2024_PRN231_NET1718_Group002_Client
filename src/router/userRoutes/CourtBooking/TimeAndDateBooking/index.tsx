@@ -109,6 +109,12 @@ function TimeAndDateBooking() {
                                 Đã bán
                             </span>
                         </div>
+                        <div className="flex flex-row justify-between items-center my-4">
+                            <PiCourtBasketball className="text-5xl text-orange-500" />
+                            <span className="text-xl w-32 font-semibold">
+                                Bảo trì/Bận
+                            </span>
+                        </div>
                     </div>
                     <div className="w-1/3">
                         <h1 className="text-center py-7 ">
