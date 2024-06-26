@@ -27,6 +27,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
     const {id} = useParams();
     const dispatch = useAppDispatch();
     const {data, isLoading} = useGetCourtScheduleQuery(id);
+    console.log(data);
     const {data: bookedData} = useGetClubReservationDetailQuery(id);
 
     const [selectedSlots, setSelectedSlots] = useState<BookedSlot[]>([]);
@@ -261,13 +262,18 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
                                                                     court.name
                                                         )
                                                             ? "text-green-500"
-                                                            : isSlotBooked
-                                                              ? "text-red-500 hover:cursor-not-allowed"
-                                                              : isSlotPast
-                                                                ? "text-gray-700 hover:cursor-not-allowed"
-                                                                : "text-black hover:text-gray-800 cursor-pointer"
+                                                            : court.courtStatus !==
+                                                                "Available"
+                                                              ? "text-orange-500 hover:cursor-not-allowed"
+                                                              : isSlotBooked
+                                                                ? "text-red-500 hover:cursor-not-allowed"
+                                                                : isSlotPast
+                                                                  ? "text-gray-700 hover:cursor-not-allowed"
+                                                                  : "text-black hover:text-gray-800 cursor-pointer"
                                                     }`}
                                                     onClick={() =>
+                                                        court.courtStatus ===
+                                                            "Available" &&
                                                         !isSlotBooked &&
                                                         !isSlotPast &&
                                                         handleSlotClick(

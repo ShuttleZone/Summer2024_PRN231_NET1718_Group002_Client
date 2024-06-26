@@ -44,6 +44,7 @@ export interface CourtScheduleType {
 export interface CourtInformationType {
     id: string;
     name: string;
+    courtStatus: string;
     price: number;
 }
 export interface OpenDateInWeek {
