@@ -6,7 +6,7 @@ const ContestDetail: React.FC = () => {
         data: contest,
         error,
         isLoading,
-    } = useGetContestStaffQuery("22662787-990b-4a3c-f989-08dc92a1d530");
+    } = useGetContestStaffQuery("851E80B3-C3D3-4F1D-B5D8-462CAB592B84");
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center ">
