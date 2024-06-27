@@ -277,3 +277,23 @@ interface UserProfile {
     totalReservation: number;
     totalWinContest: number;
 }
+export interface UserContestResponse {
+    id: string;
+    fullname: string;
+    phoneNumber?: number;
+    profilePic?: string;
+    isCreatedPerson: boolean;
+    isWinner: boolean;
+    point: number;
+    participantsId: string;
+    contestId: string;
+}
+
+export interface ContestResponse {
+    id: string;
+    contestDate: Date;
+    maxPlayer: number;
+    policy?: string;
+    contestStatus?: string;
+    userContests?: UserContestResponse[];
+}
