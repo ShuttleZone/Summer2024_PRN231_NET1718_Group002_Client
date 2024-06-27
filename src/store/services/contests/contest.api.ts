@@ -9,7 +9,7 @@ type ContestsListQueryReturnType = {
 
 const contestApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
-        getContests: build.query<ContestInfo[], string | undefined>({
+        getContests: build.query<ContestInfo[], void>({
             query: () => "api/Contests?$expand=userContests",
             transformResponse(
                 baseQueryReturnValue: ContestsListQueryReturnType

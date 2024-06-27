@@ -1,6 +1,324 @@
 import {ContestInfo} from "@/@types/api";
 import {useNavigate} from "react-router-dom";
 
+import * as React from "react";
+import {
+    ColumnDef,
+    ColumnFiltersState,
+    SortingState,
+    VisibilityState,
+    flexRender,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    getSortedRowModel,
+    useReactTable,
+} from "@tanstack/react-table";
+import {ChevronDown, ChevronUp, ChevronDown as SortIcon} from "lucide-react";
+import {Button} from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {Input} from "@/components/ui/input";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import {useGetContestsQuery} from "@/store/services/contests/contest.api";
+import ActionButton from "@/router/managerRoutes/ClubList/components/ActionButton";
+
+function ContestDataTable() {
+    const navigate = useNavigate();
+    const columns: ColumnDef<ContestInfo>[] = [
+        {
+            accessorKey: "userContests",
+            header: "Challenger Information",
+            cell: ({row}) => {
+                const userContests = row.getValue(
+                    "userContests"
+                ) as UserContest[];
+                return (
+                    <div className="ps-3">
+                        <div className="text-md font-semibold ">
+                            {userContests &&
+                                userContests.map((userContest) => {
+                                    if (userContest.isCreatedPerson == true) {
+                                        return (
+                                            <div
+                                                key={userContest.participantsId}
+                                            >
+                                                {userContest.fullname}
+                                            </div>
+                                        );
+                                    }
+                                })}
+                        </div>
+                        <div className="font-sm text-gray-500">
+                            {userContests &&
+                                userContests.map((userContest) => {
+                                    if (userContest.isCreatedPerson == true) {
+                                        return (
+                                            <div
+                                                key={userContest.participantsId}
+                                            >
+                                                {userContest.email}
+                                            </div>
+                                        );
+                                    }
+                                })}
+                        </div>
+                    </div>
+                );
+            },
+            enableSorting: true,
+        },
+        {
+            accessorKey: "policy",
+            header: "Court Name",
+            cell: ({row}) => (
+                <div className="font-medium">{row.getValue("policy")}</div>
+            ),
+            enableSorting: true,
+        },
+        {
+            accessorKey: "contestDate",
+            header: "Start Time",
+            cell: ({row}) => (
+                <div className="font-medium">{row.getValue("contestDate")}</div>
+            ),
+            enableSorting: true,
+        },
+        {
+            accessorKey: "contestStatus",
+            header: "Status",
+            cell: ({row}) => (
+                <div className="font-medium">
+                    {row.getValue("contestStatus")}
+                </div>
+            ),
+            enableSorting: true,
+        },
+        {
+            accessorKey: "maxPlayer",
+            header: "Number of player",
+            cell: ({row}) => (
+                <div className="font-medium">{row.getValue("maxPlayer")}</div>
+            ),
+            enableSorting: true,
+        },
+        {
+            accessorKey: "policy",
+            header: "Policy",
+            cell: ({row}) => (
+                <div className="font-medium">{row.getValue("policy")}</div>
+            ),
+            enableSorting: true,
+        },
+        {
+            accessorKey: "id",
+            header: "Action",
+            cell: ({row}) => (
+                <Button
+                    className="font-medium"
+                    id={row.getValue("id")}
+                    onClick={() => {
+                        navigate(`/contests/details/${row.original.id}`);
+                    }}
+                >
+                    Details
+                </Button>
+            ),
+        },
+    ];
+
+    const {data: contests, isError, isLoading} = useGetContestsQuery();
+
+    const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] =
+        React.useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] =
+        React.useState<VisibilityState>({});
+    const [rowSelection, setRowSelection] = React.useState({});
+
+    const table = useReactTable({
+        data: contests || [],
+        columns,
+        onSortingChange: setSorting,
+        onColumnFiltersChange: setColumnFilters,
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        onColumnVisibilityChange: setColumnVisibility,
+        onRowSelectionChange: setRowSelection,
+        state: {
+            sorting,
+            columnFilters,
+            columnVisibility,
+            rowSelection,
+        },
+    });
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+    if (isError) {
+        return <div>Error in getting data</div>;
+    }
+
+    return (
+        <div className="w-full">
+            <div>
+                <caption className="text-4xl font-bold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800 block">
+                    All Contests
+                </caption>
+                <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
+                    Keep track and manage all the contests.
+                </p>
+            </div>
+            <div className="flex items-center py-4">
+                <Input
+                    placeholder="Filter contests..."
+                    value={
+                        (table
+                            .getColumn("policy")
+                            ?.getFilterValue() as string) ?? ""
+                    }
+                    onChange={(event) =>
+                        table
+                            .getColumn("policy")
+                            ?.setFilterValue(event.target.value)
+                    }
+                    className="max-w-sm"
+                />
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="ml-auto">
+                            Columns <ChevronDown className="ml-2 h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        {table
+                            .getAllColumns()
+                            .filter((column) => column.getCanHide())
+                            .map((column) => (
+                                <DropdownMenuCheckboxItem
+                                    key={column.id}
+                                    className="capitalize"
+                                    checked={column.getIsVisible()}
+                                    onCheckedChange={(value) =>
+                                        column.toggleVisibility(!!value)
+                                    }
+                                >
+                                    {column.id}
+                                </DropdownMenuCheckboxItem>
+                            ))}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+
+            <div className="rounded-md border">
+                <Table>
+                    <TableHeader>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => (
+                                    <TableHead
+                                        key={header.id}
+                                        onClick={header.column.getToggleSortingHandler()}
+                                        className="cursor-pointer select-none"
+                                    >
+                                        {flexRender(
+                                            header.column.columnDef.header,
+                                            header.getContext()
+                                        )}
+                                        {{
+                                            asc: (
+                                                <ChevronUp className="ml-2 h-4 w-4 inline" />
+                                            ),
+                                            desc: (
+                                                <ChevronDown className="ml-2 h-4 w-4 inline" />
+                                            ),
+                                        }[
+                                            header.column.getIsSorted() as string
+                                        ] ?? (
+                                            <SortIcon className="ml-2 h-4 w-4 inline" />
+                                        )}
+                                    </TableHead>
+                                ))}
+                            </TableRow>
+                        ))}
+                    </TableHeader>
+                    <TableBody>
+                        {table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows.map((row) => (
+                                <TableRow
+                                    key={row.id}
+                                    data-state={
+                                        row.getIsSelected() && "selected"
+                                    }
+                                >
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell key={cell.id}>
+                                            {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext()
+                                            )}
+                                        </TableCell>
+                                    ))}
+                                    <TableCell>
+                                        <ActionButton />
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell
+                                    colSpan={columns.length}
+                                    className="h-24 text-center"
+                                >
+                                    No results.
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
+            <div className="flex items-center justify-end space-x-2 py-4">
+                <div className="flex-1 text-sm text-muted-foreground">
+                    {table.getFilteredSelectedRowModel().rows.length} of{" "}
+                    {table.getFilteredRowModel().rows.length} row(s) selected.
+                </div>
+                <div className="space-x-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        Previous
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        Next
+                    </Button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export interface UserContest {
     contestId: string;
     participantsId: string;
@@ -14,135 +332,4 @@ export interface UserContest {
     phoneNumber: string;
 }
 
-function InputDataTable({
-    id,
-    contestDate,
-    maxPlayer,
-    policy,
-    contestStatus,
-    userContests,
-}: ContestInfo) {
-    const navigate = useNavigate();
-    const handleCardClick = () => {
-        navigate(`/contests/details/${id}`);
-    };
-
-    // const formattedDate = contestDate.toLocaleString("en-US");
-    return (
-        <tr
-            onClick={handleCardClick}
-            className="text-gray-700  hover:bg-white "
-        >
-            <th
-                scope="row"
-                className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
-            >
-                <img
-                    className="w-10 h-10 rounded-full"
-                    src="https://plus.unsplash.com/premium_photo-1716396589811-69274847ce9f?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHx8"
-                    alt="Neil Sims"
-                />
-                <div className="ps-3">
-                    <div className="text-base font-semibold">
-                        {userContests &&
-                            userContests.map((userContest) => {
-                                if (userContest.isCreatedPerson == true) {
-                                    return (
-                                        <div key={userContest.participantsId}>
-                                            {userContest.fullname}
-                                        </div>
-                                    );
-                                }
-                            })}
-                    </div>
-                    <div className="font-normal text-gray-500">
-                        {userContests &&
-                            userContests.map((userContest) => {
-                                if (userContest.isCreatedPerson == true) {
-                                    return (
-                                        <div key={userContest.participantsId}>
-                                            {userContest.email}
-                                        </div>
-                                    );
-                                }
-                            })}
-                    </div>
-                </div>
-            </th>
-            {/* <td className=" px-4 py-2">{id}</td> */}
-            <td className=" px-4 py-2">{policy}</td>
-            <td className=" px-4 py-2">{contestDate}</td>
-            <td className=" px-4 py-2">{contestStatus}</td>
-            <td className=" px-4 py-2">{maxPlayer}</td>
-            <td className=" px-4 py-2">{policy}</td>
-            <td className=" px-4 py-2">
-                <a
-                    href="#"
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                    Action
-                </a>
-                <ul>
-                    {/* {participants.map((participant) => (
-                        <li key={participant.id}>
-                            {participant.fullname} - Points: {participant.point}
-                        </li>
-                    ))} */}
-                </ul>
-            </td>
-        </tr>
-    );
-}
-
-interface ContestTableProps {
-    contests?: ContestInfo[];
-}
-
-function ContestTable({contests}: ContestTableProps) {
-    return (
-        <div className="bg-gray-50 p-6 mt-4 rounded-md">
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <caption className="p-5 text-4xl font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-                        All Contests
-                        <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
-                            Keep track and manage all the contests.
-                        </p>
-                    </caption>
-                    <thead className="bg-gray-100 font-sans">
-                        <tr>
-                            <th className="text-left px-6 py-3">
-                                Challenger Information
-                            </th>
-                            <th className="text-left px-6 py-3">Court Name</th>
-                            <th className="text-left px-6 py-3">Date & Time</th>
-                            <th className="text-left px-6 py-3">Status</th>
-                            <th className="text-left px-6 py-3">
-                                Number of Player
-                            </th>
-                            <th className="text-left px-6 py-3">Policy</th>
-                            <th className="text-left px-6 py-3">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {contests &&
-                            contests.map((contest) => (
-                                <InputDataTable
-                                    key={contest.id}
-                                    id={contest.id}
-                                    contestDate={contest.contestDate}
-                                    maxPlayer={contest.maxPlayer}
-                                    policy={contest.policy}
-                                    contestStatus={contest.contestStatus}
-                                    userContests={contest.userContests}
-                                    reservation={contest.reservation}
-                                />
-                            ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    );
-}
-
-export default ContestTable;
+export default ContestDataTable;
