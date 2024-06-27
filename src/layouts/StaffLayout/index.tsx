@@ -2,6 +2,7 @@ import {Outlet} from "react-router-dom";
 import Sidebar from "@/layouts/AdminLayout/components/Sidebar";
 import {IoHome} from "react-icons/io5";
 import {FaNewspaper, FaThList} from "react-icons/fa";
+import {Toaster} from "@/components/ui/toaster";
 
 const staffNavItems = [
     {
@@ -35,6 +36,7 @@ function StaffLayout() {
                     <Outlet />
                 </main>
             </div>
+            <Toaster />
         </div>
     );
 }

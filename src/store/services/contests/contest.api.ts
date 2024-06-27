@@ -3,7 +3,11 @@ import {
     ContestResponse,
     CreateContestResponse,
 } from "@/@types/api";
-import {CreateContestType, QueryParams} from "@/@types/requests";
+import {
+    CreateContestType,
+    QueryParams,
+    UpdateContestRequest,
+} from "@/@types/requests";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
@@ -50,6 +54,14 @@ const contestApi = commonApi.injectEndpoints({
                 method: "PUT",
             }),
         }),
+        updateContestResult: build.mutation<void, UpdateContestRequest>({
+            query: (body) => ({
+                url: `api/Contests/${body.id}`,
+                method: "PUT",
+                body,
+            }),
+        }),
+
         createContest: build.mutation<CreateContestResponse, CreateContestType>(
             {
                 query: (contest) => ({
@@ -69,4 +81,5 @@ export const {
     useJoinContestMutation,
     useCreateContestMutation,
     useGetContestStaffQuery,
+    useUpdateContestResultMutation,
 } = contestApi;

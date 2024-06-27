@@ -1,5 +1,5 @@
 import {useGetContestStaffQuery} from "@/store/services/contests/contest.api";
-import ContestDetailsItem from "./components/ContestDetails";
+import ContestDetailsItem from "./components/ContestDetailsItem";
 
 const ContestDetail: React.FC = () => {
     const {
@@ -20,7 +20,12 @@ const ContestDetail: React.FC = () => {
                             Error loading contest details
                         </p>
                     )}
-                    {contest && <ContestDetailsItem contest={contest} />}
+                    {contest && (
+                        <ContestDetailsItem
+                            contest={contest}
+                            key={contest.id}
+                        />
+                    )}
                 </div>
             </div>
         </div>
