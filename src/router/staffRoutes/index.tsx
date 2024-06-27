@@ -2,6 +2,7 @@ import {RouteObject} from "react-router-dom";
 import ReservationList from "./ReservationList";
 import PrivateRoute from "../PrivateRoute";
 import applicationRoles from "@/constants/role.constants";
+import ContestDetail from "./ContestDetail";
 
 const staffRoutes: RouteObject[] = [
     {
@@ -11,6 +12,10 @@ const staffRoutes: RouteObject[] = [
     {
         path: "reservations",
         element: <ReservationList />,
+    },
+    {
+        path: "contest",
+        element: <ContestDetail />,
     },
 ];
 
