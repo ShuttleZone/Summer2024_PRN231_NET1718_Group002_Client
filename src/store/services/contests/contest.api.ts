@@ -1,5 +1,13 @@
-import {ContestInfo, CreateContestResponse} from "@/@types/api";
-import {CreateContestType} from "@/@types/requests";
+import {
+    ContestInfo,
+    ContestResponse,
+    CreateContestResponse,
+} from "@/@types/api";
+import {
+    CreateContestType,
+    QueryParams,
+    UpdateContestRequest,
+} from "@/@types/requests";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
@@ -28,12 +36,32 @@ const contestApi = commonApi.injectEndpoints({
                 return baseQueryReturnValue;
             },
         }),
+        getContestStaff: build.query<ContestResponse, string | undefined>({
+            query: (id) => {
+                const routeBuilder = new ApiRouteBuilder(
+                    `/api/ContestDetail?$expand=UserContests&filter=Id eq ${id}`
+                );
+                return routeBuilder.build();
+            },
+
+            transformResponse: (response: ContestResponse[]) => {
+                return response.value[0];
+            },
+        }),
         joinContest: build.mutation({
             query: ({contestId}) => ({
                 url: `api/Contests/${contestId}`,
                 method: "PUT",
             }),
         }),
+        updateContestResult: build.mutation<void, UpdateContestRequest>({
+            query: (body) => ({
+                url: `api/Contests/${body.id}`,
+                method: "PUT",
+                body,
+            }),
+        }),
+
         createContest: build.mutation<CreateContestResponse, CreateContestType>(
             {
                 query: (contest) => ({
@@ -52,4 +80,6 @@ export const {
     useGetContestsDetailQuery,
     useJoinContestMutation,
     useCreateContestMutation,
+    useGetContestStaffQuery,
+    useUpdateContestResultMutation,
 } = contestApi;
