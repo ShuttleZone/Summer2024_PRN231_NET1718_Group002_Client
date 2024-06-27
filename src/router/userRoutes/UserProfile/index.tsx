@@ -121,6 +121,11 @@ function UserProfile() {
                     </h1>
                     <span className="text-lg my-2">@{userProfile?.email}</span>
                 </div>
+                <div className="flex flex-col items-center">
+                    <span className="text-lg my-2">
+                        Wallet balance: {userProfile?.balance ?? "0"}
+                    </span>
+                </div>
                 <div className="grid grid-cols-2 w-full mt-8">
                     <Link
                         className="col-span-1 flex flex-col items-center text-lg font-semibold tracking-wider border-r-2 border-slate-700 hover:text-green-600 transition-colors duration-200"

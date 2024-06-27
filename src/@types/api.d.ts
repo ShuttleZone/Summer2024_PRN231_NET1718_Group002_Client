@@ -276,6 +276,7 @@ interface UserProfile {
     gender: number;
     totalReservation: number;
     totalWinContest: number;
+    balance: number;
 }
 export interface UserContestResponse {
     id: string;
