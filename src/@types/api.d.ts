@@ -51,19 +51,6 @@ export interface OpenDateInWeek {
     date: string;
 }
 
-export interface UserContest {
-    contestId: string;
-    participantsId: string;
-    isCreatedPerson: boolean;
-    isWinner: boolean;
-    point: number;
-    id: string;
-    fullname: string;
-    gender: number;
-    email: string;
-    phoneNumber: string;
-}
-
 export interface ClubContest {
     clubName: string;
     clubAddress: string;
@@ -90,6 +77,19 @@ export interface ReservationContest {
     bookingDate: string;
     totalPrice: number;
     reservationDetailsDtos: ReservationDetailsContest[];
+}
+
+export interface UserContest {
+    contestId: string;
+    participantsId: string;
+    isCreatedPerson: boolean;
+    isWinner: boolean;
+    point: number;
+    id: string;
+    fullname: string;
+    gender: number;
+    email: string;
+    phoneNumber: string;
 }
 
 export interface ContestInfo {
