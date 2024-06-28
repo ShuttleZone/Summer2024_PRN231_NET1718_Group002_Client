@@ -1,4 +1,8 @@
-import {CreatePackage, PackageInformation} from "@/@types/api";
+import {
+    ChangePackageStatus,
+    CreatePackage,
+    PackageInformation,
+} from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
@@ -32,6 +36,14 @@ const packageApi = commonApi.injectEndpoints({
                 method: "DELETE",
             }),
         }),
+        changePackageStatus: build.mutation<ChangePackageStatus, {id: string}>({
+            query(data) {
+                return {
+                    url: `/api/Package/update-package-status/${data.id}`,
+                    method: "PUT",
+                };
+            },
+        }),
     }),
     overrideExisting: true,
 });
@@ -40,4 +52,5 @@ export const {
     useGetPackagesQuery,
     useCreatePackageMutation,
     useDeletePackageMutation,
+    useChangePackageStatusMutation,
 } = packageApi;
