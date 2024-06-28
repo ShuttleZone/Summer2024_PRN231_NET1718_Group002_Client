@@ -1,7 +1,7 @@
 import {Outlet} from "react-router-dom";
 import Sidebar from "../AdminLayout/components/Sidebar";
 import {IoHome} from "react-icons/io5";
-import {FaNewspaper, FaThList} from "react-icons/fa";
+import {FaNewspaper} from "react-icons/fa";
 import {IoCreateOutline} from "react-icons/io5";
 import Spinner from "@/components/Spinner";
 import {Toaster} from "@/components/ui/toaster";
@@ -11,11 +11,6 @@ const managerNavItems = [
         title: "Home",
         to: "/manager/home",
         icon: IoHome,
-    },
-    {
-        title: "New Court",
-        to: "/manager/courts/new",
-        icon: FaThList,
     },
     {
         title: "Courts List",

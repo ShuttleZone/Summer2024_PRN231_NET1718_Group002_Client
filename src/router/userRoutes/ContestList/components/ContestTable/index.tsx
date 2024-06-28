@@ -274,7 +274,7 @@ function ContestDataTable() {
                                         </TableCell>
                                     ))}
                                     <TableCell>
-                                        <ActionButton />
+                                        <ActionButton clubId="you should not use this component, create a similar one instead" />
                                     </TableCell>
                                 </TableRow>
                             ))
