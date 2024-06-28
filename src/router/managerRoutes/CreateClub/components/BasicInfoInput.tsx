@@ -13,15 +13,9 @@ import {
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
-import {UseFormReturn} from "react-hook-form";
-import {z} from "zod";
-import {formSchema} from "..";
+import {FormChildProps} from "..";
 
-interface BasicInfoInputProps {
-    form: UseFormReturn<z.infer<typeof formSchema>, any, undefined>;
-}
-
-function BasicInfoInput({form}: BasicInfoInputProps) {
+function BasicInfoInput({form}: FormChildProps) {
     return (
         <Accordion
             type="single"

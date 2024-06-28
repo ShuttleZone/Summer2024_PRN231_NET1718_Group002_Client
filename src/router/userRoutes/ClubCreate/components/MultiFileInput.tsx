@@ -1,19 +1,8 @@
-import {formSchema} from "@/router/managerRoutes/CreateClub";
-import {useAppDispatch} from "@/store";
-import {setClubGalleries} from "@/store/slices/club.slice";
+import {FormChildProps} from "@/router/managerRoutes/CreateClub";
 import React, {useEffect, useState} from "react";
-import {UseFormReturn} from "react-hook-form";
-import {z} from "zod";
 
-interface MultiFileInputProps {
-    form: UseFormReturn<z.infer<typeof formSchema>, any, undefined>;
-}
-
-const MultiFileInput: React.FC<MultiFileInputProps> = ({
-    form,
-}: MultiFileInputProps) => {
+function MultiFileInput({form}: FormChildProps) {
     const [files, setFiles] = useState<File[]>([]);
-    const dispatch = useAppDispatch();
     const removeFile = (index: number): void => {
         const updatedFiles = [...files];
         updatedFiles.splice(index, 1);
@@ -26,10 +15,11 @@ const MultiFileInput: React.FC<MultiFileInputProps> = ({
             setFiles([...files, ...fileList]);
         }
     };
+
     useEffect(() => {
-        // dispatch(setClubGalleries(files));
         form.setValue("clubGallery", files);
-    }, [dispatch, files]);
+    }, [form, files]);
+
     return (
         <div className="p-4 w-full border rounded-lg shadow-md">
             <input
@@ -58,5 +48,5 @@ const MultiFileInput: React.FC<MultiFileInputProps> = ({
             </div>
         </div>
     );
-};
+}
 export default MultiFileInput;

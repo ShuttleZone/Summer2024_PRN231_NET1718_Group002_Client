@@ -4,9 +4,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import {UseFormReturn} from "react-hook-form";
-import {z} from "zod";
-import {formSchema} from "..";
+import {FormChildProps} from "..";
 import {
     FormControl,
     FormField,
@@ -16,11 +14,7 @@ import {
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 
-interface SettingInputProps {
-    form: UseFormReturn<z.infer<typeof formSchema>, any, undefined>;
-}
-
-function SettingInput({form}: SettingInputProps) {
+function SettingInput({form}: FormChildProps) {
     return (
         <Accordion
             type="single"

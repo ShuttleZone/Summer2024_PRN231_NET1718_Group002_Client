@@ -5,15 +5,9 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import MultiFileInput from "@/router/userRoutes/ClubCreate/components/MultiFileInput";
-import {UseFormReturn} from "react-hook-form";
-import {z} from "zod";
-import {formSchema} from "..";
+import {FormChildProps} from "..";
 
-interface GalleryInputProps {
-    form: UseFormReturn<z.infer<typeof formSchema>, any, undefined>;
-}
-
-function GalleryInput({form}: GalleryInputProps) {
+function GalleryInput({form}: FormChildProps) {
     return (
         <Accordion
             type="single"

@@ -4,11 +4,8 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import {useAppDispatch} from "@/store";
 import {useEffect, useState} from "react";
-import {UseFormReturn} from "react-hook-form";
-import {z} from "zod";
-import {formSchema} from "..";
+import {FormChildProps} from "..";
 import {
     FormControl,
     FormField,
@@ -17,11 +14,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 
-interface AvailabilityInputProps {
-    form: UseFormReturn<z.infer<typeof formSchema>, any, undefined>;
-}
-
-function AvailabilityInput({form}: AvailabilityInputProps) {
+function AvailabilityInput({form}: FormChildProps) {
     const DayInWeek = [
         "Monday",
         "Tuesday",
@@ -41,10 +34,9 @@ function AvailabilityInput({form}: AvailabilityInputProps) {
         );
     };
 
-    const dispatch = useAppDispatch();
     useEffect(() => {
         form.setValue("availability", selectedDays);
-    }, [dispatch, selectedDays]);
+    }, [form, selectedDays]);
 
     return (
         <Accordion
@@ -62,7 +54,7 @@ function AvailabilityInput({form}: AvailabilityInputProps) {
                         <FormField
                             control={form.control}
                             name="availability"
-                            render={({}) => (
+                            render={() => (
                                 <FormItem>
                                     <FormLabel htmlFor="clubName">
                                         Select open days

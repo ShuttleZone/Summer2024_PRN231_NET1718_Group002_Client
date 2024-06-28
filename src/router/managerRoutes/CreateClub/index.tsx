@@ -7,9 +7,13 @@ import {useCreateClubMutation} from "@/store/services/clubs/club.api";
 import {useToast} from "@/components/ui/use-toast";
 import {useNavigate} from "react-router-dom";
 import {z} from "zod";
-import {useForm} from "react-hook-form";
+import {UseFormReturn, useForm} from "react-hook-form";
 import {Form} from "@/components/ui/form";
 import {zodResolver} from "@hookform/resolvers/zod";
+
+export interface FormChildProps {
+    form: UseFormReturn<z.infer<typeof formSchema>, any, undefined>; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
 
 export const formSchema = z
     .object({
