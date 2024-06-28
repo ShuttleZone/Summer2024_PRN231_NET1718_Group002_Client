@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import MultiFileInput from "./components/MultiFileInput";
 
 function ClubCreate() {
     const [clubName, setClubName] = useState<string>("");
@@ -123,9 +122,7 @@ function ClubCreate() {
                             }
                         />
                     </div>
-                    <div className="w-full">
-                        <MultiFileInput />
-                    </div>
+                    <div className="w-full">{/*<MultiFileInput />*/}</div>
                     {errorMessage && (
                         <p className="text-red-500">{errorMessage}</p>
                     )}
