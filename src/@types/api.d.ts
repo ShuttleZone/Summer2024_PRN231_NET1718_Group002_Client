@@ -298,3 +298,19 @@ export interface ContestResponse {
     contestStatus?: string;
     userContests?: UserContestResponse[];
 }
+
+export interface PackageInformation {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    packageStatus: string;
+    packageType: string;
+}
+
+export interface CreatePackage {
+    name: string;
+    description: string;
+    price: number;
+    packageType: number;
+}

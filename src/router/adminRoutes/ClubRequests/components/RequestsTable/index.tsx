@@ -128,7 +128,7 @@ function InputData({
                         </div> */}
                     </div>
                 </th>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-pre-wrap">
                     {clubRequest.clubAddress}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
