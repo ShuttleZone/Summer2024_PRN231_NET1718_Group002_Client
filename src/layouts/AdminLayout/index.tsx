@@ -19,6 +19,11 @@ const adminNavItems = [
         to: "/admin/club-requests",
         icon: FaNewspaper,
     },
+    {
+        title: "Package Management",
+        to: "/admin/packages",
+        icon: FaNewspaper,
+    },
 ];
 
 function AdminLayout() {

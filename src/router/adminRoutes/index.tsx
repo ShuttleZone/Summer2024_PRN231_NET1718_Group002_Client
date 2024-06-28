@@ -2,6 +2,7 @@ import {RouteObject} from "react-router-dom";
 import ClubRequestList from "./ClubRequests";
 import applicationRoles from "@/constants/role.constants";
 import PrivateRoute from "../PrivateRoute";
+import PackageManagement from "./PackageManagement";
 
 const adminRoutes: RouteObject[] = [
     {
@@ -13,6 +14,14 @@ const adminRoutes: RouteObject[] = [
         element: (
             <div>
                 <ClubRequestList />
+            </div>
+        ),
+    },
+    {
+        path: "packages",
+        element: (
+            <div>
+                <PackageManagement />
             </div>
         ),
     },
