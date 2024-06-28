@@ -314,3 +314,7 @@ export interface CreatePackage {
     price: number;
     packageType: number;
 }
+
+export interface ChangePackageStatus {
+    id: string;
+}
