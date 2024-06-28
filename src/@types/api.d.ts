@@ -315,6 +315,13 @@ export interface CreatePackage {
     packageType: number;
 }
 
+interface Notification {
+    id: string;
+    description: string;
+    notificationDate: string;
+    isRead: boolean;
+    userId: string;
+
 export interface ChangePackageStatus {
     id: string;
 }

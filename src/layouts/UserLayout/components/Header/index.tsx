@@ -28,6 +28,7 @@ import {AlertDialogDescription} from "@radix-ui/react-alert-dialog";
 import {clearAuth} from "@/store/slices/auth.slice";
 import {useToast} from "@/components/ui/use-toast";
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
+import NotificationsDropdown from "./components/Notification/Notifications";
 
 interface DropdownItemType {
     href: string;
@@ -74,51 +75,59 @@ function Header() {
                     />
                 </Link>
             ) : (
-                <DropdownMenu>
-                    <DropdownMenuTrigger>
-                        <Avatar>
-                            <AvatarImage src="https://github.com/shadcn.png" />
-                            <AvatarFallback>Avatar</AvatarFallback>
-                        </Avatar>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        {dropdownItems.map((item) => (
-                            <DropdownMenuItem key={item.href}>
-                                <Link to={item.href}>{item.text}</Link>
-                            </DropdownMenuItem>
-                        ))}
-                        <DropdownMenuSeparator />
-                        <AlertDialog>
-                            <AlertDialogTrigger>
-                                <div className="flex items-center px-2 text-sm">
-                                    <LogOut className="mr-2 h-4 w-4" />
-                                    <span>Log out</span>
-                                </div>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>
-                                        Are you sure to logout?
-                                    </AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        You will be logged out from your
-                                        account.
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel>
-                                        Cancel
-                                    </AlertDialogCancel>
-                                    <AlertDialogAction onClick={handleLogout}>
-                                        Logout
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="flex justify-between items-center  ">
+                    <div className="px-6">
+                        <NotificationsDropdown />
+                    </div>
+
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Avatar>
+                                <AvatarImage src="https://github.com/shadcn.png" />
+                                <AvatarFallback>Avatar</AvatarFallback>
+                            </Avatar>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            {dropdownItems.map((item) => (
+                                <DropdownMenuItem key={item.href}>
+                                    <Link to={item.href}>{item.text}</Link>
+                                </DropdownMenuItem>
+                            ))}
+                            <DropdownMenuSeparator />
+                            <AlertDialog>
+                                <AlertDialogTrigger>
+                                    <div className="flex items-center px-2 text-sm">
+                                        <LogOut className="mr-2 h-4 w-4" />
+                                        <span>Log out</span>
+                                    </div>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            Are you sure to logout?
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            You will be logged out from your
+                                            account.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>
+                                            Cancel
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                            onClick={handleLogout}
+                                        >
+                                            Logout
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             )}
         </header>
     );
