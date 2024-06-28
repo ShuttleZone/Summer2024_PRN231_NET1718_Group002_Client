@@ -26,8 +26,18 @@ const packageApi = commonApi.injectEndpoints({
                 };
             },
         }),
+        deletePackage: build.mutation({
+            query: ({packageId}) => ({
+                url: `api/Package/delete-package/${packageId}`,
+                method: "DELETE",
+            }),
+        }),
     }),
     overrideExisting: true,
 });
 
-export const {useGetPackagesQuery, useCreatePackageMutation} = packageApi;
+export const {
+    useGetPackagesQuery,
+    useCreatePackageMutation,
+    useDeletePackageMutation,
+} = packageApi;

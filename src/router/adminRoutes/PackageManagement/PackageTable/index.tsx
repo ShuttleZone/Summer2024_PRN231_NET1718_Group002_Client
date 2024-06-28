@@ -14,6 +14,7 @@ import {
 import {ChevronDown, ChevronUp, ChevronDown as SortIcon} from "lucide-react";
 import {
     useCreatePackageMutation,
+    useDeletePackageMutation,
     useGetPackagesQuery,
 } from "@/store/services/packs/package.api";
 import {
@@ -50,6 +51,7 @@ import {
 import {Label} from "@radix-ui/react-dropdown-menu";
 import {CreatePackage} from "@/@types/api";
 import {useToast} from "@/components/ui/use-toast";
+import {Toaster} from "@/components/ui/toaster";
 
 function PackageTable() {
     // Define columns with sorting enabled
@@ -102,23 +104,32 @@ function PackageTable() {
             cell: ({row}) => (
                 <div className="space-x-2">
                     <Button
-                        className="font-medium"
+                        className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                         onClick={() => handleEdit(row.getValue("id"))}
                     >
                         Edit
                     </Button>
-                    <Button
-                        className="font-medium"
+                    <button
+                        className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                         onClick={() => handleDelete(row.getValue("id"))}
                     >
                         Delete
-                    </Button>
-                    <Button
-                        className="font-medium"
-                        onClick={() => handleDelete(row.getValue("id"))}
-                    >
-                        Set Active
-                    </Button>
+                    </button>
+                    {row.getValue("packageStatus") == "INVALID" ? (
+                        <Button
+                            className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                            onClick={() => handleDelete(row.getValue("id"))}
+                        >
+                            Set Active
+                        </Button>
+                    ) : (
+                        <Button
+                            className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                            onClick={() => handleDelete(row.getValue("id"))}
+                        >
+                            Deactivate
+                        </Button>
+                    )}
                 </div>
             ),
         },
@@ -137,6 +148,8 @@ function PackageTable() {
     const [open, setOpen] = React.useState(false);
     const [formData, setFormData] = useState<CreatePackage>(initialState);
     const [createPackkage] = useCreatePackageMutation();
+    const [deletePackage] = useDeletePackageMutation();
+
     const handleCreate = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log(formData);
@@ -145,7 +158,7 @@ function PackageTable() {
         if (result.data != null) {
             toast({
                 description:
-                    "Gói đã được tạo ! Cập nhật trạng thái để công khai gói",
+                    "Gói đã được tạo ! Cập nhật trạng thái để gói được sử dụng",
             });
             setFormData(initialState);
             refetch();
@@ -198,9 +211,21 @@ function PackageTable() {
         // Add your edit logic here
     };
 
-    const handleDelete = (id: string) => {
-        console.log(`Delete package with id: ${id}`);
-        // Add your delete logic here
+    const handleDelete = async (id: string) => {
+        const result = await deletePackage({packageId: id});
+        if (result.data == true) {
+            toast({
+                description: "Gói đã được xoá !",
+            });
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Lỗi server !",
+                description: "Gói đang được sử dụng ",
+            });
+        }
+
+        refetch();
     };
 
     return (
@@ -214,6 +239,8 @@ function PackageTable() {
                 </p>
             </div>
             <div className="flex items-center py-4">
+                <Toaster />
+
                 <Input
                     placeholder="Filter packages..."
                     value={
@@ -256,7 +283,7 @@ function PackageTable() {
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger>
-                                    <Button className="ml-2">
+                                    <Button className="ml-2 text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                         Create new Package
                                     </Button>
                                 </TooltipTrigger>
