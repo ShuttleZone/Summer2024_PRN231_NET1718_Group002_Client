@@ -3,11 +3,7 @@ import {
     ContestResponse,
     CreateContestResponse,
 } from "@/@types/api";
-import {
-    CreateContestType,
-    QueryParams,
-    UpdateContestRequest,
-} from "@/@types/requests";
+import {CreateContestType, UpdateContestRequest} from "@/@types/requests";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 

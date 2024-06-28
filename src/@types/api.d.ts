@@ -307,3 +307,10 @@ export interface PackageInformation {
     packageStatus: string;
     packageType: string;
 }
+
+export interface CreatePackage {
+    name: string;
+    description: string;
+    price: number;
+    packageType: number;
+}

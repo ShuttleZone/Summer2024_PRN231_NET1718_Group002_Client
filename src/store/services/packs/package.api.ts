@@ -1,4 +1,4 @@
-import {PackageInformation} from "@/@types/api";
+import {CreatePackage, PackageInformation} from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
@@ -17,8 +17,17 @@ const packageApi = commonApi.injectEndpoints({
                 return baseQueryReturnValue.value;
             },
         }),
+        createPackage: build.mutation<CreatePackage, CreatePackage>({
+            query(body) {
+                return {
+                    url: "/api/Package/create-package",
+                    method: "POST",
+                    body: body,
+                };
+            },
+        }),
     }),
     overrideExisting: true,
 });
 
-export const {useGetPackagesQuery} = packageApi;
+export const {useGetPackagesQuery, useCreatePackageMutation} = packageApi;
