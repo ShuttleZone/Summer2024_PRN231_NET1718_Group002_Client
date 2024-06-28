@@ -5,7 +5,15 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import MultiFileInput from "@/router/userRoutes/ClubCreate/components/MultiFileInput";
-function GalleryInput() {
+import {UseFormReturn} from "react-hook-form";
+import {z} from "zod";
+import {formSchema} from "..";
+
+interface GalleryInputProps {
+    form: UseFormReturn<z.infer<typeof formSchema>, any, undefined>;
+}
+
+function GalleryInput({form}: GalleryInputProps) {
     return (
         <Accordion
             type="single"
@@ -22,7 +30,7 @@ function GalleryInput() {
                         <h1 className="text-xl text-slate-700 my-4">
                             Your club gallery
                         </h1>
-                        <MultiFileInput />
+                        <MultiFileInput form={form} />
                     </div>
                 </AccordionContent>
             </AccordionItem>
