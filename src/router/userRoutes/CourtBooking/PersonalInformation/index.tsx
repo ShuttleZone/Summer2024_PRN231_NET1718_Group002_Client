@@ -37,14 +37,17 @@ function PersonalInformation() {
     );
 
     const [formData, setFormData] = useState({
-        Name: storedFormData.Name || userInfo?.fullname || "",
-        Email: storedFormData.Email || userInfo?.email || "",
-        Phone: storedFormData.Phone || userInfo?.phoneNumber || "",
-        Note: storedFormData.Note || "",
+        Name: "",
+        Email: "",
+        Phone: "",
+        Note: "",
     });
 
     useEffect(() => {
-        if (userInfo) {
+        if (storedFormData && storedFormData.Email) {
+            // if email is not empty then it means that the form data is already stored
+            setFormData(storedFormData);
+        } else if (userInfo) {
             setFormData((prevData) => ({
                 ...prevData,
                 Name: userInfo.fullname || prevData.Name,
@@ -52,11 +55,7 @@ function PersonalInformation() {
                 Phone: userInfo.phoneNumber || prevData.Phone,
             }));
         }
-    }, [userInfo]);
-
-    useEffect(() => {
-        setFormData(storedFormData);
-    }, [storedFormData]);
+    }, [storedFormData, userInfo]);
 
     const handleInputChange = (
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
