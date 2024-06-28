@@ -314,3 +314,11 @@ export interface CreatePackage {
     price: number;
     packageType: number;
 }
+
+interface Notification {
+    id: string;
+    description: string;
+    notificationDate: string;
+    isRead: boolean;
+    userId: string;
+}
