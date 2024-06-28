@@ -213,7 +213,9 @@ function ClubList() {
                                         </TableCell>
                                     ))}
                                     <TableCell>
-                                        <ActionButton />
+                                        <ActionButton
+                                            clubId={row.original.Id}
+                                        />
                                     </TableCell>
                                 </TableRow>
                             ))
