@@ -2,7 +2,7 @@ import {ContestResponse} from "@/@types/api";
 import {UserContestRequest} from "@/@types/requests";
 import {useToast} from "@/components/ui/use-toast";
 import {useUpdateContestResultMutation} from "@/store/services/contests/contest.api";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     FaCalendarAlt,
     FaCheckCircle,
@@ -17,6 +17,7 @@ interface ContestDetailsProps {
 const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
     const [updateContestResult] = useUpdateContestResultMutation();
     const {toast} = useToast();
+    const [disableUpdate, setDisableUpdate] = useState<boolean>(false);
     const [userContests, setUserContests] = useState<UserContestRequest[]>(
         contest.userContests?.map((uc) => ({
             participantsId: uc.participantsId,
@@ -24,6 +25,9 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
             point: uc.point,
         })) || []
     );
+    useEffect(() => {
+        setDisableUpdate(contest.contestStatus === "Closed");
+    }, [contest.contestStatus]);
 
     const handlePointChange = (index: number, point: number) => {
         setUserContests((prev) =>
@@ -45,6 +49,8 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                 id: contest.id,
                 userContests: userContests,
             }).unwrap();
+
+            setDisableUpdate(true);
             toast({
                 title: "Success",
                 description: "Successfully updated the contest!",
@@ -156,6 +162,7 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                                         Is Winner:
                                     </label>
                                     <input
+                                        disabled={disableUpdate}
                                         type="checkbox"
                                         className="form-checkbox"
                                         checked={userContests[index].isWinner}
@@ -192,9 +199,7 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                 </div>
             )}
             <div className="mt-6 flex justify-end">
-                {contest.contestStatus === "Closed" ? (
-                    ""
-                ) : (
+                {disableUpdate ? null : (
                     <button
                         className="bg-green-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-600 transition"
                         onClick={handleSubmit}
