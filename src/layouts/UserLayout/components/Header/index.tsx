@@ -65,6 +65,7 @@ function Header() {
         <header className="flex justify-between items-center px-6 py-4">
             <Logo />
             <Navbar />
+
             {!isAuthenticated ? (
                 <Link to="/login">
                     <ButtonWithIcon

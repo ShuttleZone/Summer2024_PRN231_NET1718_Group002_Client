@@ -40,10 +40,8 @@ const contestApi = commonApi.injectEndpoints({
                 return routeBuilder.build();
             },
 
-            transformResponse: (response: ContestResponse[]) => {
-                return response[0];
-                // return response.value[0]; // This is the original code which cause the build to fail. I changed it to response[0] because the response is an array of ContestResponse
-                // If this breaks, change it to whatever you think is correct
+            transformResponse: (response: {value: ContestResponse[]}) => {
+                return response.value[0];
             },
         }),
         joinContest: build.mutation({
