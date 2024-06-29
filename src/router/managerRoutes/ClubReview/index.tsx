@@ -8,9 +8,9 @@ function ClubReview() {
             <div>
                 <Header />
             </div>
-            <div>
+            {/* <div>
                 <ReviewOverview />
-            </div>
+            </div> */}
             <div>
                 <AllReviews />
             </div>
