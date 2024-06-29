@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -17,7 +17,6 @@ import {
     useCreatePackageMutation,
     useDeletePackageMutation,
     useGetPackagesQuery,
-    useUpdatePackageMutation,
 } from "@/store/services/packs/package.api";
 import {
     TableHeader,
@@ -258,7 +257,7 @@ function PackageTable() {
     const [createPackkage] = useCreatePackageMutation();
     const [deletePackage] = useDeletePackageMutation();
     const [changeStatus] = useChangePackageStatusMutation();
-    const [updatePackage] = useUpdatePackageMutation();
+    // const [updatePackage] = useUpdatePackageMutation();
     const [updateData, setUpdateData] =
         useState<UpdatePackage>(initialStateUpdate);
 

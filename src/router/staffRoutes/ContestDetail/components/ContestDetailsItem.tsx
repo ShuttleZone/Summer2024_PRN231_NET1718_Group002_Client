@@ -31,13 +31,13 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
             prev.map((uc, i) => (i === index ? {...uc, point: point} : uc))
         );
     };
-    const handleIsWinnerChange = (index: number) => {
-        setUserContests((prev) =>
-            prev.map((uc, i) =>
-                i === index ? {...uc, isWinner: !uc.isWinner} : uc
-            )
-        );
-    };
+    // const handleIsWinnerChange = (index: number) => {
+    //     setUserContests((prev) =>
+    //         prev.map((uc, i) =>
+    //             i === index ? {...uc, isWinner: !uc.isWinner} : uc
+    //         )
+    //     );
+    // };
 
     const handleSubmit = async () => {
         try {

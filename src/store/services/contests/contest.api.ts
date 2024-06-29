@@ -40,7 +40,7 @@ const contestApi = commonApi.injectEndpoints({
                 return routeBuilder.build();
             },
 
-            transformResponse: (response: ContestResponse[]) => {
+            transformResponse: (response: {value: ContestResponse[]}) => {
                 return response.value[0];
             },
         }),
