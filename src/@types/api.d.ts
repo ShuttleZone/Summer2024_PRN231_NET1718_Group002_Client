@@ -326,3 +326,11 @@ interface Notification {
 export interface ChangePackageStatus {
     id: string;
 }
+
+export interface UpdatePackage {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    packageType: number;
+}

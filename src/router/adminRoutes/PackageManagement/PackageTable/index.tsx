@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -17,6 +17,7 @@ import {
     useCreatePackageMutation,
     useDeletePackageMutation,
     useGetPackagesQuery,
+    useUpdatePackageMutation,
 } from "@/store/services/packs/package.api";
 import {
     TableHeader,
@@ -49,7 +50,7 @@ import {
     TooltipTrigger,
 } from "@radix-ui/react-tooltip";
 import {Label} from "@radix-ui/react-dropdown-menu";
-import {CreatePackage} from "@/@types/api";
+import {CreatePackage, UpdatePackage} from "@/@types/api";
 import {useToast} from "@/components/ui/use-toast";
 import {Toaster} from "@/components/ui/toaster";
 
@@ -120,7 +121,9 @@ function PackageTable() {
                                 </DialogDescription>
                             </DialogHeader>
 
-                            <form onSubmit={handleCreate}>
+                            <form
+                                onSubmit={() => handleEdit(row.getValue("id"))}
+                            >
                                 <div className="grid w-full gap-2 mt-2">
                                     <Label className="text-sm font-medium">
                                         Tên
@@ -128,13 +131,13 @@ function PackageTable() {
                                     <Input
                                         required
                                         placeholder="Tên gói"
+                                        value={row.getValue("name")}
                                         onChange={(event) =>
-                                            setFormData((prev) => ({
+                                            setUpdateData((prev) => ({
                                                 ...prev,
                                                 name: event.target.value,
                                             }))
                                         }
-                                        value={row.getValue("name")}
                                     />
                                     <Label className="text-sm font-medium">
                                         Mô tả chi tiết
@@ -142,27 +145,27 @@ function PackageTable() {
                                     <Textarea
                                         required
                                         placeholder="Mô tả chi tiết"
+                                        value={row.getValue("description")}
                                         onChange={(event) =>
-                                            setFormData((prev) => ({
+                                            setUpdateData((prev) => ({
                                                 ...prev,
                                                 description: event.target.value,
                                             }))
                                         }
-                                        value={row.getValue("description")}
                                     />
                                     <Label className="text-sm font-medium">
                                         Chọn loại gói
                                     </Label>
                                     <select
+                                        value={row.getValue("packageType")}
+                                        className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         onChange={(event) =>
-                                            setFormData((prev) => ({
+                                            setUpdateData((prev) => ({
                                                 ...prev,
                                                 packageType:
                                                     event.target.selectedIndex,
                                             }))
                                         }
-                                        value={row.getValue("packageType")}
-                                        className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
                                         <option selected value="0">
                                             Gói tháng
@@ -182,7 +185,7 @@ function PackageTable() {
                                             className="block w-full flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                             placeholder="100.000"
                                             onChange={(event) =>
-                                                setFormData((prev) => ({
+                                                setUpdateData((prev) => ({
                                                     ...prev,
                                                     price: event.target
                                                         .valueAsNumber,
@@ -197,6 +200,9 @@ function PackageTable() {
                                     <Button
                                         className=" mt-2 text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                                         type="submit"
+                                        onClick={() =>
+                                            handleEdit(row.getValue("id"))
+                                        }
                                     >
                                         Lưu chỉnh sửa
                                     </Button>
@@ -219,10 +225,7 @@ function PackageTable() {
                             Kích hoạt
                         </Button>
                     ) : (
-                        <Button
-                            className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                            onClick={() => handleActive(row.getValue("id"))}
-                        >
+                        <Button className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                             Huỷ kích hoạt
                         </Button>
                     )}
@@ -240,12 +243,24 @@ function PackageTable() {
         packageType: 0,
         price: 0,
     };
+
+    const initialStateUpdate: UpdatePackage = {
+        id: "",
+        name: "",
+        description: "",
+        price: 0,
+        packageType: 0,
+    };
+
     const {toast} = useToast();
     const [open, setOpen] = React.useState(false);
     const [formData, setFormData] = useState<CreatePackage>(initialState);
     const [createPackkage] = useCreatePackageMutation();
     const [deletePackage] = useDeletePackageMutation();
     const [changeStatus] = useChangePackageStatusMutation();
+    const [updatePackage] = useUpdatePackageMutation();
+    const [updateData, setUpdateData] =
+        useState<UpdatePackage>(initialStateUpdate);
 
     const handleCreate = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -255,7 +270,7 @@ function PackageTable() {
         if (result.data != null) {
             toast({
                 description:
-                    "Gói đã được tạo ! Cập nhật trạng thái để gói được sử dụng",
+                    "Gói đã được tạo ! Kích hoạt gói để gói được sử dụng",
             });
             setFormData(initialState);
             refetch();
@@ -301,12 +316,17 @@ function PackageTable() {
     if (isError) {
         return <div>Error in loading data</div>;
     }
+    // Handle actions
+    const handleEdit = async (id: string) => {
+        setOpen(false);
 
-    // // Handle actions
-    // const handleEdit = (id: string) => {
-    //     console.log(`Edit package with id: ${id}`);
-    //     // Add your edit logic here
-    // };
+        if (id) {
+            // await updateData();
+            console.log(updateData);
+        }
+        console.log(`Edit package with id: ${id}`);
+        // Add your edit logic here
+    };
 
     const handleActive = async (id: string) => {
         const result = await changeStatus({id: id});
