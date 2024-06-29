@@ -321,6 +321,7 @@ interface Notification {
     notificationDate: string;
     isRead: boolean;
     userId: string;
+}
 
 export interface ChangePackageStatus {
     id: string;
