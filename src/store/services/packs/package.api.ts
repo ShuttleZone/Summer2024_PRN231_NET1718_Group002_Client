@@ -2,6 +2,7 @@ import {
     ChangePackageStatus,
     CreatePackage,
     PackageInformation,
+    UpdatePackage,
 } from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
@@ -36,6 +37,15 @@ const packageApi = commonApi.injectEndpoints({
                 method: "DELETE",
             }),
         }),
+        updatePackage: build.mutation<UpdatePackage, UpdatePackage>({
+            query(body) {
+                return {
+                    url: "/api/Package/update-package",
+                    method: "PUT",
+                    body: body,
+                };
+            },
+        }),
         changePackageStatus: build.mutation<ChangePackageStatus, {id: string}>({
             query(data) {
                 return {
@@ -53,4 +63,5 @@ export const {
     useCreatePackageMutation,
     useDeletePackageMutation,
     useChangePackageStatusMutation,
+    useUpdatePackageMutation,
 } = packageApi;
