@@ -170,7 +170,7 @@ function ClubList() {
                 </DropdownMenu>
                 <Button
                     className="bg-white border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white ml-8"
-                    onClick={() => navigate("/home")}
+                    onClick={() => navigate("/manager/clubs/new")}
                 >
                     Create new Club
                 </Button>
@@ -213,7 +213,9 @@ function ClubList() {
                                         </TableCell>
                                     ))}
                                     <TableCell>
-                                        <ActionButton />
+                                        <ActionButton
+                                            clubId={row.original.Id}
+                                        />
                                     </TableCell>
                                 </TableRow>
                             ))

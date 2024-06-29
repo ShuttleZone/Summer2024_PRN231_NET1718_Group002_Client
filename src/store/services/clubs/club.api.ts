@@ -72,7 +72,7 @@ const clubApi = commonApi.injectEndpoints({
                 body: court,
             }),
         }),
-        getMyClubs: build.query<ClubDropdownType[], string | undefined>({
+        getMyClubs: build.query<ClubDropdownType[], void>({
             query: () => {
                 const routeBuilder = new ApiRouteBuilder("/api/clubs/my-clubs");
                 routeBuilder.select(["id", "clubName"]);

@@ -1,9 +1,8 @@
-// src/components/ContestDetails.tsx
 import {ContestResponse} from "@/@types/api";
 import {UserContestRequest} from "@/@types/requests";
 import {useToast} from "@/components/ui/use-toast";
 import {useUpdateContestResultMutation} from "@/store/services/contests/contest.api";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     FaCalendarAlt,
     FaCheckCircle,
@@ -18,6 +17,7 @@ interface ContestDetailsProps {
 const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
     const [updateContestResult] = useUpdateContestResultMutation();
     const {toast} = useToast();
+    const [disableUpdate, setDisableUpdate] = useState<boolean>(false);
     const [userContests, setUserContests] = useState<UserContestRequest[]>(
         contest.userContests?.map((uc) => ({
             participantsId: uc.participantsId,
@@ -25,6 +25,9 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
             point: uc.point,
         })) || []
     );
+    useEffect(() => {
+        setDisableUpdate(contest.contestStatus === "Closed");
+    }, [contest.contestStatus]);
 
     const handlePointChange = (index: number, point: number) => {
         setUserContests((prev) =>
@@ -45,9 +48,11 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                 id: contest.id,
                 userContests: userContests,
             }).unwrap();
+
+            setDisableUpdate(true);
             toast({
                 title: "Success",
-                description: "Successfully update the contest!",
+                description: "Successfully updated the contest!",
                 variant: "default",
             });
         } catch (err) {
@@ -60,8 +65,9 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
             });
         }
     };
+
     return (
-        <div className="w-full h-full overflow-y-auto p-8 bg-gradient-to-r from-pink-200 via-purple-200 to-blue-200 rounded-xl shadow-lg text-gray-900">
+        <div className="w-full h-full overflow-y-auto p-8 bg-blue-100 rounded-xl shadow-lg text-gray-900">
             <h2 className="text-3xl font-bold mb-6 text-center text-purple-900">
                 Contest Details
             </h2>
@@ -141,6 +147,7 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                                     Phone Number:{" "}
                                     {userContest.phoneNumber || "N/A"}
                                 </p>
+
                                 <p className="text-gray-600 flex items-center">
                                     Is Created Person:{" "}
                                     {userContest.isCreatedPerson ? (
@@ -149,26 +156,31 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                                         <FaTimesCircle className="text-red-500 ml-2" />
                                     )}
                                 </p>
-                                {/* {contest.userContests?.length == 2 ? (
-                                    ""
-                                ) : ( */}
-                                <p className="text-gray-600 flex items-center">
-                                    Is Winner (click on icon to change, can
-                                    choose only {contest.maxPlayer / 2}{" "}
-                                    person/people win):
-                                    {userContest.isWinner ? (
-                                        <FaCheckCircle className="text-green-500 ml-2" />
-                                    ) : (
-                                        <FaTimesCircle className="text-red-500 ml-2" />
-                                    )}
-                                </p>
-                                {/* )} */}
-
+                                <div className="flex items-center space-x-2">
+                                    <label className="text-gray-600">
+                                        Is Winner:
+                                    </label>
+                                    <input
+                                        disabled={disableUpdate}
+                                        type="checkbox"
+                                        className="form-checkbox"
+                                        checked={userContests[index].isWinner}
+                                        onChange={(e) =>
+                                            handleIsWinnerChange(
+                                                index,
+                                                e.target.checked
+                                            )
+                                        }
+                                    />
+                                </div>
                                 <div className="flex items-center space-x-2">
                                     <label className="text-gray-600">
                                         Point:
                                     </label>
                                     <input
+                                        disabled={
+                                            contest.contestStatus === "Closed"
+                                        }
                                         type="number"
                                         className="w-20 p-1 border border-gray-300 rounded-lg"
                                         value={userContests[index].point}
@@ -186,13 +198,14 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                 </div>
             )}
             <div className="mt-6 flex justify-end">
-                {/* impove later: ask are you sure to update contest */}
-                <button
-                    className="bg-green-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-600 transition"
-                    onClick={handleSubmit}
-                >
-                    Update Points
-                </button>
+                {disableUpdate ? null : (
+                    <button
+                        className="bg-green-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-600 transition"
+                        onClick={handleSubmit}
+                    >
+                        Update Points
+                    </button>
+                )}
             </div>
         </div>
     );

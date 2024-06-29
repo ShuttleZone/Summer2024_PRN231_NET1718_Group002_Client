@@ -4,10 +4,17 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import {useAppDispatch} from "@/store";
-import {setClubAvailability} from "@/store/slices/club.slice";
 import {useEffect, useState} from "react";
-function AvailabilityInput() {
+import {FormChildProps} from "..";
+import {
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+
+function AvailabilityInput({form}: FormChildProps) {
     const DayInWeek = [
         "Monday",
         "Tuesday",
@@ -27,10 +34,9 @@ function AvailabilityInput() {
         );
     };
 
-    const dispatch = useAppDispatch();
     useEffect(() => {
-        dispatch(setClubAvailability(selectedDays));
-    }, [dispatch, selectedDays]);
+        form.setValue("availability", selectedDays);
+    }, [form, selectedDays]);
 
     return (
         <Accordion
@@ -45,24 +51,41 @@ function AvailabilityInput() {
                 </AccordionTrigger>
                 <AccordionContent>
                     <div className="w-full">
-                        <h1 className="text-xl text-slate-700 my-4">
-                            Select days
-                        </h1>
-                        <div className="h-fit flex flex-row justify-start gap-10">
-                            {DayInWeek.map((item) => (
-                                <div
-                                    key={item}
-                                    className={`border-2 w-32 h-12 flex justify-center items-center rounded-xl hover:cursor-pointer ${
-                                        selectedDays.includes(item)
-                                            ? "text-green-500 border-green-500"
-                                            : "hover:text-green-500 hover:border-green-500"
-                                    }`}
-                                    onClick={() => toggleDay(item)}
-                                >
-                                    <p className="font-semibold">{item}</p>
-                                </div>
-                            ))}
-                        </div>
+                        <FormField
+                            control={form.control}
+                            name="availability"
+                            render={() => (
+                                <FormItem>
+                                    <FormLabel htmlFor="clubName">
+                                        Select open days
+                                    </FormLabel>
+                                    <FormControl>
+                                        <div className="h-fit flex flex-row justify-start gap-10">
+                                            {DayInWeek.map((item) => (
+                                                <div
+                                                    key={item}
+                                                    className={`border-2 w-32 h-12 flex justify-center items-center rounded-xl hover:cursor-pointer ${
+                                                        selectedDays.includes(
+                                                            item
+                                                        )
+                                                            ? "text-green-500 border-green-500"
+                                                            : "hover:scale-110"
+                                                    }`}
+                                                    onClick={() =>
+                                                        toggleDay(item)
+                                                    }
+                                                >
+                                                    <p className="font-semibold">
+                                                        {item}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        ></FormField>
                     </div>
                 </AccordionContent>
             </AccordionItem>
