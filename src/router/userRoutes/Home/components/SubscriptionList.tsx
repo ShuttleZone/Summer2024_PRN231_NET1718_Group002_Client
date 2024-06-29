@@ -5,41 +5,12 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel";
-import {Card, CardContent} from "@/components/ui/card";
-import {LuShieldCheck} from "react-icons/lu";
-import {Button} from "@/components/ui/button";
+import {useGetPackagesQuery} from "@/store/services/packs/package.api";
 
-interface Subscription {
-    id: string;
-    name: string;
-    price: number;
-    description: string;
-    status: string;
-}
-const sampleData: Subscription[] = [
-    {
-        id: "aaa",
-        name: "Profesional",
-        price: 200000,
-        description: "1111aaaa",
-        status: "aa",
-    },
-    {
-        id: "aaa",
-        name: "Expert",
-        price: 200000,
-        description: "1111aaaa",
-        status: "aa",
-    },
-    {
-        id: "aaa",
-        name: "Enterprise",
-        price: 200000,
-        description: "1111aaaa",
-        status: "aa",
-    },
-];
 function SubscriptionList() {
+    const {data: packages, isError, isLoading} = useGetPackagesQuery();
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error</div>;
     return (
         <div className="w-full h-screen flex  flex-col justify-start items-center py-32 gap-20 border-2 border-b-black ">
             <div className="w-2/3 h-fit py-2 mx-auto ">
@@ -53,10 +24,57 @@ function SubscriptionList() {
             </div>
             <Carousel className="w-2/3 mx-auto ">
                 <CarouselContent className="-ml-1">
-                    {sampleData?.map((subscription) => (
+                    {packages?.map((subscription) => (
                         <CarouselItem className="pl-1 md:basis-1/2 lg:basis-1/3">
-                            <div className="p-1">
-                                <Card>
+                            <div
+                                className="max-w-sm m-2 flex flex-col justify-between bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+                                key={subscription.id}
+                            >
+                                <a>
+                                    <img
+                                        className="rounded-t-lg"
+                                        src="/docs/images/blog/image-1.jpg"
+                                        alt=""
+                                    />
+                                </a>
+                                <div className="p-5">
+                                    <div>
+                                        <a href="#">
+                                            <h5 className="mb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                                {subscription.name}
+                                            </h5>
+                                        </a>
+                                    </div>
+
+                                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                        {subscription.description}
+                                    </p>
+
+                                    <span className="block mb-2 text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+                                        {subscription.price} vnd/tháng
+                                    </span>
+                                    <a className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        Đăng kí ngay
+                                        <svg
+                                            className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 14 10"
+                                        >
+                                            <path
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M1 5h12m0 0L9 1m4 4L9 9"
+                                            />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+
+                            {/* <Card>
                                     <CardContent
                                         className="flex aspect-square items-center justify-center h-fit p-0"
                                         key={subscription.id}
@@ -86,8 +104,7 @@ function SubscriptionList() {
                                             </Button>
                                         </div>
                                     </CardContent>
-                                </Card>
-                            </div>
+                                </Card> */}
                         </CarouselItem>
                     ))}
                 </CarouselContent>
