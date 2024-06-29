@@ -47,7 +47,6 @@ import {
     TooltipProvider,
     Tooltip,
     TooltipTrigger,
-    TooltipContent,
 } from "@radix-ui/react-tooltip";
 import {Label} from "@radix-ui/react-dropdown-menu";
 import {CreatePackage} from "@/@types/api";
@@ -303,11 +302,11 @@ function PackageTable() {
         return <div>Error in loading data</div>;
     }
 
-    // Handle actions
-    const handleEdit = (id: string) => {
-        console.log(`Edit package with id: ${id}`);
-        // Add your edit logic here
-    };
+    // // Handle actions
+    // const handleEdit = (id: string) => {
+    //     console.log(`Edit package with id: ${id}`);
+    //     // Add your edit logic here
+    // };
 
     const handleActive = async (id: string) => {
         const result = await changeStatus({id: id});

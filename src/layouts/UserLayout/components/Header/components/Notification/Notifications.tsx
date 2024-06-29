@@ -21,6 +21,7 @@ const NotificationsDropdown: React.FC = () => {
     const handleNotificationClick = () => {
         setUnreadCount(0);
     };
+    console.log(handleNotificationClick);
     const markAsRead = async () => {
         await updateNotification();
         refetch();
