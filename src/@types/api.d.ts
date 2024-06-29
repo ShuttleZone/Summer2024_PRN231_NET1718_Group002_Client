@@ -167,7 +167,7 @@ export interface ClubRequest {
     id: string;
     clubPhone: string;
     clubDescription: string;
-    status: string;
+    clubStatusEnum: string;
     openTime: Date;
     closeTime: Date;
     // acceptClubRequestAdmin: (id: string) => void;
