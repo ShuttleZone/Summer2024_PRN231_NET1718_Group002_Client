@@ -123,7 +123,7 @@ function CreateCourtPopUp({clubId}: CreateCourtPopUpProps) {
     };
 
     return (
-        <div className="py-20 w-3/4 m-auto">
+        <div>
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -239,7 +239,9 @@ function CreateCourtPopUp({clubId}: CreateCourtPopUpProps) {
                         >
                             Reset
                         </Button>
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit" className="bg-green-500">
+                            Submit
+                        </Button>
                     </div>
                 </form>
             </Form>
