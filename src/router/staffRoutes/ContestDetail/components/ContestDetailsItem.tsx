@@ -34,14 +34,13 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
             prev.map((uc, i) => (i === index ? {...uc, point: point} : uc))
         );
     };
-
-    const handleIsWinnerChange = (index: number, isWinner: boolean) => {
-        setUserContests((prev) =>
-            prev.map((uc, i) =>
-                i === index ? {...uc, isWinner: isWinner} : uc
-            )
-        );
-    };
+    // const handleIsWinnerChange = (index: number, checked: boolean) => {
+    //     setUserContests((prev) =>
+    //         prev.map((uc, i) =>
+    //             i === index ? {...uc, isWinner: !uc.isWinner} : uc
+    //         )
+    //     );
+    // };
 
     const handleSubmit = async () => {
         try {
@@ -166,12 +165,12 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                                         type="checkbox"
                                         className="form-checkbox"
                                         checked={userContests[index].isWinner}
-                                        onChange={(e) =>
-                                            handleIsWinnerChange(
-                                                index,
-                                                e.target.checked
-                                            )
-                                        }
+                                        // onChange={(e) =>
+                                        //     handleIsWinnerChange(
+                                        //         index,
+                                        //         e.target.checked
+                                        //     )
+                                        // }
                                     />
                                 </div>
                                 <div className="flex items-center space-x-2">

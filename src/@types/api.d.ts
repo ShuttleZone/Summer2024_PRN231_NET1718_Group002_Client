@@ -167,7 +167,7 @@ export interface ClubRequest {
     id: string;
     clubPhone: string;
     clubDescription: string;
-    status: string;
+    clubStatusEnum: string;
     openTime: Date;
     closeTime: Date;
     // acceptClubRequestAdmin: (id: string) => void;
@@ -322,6 +322,16 @@ interface Notification {
     isRead: boolean;
     userId: string;
 }
-interface ChangePackageStatus {
+
+export interface ChangePackageStatus {
+
     id: string;
+}
+
+export interface UpdatePackage {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    packageType: number;
 }

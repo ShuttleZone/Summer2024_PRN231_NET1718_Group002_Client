@@ -13,7 +13,7 @@ const clubApi = commonApi.injectEndpoints({
                 const routeBuilder = new ApiRouteBuilder("/api/ClubRequests");
                 return (
                     routeBuilder
-                        // .filter("status", "RequestPending")
+                        .filter("clubStatusEnum", "'RequestPending'")
                         // .expand("status")
                         .build()
                 );

@@ -57,7 +57,7 @@ export const formSchema = z
         (data) => {
             const openTime = data.openTime;
             const closeTime = data.closeTime;
-            const minDuration = parseInt(data.minDuration);
+            const minDuration = parseFloat(data.minDuration);
 
             if (openTime && closeTime && minDuration > 0) {
                 const [openHours, openMinutes] = openTime

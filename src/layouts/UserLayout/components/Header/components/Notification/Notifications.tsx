@@ -25,6 +25,7 @@ const NotificationsDropdown: React.FC = () => {
         []
     );
     const [updateNotification] = useUpdateNotificationMutation();
+
     const [unreadCount, setUnreadCount] = useState<number>(0);
     const token = useSelector(selectToken);
     useEffect(() => {
@@ -62,6 +63,7 @@ const NotificationsDropdown: React.FC = () => {
             connection.stop();
         };
     }, [token]);
+
     const markAsRead = async () => {
         try {
             setUnreadCount(0);
