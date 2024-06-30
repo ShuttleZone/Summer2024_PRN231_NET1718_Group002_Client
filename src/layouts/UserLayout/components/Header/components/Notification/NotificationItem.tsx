@@ -12,6 +12,7 @@ interface NotificationItemProps {
 const NotificationItem: React.FC<NotificationItemProps> = ({
     description,
     notificationDate,
+    isRead,
 }) => {
     const getTimeAgo = (time: Date): string => {
         const currentTime = new Date();
@@ -38,7 +39,9 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
     return (
         <DropdownMenuItem className="flex flex-col items-start p-4 space-y-1 border-b border-gray-200 hover:bg-blue-300 rounded-lg  ">
             <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 rounded-full bg-blue-400"></div>
+                {isRead ? null : (
+                    <div className="w-2 h-2 rounded-full bg-blue-400"></div>
+                )}
                 <div className="text-sm font-medium text-gray-900">
                     {description}
                 </div>
