@@ -6,31 +6,77 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {IoNotificationsOutline} from "react-icons/io5";
 import NotificationItem from "./NotificationItem";
+import * as signalR from "@microsoft/signalr";
+import {BASE_URL} from "@/constants/api.constants";
 import {
     useGetNotificationsQuery,
     useUpdateNotificationMutation,
 } from "@/store/services/notifications/notification.api";
+import {Notification} from "@/@types/api";
+import {useSelector} from "react-redux";
+import {selectToken} from "@/store/common.api";
 
 const NotificationsDropdown: React.FC = () => {
     const {data: notifications, refetch} = useGetNotificationsQuery();
+    const [notificationsData, setNotificationsData] = useState<Notification[]>(
+        []
+    );
     const [updateNotification] = useUpdateNotificationMutation();
-    const [unreadCount, setUnreadCount] = useState<number>(9);
-    const handleNotificationClick = () => {
-        setUnreadCount(0);
-    };
-    console.log(handleNotificationClick);
-    const markAsRead = async () => {
-        await updateNotification();
-        refetch();
-    };
 
+    const [unreadCount, setUnreadCount] = useState<number>(0);
+    const token = useSelector(selectToken);
+    useEffect(() => {
+        if (notifications) {
+            setUnreadCount(
+                notifications.filter((notification) => !notification.isRead)
+                    .length
+            );
+            setNotificationsData(notifications);
+        }
+    }, [notifications]);
+    useEffect(() => {
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl(`${BASE_URL}/hubs/notification`, {
+                accessTokenFactory: () => token || "",
+            })
+            .withAutomaticReconnect()
+            .build();
+
+        connection.on("ReceiveNotification", (message) => {
+            console.log("Received notification: ", message);
+            setNotificationsData((prevNotifications) => [
+                message,
+                ...prevNotifications,
+            ]);
+            setUnreadCount((prevCount) => prevCount + 1);
+        });
+
+        connection
+            .start()
+            .then(() => console.log("Connection started"))
+            .catch((err) => console.error("Connection failed: ", err));
+
+        return () => {
+            connection.stop();
+        };
+    }, [token]);
+
+    const markAsRead = async () => {
+        try {
+            setUnreadCount(0);
+            await updateNotification().unwrap();
+            refetch();
+        } catch (error) {
+            console.error("Failed to update notifications:", error);
+        }
+    };
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger onClick={markAsRead}>
-                <div className="relative">
+            <div className="relative" onClick={markAsRead}>
+                <DropdownMenuTrigger>
                     <IoNotificationsOutline
                         size={24}
                         className="mr-4 cursor-pointer"
@@ -40,15 +86,15 @@ const NotificationsDropdown: React.FC = () => {
                             {unreadCount}
                         </span>
                     )}
-                </div>
-            </DropdownMenuTrigger>
+                </DropdownMenuTrigger>
+            </div>
             <DropdownMenuContent className="max-h-64 overflow-y-scroll">
                 <DropdownMenuLabel>Notifications</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {notifications?.length === 0 ? (
+                {notificationsData?.length === 0 ? (
                     <DropdownMenuItem>No new notifications</DropdownMenuItem>
                 ) : (
-                    notifications?.map((notification, index) => (
+                    notificationsData?.map((notification, index) => (
                         <NotificationItem key={index} {...notification} />
                     ))
                 )}
