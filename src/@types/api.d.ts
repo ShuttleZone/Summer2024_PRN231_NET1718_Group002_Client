@@ -324,7 +324,6 @@ interface Notification {
 }
 
 export interface ChangePackageStatus {
-
     id: string;
 }
 
