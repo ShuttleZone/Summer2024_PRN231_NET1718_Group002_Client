@@ -3,6 +3,7 @@ import ClubRequestList from "./ClubRequests";
 import applicationRoles from "@/constants/role.constants";
 import PrivateRoute from "../PrivateRoute";
 import PackageManagement from "./PackageManagement";
+import ClubList from "./ClubList";
 
 const adminRoutes: RouteObject[] = [
     {
@@ -22,6 +23,14 @@ const adminRoutes: RouteObject[] = [
         element: (
             <div>
                 <PackageManagement />
+            </div>
+        ),
+    },
+    {
+        path: "clubs",
+        element: (
+            <div>
+                <ClubList />
             </div>
         ),
     },

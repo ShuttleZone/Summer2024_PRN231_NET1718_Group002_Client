@@ -24,6 +24,7 @@ export interface ClubType {
     clubImages: ClubImageType[];
     openDays: ClubOpenDayType[];
     reviews: ReviewType[];
+    ownerName: string;
 }
 
 export interface ClubDropdownType {
@@ -190,7 +191,19 @@ export interface ReservationType {
     courtNames: string[];
     expiredTime: string;
 }
-
+interface ClubListManagementReturnType {
+    value: ClubListManagementOData[];
+}
+interface ClubListManagementOData {
+    id: string;
+    clubName: string;
+    clubAddress: string;
+    openTime: string;
+    closeTime: string;
+    courts: CourtId[];
+    reviews: CourtReview[];
+    ownerName: string;
+}
 interface ClubListManagement {
     Id: string;
     ClubName: string;
@@ -199,6 +212,7 @@ interface ClubListManagement {
     CloseTime: string;
     Courts: CourtId[];
     Reviews: CourtReview[];
+    OwnerName: string;
 }
 
 interface CourtId {
@@ -217,6 +231,7 @@ interface ClubManagement {
     rating: number;
     totalCourt: number;
     totalReview: number;
+    ownerName: string;
 }
 
 export interface CreateContestResponse {
@@ -324,7 +339,6 @@ interface Notification {
 }
 
 export interface ChangePackageStatus {
-
     id: string;
 }
 
