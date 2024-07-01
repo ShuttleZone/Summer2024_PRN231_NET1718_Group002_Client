@@ -2,6 +2,7 @@ import {
     BookedSlotType,
     ClubDropdownType,
     ClubListManagement,
+    ClubListManagementReturnType,
     ClubManagement,
     ClubType,
     CourtScheduleType,
@@ -102,6 +103,34 @@ const clubApi = commonApi.injectEndpoints({
                     totalCourt: club.Courts.length,
                     totalReview: club.Reviews.length,
                     Id: club.Id,
+                    ownerName: club.OwnerName,
+                }));
+            },
+        }),
+        getClubManagement: build.query<ClubManagement[], void>({
+            query: () => {
+                const routeBuilder = new ApiRouteBuilder(
+                    "/api/clubs?$expand=courts,reviews&$select=clubName,clubAddress,openTime,closeTime,Id,ownerName"
+                );
+
+                return routeBuilder.build();
+            },
+            transformResponse: (
+                baseQueryReturnValue: ClubListManagementReturnType
+            ): ClubManagement[] => {
+                return baseQueryReturnValue.value.map((club) => ({
+                    clubName: club.clubName,
+                    clubAddress: club.clubAddress,
+                    openHours: `${club.openTime.substring(0, 5)} - ${club.closeTime.substring(0, 5)}`,
+                    rating:
+                        club.reviews.reduce(
+                            (acc, review) => acc + review.rating,
+                            0
+                        ) / club.reviews.length || 0,
+                    totalCourt: club.courts.length,
+                    totalReview: club.reviews.length,
+                    Id: club.id,
+                    ownerName: club.ownerName,
                 }));
             },
         }),
@@ -117,4 +146,5 @@ export const {
     useCreateClubMutation,
     useGetMyClubsQuery,
     useGetClubListQuery,
+    useGetClubManagementQuery,
 } = clubApi;

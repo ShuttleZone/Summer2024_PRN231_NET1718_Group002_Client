@@ -108,7 +108,7 @@ function UserProfile() {
                 <div className="relative">
                     <label
                         htmlFor="avatar-upload"
-                        className="w-52 h-16 bg-gradient-to-r from-[#ececef] via-[#5F9053]/30 to-[#0dde10] text-lg font-semibold rounded-3xl mt-8 cursor-pointer flex items-center justify-center"
+                        className="w-44 h-16 border-2 border-black text-black hover:bg-green-500 hover:border-green-300 hover:text-white transition-colors duration-200 text-lg font-semibold rounded-3xl mt-8 cursor-pointer flex items-center justify-center"
                     >
                         Upload New Avatar
                     </label>
@@ -158,7 +158,7 @@ function UserProfile() {
                             {!editMode && (
                                 <button
                                     onClick={() => setEditMode(true)}
-                                    className="w-56 text-lg font-semibold tracking-wider bg-gradient-to-r from-[#ececef] via-[#5F9053]/30 to-[#0dde10] hover:text-gray-200 py-2 px-4 hover:bg-green-600 focus:outline-none focus:bg-green-600 transition-colors duration-200 rounded-md"
+                                    className="w-28 text-lg font-semibold tracking-wider border-2 border-black rounded-md cursor-pointer text-black hover:bg-green-500 hover:border-green-300 hover:text-white transition-colors duration-200"
                                 >
                                     Edit
                                 </button>
@@ -167,7 +167,7 @@ function UserProfile() {
                                 <button
                                     type="submit"
                                     form="userForm"
-                                    className="w-56 text-lg font-semibold tracking-wider bg-gradient-to-r from-[#ececef] via-[#5F9053]/30 to-[#0dde10] hover:text-gray-200 py-2 px-4 hover:bg-green-600 focus:outline-none focus:bg-green-600 transition-colors duration-200 rounded-md"
+                                    className="w-28 text-lg font-semibold tracking-wider border-2 border-black rounded-md cursor-pointer text-black hover:bg-green-500 hover:border-green-300 hover:text-white transition-colors duration-200"
                                 >
                                     Save
                                 </button>

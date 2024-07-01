@@ -49,7 +49,7 @@ function ChangePassword() {
         <Dialog>
             <DialogTrigger asChild>
                 <Button
-                    className="bg-gradient-to-r from-[#ececef] via-[#5F9053]/30 to-[#0dde10] h-12 w-52 hover:bg-black hover:text-white"
+                    className="border-2 border-black rounded-md cursor-pointer text-black hover:bg-green-500 hover:border-green-300 hover:text-white transition-colors duration-200"
                     variant="outline"
                 >
                     Change Password
