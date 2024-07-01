@@ -20,7 +20,9 @@ import {useSelector} from "react-redux";
 import {selectToken} from "@/store/common.api";
 
 const NotificationsDropdown: React.FC = () => {
-    const {data: notifications, refetch} = useGetNotificationsQuery();
+    //const {data: notifications, refetch} = useGetNotificationsQuery();
+    const {data: notifications} = useGetNotificationsQuery();
+    const [markedAsRead, setMarkedAsRead] = useState<boolean>(false);
     const [notificationsData, setNotificationsData] = useState<Notification[]>(
         []
     );
@@ -52,6 +54,7 @@ const NotificationsDropdown: React.FC = () => {
                 ...prevNotifications,
             ]);
             setUnreadCount((prevCount) => prevCount + 1);
+            setMarkedAsRead(false);
         });
 
         connection
@@ -65,18 +68,20 @@ const NotificationsDropdown: React.FC = () => {
     }, [token]);
 
     const markAsRead = async () => {
+        if (markedAsRead) return;
         try {
             setUnreadCount(0);
+            setMarkedAsRead(true);
             await updateNotification().unwrap();
-            refetch();
+            //refetch();
         } catch (error) {
             console.error("Failed to update notifications:", error);
         }
     };
     return (
-        <DropdownMenu>
-            <div className="relative" onClick={markAsRead}>
-                <DropdownMenuTrigger>
+        <DropdownMenu onOpenChange={markAsRead}>
+            <DropdownMenuTrigger>
+                <div className="relative">
                     <IoNotificationsOutline
                         size={24}
                         className="mr-4 cursor-pointer"
@@ -86,8 +91,8 @@ const NotificationsDropdown: React.FC = () => {
                             {unreadCount}
                         </span>
                     )}
-                </DropdownMenuTrigger>
-            </div>
+                </div>
+            </DropdownMenuTrigger>
             <DropdownMenuContent className="max-h-64 overflow-y-scroll">
                 <DropdownMenuLabel>Notifications</DropdownMenuLabel>
                 <DropdownMenuSeparator />
