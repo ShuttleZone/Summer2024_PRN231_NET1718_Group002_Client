@@ -41,8 +41,12 @@ function MyReservationInvoiceList() {
     if (error) return <div>Error...</div>;
 
     const handleFilterChange = (status: string, currentStatusId: number) => {
-        const filterStr = `reservationDetailStatus eq ${status}`;
-
+        if (currentStatus === currentStatusId) return;
+        if (status === "") {
+            setFilter("");
+            return;
+        }
+        const filterStr = `reservationStatusEnum eq '${status}'`;
         setCurrentStatus(currentStatusId);
         setFilter(filterStr);
     };

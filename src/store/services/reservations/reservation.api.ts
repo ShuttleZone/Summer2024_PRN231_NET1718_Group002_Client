@@ -22,7 +22,6 @@ const reservationApi = commonApi.injectEndpoints({
             },
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             transformResponse: (response: any) => {
-                console.log(response);
                 return {
                     items: response.value,
                     total: response["@odata.count"],
