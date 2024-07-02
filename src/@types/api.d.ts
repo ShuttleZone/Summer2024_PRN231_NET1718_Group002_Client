@@ -362,3 +362,16 @@ export interface UpdatePackage {
     price: number;
     packageType: number;
 }
+
+interface Wallet {
+    id: string;
+    balance: number;
+    userId: string;
+}
+export interface PaymentRequest {
+    orderInfo: string;
+    fullName: string;
+    orderType: string;
+    description: string;
+    amount: number;
+}
