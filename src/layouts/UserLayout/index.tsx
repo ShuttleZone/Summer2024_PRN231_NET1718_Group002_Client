@@ -11,7 +11,7 @@ function UserLayout() {
             <div className="h-screen flex flex-col relative">
                 <Header />
                 <main className="flex-grow h-fit">
-                    <Hero />
+                    {/* <Hero /> */}
                     <Outlet />
                 </main>
                 <Footer />

@@ -19,6 +19,7 @@ import MyReservationInvoiceList from "./Reservation";
 import ContestCreate from "./ContestCreate";
 import UserProfile from "./UserProfile";
 import applicationRoles from "@/constants/role.constants";
+import PaymentOption from "./Payment/PaymentOption";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -123,6 +124,10 @@ const privateRoutes: RouteObject[] = [
     {
         path: "/profile",
         element: <UserProfile />,
+    },
+    {
+        path: "/payment",
+        element: <PaymentOption />,
     },
 ];
 
