@@ -5,6 +5,7 @@ import {FaNewspaper} from "react-icons/fa";
 import {IoCreateOutline} from "react-icons/io5";
 import Spinner from "@/components/Spinner";
 import {Toaster} from "@/components/ui/toaster";
+import {RiUserSettingsLine} from "react-icons/ri";
 
 const managerNavItems = [
     {
@@ -26,6 +27,11 @@ const managerNavItems = [
         title: "New Club",
         to: "/manager/clubs/new",
         icon: IoCreateOutline,
+    },
+    {
+        title: "Staff Management",
+        to: "/manager/staffs",
+        icon: RiUserSettingsLine,
     },
 ];
 

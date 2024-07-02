@@ -6,6 +6,7 @@ import ClubList from "./ClubList";
 import CourtList from "./CourtList";
 import ClubReview from "./ClubReview";
 import applicationRoles from "@/constants/role.constants";
+import StaffList from "./StaffList";
 
 const managerRoutes: RouteObject[] = [
     {
@@ -31,6 +32,10 @@ const managerRoutes: RouteObject[] = [
     {
         path: "club-reviews/:Id",
         element: <ClubReview />,
+    },
+    {
+        path: "staffs",
+        element: <StaffList />,
     },
 ];
 
