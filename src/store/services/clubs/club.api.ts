@@ -6,6 +6,7 @@ import {
     ClubManagement,
     ClubType,
     CourtScheduleType,
+    StaffDto,
 } from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
@@ -83,7 +84,7 @@ const clubApi = commonApi.injectEndpoints({
         getClubList: build.query<ClubManagement[], void>({
             query: () => {
                 const routeBuilder = new ApiRouteBuilder(
-                    "/api/clubs/my-clubs?$expand=courts,reviews&$select=clubName,clubAddress,openTime,closeTime,Id"
+                    "/api/clubs/my-clubs?$expand=courts,reviews,staffs&$select=clubName,clubAddress,openTime,closeTime,Id"
                 );
 
                 return routeBuilder.build();
@@ -104,6 +105,7 @@ const clubApi = commonApi.injectEndpoints({
                     totalReview: club.Reviews.length,
                     Id: club.Id,
                     ownerName: club.OwnerName,
+                    totalStaff: club.Staffs.length,
                 }));
             },
         }),
@@ -131,7 +133,14 @@ const clubApi = commonApi.injectEndpoints({
                     totalReview: club.reviews.length,
                     Id: club.id,
                     ownerName: club.ownerName,
+                    totalStaff: club.staffs.length,
                 }));
+            },
+        }),
+        getClubStaffs: build.query<StaffDto[], void>({
+            query: () => {
+                const routeBuilder = new ApiRouteBuilder("/api/clubs/staffs");
+                return routeBuilder.build();
             },
         }),
     }),
@@ -147,4 +156,5 @@ export const {
     useGetMyClubsQuery,
     useGetClubListQuery,
     useGetClubManagementQuery,
+    useGetClubStaffsQuery,
 } = clubApi;

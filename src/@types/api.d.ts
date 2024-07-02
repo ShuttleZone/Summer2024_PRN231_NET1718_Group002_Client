@@ -203,6 +203,7 @@ interface ClubListManagementOData {
     courts: CourtId[];
     reviews: CourtReview[];
     ownerName: string;
+    staffs: StaffDto[];
 }
 interface ClubListManagement {
     Id: string;
@@ -212,7 +213,18 @@ interface ClubListManagement {
     CloseTime: string;
     Courts: CourtId[];
     Reviews: CourtReview[];
+    Staffs: StaffDto[];
     OwnerName: string;
+}
+
+interface StaffDto {
+    id: string;
+    userName: string;
+    gender: number;
+    profileImage: string;
+    clubName: string;
+    clubAddress: string;
+    clubId: string;
 }
 
 interface CourtId {
@@ -231,6 +243,7 @@ interface ClubManagement {
     rating: number;
     totalCourt: number;
     totalReview: number;
+    totalStaff: number;
     ownerName: string;
 }
 

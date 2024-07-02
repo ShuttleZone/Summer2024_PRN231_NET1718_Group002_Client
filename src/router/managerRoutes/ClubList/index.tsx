@@ -30,6 +30,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import {RiUserSettingsLine} from "react-icons/ri";
 import {useGetClubListQuery} from "@/store/services/clubs/club.api";
 import {useNavigate} from "react-router-dom";
 import ActionButton from "./components/ActionButton";
@@ -42,6 +43,7 @@ export type Club = {
     rating: number;
     totalCourt: number;
     totalReview: number;
+    totalStaff: number;
 };
 
 function ClubList() {
@@ -92,6 +94,18 @@ function ClubList() {
                             }}
                             className="mx-2 text-lg text-slate-500 cursor-pointer"
                         />
+                    </div>
+                );
+            },
+        },
+        {
+            accessorKey: "totalStaff",
+            header: "Total Staff",
+            cell: ({row}) => {
+                return (
+                    <div className="flex">
+                        {row.getValue("totalStaff")}
+                        <RiUserSettingsLine className="mx-2 text-lg text-slate-500 cursor-pointer" />
                     </div>
                 );
             },
@@ -205,7 +219,10 @@ function ClubList() {
                                     }
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell
+                                            key={cell.id}
+                                            className="max-w-40"
+                                        >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
