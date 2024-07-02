@@ -54,7 +54,6 @@ const reservationApi = commonApi.injectEndpoints({
                 body: data,
             }),
             transformResponse: (response) => {
-                // Process the response if necessary
                 return response;
             },
         }),

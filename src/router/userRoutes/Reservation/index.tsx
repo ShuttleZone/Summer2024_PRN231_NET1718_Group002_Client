@@ -1,5 +1,5 @@
 import NavButton from "@/components/ui/NavButton";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useGetReservationsQuery} from "@/store/services/reservations/reservation.api";
 import {StatusNav} from "@/@types/api";
 import ReservationItem from "./components/ReservationItem";
@@ -11,6 +11,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import ContentSpinner from "@/components/ContentSpinner";
+import {useLocation} from "react-router-dom";
 
 const initStatusNavList: StatusNav[] = [
     {Id: 1, Status: "", Text: "All"},
@@ -26,13 +27,19 @@ function MyReservationInvoiceList() {
     const [page, setPage] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(5);
     const [currentStatus, setCurrentStatus] = useState<number>(1);
+    const location = useLocation();
 
-    const {data, error, isLoading} = useGetReservationsQuery({
+    const {data, error, isLoading, refetch} = useGetReservationsQuery({
         sort,
         filter,
         page,
         pageSize,
     });
+    useEffect(() => {
+        if (location.state?.refetch) {
+            refetch();
+        }
+    }, [location.state, refetch]);
 
     const reservations = data?.items;
     const totalItems = data?.total || 0;
@@ -41,9 +48,9 @@ function MyReservationInvoiceList() {
     if (error) return <div>Error...</div>;
 
     const handleFilterChange = (status: string, currentStatusId: number) => {
-        if (currentStatus === currentStatusId) return;
         if (status === "") {
             setFilter("");
+            setCurrentStatus(currentStatusId);
             return;
         }
         const filterStr = `reservationStatusEnum eq '${status}'`;
@@ -107,7 +114,7 @@ function MyReservationInvoiceList() {
                                 <thead>
                                     <tr className="text-gray-600">
                                         <th className="px-4 py-2 border-b">
-                                            Courts in reservation
+                                            Reservations
                                         </th>
                                         <th className="px-4 py-2 border-b">
                                             Booking Date
@@ -136,6 +143,7 @@ function MyReservationInvoiceList() {
                                             totalPrice={r.totalPrice}
                                             status={r.reservationStatusEnum}
                                             bookingDate={r.bookingDate}
+                                            refetch={refetch}
                                         />
                                     ))}
                                 </tbody>

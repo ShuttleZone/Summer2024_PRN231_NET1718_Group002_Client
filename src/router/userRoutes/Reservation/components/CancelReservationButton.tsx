@@ -3,10 +3,12 @@ import {useCancelReservationMutation} from "@/store/services/reservations/reserv
 
 interface CancelReservationButtonProps {
     reservationId: string;
+    refresh?: () => void;
 }
 
 const CancelReservationButton: React.FC<CancelReservationButtonProps> = ({
     reservationId,
+    refresh,
 }) => {
     const [cancelReservation, {isLoading}] = useCancelReservationMutation();
     const {toast} = useToast();
@@ -19,6 +21,7 @@ const CancelReservationButton: React.FC<CancelReservationButtonProps> = ({
                 description: "Successfully cancel reservation!",
                 variant: "default",
             });
+            refresh && refresh();
         } catch (err) {
             toast({
                 title: "Error",

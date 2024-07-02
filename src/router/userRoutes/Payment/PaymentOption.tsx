@@ -1,26 +1,54 @@
-// src/components/PaymentOption.tsx
+import {PaymentRequest} from "@/@types/api";
+import ContentSpinner from "@/components/ContentSpinner";
+import {
+    useCreatePaymentUrlMutation,
+    useGetMyWalletQuery,
+    useUpdateWalletMutation,
+} from "@/store/services/reservations/payment.api";
 import React, {useState} from "react";
 import {FaWallet, FaUniversity} from "react-icons/fa";
+import {useNavigate} from "react-router-dom";
 
 const PaymentOption: React.FC = () => {
     const [selectedOption, setSelectedOption] = useState<string>("");
-    const walletBalance = 1234.56; // Example balance
-    const paymentTotal = 500; // Example payment total
+    const paymentRequest = window.history.state?.usr as PaymentRequest;
+    const paymentTotal = paymentRequest.amount;
+    const {data: walletData, isLoading} = useGetMyWalletQuery();
+    const [createPaymentUrl] = useCreatePaymentUrlMutation();
+    const [updateWallet] = useUpdateWalletMutation();
+    const navigate = useNavigate();
 
     const handleOptionChange = (option: string) => {
         setSelectedOption(option);
     };
 
-    const handlePayment = () => {
-        if (selectedOption) {
-            alert(
-                `Payment of $${paymentTotal.toFixed(2)} made using ${selectedOption}`
-            );
-        } else {
-            alert("Please select a payment option.");
+    const handlePayment = async () => {
+        if (!selectedOption) return;
+
+        try {
+            if (selectedOption === "wallet") {
+                const walletId = walletData?.id;
+                if (walletId) {
+                    console.log(paymentRequest);
+                    await updateWallet({
+                        id: walletId,
+                        request: {...paymentRequest, amount: -paymentTotal},
+                    }).unwrap();
+                }
+                navigate("/my-invoices", {state: {refetch: true}});
+            } else {
+                const url = await createPaymentUrl(paymentRequest).unwrap();
+                console.log("Payment URL:", url);
+                window.open(url, "_blank");
+            }
+        } catch (error) {
+            console.error("Failed to create payment:", error);
         }
     };
 
+    if (isLoading) {
+        return <ContentSpinner />;
+    }
     return (
         <div className="min-h-screen flex items-center justify-center  bg-blue-100 ">
             <div className="min-h-screen flex items-center justify-center ">
@@ -29,11 +57,11 @@ const PaymentOption: React.FC = () => {
                         Choose Payment Option
                     </h2>
                     <p className="text-center text-gray-600 mb-6">
-                        Payment Total: ${paymentTotal.toFixed(2)}
+                        Payment Total: {paymentTotal} VND
                     </p>
                     <div className="flex flex-col space-y-6">
                         <label
-                            className={`flex items-center p-4 rounded-lg cursor-pointer transition-all duration-300 transform hover:scale-105 ${selectedOption === "wallet" ? "bg-blue-100 border border-blue-500" : "bg-gray-100"}`}
+                            className={`flex items-center p-4 rounded-lg ${(walletData?.balance ?? 0) < paymentTotal ? "" : "cursor-pointer transition-all duration-300 transform hover:scale-105"} ${selectedOption === "wallet" ? "bg-blue-100 border border-blue-500" : "bg-gray-100"}`}
                         >
                             <input
                                 type="radio"
@@ -42,6 +70,9 @@ const PaymentOption: React.FC = () => {
                                 checked={selectedOption === "wallet"}
                                 onChange={() => handleOptionChange("wallet")}
                                 className="hidden"
+                                disabled={
+                                    (walletData?.balance ?? 0) < paymentTotal
+                                }
                             />
                             <FaWallet className="text-3xl text-blue-500 mr-3" />
                             <div>
@@ -49,8 +80,15 @@ const PaymentOption: React.FC = () => {
                                     Wallet
                                 </span>
                                 <span className="block text-sm text-gray-500">
-                                    Balance: ${walletBalance.toFixed(2)}
+                                    Balance:{walletData?.balance ?? 0} VND
                                 </span>
+                                {(walletData?.balance ?? 0) < paymentTotal ? (
+                                    <span className="block text-xs text-red-500">
+                                        Your wallet balance is insufficient
+                                    </span>
+                                ) : (
+                                    ""
+                                )}
                             </div>
                         </label>
                         <label
