@@ -79,7 +79,7 @@ function DepositPopup({walletId}: DepositPopupProps) {
     return (
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger>
-                <Button className="bg-green-500 text-xl">Nạp tiền</Button>
+                <Button className="bg-green-500 text-2xl">Nạp tiền</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogTitle>

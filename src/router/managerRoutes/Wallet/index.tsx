@@ -13,7 +13,7 @@ function Wallet() {
             </div>
             <div className="flex flex-col justify-center items-center h-full">
                 <h2 className="text-[3.5rem] font-semibold">Số dư ví:</h2>
-                <p className="text-[4rem]">
+                <p className="text-[4rem] text-green-500 font-bold">
                     {formatVietnameseDong(myWallet?.balance || 0, "vnd")} vnd
                 </p>
             </div>
