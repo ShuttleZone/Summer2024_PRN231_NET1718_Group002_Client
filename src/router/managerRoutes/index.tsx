@@ -5,8 +5,11 @@ import PrivateRoute from "../PrivateRoute";
 import ClubList from "./ClubList";
 import CourtList from "./CourtList";
 import ClubReview from "./ClubReview";
-import applicationRoles from "@/constants/role.constants";
 import StaffList from "./StaffList";
+import MyPackages from "./PackageManage";
+import PackageList from "./PackageManage/components/PackageList";
+import Wallet from "./Wallet";
+import applicationRoles from "@/constants/role.constants";
 
 const managerRoutes: RouteObject[] = [
     {
@@ -36,6 +39,18 @@ const managerRoutes: RouteObject[] = [
     {
         path: "staffs",
         element: <StaffList />,
+    },
+    {
+        path: "packages",
+        element: <MyPackages />,
+    },
+    {
+        path: "package-list",
+        element: <PackageList />,
+    },
+    {
+        path: "wallet",
+        element: <Wallet />,
     },
 ];
 
