@@ -44,17 +44,17 @@ const managerNavItems = [
 function ManagerLayout() {
     return (
         <>
-            <div className="min-h-screen grid grid-cols-12 overflow-y-auto absolute">
+            <div className="min-h-screen w-full grid grid-cols-12 overflow-y-auto absolute">
                 <div className="col-span-2 bg-slate-900">
                     <Sidebar navItems={managerNavItems} />
                 </div>
-                <div className="col-span-10">
+                <div className="col-span-10 flex flex-col">
                     <div className="px-8 py-8">
                         <h2 className="text-2xl font-semibold">
                             Manager Panel
                         </h2>
                     </div>
-                    <main className="px-8 h-fit">
+                    <main className="px-8 h-full">
                         <Outlet />
                     </main>
                 </div>
