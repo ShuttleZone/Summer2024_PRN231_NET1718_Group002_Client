@@ -54,6 +54,12 @@ function CardHeader({contest}: ContestTableProps) {
                                             .name
                                     }
                                 </div>
+                                <div className="w-full text-lg font-semibold inline align-middle mx-1 text-green-600">
+                                    Price
+                                </div>
+                                <div className="w-full text-gray-700">
+                                    {contest.reservation.totalPrice}
+                                </div>
                             </div>
                         </label>
                     </li>
