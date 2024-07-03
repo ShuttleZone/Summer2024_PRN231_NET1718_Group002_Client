@@ -1,10 +1,10 @@
-import {Button} from "@/components/ui/button";
+import DepositPopup from "./components/DepositPopup";
 
 function Wallet() {
     return (
         <section className="h-full px-20 flex flex-col">
             <div className="text-end">
-                <Button className="bg-green-500 text-xl">Nạp tiền</Button>
+                <DepositPopup />
             </div>
             <div className="flex flex-col justify-center items-center h-full">
                 <h2 className="text-[2rem] font-semibold">Số dư ví:</h2>
