@@ -1,3 +1,4 @@
+import ContentSpinner from "@/components/ContentSpinner";
 import {useToast} from "@/components/ui/use-toast";
 import {useConfirmEmailQuery} from "@/store/services/accounts/auth.api";
 import {useEffect} from "react";
@@ -36,7 +37,7 @@ function CallbackConfirmEmail() {
         }
     }, [isLoading, error, toast, navigate]);
 
-    return <div>Confirming...</div>;
+    return <ContentSpinner />;
 }
 
 export default CallbackConfirmEmail;

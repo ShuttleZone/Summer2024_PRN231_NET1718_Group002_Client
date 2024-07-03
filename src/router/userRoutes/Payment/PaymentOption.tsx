@@ -17,6 +17,7 @@ const PaymentOption: React.FC = () => {
     const [createPaymentUrl] = useCreatePaymentUrlMutation();
     const [updateWallet] = useUpdateWalletMutation();
     const navigate = useNavigate();
+    const [canPay, setCanPay] = useState(true);
 
     const handleOptionChange = (option: string) => {
         setSelectedOption(option);
@@ -39,6 +40,7 @@ const PaymentOption: React.FC = () => {
             } else {
                 const url = await createPaymentUrl(paymentRequest).unwrap();
                 console.log("Payment URL:", url);
+                setCanPay(false);
                 window.open(url, "_blank");
             }
         } catch (error) {
@@ -80,7 +82,7 @@ const PaymentOption: React.FC = () => {
                                     Wallet
                                 </span>
                                 <span className="block text-sm text-gray-500">
-                                    Balance:{walletData?.balance ?? 0} VND
+                                    Balance: {walletData?.balance ?? 0} VND
                                 </span>
                                 {(walletData?.balance ?? 0) < paymentTotal ? (
                                     <span className="block text-xs text-red-500">
@@ -122,8 +124,9 @@ const PaymentOption: React.FC = () => {
                         </div>
                     )}
                     <button
-                        className="mt-8 w-full bg-green-500 text-white py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-green-700 transition-all duration-300"
+                        className={`mt-8 w-full  text-white py-3 rounded-lg text-lg font-semibold shadow-md ${!selectedOption || !canPay ? "bg-gray-400" : " bg-green-500 hover:bg-green-700 transition-all duration-300"}`}
                         onClick={handlePayment}
+                        disabled={!selectedOption || !canPay}
                     >
                         Make Payment
                     </button>
