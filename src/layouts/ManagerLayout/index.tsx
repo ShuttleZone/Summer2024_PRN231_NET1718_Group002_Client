@@ -6,6 +6,7 @@ import {IoCreateOutline} from "react-icons/io5";
 import Spinner from "@/components/Spinner";
 import {Toaster} from "@/components/ui/toaster";
 import {RiUserSettingsLine} from "react-icons/ri";
+import {FaWallet} from "react-icons/fa6";
 
 const managerNavItems = [
     {
@@ -32,6 +33,11 @@ const managerNavItems = [
         title: "Staff Management",
         to: "/manager/staffs",
         icon: RiUserSettingsLine,
+    },
+    {
+        title: "Wallet Management",
+        to: "/manager/wallet",
+        icon: FaWallet,
     },
 ];
 
