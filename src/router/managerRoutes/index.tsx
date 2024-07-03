@@ -7,6 +7,8 @@ import CourtList from "./CourtList";
 import ClubReview from "./ClubReview";
 import applicationRoles from "@/constants/role.constants";
 import StaffList from "./StaffList";
+import MyPackages from "./PackageManage";
+import PackageList from "./PackageManage/components/PackageList";
 
 const managerRoutes: RouteObject[] = [
     {
@@ -36,6 +38,14 @@ const managerRoutes: RouteObject[] = [
     {
         path: "staffs",
         element: <StaffList />,
+    },
+    {
+        path: "packages",
+        element: <MyPackages />,
+    },
+    {
+        path: "package-list",
+        element: <PackageList />,
     },
 ];
 

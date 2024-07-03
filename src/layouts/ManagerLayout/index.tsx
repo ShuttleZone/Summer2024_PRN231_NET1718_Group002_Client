@@ -10,27 +10,32 @@ import {RiUserSettingsLine} from "react-icons/ri";
 const managerNavItems = [
     {
         title: "Home",
-        to: "/manager/home",
+        to: "/",
         icon: IoHome,
     },
     {
-        title: "Courts List",
+        title: "Quản lý sân",
         to: "/manager/courts",
         icon: FaNewspaper,
     },
     {
-        title: "Club Management",
+        title: "Quản lý câu lạc bộ",
         to: "/manager/clubs",
         icon: IoCreateOutline,
     },
     {
-        title: "New Club",
+        title: "Thêm câu lạc bộ mới",
         to: "/manager/clubs/new",
         icon: IoCreateOutline,
     },
     {
-        title: "Staff Management",
+        title: "Quản lý nhân viên",
         to: "/manager/staffs",
+        icon: RiUserSettingsLine,
+    },
+    {
+        title: "Gói cước của bạn",
+        to: "/manager/packages",
         icon: RiUserSettingsLine,
     },
 ];
@@ -45,7 +50,7 @@ function ManagerLayout() {
                 <div className="col-span-10">
                     <div className="px-8 py-8">
                         <h2 className="text-2xl font-semibold">
-                            Manager Panel
+                            Trang quản lý
                         </h2>
                     </div>
                     <main className="px-8 h-fit">
