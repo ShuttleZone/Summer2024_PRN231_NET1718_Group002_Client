@@ -9,6 +9,7 @@ import React, {useState} from "react";
 import {FaWallet, FaUniversity} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
 import {useToast} from "@/components/ui/use-toast";
+import formatVietnameseDong from "@/lib/currency.util";
 const PaymentOption: React.FC = () => {
     const [selectedOption, setSelectedOption] = useState<string>("");
     const paymentRequest = window.history.state?.usr as PaymentRequest;
@@ -39,7 +40,8 @@ const PaymentOption: React.FC = () => {
                         request: {...paymentRequest, amount: -paymentTotal},
                     }).unwrap();
                 }
-                navigate("/contests", {state: {refetch: true}});
+                //should navigate to pay-success page
+                navigate("/my-invoice", {state: {refetch: true}});
             } else {
                 const url = await createPaymentUrl(paymentRequest).unwrap();
                 console.log("Payment URL:", url);
@@ -68,10 +70,11 @@ const PaymentOption: React.FC = () => {
             <div className="min-h-screen flex items-center justify-center ">
                 <div className="max-w-md mx-auto p-8 bg-white shadow-lg rounded-xl border border-gray-200">
                     <h2 className="text-3xl font-bold text-center mb-6 text-green-500">
-                        Choose Payment Option
+                        Chọn phương thức thanh toán
                     </h2>
                     <p className="text-center text-gray-600 mb-6">
-                        Payment Total: {paymentTotal} VND
+                        Tổng tiền thanh toán:{" "}
+                        {formatVietnameseDong(paymentTotal, "vnd")} vnd
                     </p>
                     <div className="flex flex-col space-y-6">
                         <label
@@ -91,14 +94,19 @@ const PaymentOption: React.FC = () => {
                             <FaWallet className="text-3xl text-blue-500 mr-3" />
                             <div>
                                 <span className="text-lg font-medium">
-                                    Wallet
+                                    Ví ShuttleZone
                                 </span>
                                 <span className="block text-sm text-gray-500">
-                                    Balance: {walletData?.balance ?? 0} VND
+                                    Số dư:{" "}
+                                    {formatVietnameseDong(
+                                        walletData?.balance || 0,
+                                        "vnd"
+                                    )}
+                                    vnd
                                 </span>
                                 {(walletData?.balance ?? 0) < paymentTotal ? (
                                     <span className="block text-xs text-red-500">
-                                        Your wallet balance is insufficient
+                                        Số dư ví của bạn không đủ
                                     </span>
                                 ) : (
                                     ""
@@ -119,7 +127,7 @@ const PaymentOption: React.FC = () => {
                             <FaUniversity className="text-3xl text-green-500 mr-3" />
                             <div>
                                 <span className="text-lg font-medium">
-                                    Bank
+                                    Ngân hàng
                                 </span>
                             </div>
                         </label>
@@ -127,7 +135,7 @@ const PaymentOption: React.FC = () => {
                     {selectedOption && (
                         <div className="mt-6 text-center">
                             <p className="text-xl font-medium text-gray-500">
-                                You selected:{" "}
+                                Bạn chọn:{" "}
                                 <strong className="text-blue-500">
                                     {selectedOption.charAt(0).toUpperCase() +
                                         selectedOption.slice(1)}
@@ -140,7 +148,7 @@ const PaymentOption: React.FC = () => {
                         onClick={handlePayment}
                         disabled={!selectedOption || !canPay}
                     >
-                        Make Payment
+                        Thanh toán
                     </button>
                 </div>
             </div>
