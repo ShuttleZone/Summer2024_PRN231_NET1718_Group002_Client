@@ -24,7 +24,7 @@ const paymentApi = commonApi.injectEndpoints({
             },
         }),
         updateWallet: build.mutation<
-            Wallet,
+            void,
             {id: string; request: PaymentRequest}
         >({
             query: ({id, request}) => ({
@@ -32,7 +32,7 @@ const paymentApi = commonApi.injectEndpoints({
                 method: "PUT",
                 body: request,
             }),
-            transformResponse: (response: Wallet) => {
+            transformResponse: (response: void) => {
                 return response;
             },
         }),

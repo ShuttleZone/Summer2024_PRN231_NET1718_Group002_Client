@@ -42,7 +42,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
         calculateInitialTime(expiredTime) <= 0
     );
     const shouldBePurple = status !== "PAYSUCCEED";
-    const handleGetPaymentUrl = async () => {
+    const handlePayment = async () => {
         const paymentRequest: PaymentRequest = {
             orderInfo: id,
             fullName: "",
@@ -79,7 +79,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
             </td>
             <td className="px-4 py-2 border-b">
                 <Button
-                    onClick={handleGetPaymentUrl}
+                    onClick={handlePayment}
                     variant="secondary"
                     size="icon"
                     disabled={isExpired || status !== "PENDING"}

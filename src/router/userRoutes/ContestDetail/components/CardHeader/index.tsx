@@ -58,7 +58,7 @@ function CardHeader({contest}: ContestTableProps) {
                                     Price
                                 </div>
                                 <div className="w-full text-gray-700">
-                                    {contest.reservation.totalPrice}
+                                    {contest.reservation.totalPrice} VND
                                 </div>
                             </div>
                         </label>
@@ -163,7 +163,10 @@ function CardHeader({contest}: ContestTableProps) {
                         </label>
                     </li>
                 </ul>
-                <JoinContestButton contestId={contest.id}></JoinContestButton>
+                <JoinContestButton
+                    contestId={contest.id}
+                    total={contest.reservation.totalPrice}
+                ></JoinContestButton>
             </div>
         </div>
     );
