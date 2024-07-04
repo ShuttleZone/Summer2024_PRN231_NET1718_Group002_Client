@@ -1,15 +1,11 @@
 import {useNavigate} from "react-router-dom";
 import BottomButtons from "./components/BottomButtons";
 import {useGetCurrentPackageQuery} from "@/store/services/packs/package.api";
+import formatVietnameseDong from "@/lib/currency.util";
 
 function MyPackages() {
     const navigate = useNavigate();
-    const {
-        data: packages,
-        isError,
-        isLoading,
-        refetch,
-    } = useGetCurrentPackageQuery();
+    const {data: packages, isError, isLoading} = useGetCurrentPackageQuery();
     if (isError) return <div>Error in loading</div>;
     if (isLoading) return <div>Loading...</div>;
     console.log(packages);
@@ -51,24 +47,78 @@ function MyPackages() {
                     <div>
                         <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                             {packages.packageUserStatus == 0 ? (
-                                <div
-                                    className="flex items-center p-4 mb-4 text-md text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg"
-                                    role="alert"
-                                >
-                                    <svg
-                                        className="flex-shrink-0 inline w-4 h-4 me-3"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                    >
-                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                                    </svg>
-                                    <span className="sr-only">Info</span>
+                                <div>
                                     <div>
-                                        <span className="font-semibold">
-                                            Đang kích hoạt
-                                        </span>{" "}
+                                        <ol className="items-center flex">
+                                            <li className="flex-1 mb-6 sm:mb-0">
+                                                <div className="flex items-center">
+                                                    <div className="z-10 flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
+                                                        <svg
+                                                            className="w-2.5 h-2.5 text-blue-800 dark:text-blue-300"
+                                                            aria-hidden="true"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="currentColor"
+                                                            viewBox="0 0 20 20"
+                                                        >
+                                                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                                        </svg>
+                                                    </div>
+                                                    <div className="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                                                </div>
+                                                <div className="mt-3 sm:pe-8">
+                                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                                        Ngày đăng kí
+                                                    </h3>
+                                                    <p className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                                                        {packages.startDate}
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li className="flex-1  mb-6 sm:mb-0">
+                                                <div className="flex items-center">
+                                                    <div className="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                                                    <div className="z-10 flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
+                                                        <svg
+                                                            className="w-2.5 h-2.5 text-blue-800 dark:text-blue-300"
+                                                            aria-hidden="true"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="currentColor"
+                                                            viewBox="0 0 20 20"
+                                                        >
+                                                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <div className="mt-3 sm:pe-8">
+                                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                                        Ngày hết hạn
+                                                    </h3>
+                                                    <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                                                        {packages.endDate}
+                                                    </time>
+                                                </div>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                    <div
+                                        className="flex items-center p-4 mb-4 text-md text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg"
+                                        role="alert"
+                                    >
+                                        <svg
+                                            className="flex-shrink-0 inline w-4 h-4 me-3"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                        </svg>
+                                        <span className="sr-only">Info</span>
+                                        <div>
+                                            <span className="font-semibold">
+                                                Đang kích hoạt
+                                            </span>{" "}
+                                        </div>
                                     </div>
                                 </div>
                             ) : (
@@ -99,7 +149,11 @@ function MyPackages() {
                             <div className="flex items-baseline text-gray-900 dark:text-white">
                                 <span className="text-3xl font-semibold"></span>
                                 <span className="text-5xl font-extrabold tracking-tight">
-                                    {packages.package.price} vnđ
+                                    {formatVietnameseDong(
+                                        packages.package.price,
+                                        "VND"
+                                    )}{" "}
+                                    vnđ
                                 </span>
                                 <span className="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">
                                     /tháng

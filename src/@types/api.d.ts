@@ -340,8 +340,8 @@ export interface UserCurrentPackage {
     userId: string;
     packageId: string;
     packageUserStatus: number;
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
     package: PackageInformation;
 }
 

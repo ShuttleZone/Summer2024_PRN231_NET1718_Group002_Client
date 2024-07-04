@@ -9,7 +9,7 @@ function PackageList() {
             orderInfo: "demo",
             fullName: "",
             orderType: paymentTypes.ORDER_TYPE_BOOKING,
-            description: `pay for reservation demo`,
+            description: "pay for reservation demo",
             amount: 10000,
         };
         navigate("/payment", {state: paymentRequest});
