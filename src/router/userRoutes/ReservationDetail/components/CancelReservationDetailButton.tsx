@@ -37,7 +37,7 @@ const CancelReservationDetailButton: React.FC<
             disabled={isLoading}
             className="text-red-500"
         >
-            {isLoading ? "Canceling..." : "Cancel"}
+            {isLoading ? "Đang hủy..." : "Hủy"}
         </button>
     );
 };

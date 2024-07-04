@@ -47,7 +47,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
             orderInfo: id,
             fullName: "",
             orderType: paymentTypes.ORDER_TYPE_BOOKING,
-            description: `pay for reservation ${id}`,
+            description: `thanh toán cho đặt chỗ ${id}`,
             amount: totalPrice,
         };
         navigate("/payment", {state: paymentRequest});
@@ -56,9 +56,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
     return (
         <tr>
             <td className="px-4 py-2 border-b">
-                <p className="text-orange-700">
-                    {courtNames.length} reservation(s)
-                </p>
+                <p className="text-orange-700">{courtNames.length} đặt chỗ</p>
                 {/* {courtNames.map((c) => (
                     <>
                         <span>|{c}|</span>
@@ -74,17 +72,21 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
                 className={`px-4 py-2 border-b ${shouldBePurple ? " text-purple-500" : " text-green-500"}`}
             >
                 {Date.parse(expiredTime) < Date.now() && status === "PENDING"
-                    ? "PAY FAIL"
-                    : status}
+                    ? "THẤT BẠI"
+                    : status === "PAYSUCCEED"
+                      ? "THÀNH CÔNG"
+                      : status === "CANCELED"
+                        ? "ĐÃ HỦY"
+                        : "ĐANG CHỜ"}
             </td>
             <td className="px-4 py-2 border-b">
                 <Button
                     onClick={handlePayment}
                     variant="secondary"
-                    size="icon"
+                    size="default"
                     disabled={isExpired || status !== "PENDING"}
                 >
-                    Pay
+                    Thanh toán
                 </Button>
                 {!isExpired && status === "PENDING" ? (
                     <CountdownTimer

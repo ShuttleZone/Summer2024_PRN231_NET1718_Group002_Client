@@ -82,7 +82,13 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
             <td
                 className={`px-4 py-2 border-b ${shouldBePurple ? " text-purple-500" : " text-green-500"}`}
             >
-                {isPaymentExpired && status === "PENDING" ? "PAY FAIL" : status}
+                {isPaymentExpired && status === "PENDING"
+                    ? "THẤT BẠI"
+                    : status === "PAYSUCCEED"
+                      ? "THÀNH CÔNG"
+                      : status === "CANCELED"
+                        ? "ĐÃ HỦY"
+                        : "ĐANG CHỜ"}
             </td>
             <td className="px-4 py-2 border-b">
                 <CancelReservationDetailButton reservationDetailId={id} />
