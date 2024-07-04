@@ -336,6 +336,15 @@ export interface PackageInformation {
     packageType: string;
 }
 
+export interface UserCurrentPackage {
+    userId: string;
+    packageId: string;
+    packageUserStatus: number;
+    startDate: Date;
+    endDate: Date;
+    package: PackageInformation;
+}
+
 export interface CreatePackage {
     name: string;
     description: string;

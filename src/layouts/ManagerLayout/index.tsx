@@ -38,12 +38,12 @@ const managerNavItems = [
         title: "Gói cước của bạn",
         to: "/manager/packages",
         icon: RiUserSettingsLine,
-     },
-     {
+    },
+    {
         title: "Wallet Management",
         to: "/manager/wallet",
         icon: FaWallet,
-     },
+    },
 ];
 
 function ManagerLayout() {
