@@ -8,17 +8,20 @@ import {
 import React, {useState} from "react";
 import {FaWallet, FaUniversity} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
-
+import {useToast} from "@/components/ui/use-toast";
 const PaymentOption: React.FC = () => {
     const [selectedOption, setSelectedOption] = useState<string>("");
     const paymentRequest = window.history.state?.usr as PaymentRequest;
     const paymentTotal = paymentRequest.amount;
-    const {data: walletData, isLoading} = useGetMyWalletQuery();
+    const {data: walletData, isLoading: isWalletLoading} =
+        useGetMyWalletQuery();
     const [createPaymentUrl] = useCreatePaymentUrlMutation();
-    const [updateWallet] = useUpdateWalletMutation();
+    const [updateWallet, {isLoading: isUpdateWalletLoading}] =
+        useUpdateWalletMutation();
     const navigate = useNavigate();
+    const {toast} = useToast();
     const [canPay, setCanPay] = useState(true);
-
+    const isLoading = isWalletLoading || isUpdateWalletLoading;
     const handleOptionChange = (option: string) => {
         setSelectedOption(option);
     };
@@ -36,15 +39,24 @@ const PaymentOption: React.FC = () => {
                         request: {...paymentRequest, amount: -paymentTotal},
                     }).unwrap();
                 }
-                navigate("/my-invoices", {state: {refetch: true}});
+                navigate("/contests", {state: {refetch: true}});
             } else {
                 const url = await createPaymentUrl(paymentRequest).unwrap();
                 console.log("Payment URL:", url);
                 setCanPay(false);
-                window.open(url, "_blank");
+                window.open(url, "_self");
             }
         } catch (error) {
-            console.error("Failed to create payment:", error);
+            toast({
+                title: "Error",
+                description:
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (error as any)?.data?.value ||
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (error as any)?.data ||
+                    "Unknown error occurred",
+                variant: "destructive",
+            });
         }
     };
 
