@@ -88,6 +88,7 @@ function UserProfile() {
 
     if (isError) return <div>Error...</div>;
 
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     return (
         <div className="w-2/3 mx-auto h-screen flex flex-row py-8">
             <div className="w-2/5 h-fit flex flex-col items-center py-12 border-r-2 border-gray-400">
