@@ -1,6 +1,21 @@
 import {useGetPackagesQuery} from "@/store/services/packs/package.api";
+import {useNavigate} from "react-router-dom";
+import {PaymentRequest} from "@/@types/api";
+import paymentTypes from "@/constants/payment.constants";
 
 function PackageList() {
+    const handleGetPaymentUrl = async () => {
+        const paymentRequest: PaymentRequest = {
+            orderInfo: "demo",
+            fullName: "",
+            orderType: paymentTypes.ORDER_TYPE_BOOKING,
+            description: "pay for reservation demo",
+            amount: 10000,
+        };
+        navigate("/payment", {state: paymentRequest});
+    };
+
+    const navigate = useNavigate();
     const {data: packages, isError, isLoading} = useGetPackagesQuery();
     if (isLoading) return <div>Loading...</div>;
     if (isError) return <div>Error</div>;
@@ -36,17 +51,39 @@ function PackageList() {
                                     <div className="flex items-center mt-2.5 mb-5">
                                         {p.description}
                                     </div>
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                                            {p.price}vnđ/tháng
-                                        </span>
-                                        <a
-                                            href="#"
-                                            className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium  rounded-lg text-sm px-5 py-2.5 text-center"
-                                        >
-                                            Đăng kí
-                                        </a>
+                                    <div className="flex items-center mt-2.5 mb-5">
+                                        Gói:{" "}
+                                        {p.packageType == "MONTH" ? (
+                                            <strong> Tháng</strong>
+                                        ) : (
+                                            <strong> Năm</strong>
+                                        )}
                                     </div>
+                                    {p.packageType == "MONTH" ? (
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-3xl font-bold text-gray-900 dark:text-white">
+                                                {p.price}vnđ/tháng
+                                            </span>
+                                            <a
+                                                onClick={handleGetPaymentUrl}
+                                                className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium  rounded-lg text-sm px-5 py-2.5 text-center"
+                                            >
+                                                Đăng kí
+                                            </a>
+                                        </div>
+                                    ) : (
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-3xl font-bold text-gray-900 dark:text-white">
+                                                {p.price}vnđ/năm
+                                            </span>
+                                            <a
+                                                onClick={handleGetPaymentUrl}
+                                                className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium  rounded-lg text-sm px-5 py-2.5 text-center"
+                                            >
+                                                Đăng kí
+                                            </a>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         );

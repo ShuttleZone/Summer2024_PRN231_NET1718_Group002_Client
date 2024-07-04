@@ -3,6 +3,7 @@ import {
     CreatePackage,
     PackageInformation,
     UpdatePackage,
+    UserCurrentPackage,
 } from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
@@ -54,12 +55,21 @@ const packageApi = commonApi.injectEndpoints({
                 };
             },
         }),
+        getCurrentPackage: build.query<UserCurrentPackage, void>({
+            query: () => {
+                const routeBuilder = new ApiRouteBuilder(
+                    "api/Package/getUserPackage"
+                );
+                return routeBuilder.build();
+            },
+        }),
     }),
     overrideExisting: true,
 });
 
 export const {
     useGetPackagesQuery,
+    useGetCurrentPackageQuery,
     useCreatePackageMutation,
     useDeletePackageMutation,
     useChangePackageStatusMutation,
