@@ -14,11 +14,11 @@ import ContentSpinner from "@/components/ContentSpinner";
 import {useLocation} from "react-router-dom";
 
 const initStatusNavList: StatusNav[] = [
-    {Id: 1, Status: "", Text: "All"},
-    {Id: 2, Status: "PENDING", Text: "PENDING"},
-    {Id: 3, Status: "PAYSUCCEED", Text: "PAY SUCCEED"},
-    {Id: 4, Status: "PAYFAIL", Text: "PAY FAIL"},
-    {Id: 5, Status: "CANCELLED", Text: "CANCELLED"},
+    {Id: 1, Status: "", Text: "Tất cả"},
+    {Id: 2, Status: "PENDING", Text: "ĐANG CHỜ"},
+    {Id: 3, Status: "PAYSUCCEED", Text: "THÀNH CÔNG"},
+    {Id: 4, Status: "PAYFAIL", Text: "THẤT BẠI"},
+    {Id: 5, Status: "CANCELLED", Text: "ĐÃ HỦY"},
 ];
 
 function MyReservationInvoiceList() {
@@ -45,7 +45,7 @@ function MyReservationInvoiceList() {
     const totalItems = data?.total || 0;
     const totalPages = Math.ceil(totalItems / pageSize);
 
-    if (error) return <div>Error...</div>;
+    if (error) return <div>Lỗi...</div>;
 
     const handleFilterChange = (status: string, currentStatusId: number) => {
         if (status === "") {
@@ -78,27 +78,27 @@ function MyReservationInvoiceList() {
                         </div>
                         <div className="flex items-center justify-center gap-2">
                             <span className="text-gray-500 min-w-16">
-                                Sort By:
+                                Sắp xếp theo:
                             </span>
                             <Select
                                 value={sort || "bookingDate desc"}
                                 onValueChange={(value) => setSort(value)}
                             >
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select your club" />
+                                    <SelectValue placeholder="Chọn tùy chọn" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="bookingDate desc">
-                                        Booking Date Desc
+                                        Ngày đặt giảm dần
                                     </SelectItem>
                                     <SelectItem value="bookingDate asc">
-                                        Booking Date Asc
+                                        Ngày đặt tăng dần
                                     </SelectItem>
                                     <SelectItem value="totalPrice desc">
-                                        Total Price Desc
+                                        Tổng giá giảm dần
                                     </SelectItem>
                                     <SelectItem value="totalPrice asc">
-                                        Total Price Asc
+                                        Tổng giá tăng dần
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
@@ -114,22 +114,22 @@ function MyReservationInvoiceList() {
                                 <thead>
                                     <tr className="text-gray-600">
                                         <th className="px-4 py-2 border-b">
-                                            Reservations
+                                            Đặt chỗ
                                         </th>
                                         <th className="px-4 py-2 border-b">
-                                            Booking Date
+                                            Ngày đặt
                                         </th>
                                         <th className="px-4 py-2 border-b">
-                                            Total Price
+                                            Tổng giá
                                         </th>
                                         <th className="px-4 py-2 border-b">
-                                            Status
+                                            Trạng thái
                                         </th>
                                         <th className="px-4 py-2 border-b">
-                                            Pay
+                                            Thanh toán
                                         </th>
                                         <th className="px-4 py-2 border-b">
-                                            Cancel
+                                            Hủy
                                         </th>
                                     </tr>
                                 </thead>
@@ -150,7 +150,7 @@ function MyReservationInvoiceList() {
                             </table>
                             <div className="flex justify-between items-center mt-6">
                                 <div className="flex items-center space-x-2">
-                                    <span>Show</span>
+                                    <span>Hiển thị</span>
                                     <Select
                                         value={pageSize.toString()}
                                         onValueChange={(value) =>
@@ -158,7 +158,7 @@ function MyReservationInvoiceList() {
                                         }
                                     >
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Select your club" />
+                                            <SelectValue placeholder="Chọn tùy chọn" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="5">5</SelectItem>
@@ -184,7 +184,7 @@ function MyReservationInvoiceList() {
                                         }
                                         disabled={page === 1}
                                     >
-                                        Previous
+                                        Trước
                                     </button>
                                     <span className="p-1">{page}</span>
                                     <button
@@ -194,13 +194,13 @@ function MyReservationInvoiceList() {
                                         }
                                         disabled={page === totalPages}
                                     >
-                                        Next
+                                        Tiếp theo
                                     </button>
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <p>No invoice founded!</p>
+                        <p>Không tìm thấy hóa đơn nào!</p>
                     )}
                 </div>
             </div>
