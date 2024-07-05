@@ -1,4 +1,4 @@
-import {Outlet} from "react-router-dom";
+import {Outlet, useLocation} from "react-router-dom";
 import Sidebar from "../AdminLayout/components/Sidebar";
 import {IoHome} from "react-icons/io5";
 import {FaNewspaper} from "react-icons/fa";
@@ -40,13 +40,20 @@ const managerNavItems = [
         icon: RiUserSettingsLine,
     },
     {
-        title: "Wallet Management",
+        title: "Quản lý ví",
         to: "/manager/wallet",
         icon: FaWallet,
     },
 ];
 
+const getPageTitle = (pathname: string) => {
+    const item = managerNavItems.find((item) => item.to === pathname);
+    return item?.title ?? "Trang quản lý";
+};
+
 function ManagerLayout() {
+    const location = useLocation();
+
     return (
         <>
             <div className="min-h-screen w-full grid grid-cols-12 overflow-y-auto absolute">
@@ -55,8 +62,8 @@ function ManagerLayout() {
                 </div>
                 <div className="col-span-10 flex flex-col">
                     <div className="px-8 py-8">
-                        <h2 className="text-2xl font-semibold">
-                            Trang quản lý
+                        <h2 className="text-[2.5rem] font-semibold">
+                            {getPageTitle(location.pathname)}
                         </h2>
                     </div>
                     <main className="px-8 h-full">
