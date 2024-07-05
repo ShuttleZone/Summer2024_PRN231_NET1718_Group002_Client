@@ -7,9 +7,14 @@ function useQuery() {
 
 function AfterPayment() {
     const query = useQuery();
-    const isSuccess = query.get("isSuccess") === "true";
-    const amount = parseInt(query.get("amount") || "0", 10);
-    console.log(isSuccess, amount);
+    const isSuccess =
+        query.get("isSuccess") === "true" ||
+        query.get("vnp_ResponseCode") === "00";
+    const amount = parseInt(
+        query.get("amount") || query.get("vnp_Amount") || "0",
+        10
+    );
+
     return (
         <div className="my-32">
             <PaymentResult isSuccess={isSuccess} amount={amount} />

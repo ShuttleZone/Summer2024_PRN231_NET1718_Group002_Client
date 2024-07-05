@@ -41,7 +41,10 @@ const PaymentOption: React.FC = () => {
                     }).unwrap();
                 }
                 //should navigate to pay-success page
-                navigate("/my-invoice", {state: {refetch: true}});
+                //navigate("/my-invoice", {state: {refetch: true}});
+                navigate(
+                    "/payment-result?isSuccess=true&amount=" + paymentTotal
+                );
             } else {
                 const url = await createPaymentUrl(paymentRequest).unwrap();
                 console.log("Payment URL:", url);
