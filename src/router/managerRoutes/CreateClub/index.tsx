@@ -131,6 +131,7 @@ function CreateClub() {
         const {error} = await createClub(formData);
 
         if (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const errorMessage = (error as any).data.value;
             if (errorMessage) {
                 toast({

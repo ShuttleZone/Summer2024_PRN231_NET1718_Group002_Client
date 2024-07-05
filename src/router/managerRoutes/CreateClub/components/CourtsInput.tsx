@@ -54,6 +54,7 @@ function CourtsInput({form}: FormChildProps) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [courts, setCourts] = useState<Court[]>([]);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleAddCourt = (values: any) => {
         const court: Court = {
             courtName: values.name,
@@ -63,6 +64,7 @@ function CourtsInput({form}: FormChildProps) {
         };
         const newCourts = [...courts, court];
         setCourts(newCourts);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         form.setValue("courts", newCourts as any);
         form.trigger("courts");
         setIsDialogOpen(false);
