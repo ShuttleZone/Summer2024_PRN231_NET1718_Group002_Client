@@ -25,9 +25,11 @@ function BasicInfoInput({form}: FormChildProps) {
         >
             <AccordionItem value="item-1">
                 <AccordionTrigger>
-                    <h1 className="text-2xl font-semibold ">Basic Info</h1>
+                    <h1 className="text-2xl font-semibold ">
+                        Thông tin cơ bản
+                    </h1>
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="px-4">
                     <div className="grid grid-cols-2">
                         <div className="flex flex-col col-span-1 w-4/5">
                             <FormField
@@ -36,7 +38,7 @@ function BasicInfoInput({form}: FormChildProps) {
                                 render={({field}) => (
                                     <FormItem>
                                         <FormLabel htmlFor="clubName">
-                                            Club Name
+                                            Tên câu lạc bộ
                                         </FormLabel>
                                         <FormControl>
                                             <Input {...field} id="clubName" />
@@ -53,13 +55,13 @@ function BasicInfoInput({form}: FormChildProps) {
                                 render={({field}) => (
                                     <FormItem>
                                         <FormLabel htmlFor="clubPhone">
-                                            Club Phone
+                                            Số điện thoại
                                         </FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
                                                 id="clubPhone"
-                                                placeholder="Enter your club phone"
+                                                placeholder="Nhập số điện thoại của câu lạc bộ"
                                                 pattern="[0-9]{10}"
                                             />
                                         </FormControl>
@@ -75,13 +77,13 @@ function BasicInfoInput({form}: FormChildProps) {
                                 render={({field}) => (
                                     <FormItem>
                                         <FormLabel htmlFor="clubAddress">
-                                            Club Address
+                                            Địa chỉ
                                         </FormLabel>
                                         <FormControl>
                                             <Textarea
                                                 {...field}
                                                 id="clubAddress"
-                                                placeholder="Enter your club address"
+                                                placeholder="Nhập địa chỉ câu lạc bộ của bạn"
                                             />
                                         </FormControl>
                                         <FormMessage />

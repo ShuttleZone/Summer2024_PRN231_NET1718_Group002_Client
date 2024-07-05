@@ -22,12 +22,18 @@ function MultiFileInput({form}: FormChildProps) {
 
     return (
         <div className="p-4 w-full border rounded-lg shadow-md">
+            <label
+                htmlFor="fileInput"
+                className="text-lg font-semibold cursor-pointer"
+            >
+                Thêm hình ảnh
+            </label>
             <input
                 type="file"
                 id="fileInput"
                 multiple
                 onChange={addFiles}
-                className="mb-2"
+                className="mb-2 hidden"
             />
             <div className="space-y-2">
                 {files.map((file, index) => (
@@ -41,7 +47,7 @@ function MultiFileInput({form}: FormChildProps) {
                             onClick={() => removeFile(index)}
                             className="text-red-500 hover:text-red-700"
                         >
-                            Remove
+                            Xóa
                         </button>
                     </div>
                 ))}

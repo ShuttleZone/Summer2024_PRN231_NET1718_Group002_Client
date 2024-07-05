@@ -24,16 +24,16 @@ function DescriptionInput({form}: FormChildProps) {
         >
             <AccordionItem value="item-1">
                 <AccordionTrigger>
-                    <h1 className="text-2xl font-semibold ">Description</h1>
+                    <h1 className="text-2xl font-semibold ">Mô tả</h1>
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="px-4">
                     <FormField
                         control={form.control}
                         name="description"
                         render={({field}) => (
                             <FormItem>
                                 <FormLabel htmlFor="description">
-                                    Introduce your club
+                                    Giới thiệu câu lạc bộ
                                 </FormLabel>
                                 <FormControl>
                                     <Textarea {...field} id="description" />

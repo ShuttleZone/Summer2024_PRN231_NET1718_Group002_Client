@@ -10,6 +10,7 @@ import {z} from "zod";
 import {UseFormReturn, useForm} from "react-hook-form";
 import {Form} from "@/components/ui/form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import CourtsInput from "./components/CourtsInput";
 
 export interface FormChildProps {
     form: UseFormReturn<z.infer<typeof formSchema>, any, undefined>; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -19,39 +20,41 @@ export const formSchema = z
     .object({
         clubName: z
             .string({
-                required_error: "Club name is required",
+                required_error: "Tên câu lạc bộ là bắt buộc",
             })
-            .min(1, "Club name is required"),
+            .min(1, "Tên câu lạc bộ là bắt buộc"),
         clubPhone: z
             .string({
-                required_error: "Club phone is required",
+                required_error: "Số điện thoại là bắt buộc",
             })
-            .regex(/^\d{10}$/, "Phone number is invalid"),
+            .regex(/^\d{10}$/, "Số điện thoại là bắt buộc"),
         clubAddress: z
             .string({
-                required_error: "Club address is required",
+                required_error: "Địa chỉ câu lạc bộ là bắt buộc",
             })
-            .min(1, "Club address is required"),
+            .min(1, "Địa chỉ câu lạc bộ là bắt buộc"),
         openTime: z
             .string({
-                required_error: "Club open time is required",
+                required_error: "Thời gian mở cửa là bắt buộc",
             })
-            .min(1, "Club open time is required"),
+            .min(1, "Thời gian mở cửa là bắt buộc"),
         closeTime: z
             .string({
-                required_error: "Club close time is required",
+                required_error: "Thời gian đóng cửa là bắt buộc",
             })
-            .min(1, "Club close time is required"),
+            .min(1, "Thời gian đóng cửa là bắt buộc"),
         minDuration: z.string({
-            required_error: "Slot mininum duration is required",
+            required_error:
+                "Thời gian tối thiểu của mỗi lần đặt sân là bắt buộc",
         }),
         availability: z.array(z.string()),
         description: z
             .string({
-                required_error: "Club description is required",
+                required_error: "Mô tả câu lạc bộ là bắt buộc",
             })
-            .min(1, "Club description is required"),
+            .min(1, "Mô tả câu lạc bộ là bắt buộc"),
         clubGallery: z.array(z.custom()),
+        courts: z.array(z.custom()).nonempty("Phải có ít nhất một sân"),
     })
     .refine(
         (data) => {
@@ -92,6 +95,7 @@ function CreateClub() {
             clubName: "",
             clubPhone: "",
             clubAddress: "",
+            courts: [],
         },
     });
     const [createClub] = useCreateClubMutation();
@@ -115,6 +119,7 @@ function CreateClub() {
         formData.append("Settings.OpenTime", values.openTime);
         formData.append("Settings.CloseTime", values.closeTime);
         formData.append("Settings.MinDuration", values.minDuration);
+        formData.append("CourtsJson", JSON.stringify(values.courts));
         values.availability.forEach((day) =>
             formData.append("DaysInWeekOpen", day)
         );
@@ -126,15 +131,25 @@ function CreateClub() {
         const {error} = await createClub(formData);
 
         if (error) {
-            toast({
-                title: "Error",
-                description: "Error while creating club",
-                variant: "destructive",
-            });
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const errorMessage = (error as any).data.value;
+            if (errorMessage) {
+                toast({
+                    title: "Lỗi",
+                    description: errorMessage,
+                    variant: "destructive",
+                });
+            } else {
+                toast({
+                    title: "Lỗi",
+                    description: "Có lỗi xảy ra, vui lòng thử lại",
+                    variant: "destructive",
+                });
+            }
         } else {
             toast({
-                title: "Success",
-                description: "Club created successfully",
+                title: "Thành công",
+                description: "Tạo câu lạc bộ thành công",
                 variant: "default",
             });
             navigate("/manager/courts/new");
@@ -152,11 +167,12 @@ function CreateClub() {
                 <AvailabilityInput form={form} />
                 <DescriptionInput form={form} />
                 <GalleryInput form={form} />
+                <CourtsInput form={form} />
                 <button
                     className="bg-green-700 px-8 py-4 rounded-2xl mt-8 text-white hover:bg-green-400 transition-colors duration-300"
                     type="submit"
                 >
-                    Add new club
+                    Tạo câu lạc bộ
                 </button>
             </form>
         </Form>
