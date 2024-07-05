@@ -32,7 +32,7 @@ const RegisterForm = () => {
         if (formData.password !== formData.repassword) {
             toast({
                 variant: "destructive",
-                description: "Passwords do not match!",
+                description: "Mật khẩu không trùng khớp",
             });
             return;
         }
@@ -56,7 +56,7 @@ const RegisterForm = () => {
             toast({
                 variant: "destructive",
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                description: (err as any)?.data || "An error occurred",
+                description: (err as any)?.data || "Đã có lỗi xảy ra",
             });
         }
     };
@@ -90,11 +90,11 @@ const RegisterForm = () => {
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Get Started With Shuttle Zone
+                            Bắt đầu với Shuttle Zone
                         </h1>
                         <p className="text-sm font-normal leading-tight tracking-tight text-gray-900 md:text-sm dark:text-white">
-                            Ignite your sports journey with Shuttle Zone and get
-                            started now.
+                            Hãy khơi dậy hành trình thể thao của bạn với Shuttle
+                            Zone và bắt đầu ngay bây giờ.
                         </p>
                         <form
                             className="max-w-sm mx-auto"
@@ -111,9 +111,9 @@ const RegisterForm = () => {
                                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                 />
                                 <label className="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                    Sign up as{" "}
+                                    Đăng ký với tư cách là{" "}
                                     <strong className="text-green-700">
-                                        Customer
+                                        Người dùng
                                     </strong>
                                 </label>
                             </div>
@@ -128,15 +128,15 @@ const RegisterForm = () => {
                                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                 />
                                 <label className="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                    Sign up as{" "}
+                                    Đăng ký với tư cách là{" "}
                                     <strong className="text-blue-700">
-                                        Club Manager
+                                        Người quản lý câu lạc bộ
                                     </strong>
                                 </label>
                             </div>
 
                             <label className="block mt-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Your Email
+                                Địa chỉ email
                             </label>
                             <div className="mb-5">
                                 <div className="flex">
@@ -166,7 +166,7 @@ const RegisterForm = () => {
                             </div>
                             <div className="mb-5">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Your username
+                                    Tên đăng nhập
                                 </label>
                                 <div className="flex">
                                     <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
@@ -197,7 +197,7 @@ const RegisterForm = () => {
                             </div>
                             <div className="mb-5">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Your fullname
+                                    Họ và tên
                                 </label>
                                 <div className="flex">
                                     <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
@@ -227,7 +227,7 @@ const RegisterForm = () => {
                             </div>
                             <div className="mb-5">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Your phone number
+                                    Số điện thoại
                                 </label>
                                 <div className="flex">
                                     <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
@@ -257,7 +257,7 @@ const RegisterForm = () => {
                             </div>
                             <div className="mb-5">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Your password
+                                    Mật khẩu
                                 </label>
                                 <input
                                     value={formData.password}
@@ -271,7 +271,7 @@ const RegisterForm = () => {
                             </div>
                             <div className="mb-5">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Repeat password
+                                    Nhập lại mật khẩu
                                 </label>
                                 <input
                                     value={formData.repassword}
@@ -295,12 +295,12 @@ const RegisterForm = () => {
                                     />
                                 </div>
                                 <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                    I agree with the{" "}
+                                    Tôi đồng ý với{" "}
                                     <a
                                         href="#"
                                         className="text-blue-600 hover:underline dark:text-blue-500"
                                     >
-                                        terms and conditions
+                                        điều khoản dịch vụ
                                     </a>
                                 </label>
                             </div>
@@ -308,15 +308,15 @@ const RegisterForm = () => {
                                 type="submit"
                                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
-                                Register new account
+                                Đăng ký
                             </button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400 mt-2">
-                                Have an account ? {""}
+                                Bạn đã có tài khoản?{" "}
                                 <a
                                     href="/login"
                                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >
-                                    Sign in
+                                    Đăng nhập ngay
                                 </a>
                             </p>
                         </form>
