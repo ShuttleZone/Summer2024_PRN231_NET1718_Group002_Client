@@ -21,6 +21,7 @@ import UserProfile from "./UserProfile";
 import applicationRoles from "@/constants/role.constants";
 import PaymentOption from "./Payment/PaymentOption";
 import AfterPayment from "./AfterPayment";
+import MyContest from "./MyContests";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -133,6 +134,10 @@ const privateRoutes: RouteObject[] = [
     {
         path: "/payment-result",
         element: <AfterPayment />,
+    },
+    {
+        path: "/my-contests",
+        element: <MyContest />,
     },
 ];
 

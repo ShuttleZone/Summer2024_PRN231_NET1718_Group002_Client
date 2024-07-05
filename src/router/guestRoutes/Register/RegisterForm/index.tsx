@@ -6,8 +6,9 @@ import {useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import {useToast} from "@/components/ui/use-toast";
 import {Toaster} from "@/components/ui/toaster";
+
 const initialState = {
-    role: "",
+    role: 1,
     fullname: "",
     username: "",
     email: "",
@@ -18,7 +19,7 @@ const initialState = {
 
 const RegisterForm = () => {
     const [formData, setFormData] = useState(initialState);
-    const [role, setRole] = useState("");
+    const [role, setRole] = useState(1); // Role is a number
     const [register] = useRegisterMutation();
     const [registerManager] = useRegisterManagerMutation();
     const navigate = useNavigate();
@@ -27,8 +28,8 @@ const RegisterForm = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         formData.role = role;
+        console.log("Selected role:", role);
         if (formData.password !== formData.repassword) {
-            console.log(formData.password + formData.repassword);
             toast({
                 variant: "destructive",
                 description: "Passwords do not match!",
@@ -37,15 +38,15 @@ const RegisterForm = () => {
         }
 
         try {
-            if (formData.role == "1") {
-                const result = await register(formData).unwrap(); // Use unwrap() to handle errors
-                console.log("succeed", result);
+            if (role === 1) {
+                const result = await register(formData).unwrap();
+                console.log("Register succeeded", result);
                 navigate("/email-confirmation", {
                     state: {email: formData.email},
                 });
-            } else {
-                const result = await registerManager(formData).unwrap(); // Use unwrap() to handle errors
-                console.log("succeed", result);
+            } else if (role === 2) {
+                const result = await registerManager(formData).unwrap();
+                console.log("Register Manager succeeded", result);
                 navigate("/email-confirmation", {
                     state: {email: formData.email},
                 });
@@ -65,6 +66,10 @@ const RegisterForm = () => {
             ...formData,
             [e.target.name]: e.target.value,
         });
+    };
+
+    const handleRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setRole(parseInt(e.target.value, 10)); // Ensure role is set as a number
     };
 
     return (
@@ -100,8 +105,8 @@ const RegisterForm = () => {
                                     id="bordered-radio-1"
                                     type="radio"
                                     value="1"
-                                    checked
-                                    onChange={(e) => setRole(e.target.value)}
+                                    checked={role === 1} // Control checked based on role state
+                                    onChange={handleRoleChange}
                                     name="bordered-radio"
                                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                 />
@@ -117,7 +122,8 @@ const RegisterForm = () => {
                                     id="bordered-radio-2"
                                     type="radio"
                                     value="2"
-                                    onChange={(e) => setRole(e.target.value)}
+                                    checked={role === 2} // Control checked based on role state
+                                    onChange={handleRoleChange}
                                     name="bordered-radio"
                                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                 />

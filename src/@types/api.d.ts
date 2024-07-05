@@ -122,7 +122,7 @@ export interface LoginAccount {
 }
 
 export interface RegisterAccount {
-    role: string;
+    role: number;
     fullname: string;
     username: string;
     email: string;
