@@ -39,7 +39,7 @@ function ContestDataTable() {
     const columns: ColumnDef<ContestInfo>[] = [
         {
             accessorKey: "userContests",
-            header: "Challenger Information",
+            header: "Thông tin người thách đấu",
             cell: ({row}) => {
                 const userContests = row.getValue(
                     "userContests"
@@ -81,7 +81,7 @@ function ContestDataTable() {
         },
         {
             accessorKey: "policy",
-            header: "Court Name",
+            header: "Tên sân",
             cell: ({row}) => (
                 <div className="font-medium">{row.getValue("policy")}</div>
             ),
@@ -89,7 +89,7 @@ function ContestDataTable() {
         },
         {
             accessorKey: "contestDate",
-            header: "Start Time",
+            header: "Thời gian bắt đầu",
             cell: ({row}) => (
                 <div className="font-medium">{row.getValue("contestDate")}</div>
             ),
@@ -97,7 +97,7 @@ function ContestDataTable() {
         },
         {
             accessorKey: "contestStatus",
-            header: "Status",
+            header: "Trạng thái",
             cell: ({row}) => (
                 <div className="font-medium">
                     {row.getValue("contestStatus")}
@@ -107,7 +107,7 @@ function ContestDataTable() {
         },
         {
             accessorKey: "maxPlayer",
-            header: "Number of player",
+            header: "Số người chơi",
             cell: ({row}) => (
                 <div className="font-medium">{row.getValue("maxPlayer")}</div>
             ),
@@ -115,7 +115,7 @@ function ContestDataTable() {
         },
         {
             accessorKey: "policy",
-            header: "Policy",
+            header: "Thể lệ",
             cell: ({row}) => (
                 <div className="font-medium">{row.getValue("policy")}</div>
             ),
@@ -123,7 +123,7 @@ function ContestDataTable() {
         },
         {
             accessorKey: "id",
-            header: "Action",
+            header: "Hành động",
             cell: ({row}) => (
                 <Button
                     className="font-medium"
@@ -132,7 +132,7 @@ function ContestDataTable() {
                         navigate(`/contests/details/${row.original.id}`);
                     }}
                 >
-                    Details
+                    Xem chi tiết
                 </Button>
             ),
         },
@@ -177,15 +177,15 @@ function ContestDataTable() {
         <div className="w-full">
             <div>
                 <caption className="text-4xl font-bold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800 block">
-                    All Contests
+                    Thông tin các cuộc thi
                 </caption>
                 <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
-                    Keep track and manage all the contests.
+                    Danh sách các cuộc thi đang diễn ra và sắp diễn ra
                 </p>
             </div>
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Filter contests..."
+                    placeholder="Lọc các cuộc thi đấu..."
                     value={
                         (table
                             .getColumn("policy")
@@ -201,7 +201,8 @@ function ContestDataTable() {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown className="ml-2 h-4 w-4" />
+                            Chọn cột hiển thị
+                            <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -284,7 +285,7 @@ function ContestDataTable() {
                                     colSpan={columns.length}
                                     className="h-24 text-center"
                                 >
-                                    No results.
+                                    Không có cuộc thi nào
                                 </TableCell>
                             </TableRow>
                         )}
@@ -293,8 +294,9 @@ function ContestDataTable() {
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
                 <div className="flex-1 text-sm text-muted-foreground">
-                    {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                    {table.getFilteredRowModel().rows.length} row(s) selected.
+                    Đã chọn {table.getFilteredSelectedRowModel().rows.length}{" "}
+                    trong số {table.getFilteredRowModel().rows.length} cuộc thi
+                    đấu
                 </div>
                 <div className="space-x-2">
                     <Button
@@ -303,7 +305,7 @@ function ContestDataTable() {
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
-                        Previous
+                        Trước đó
                     </Button>
                     <Button
                         variant="outline"
@@ -311,7 +313,7 @@ function ContestDataTable() {
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
                     >
-                        Next
+                        Tiếp theo
                     </Button>
                 </div>
             </div>

@@ -36,9 +36,7 @@ function LoginForm() {
                 variant: "default",
                 description: "Login successful !",
             });
-            setTimeout(() => {
-                shouldCallback ? navigate(callbackRoute || "") : navigate("/");
-            }, 2000); //
+            shouldCallback ? navigate(callbackRoute || "") : navigate("/");
             setFormData(initialState);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } else if ((result.error as any).status == 401)
@@ -73,10 +71,10 @@ function LoginForm() {
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Welcome Back
+                            Chào mừng trở lại
                         </h1>
                         <h2 className="text-sm font-normal leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Login into your account
+                            Đăng nhập vào tài khoản của bạn
                         </h2>
                         <form
                             className="space-y-4 md:space-y-6"
@@ -85,7 +83,7 @@ function LoginForm() {
                             <Toaster />
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Your email or username
+                                    Email hoặc tên tài khoản
                                 </label>
                                 <input
                                     value={formData.account}
@@ -104,7 +102,7 @@ function LoginForm() {
                             </div>
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Password
+                                    Mật khẩu
                                 </label>
                                 <input
                                     value={formData.password}
@@ -134,7 +132,7 @@ function LoginForm() {
                                     </div>
                                     <div className="ml-3 text-sm">
                                         <label className="text-gray-500 dark:text-gray-300">
-                                            Remember me
+                                            Ghi nhớ tôi
                                         </label>
                                     </div>
                                 </div>
@@ -142,7 +140,7 @@ function LoginForm() {
                                     href="#"
                                     className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >
-                                    Forgot password ?
+                                    Quên mật khẩu?
                                 </a>
                             </div>
                             <div className="flex items-center justify-between">
@@ -164,7 +162,7 @@ function LoginForm() {
                                                 clip-rule="evenodd"
                                             />
                                         </svg>
-                                        Sign in with Google
+                                        Đăng nhập bằng google
                                     </button>
                                 </div>
                             </div>
@@ -172,15 +170,15 @@ function LoginForm() {
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
-                                Sign in
+                                Đăng nhập
                             </button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Don’t have an account yet?{" "}
+                                Bạn chưa có tài khoản?{" "}
                                 <a
                                     href="/register"
                                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >
-                                    Sign up
+                                    Đăng ký ngay
                                 </a>
                             </p>
                         </form>

@@ -52,22 +52,22 @@ function StaffList() {
         <div className="w-full">
             <div className="flex justify-between py-4">
                 <h1 className="flex flex-row items-center gap-3 text-lg">
-                    Total {staffs?.length} <RiUserSettingsLine />
+                    Tổng số {staffs?.length} <RiUserSettingsLine />
                 </h1>
 
                 <Button
                     className="bg-white border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white ml-8"
                     onClick={() => navigate("/manager/staffs/new")}
                 >
-                    Create new Staff
+                    Thêm nhân viên
                 </Button>
                 <Select onValueChange={handleClubFilterChange}>
                     <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select a club" />
+                        <SelectValue placeholder="Chọn câu lạc bộ" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                            <SelectLabel>Club Name</SelectLabel>
+                            <SelectLabel>Tên câu lạc bộ</SelectLabel>
                             {clubs?.map((club) => (
                                 <SelectItem key={club.Id} value={club.Id}>
                                     {club.ClubName}
@@ -82,12 +82,12 @@ function StaffList() {
                     <TableHeader>
                         <TableRow>
                             <TableHead>ID</TableHead>
-                            <TableHead>User Name</TableHead>
-                            <TableHead>Gender</TableHead>
-                            <TableHead>Profile Image</TableHead>
-                            <TableHead>Club Name</TableHead>
-                            <TableHead>Club Address</TableHead>
-                            <TableHead>Action</TableHead>
+                            <TableHead>Tên người dùng</TableHead>
+                            <TableHead>Giới tính</TableHead>
+                            <TableHead>Ảnh đại diện</TableHead>
+                            <TableHead>Tên câu lạc bộ</TableHead>
+                            <TableHead>Địa chỉ câu lạc bộ</TableHead>
+                            <TableHead>Hành động</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -135,7 +135,7 @@ function StaffList() {
                                     colSpan={7}
                                     className="h-24 text-center"
                                 >
-                                    No results.
+                                    Không có nhân viên nào
                                 </TableCell>
                             </TableRow>
                         )}

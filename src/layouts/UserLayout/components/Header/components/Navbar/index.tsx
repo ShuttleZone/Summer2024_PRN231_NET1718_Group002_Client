@@ -20,38 +20,39 @@ interface NavItem {
 
 const features: NavItem[] = [
     {
-        title: "Clubs",
+        title: "Câu lạc bộ",
         href: "/clubs",
-        description: "All the clubs that are available on our platform.",
+        description:
+            "Tất cả các câu lạc bộ hiện có trên nền tảng của chúng tôi.",
     },
     {
-        title: "Contests",
+        title: "Cuộc thi đấu",
         href: "/contests",
         description:
-            "All active contests that are waiting for you to participate.",
+            "Tất cả các cuộc thi mà bạn có thể tham gia và thể hiện tài năng của mình.",
     },
 ];
 
 const information: NavItem[] = [
     {
-        title: "My reservations",
+        title: "Lịch đặt sân",
         href: "/my-reservation",
-        description: "All the reservations that you have made.",
+        description: "Tất cả các lịch đặt sân của bạn.",
     },
     {
-        title: "My invoices",
+        title: "Hóa đơn",
         href: "/my-invoices",
-        description: "All the invoices that you have received.",
+        description: "Tất cả các hóa đơn mà bạn đã tạo ra.",
     },
     {
-        title: "My contests",
+        title: "Cuộc thi đấu của tôi",
         href: "/my-contests",
-        description: "All the contests that you have participated in.",
+        description: "Tất cả các cuộc thi mà bạn đã tham gia.",
     },
     {
-        title: "My profile",
+        title: "Hồ sơ cá nhân",
         href: "/profile",
-        description: "Your profile information.",
+        description: "Thông tin cá nhân của bạn.",
     },
 ];
 
@@ -64,12 +65,12 @@ function Navbar() {
                         <NavigationMenuLink
                             className={navigationMenuTriggerStyle()}
                         >
-                            Home
+                            Trang chủ
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger>Features</NavigationMenuTrigger>
+                    <NavigationMenuTrigger>Tính năng</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                             {features.map((feature) => (
@@ -86,7 +87,7 @@ function Navbar() {
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>
-                        My information
+                        Thông tin cá nhân
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">

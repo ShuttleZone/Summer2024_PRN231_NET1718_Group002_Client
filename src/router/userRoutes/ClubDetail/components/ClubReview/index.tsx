@@ -24,7 +24,7 @@ function ClubReview() {
             <>
                 {reviews?.length == 0 ? (
                     <p className="text-xl font-semibold">
-                        This club has no review !
+                        Chưa có đánh giá nào
                     </p>
                 ) : (
                     <div>
