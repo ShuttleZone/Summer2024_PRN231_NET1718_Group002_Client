@@ -45,7 +45,7 @@ const information: NavItem[] = [
     },
     {
         title: "My contests",
-        href: "/contests",
+        href: "/my-contests",
         description: "All the contests that you have participated in.",
     },
     {
