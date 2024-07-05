@@ -52,17 +52,15 @@ function ChangePassword() {
                     className="border-2 border-black rounded-md cursor-pointer text-black hover:bg-green-500 hover:border-green-300 hover:text-white transition-colors duration-200"
                     variant="outline"
                 >
-                    Change Password
+                    Đổi mật khẩu
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle className="text-2xl">
-                        Change your password
-                    </DialogTitle>
+                    <DialogTitle className="text-2xl">Đổi mật khẩu</DialogTitle>
                     <DialogDescription>
-                        Make changes to your profile here. Click save when
-                        you're done.
+                        Thực hiện thay đổi cho hồ sơ của bạn ở đây. Bấm lưu khi
+                        bạn đã hoàn tất.
                     </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={HandleSubmit}>
@@ -72,7 +70,7 @@ function ChangePassword() {
                                 className="text-right"
                                 htmlFor="old-password"
                             >
-                                Old Password
+                                Mật khẩu hiện tại
                             </Label>
                             <Input
                                 id="old-password"
@@ -91,7 +89,7 @@ function ChangePassword() {
                                 className="text-right"
                                 htmlFor="new-password"
                             >
-                                New Password
+                                Mật khẩu mới
                             </Label>
                             <Input
                                 id="new-password"
@@ -109,7 +107,7 @@ function ChangePassword() {
                             className="border-2 bg-white border-green-600 rounded-md flex flex-row justify-center items-center text-green-600  hover:bg-green-600 hover:text-white transition-colors duration-200"
                             type="submit"
                         >
-                            Save changes
+                            Lưu thay đổi
                         </Button>
                     </DialogFooter>
                 </form>

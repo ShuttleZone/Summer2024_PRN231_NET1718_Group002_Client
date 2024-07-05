@@ -9,6 +9,7 @@ import {toast} from "@/components/ui/use-toast";
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {useAppDispatch} from "@/store";
 import ChangePassword from "./components/ChangePassword.tsx";
+import formatVietnameseDong from "@/lib/currency.util.ts";
 // import {Button} from "@/components/ui/button.tsx";
 
 interface UpdateUserProfile {
@@ -92,7 +93,7 @@ function UserProfile() {
         <div className="w-2/3 mx-auto h-screen flex flex-row py-8">
             <div className="w-2/5 h-fit flex flex-col items-center py-12 border-r-2 border-gray-400">
                 <h1 className="text-2xl tracking-widest font-semibold  text-gray-500 mb-28">
-                    Profile Setting
+                    Cài đặt thông tin
                 </h1>
                 <div className="w-80 h-80 rounded-full border-2 border-slate-600 gap-7">
                     <img
@@ -110,7 +111,7 @@ function UserProfile() {
                         htmlFor="avatar-upload"
                         className="w-44 h-16 border-2 border-black text-black hover:bg-green-500 hover:border-green-300 hover:text-white transition-colors duration-200 text-lg font-semibold rounded-3xl mt-8 cursor-pointer flex items-center justify-center"
                     >
-                        Upload New Avatar
+                        Đổi ảnh đại diện
                     </label>
                     <input id="avatar-upload" type="file" className="hidden" />
                 </div>
@@ -123,7 +124,9 @@ function UserProfile() {
                 </div>
                 <div className="flex flex-col items-center">
                     <span className="text-lg my-2">
-                        Wallet balance: {userProfile?.balance ?? "0"}
+                        Số dư:{" "}
+                        {formatVietnameseDong(userProfile?.balance ?? 0, "VND")}{" "}
+                        VND
                     </span>
                 </div>
                 <div className="grid grid-cols-2 w-full mt-8">
@@ -134,7 +137,7 @@ function UserProfile() {
                         <span className="text-3xl">
                             {userProfile?.totalReservation}
                         </span>
-                        <h1>Reservations</h1>
+                        <h1>Số lần đặt lịch</h1>
                     </Link>
                     <Link
                         className="col-span-1 flex flex-col items-center text-lg font-semibold tracking-wider hover:text-green-600 transition-colors duration-200"
@@ -143,7 +146,7 @@ function UserProfile() {
                         <span className="text-3xl">
                             {userProfile?.totalWinContest}
                         </span>
-                        <h1>Winning Contests</h1>
+                        <h1>Số lần thắng cuộc thi</h1>
                     </Link>
                 </div>
             </div>
@@ -153,14 +156,14 @@ function UserProfile() {
                         className="text-3xl text-gray-500 font-semibold tracking-widest mb-4 flex flex-row gap-10 items-center justify-between
                     "
                     >
-                        Basic Information
+                        Thông tin cá nhân
                         <div className="mt-4 flex flex-row gap-10">
                             {!editMode && (
                                 <button
                                     onClick={() => setEditMode(true)}
                                     className="w-28 text-lg font-semibold tracking-wider border-2 border-black rounded-md cursor-pointer text-black hover:bg-green-500 hover:border-green-300 hover:text-white transition-colors duration-200"
                                 >
-                                    Edit
+                                    Chỉnh sửa
                                 </button>
                             )}
                             {editMode && (
@@ -169,7 +172,7 @@ function UserProfile() {
                                     form="userForm"
                                     className="w-28 text-lg font-semibold tracking-wider border-2 border-black rounded-md cursor-pointer text-black hover:bg-green-500 hover:border-green-300 hover:text-white transition-colors duration-200"
                                 >
-                                    Save
+                                    Lưu
                                 </button>
                             )}
                         </div>
@@ -181,7 +184,7 @@ function UserProfile() {
                                 htmlFor="fullName"
                                 className="my-4 block text-lg font-semibold tracking-wider text-gray-700"
                             >
-                                Full Name
+                                Họ và tên
                             </label>
                             <input
                                 type="text"
@@ -212,7 +215,7 @@ function UserProfile() {
                                 htmlFor="phone"
                                 className="my-4 block text-lg font-semibold tracking-wider text-gray-700"
                             >
-                                Phone Number
+                                Số điện thoại
                             </label>
                             <input
                                 type="text"
@@ -244,7 +247,7 @@ function UserProfile() {
                                 htmlFor="gender"
                                 className="my-4 block text-lg font-semibold tracking-wider text-gray-700"
                             >
-                                Gender
+                                Giới tính
                             </label>
                             <select
                                 id="gender"
@@ -262,8 +265,8 @@ function UserProfile() {
                                         : ""
                                 }`}
                             >
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
+                                <option value="0">Nam</option>
+                                <option value="1">Nữ</option>
                             </select>
                             {errors.gender && (
                                 <p className="text-red-500 text-lg mt-1">
