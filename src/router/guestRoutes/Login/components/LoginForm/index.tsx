@@ -36,9 +36,7 @@ function LoginForm() {
                 variant: "default",
                 description: "Login successful !",
             });
-            setTimeout(() => {
-                shouldCallback ? navigate(callbackRoute || "") : navigate("/");
-            }, 2000); //
+            shouldCallback ? navigate(callbackRoute || "") : navigate("/");
             setFormData(initialState);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } else if ((result.error as any).status == 401)
