@@ -64,6 +64,7 @@ function CourtsInput({form}: FormChildProps) {
         const newCourts = [...courts, court];
         setCourts(newCourts);
         form.setValue("courts", newCourts as any);
+        form.trigger("courts");
         setIsDialogOpen(false);
     };
 
