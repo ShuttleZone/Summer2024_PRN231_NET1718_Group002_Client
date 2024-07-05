@@ -49,7 +49,7 @@ function AvailabilityInput({form}: FormChildProps) {
                 <AccordionTrigger>
                     <h1 className="text-2xl font-semibold ">Ngày mở cửa</h1>
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="px-4">
                     <div className="w-full">
                         <FormField
                             control={form.control}

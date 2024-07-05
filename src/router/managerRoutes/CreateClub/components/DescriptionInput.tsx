@@ -26,7 +26,7 @@ function DescriptionInput({form}: FormChildProps) {
                 <AccordionTrigger>
                     <h1 className="text-2xl font-semibold ">Mô tả</h1>
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="px-4">
                     <FormField
                         control={form.control}
                         name="description"

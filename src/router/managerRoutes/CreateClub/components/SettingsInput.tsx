@@ -26,7 +26,7 @@ function SettingInput({form}: FormChildProps) {
                 <AccordionTrigger>
                     <h1 className="text-2xl font-semibold ">Cài đặt</h1>
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="px-4">
                     <div className="grid grid-cols-3">
                         <div className="flex flex-col col-span-1 w-4/5">
                             <FormField

@@ -85,7 +85,7 @@ function CourtsInput({form}: FormChildProps) {
                     <AccordionTrigger>
                         <h1 className="text-2xl font-semibold ">Sân</h1>
                     </AccordionTrigger>
-                    <AccordionContent>
+                    <AccordionContent className="px-4">
                         <FormField
                             control={form.control}
                             name="courts"

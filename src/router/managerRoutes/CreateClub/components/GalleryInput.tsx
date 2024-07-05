@@ -21,7 +21,7 @@ function GalleryInput({form}: FormChildProps) {
                         Hình ảnh câu lạc bộ
                     </h1>
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="px-4">
                     <div className="w-full">
                         {/*
                         <h1 className="text-xl text-slate-700 my-4">
