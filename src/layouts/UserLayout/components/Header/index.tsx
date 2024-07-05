@@ -36,10 +36,10 @@ interface DropdownItemType {
 }
 
 const dropdownItems: DropdownItemType[] = [
-    {href: "/my-reservation", text: "My reservations"},
-    {href: "/my-invoices", text: "My invoices"},
-    {href: "/contests", text: "My contests"},
-    {href: "/profile", text: "Profile"},
+    {href: "/my-reservation", text: "Lịch đặt sân"},
+    {href: "/my-invoices", text: "Hóa đơn"},
+    {href: "/contests", text: "Cuộc thi đấu"},
+    {href: "/profile", text: "Hồ sơ"},
 ];
 
 function Header() {
@@ -55,8 +55,8 @@ function Header() {
         // give it some time to logout because otherwise the page will be unresponsive, idk why :((
         setTimeout(() => dispatch(clearAuth()), 500);
         toast({
-            title: "Logged out successfully",
-            description: "You have been logged out from your account.",
+            title: "Đăng xuất",
+            description: "Bạn đã đăng xuất khỏi hệ thống",
         });
         navigate("/");
         dispatch(hideSpinner());
@@ -71,7 +71,7 @@ function Header() {
                 <Link to="/login">
                     <ButtonWithIcon
                         icon={<IoPeopleOutline size={20} />}
-                        text="Login/Register"
+                        text="Đăng nhập/Đăng ký"
                     />
                 </Link>
             ) : (
@@ -88,7 +88,7 @@ function Header() {
                             </Avatar>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
-                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuLabel>Tài khoản</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             {dropdownItems.map((item) => (
                                 <DropdownMenuItem key={item.href}>
@@ -106,21 +106,21 @@ function Header() {
                                 <AlertDialogContent>
                                     <AlertDialogHeader>
                                         <AlertDialogTitle>
-                                            Are you sure to logout?
+                                            Bạn có chắc chắn muốn đăng xuất?
                                         </AlertDialogTitle>
                                         <AlertDialogDescription>
-                                            You will be logged out from your
-                                            account.
+                                            Đăng xuất sẽ đưa bạn trở lại trang
+                                            đăng nhập
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
                                         <AlertDialogCancel>
-                                            Cancel
+                                            Hủy
                                         </AlertDialogCancel>
                                         <AlertDialogAction
                                             onClick={handleLogout}
                                         >
-                                            Logout
+                                            Đăng xuất
                                         </AlertDialogAction>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>
