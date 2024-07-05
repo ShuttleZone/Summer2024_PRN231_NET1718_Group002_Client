@@ -17,13 +17,17 @@ function GalleryInput({form}: FormChildProps) {
         >
             <AccordionItem value="item-1">
                 <AccordionTrigger>
-                    <h1 className="text-2xl font-semibold ">Gallery</h1>
+                    <h1 className="text-2xl font-semibold ">
+                        Hình ảnh câu lạc bộ
+                    </h1>
                 </AccordionTrigger>
                 <AccordionContent>
                     <div className="w-full">
+                        {/*
                         <h1 className="text-xl text-slate-700 my-4">
-                            Your club gallery
+                            Thêm hình ảnh
                         </h1>
+                    */}
                         <MultiFileInput form={form} />
                     </div>
                 </AccordionContent>

@@ -20,38 +20,39 @@ export const formSchema = z
     .object({
         clubName: z
             .string({
-                required_error: "Club name is required",
+                required_error: "Tên câu lạc bộ là bắt buộc",
             })
-            .min(1, "Club name is required"),
+            .min(1, "Tên câu lạc bộ là bắt buộc"),
         clubPhone: z
             .string({
-                required_error: "Club phone is required",
+                required_error: "Số điện thoại là bắt buộc",
             })
-            .regex(/^\d{10}$/, "Phone number is invalid"),
+            .regex(/^\d{10}$/, "Số điện thoại là bắt buộc"),
         clubAddress: z
             .string({
-                required_error: "Club address is required",
+                required_error: "Địa chỉ câu lạc bộ là bắt buộc",
             })
-            .min(1, "Club address is required"),
+            .min(1, "Địa chỉ câu lạc bộ là bắt buộc"),
         openTime: z
             .string({
-                required_error: "Club open time is required",
+                required_error: "Thời gian mở cửa là bắt buộc",
             })
-            .min(1, "Club open time is required"),
+            .min(1, "Thời gian mở cửa là bắt buộc"),
         closeTime: z
             .string({
-                required_error: "Club close time is required",
+                required_error: "Thời gian đóng cửa là bắt buộc",
             })
-            .min(1, "Club close time is required"),
+            .min(1, "Thời gian đóng cửa là bắt buộc"),
         minDuration: z.string({
-            required_error: "Slot mininum duration is required",
+            required_error:
+                "Thời gian tối thiểu của mỗi lần đặt sân là bắt buộc",
         }),
         availability: z.array(z.string()),
         description: z
             .string({
-                required_error: "Club description is required",
+                required_error: "Mô tả câu lạc bộ là bắt buộc",
             })
-            .min(1, "Club description is required"),
+            .min(1, "Mô tả câu lạc bộ là bắt buộc"),
         clubGallery: z.array(z.custom()),
         courts: z.array(z.custom()).nonempty("Phải có ít nhất một sân"),
     })

@@ -16,13 +16,13 @@ import {
 
 function AvailabilityInput({form}: FormChildProps) {
     const DayInWeek = [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
+        "Thứ 2",
+        "Thứ 3",
+        "Thứ 4",
+        "Thứ 5",
+        "Thứ 6",
+        "Thứ 7",
+        "Chủ nhật",
     ];
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
@@ -47,7 +47,7 @@ function AvailabilityInput({form}: FormChildProps) {
         >
             <AccordionItem value="item-1">
                 <AccordionTrigger>
-                    <h1 className="text-2xl font-semibold ">Availability</h1>
+                    <h1 className="text-2xl font-semibold ">Ngày mở cửa</h1>
                 </AccordionTrigger>
                 <AccordionContent>
                     <div className="w-full">
@@ -57,7 +57,7 @@ function AvailabilityInput({form}: FormChildProps) {
                             render={() => (
                                 <FormItem>
                                     <FormLabel htmlFor="clubName">
-                                        Select open days
+                                        Chọn ngày mở cửa
                                     </FormLabel>
                                     <FormControl>
                                         <div className="h-fit flex flex-row justify-start gap-10">

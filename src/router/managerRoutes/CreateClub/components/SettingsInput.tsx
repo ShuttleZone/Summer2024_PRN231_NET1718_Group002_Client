@@ -24,7 +24,7 @@ function SettingInput({form}: FormChildProps) {
         >
             <AccordionItem value="item-1">
                 <AccordionTrigger>
-                    <h1 className="text-2xl font-semibold ">Settings</h1>
+                    <h1 className="text-2xl font-semibold ">Cài đặt</h1>
                 </AccordionTrigger>
                 <AccordionContent>
                     <div className="grid grid-cols-3">
@@ -35,7 +35,7 @@ function SettingInput({form}: FormChildProps) {
                                 render={({field}) => (
                                     <FormItem>
                                         <FormLabel htmlFor="openTime">
-                                            Open Time
+                                            Giờ mở cửa
                                         </FormLabel>
                                         <FormControl>
                                             <Input
@@ -57,14 +57,14 @@ function SettingInput({form}: FormChildProps) {
                                 render={({field}) => (
                                     <FormItem>
                                         <FormLabel htmlFor="closeTime">
-                                            Close Time
+                                            Giờ đóng cửa
                                         </FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
                                                 id="closeTime"
                                                 type="time"
-                                                step="1800"
+                                                step="60 * 30"
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -79,7 +79,8 @@ function SettingInput({form}: FormChildProps) {
                                 render={({field}) => (
                                     <FormItem>
                                         <FormLabel htmlFor="minDuration">
-                                            Time per slot (in hours)
+                                            Thời gian tối thiểu của mỗi lần đặt
+                                            sân (giờ)
                                         </FormLabel>
                                         <FormControl>
                                             <Input
