@@ -8,6 +8,9 @@ interface ContestTableProps {
 }
 
 function CardHeader({contest}: ContestTableProps) {
+    const currentDate = new Date().toLocaleString();
+    const userId = sessionStorage.getItem("userId");
+    // console.log(contest.userContests.length);
     const firstReservationDetail =
         contest.reservation.reservationDetailsDtos[0];
     const formatDateTime = (dateTime: string) => {
@@ -171,10 +174,36 @@ function CardHeader({contest}: ContestTableProps) {
                         </label>
                     </li>
                 </ul>
-                <JoinContestButton
-                    contestId={contest.id}
-                    total={contest.reservation.totalPrice}
-                ></JoinContestButton>
+                {contest.userContests[0].participantsId == userId ? (
+                    <button className="inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-green-600 rounded-lg hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Bạn là người tạo cuộc đấu này !
+                    </button>
+                ) : contest.userContests.length == contest.maxPlayer ? (
+                    <button className="inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Cuộc đấu đã đủ số lượng người chơi !
+                    </button>
+                ) : contest.contestStatus.toString() == "Closed" &&
+                  contest.reservation.reservationDetailsDtos[0].startTime <
+                      currentDate ? (
+                    <button className="inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Cuộc thi đã hết hạn tham gia !
+                    </button>
+                ) : contest.userContests.length < contest.maxPlayer &&
+                  contest.userContests[0].participantsId != userId ? (
+                    <JoinContestButton
+                        contestId={contest.id}
+                        total={contest.reservation.totalPrice}
+                    ></JoinContestButton>
+                ) : contest.userContests.find(
+                      (uc) => uc.participantsId != userId
+                  ) && contest.userContests[0].participantsId != userId ? (
+                    <JoinContestButton
+                        contestId={contest.id}
+                        total={contest.reservation.totalPrice}
+                    ></JoinContestButton>
+                ) : (
+                    "Không có thông tin"
+                )}
             </div>
         </div>
     );
