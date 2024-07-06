@@ -7,7 +7,7 @@ interface RatingProps {
 
 function Rating({rating, reviewsCount}: RatingProps) {
     return (
-        <div className="w-full col-span-1">
+        <li className="w-full col-span-1">
             <span>{reviewsCount} reviews</span>
             <div className="flex gap-2 items-center">
                 <ul className="flex gap-1">
@@ -19,7 +19,7 @@ function Rating({rating, reviewsCount}: RatingProps) {
                 </ul>
                 <span className="text-lg opacity-75">5.0</span>
             </div>
-        </div>
+        </li>
     );
 }
 
