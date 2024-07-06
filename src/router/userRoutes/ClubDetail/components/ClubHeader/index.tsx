@@ -36,6 +36,12 @@ function ClubHeader({
             </div>
             <div className="flex justify-between items-center gap-6">
                 <Link
+                    to={"contests/new"}
+                    className="flex justify-between items-center gap-2 border border-black/10 rounded px-12 text-nowrap py-1 bg-slate-800 hover:bg-slate-500 text-white transition-colors"
+                >
+                    Đăng ký thi đấu
+                </Link>
+                <Link
                     to={"court-booking"}
                     className="flex justify-between items-center gap-2 border border-black/10 rounded px-12 text-nowrap py-1 bg-green-300 hover:bg-green-500"
                 >
