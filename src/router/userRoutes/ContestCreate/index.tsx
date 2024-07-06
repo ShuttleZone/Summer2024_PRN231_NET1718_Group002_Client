@@ -72,7 +72,10 @@ function ContestCreate() {
     const slots = useAppSelector(
         (state) => state.bookingStage.TimeAndDate.Slots
     );
-    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    const [selectedDate, setSelectedDate] = useState<Date>(tomorrow);
     const {toast} = useToast();
     const [createContest, {isLoading}] = useCreateContestMutation();
     const dispatch = useAppDispatch();
@@ -182,8 +185,12 @@ function ContestCreate() {
                                 <DatePicker
                                     selectedDate={selectedDate}
                                     setSelectedDate={setSelectedDate}
+                                    minDate={tomorrow}
                                 />
-                                <CourtSchedule selectedDate={selectedDate} />
+                                <CourtSchedule
+                                    minDate={tomorrow}
+                                    selectedDate={selectedDate}
+                                />
                             </div>
                         </div>
                     </div>
