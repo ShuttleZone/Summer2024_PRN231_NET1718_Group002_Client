@@ -1,16 +1,24 @@
-import {CiLocationOn, CiShare2} from "react-icons/ci";
+import {CiLocationOn} from "react-icons/ci";
 import {FaStar} from "react-icons/fa";
 import {FiPhoneCall} from "react-icons/fi";
 import {Link} from "react-router-dom";
+import ShareButton from "./components/ShareButton";
 
 interface ClubHeaderProps {
     name: string;
     address: string;
     phone: string;
-    reviews: number;
+    reviewsCount: number;
+    rating: number;
 }
 
-function ClubHeader({name, address, phone, reviews}: ClubHeaderProps) {
+function ClubHeader({
+    name,
+    address,
+    phone,
+    reviewsCount,
+    rating,
+}: ClubHeaderProps) {
     return (
         <div className="flex justify-between items-end border border-black/10 rounded p-4 gap-12">
             <div className="flex flex-col gap-3">
@@ -28,28 +36,31 @@ function ClubHeader({name, address, phone, reviews}: ClubHeaderProps) {
             </div>
             <div className="flex justify-between items-center gap-6">
                 <Link
+                    to={"contests/new"}
+                    className="flex justify-between items-center gap-2 border border-black/10 rounded px-12 text-nowrap py-1 bg-slate-800 hover:bg-slate-500 text-white transition-colors"
+                >
+                    Đăng ký thi đấu
+                </Link>
+                <Link
                     to={"court-booking"}
-                    className="flex justify-between items-center gap-2 border border-black/10 rounded px-12 text-nowrap py-1 bg-green-300"
+                    className="flex justify-between items-center gap-2 border border-black/10 rounded px-12 text-nowrap py-1 bg-green-300 hover:bg-green-500"
                 >
                     Đặt sân
                 </Link>
-                <button className="flex justify-between items-center gap-2 border border-black/10 rounded px-2 py-1 text-nowrap">
-                    <CiShare2 />
-                    <span>Chia sẻ</span>
-                </button>
+                <ShareButton />
                 <div className="flex gap-4 items-center">
                     <span className="rounded-full p-2 bg-green-600 text-white text-xl font-semibold">
-                        4.0
+                        {rating.toFixed(1)}
                     </span>
                     <div className="text-nowrap">
                         <ul className="flex">
-                            {Array.from({length: reviews}).map((_, index) => (
+                            {Array.from({length: rating}).map((_, index) => (
                                 <li key={index}>
                                     <FaStar color="yellow" />
                                 </li>
                             ))}
                         </ul>
-                        <span>15 đánh giá</span>
+                        <span>{reviewsCount} đánh giá</span>
                     </div>
                 </div>
             </div>
