@@ -11,13 +11,7 @@ interface ClubHeaderProps {
     rating: number;
 }
 
-function ClubHeader({
-    name,
-    address,
-    phone,
-    reviewsCount,
-    rating,
-}: ClubHeaderProps) {
+function ClubHeader({name, address, phone, reviewsCount, rating}: ClubHeaderProps) {
     return (
         <div className="flex justify-between items-end border border-black/10 rounded p-4 gap-12">
             <div className="flex flex-col gap-3">
@@ -44,9 +38,9 @@ function ClubHeader({
                     <CiShare2 />
                     <span>Chia sẻ</span>
                 </button>
-                <div className="flex gap-4 items-center">
+                <div className="flex gap-4 items-center aspect-square">
                     <span className="rounded-full p-2 bg-green-600 text-white text-xl font-semibold">
-                        {rating.toFixed(1)}
+                        {rating}
                     </span>
                     <div className="text-nowrap">
                         <ul className="flex">

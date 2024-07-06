@@ -29,6 +29,15 @@ function ClubDetail() {
     } = useGetClubDetailQuery(clubId);
     const {data: reviews} = useGetClubReviewsQuery(clubId);
 
+    const getAverageRating = () => {
+        if (!reviews || !reviews.length) return 0;
+        const totalRating = reviews.reduce(
+            (acc, review) => acc + review.rating,
+            0
+        );
+        return totalRating / reviews.length;
+    };
+
     useEffect(() => {
         dispatch(setClubDetail(clubDetail));
     }, [dispatch, clubId, clubDetail]);
@@ -49,7 +58,8 @@ function ClubDetail() {
                     name={clubDetail.clubName}
                     address={clubDetail.clubAddress}
                     phone={clubDetail.clubPhone}
-                    reviews={clubDetail.reviews?.length || 0}
+                    reviewsCount={clubDetail.reviews?.length || 0}
+                    rating={getAverageRating()}
                 />
                 <ClubDescription description={clubDetail.clubDescription} />
                 <ClubReviews reviews={reviews} />
