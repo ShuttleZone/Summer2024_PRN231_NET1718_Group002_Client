@@ -1,10 +1,12 @@
 import {ContestInfo} from "@/@types/api";
+import {useNavigate} from "react-router-dom";
 
 interface ContestTableProps {
     contest: ContestInfo;
 }
 
 function CardBody({contest}: ContestTableProps) {
+    const navigate = useNavigate();
     return (
         <div>
             <div className="grid grid-cols-2 gap-4">
@@ -15,7 +17,7 @@ function CardBody({contest}: ContestTableProps) {
                             className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
                         >
                             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                Player Information
+                                Thông tin các người chơi
                             </h5>
                             <p className="font-normal text-gray-700 dark:text-gray-400">
                                 {contest.userContests.map((user) => {
@@ -24,14 +26,19 @@ function CardBody({contest}: ContestTableProps) {
                                             className="my-2"
                                             key={user.participantsId}
                                         >
-                                            Full Name:{" "}
+                                            Tên:{" "}
                                             <strong>{user.fullname}</strong>
                                             <br />
-                                            Tel: {user.phoneNumber}
+                                            SĐT: {user.phoneNumber}
                                             <br />
                                             Email: {user.email}
                                             <br />
-                                            Gender: {user.gender}
+                                            Giới tính:{" "}
+                                            {user.gender == 0
+                                                ? "Nam"
+                                                : user.gender == 1
+                                                  ? "Nữ"
+                                                  : ""}
                                         </div>
                                     );
                                 })}
@@ -44,16 +51,25 @@ function CardBody({contest}: ContestTableProps) {
                             className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
                         >
                             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                Contest Information
+                                Thông tin cuộc đấu
                             </h5>
                             <p className="font-normal text-gray-700 dark:text-gray-400">
-                                Rules: {contest.policy}
+                                Thể lệ: {contest.policy}
                             </p>
                             <p className="font-normal text-gray-700 dark:text-gray-400">
-                                Number of players: {contest.maxPlayer}
+                                Tổng số người chơi: {contest.maxPlayer} người
                             </p>
                             <p className="font-normal text-gray-700 dark:text-gray-400">
-                                Status: {contest.contestStatus}
+                                Trạng thái cuộc đấu:{" "}
+                                {contest.contestStatus.toString() ==
+                                "InProgress"
+                                    ? "Đang diễn ra"
+                                    : contest.contestStatus.toString() == "Open"
+                                      ? "Đang mở"
+                                      : contest.contestStatus.toString() ==
+                                          "Closed"
+                                        ? "Đã diễn ra"
+                                        : ""}
                             </p>
                         </a>
                     </div>
@@ -66,7 +82,7 @@ function CardBody({contest}: ContestTableProps) {
                             className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
                         >
                             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                Map Location
+                                Vị trí câu lạc bộ
                             </h5>
                             <p className="font-normal text-gray-700 dark:text-gray-400">
                                 <iframe
@@ -84,13 +100,13 @@ function CardBody({contest}: ContestTableProps) {
                     className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
                 >
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                        Want to challenge someone else ?
+                        Bạn muốn thách đấu với những người chơi khác ?
                     </h5>
                     <a
-                        href="#"
+                        onClick={() => navigate("/clubs")}
                         className="inline-flex mt-6 items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-500 rounded-lg hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
-                        Create a contest now
+                        Hãy thách thức những người chơi khác ngay !
                         <svg
                             className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
                             aria-hidden="true"
