@@ -94,10 +94,10 @@ const NotificationsDropdown: React.FC = () => {
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="max-h-64 overflow-y-scroll">
-                <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+                <DropdownMenuLabel>Thông báo</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {notificationsData?.length === 0 ? (
-                    <DropdownMenuItem>No new notifications</DropdownMenuItem>
+                    <DropdownMenuItem>Không có thông báo mới</DropdownMenuItem>
                 ) : (
                     notificationsData?.map((notification, index) => (
                         <NotificationItem key={index} {...notification} />
