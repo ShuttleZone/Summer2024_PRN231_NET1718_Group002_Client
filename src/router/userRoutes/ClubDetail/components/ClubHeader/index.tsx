@@ -1,7 +1,8 @@
-import {CiLocationOn, CiShare2} from "react-icons/ci";
+import {CiLocationOn} from "react-icons/ci";
 import {FaStar} from "react-icons/fa";
 import {FiPhoneCall} from "react-icons/fi";
 import {Link} from "react-router-dom";
+import ShareButton from "./components/ShareButton";
 
 interface ClubHeaderProps {
     name: string;
@@ -36,14 +37,11 @@ function ClubHeader({
             <div className="flex justify-between items-center gap-6">
                 <Link
                     to={"court-booking"}
-                    className="flex justify-between items-center gap-2 border border-black/10 rounded px-12 text-nowrap py-1 bg-green-300"
+                    className="flex justify-between items-center gap-2 border border-black/10 rounded px-12 text-nowrap py-1 bg-green-300 hover:bg-green-500"
                 >
                     Đặt sân
                 </Link>
-                <button className="flex justify-between items-center gap-2 border border-black/10 rounded px-2 py-1 text-nowrap">
-                    <CiShare2 />
-                    <span>Chia sẻ</span>
-                </button>
+                <ShareButton />
                 <div className="flex gap-4 items-center">
                     <span className="rounded-full p-2 bg-green-600 text-white text-xl font-semibold">
                         {rating.toFixed(1)}
