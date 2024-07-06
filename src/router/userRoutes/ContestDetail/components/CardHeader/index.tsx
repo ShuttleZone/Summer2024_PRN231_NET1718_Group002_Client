@@ -1,12 +1,16 @@
 import {ContestInfo} from "@/@types/api";
 import JoinContestButton from "../JoinContestButton";
 import formatTime from "@/lib/time.util";
+import formatVietnameseDong from "@/lib/currency.util";
 
 interface ContestTableProps {
     contest: ContestInfo;
 }
 
 function CardHeader({contest}: ContestTableProps) {
+    const currentDate = new Date().toLocaleString();
+    const userId = sessionStorage.getItem("userId");
+    // console.log(contest.userContests.length);
     const firstReservationDetail =
         contest.reservation.reservationDetailsDtos[0];
     const formatDateTime = (dateTime: string) => {
@@ -18,7 +22,7 @@ function CardHeader({contest}: ContestTableProps) {
         <div className="absolute mt-2 bottom-0 left-0 w-full">
             <div className="w-auto h-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
                 <h5 className="mb-4 text-2xl font-bold text-green-600 dark:text-white">
-                    Contest Information
+                    Thông tin cuộc đấu
                 </h5>
                 <ul className="grid w-full gap-6 md:grid-cols-3">
                     <li>
@@ -45,7 +49,7 @@ function CardHeader({contest}: ContestTableProps) {
                                 </svg>
 
                                 <div className="w-full text-lg font-semibold inline align-middle mx-1 text-green-600">
-                                    Court Name
+                                    Tên sân
                                 </div>
                                 <div className="w-full text-gray-700">
                                     {
@@ -55,10 +59,14 @@ function CardHeader({contest}: ContestTableProps) {
                                     }
                                 </div>
                                 <div className="w-full text-lg font-semibold inline align-middle mx-1 text-green-600">
-                                    Price
+                                    Giá của cuộc đấu
                                 </div>
                                 <div className="w-full text-gray-700">
-                                    {contest.reservation.totalPrice} VND
+                                    {formatVietnameseDong(
+                                        contest.reservation.totalPrice,
+                                        "VND"
+                                    )}{" "}
+                                    VND
                                 </div>
                             </div>
                         </label>
@@ -81,10 +89,13 @@ function CardHeader({contest}: ContestTableProps) {
                                     />
                                 </svg>
                                 <div className="w-full inline mx-1 align-middle text-lg font-semibold text-green-600">
-                                    Date & Time
+                                    Ngày diễn ra
                                 </div>
                                 <div className="w-full text-gray-700">
-                                    {formatDateTime(contest.contestDate)}
+                                    {formatDateTime(
+                                        contest.reservation
+                                            .reservationDetailsDtos[0].startTime
+                                    )}
                                 </div>
                             </div>
                         </label>
@@ -113,13 +124,13 @@ function CardHeader({contest}: ContestTableProps) {
                                 </svg>
 
                                 <div className="w-full text-lg font-semibold inline align-middle mx-1 text-green-600">
-                                    Club & Court Information
+                                    Thông tin vị trí thi đấu
                                 </div>
                                 <div className="w-full">
                                     {firstReservationDetail ? (
                                         <div className="space-y-1">
                                             <div className="font-bold text-gray-800">
-                                                Club Address:
+                                                Địa chỉ câu lạc bộ
                                             </div>
                                             <div className="text-gray-700">
                                                 {
@@ -129,7 +140,7 @@ function CardHeader({contest}: ContestTableProps) {
                                             </div>
 
                                             <div className="font-bold text-gray-800">
-                                                Working Hours:
+                                                Thời gian hoạt động
                                             </div>
                                             <div className="text-gray-700">
                                                 {formatTime(
@@ -144,7 +155,7 @@ function CardHeader({contest}: ContestTableProps) {
                                             </div>
 
                                             <div className="font-bold text-gray-800">
-                                                Phone:
+                                                SĐT câu lạc bộ
                                             </div>
                                             <div className="text-gray-700">
                                                 {
@@ -155,7 +166,7 @@ function CardHeader({contest}: ContestTableProps) {
                                         </div>
                                     ) : (
                                         <div className="text-gray-500">
-                                            No reservation details available.
+                                            Không có thông tin
                                         </div>
                                     )}
                                 </div>
@@ -163,10 +174,36 @@ function CardHeader({contest}: ContestTableProps) {
                         </label>
                     </li>
                 </ul>
-                <JoinContestButton
-                    contestId={contest.id}
-                    total={contest.reservation.totalPrice}
-                ></JoinContestButton>
+                {contest.userContests[0].participantsId == userId ? (
+                    <button className="inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-green-600 rounded-lg hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Bạn là người tạo cuộc đấu này !
+                    </button>
+                ) : contest.userContests.length == contest.maxPlayer ? (
+                    <button className="inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Cuộc đấu đã đủ số lượng người chơi !
+                    </button>
+                ) : contest.contestStatus.toString() == "Closed" &&
+                  contest.reservation.reservationDetailsDtos[0].startTime <
+                      currentDate ? (
+                    <button className="inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Cuộc thi đã hết hạn tham gia !
+                    </button>
+                ) : contest.userContests.length < contest.maxPlayer &&
+                  contest.userContests[0].participantsId != userId ? (
+                    <JoinContestButton
+                        contestId={contest.id}
+                        total={contest.reservation.totalPrice}
+                    ></JoinContestButton>
+                ) : contest.userContests.find(
+                      (uc) => uc.participantsId != userId
+                  ) && contest.userContests[0].participantsId != userId ? (
+                    <JoinContestButton
+                        contestId={contest.id}
+                        total={contest.reservation.totalPrice}
+                    ></JoinContestButton>
+                ) : (
+                    "Không có thông tin"
+                )}
             </div>
         </div>
     );

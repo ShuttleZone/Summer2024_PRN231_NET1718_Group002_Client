@@ -1,3 +1,4 @@
+import formatVietnameseDong from "@/lib/currency.util";
 import {useGetUserContestsQuery} from "@/store/services/contests/contest.api";
 import {useNavigate} from "react-router-dom";
 
@@ -7,7 +8,10 @@ function MyContestTable() {
     const {data: contests, isError, isLoading} = useGetUserContestsQuery();
     if (isError) return <div>Error in loading data</div>;
     if (isLoading) return <div>Loading...</div>;
-
+    const formatDateTime = (dateTime: string) => {
+        const date = new Date(dateTime);
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
+    };
     return (
         <div>
             <section className="bg-white dark:bg-gray-900">
@@ -83,27 +87,64 @@ function MyContestTable() {
                                                     </svg>
                                                     {map.contestStatus == 0
                                                         ? "Sắp diễn ra"
-                                                        : ""}
+                                                        : map.contestStatus == 1
+                                                          ? "Đang diễn ra"
+                                                          : "Đã diễn ra"}
                                                 </a>
-                                                <h2 className="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">
+                                                <h2 className="text-gray-900 dark:text-white text-xl font-extrabold mb-2">
+                                                    <a>Cuộc đấu giữa</a>
                                                     {map.userContests.map(
                                                         (uc) => {
                                                             return (
-                                                                <a>
-                                                                    {uc.isCreatedPerson ==
-                                                                    false
-                                                                        ? "Đấu với:"
-                                                                        : "aaaa"}
-                                                                </a>
+                                                                <div>
+                                                                    <a className="text-2xl text-green-700 mb-2">
+                                                                        -{" "}
+                                                                        {
+                                                                            uc.fullname
+                                                                        }
+                                                                    </a>
+                                                                </div>
                                                             );
                                                         }
                                                     )}
                                                 </h2>
-                                                <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">
+                                                <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-2">
                                                     Thời gian & địa điểm
                                                 </p>
+                                                <h2 className="text-gray-900 dark:text-white text-xl font-extrabold mb-2">
+                                                    {
+                                                        map.reservation
+                                                            .reservationDetailsDtos[0]
+                                                            ?.court.club
+                                                            .clubName
+                                                    }{" "}
+                                                    -{" "}
+                                                    {
+                                                        map.reservation
+                                                            .reservationDetailsDtos[0]
+                                                            ?.court.name
+                                                    }
+                                                </h2>
+                                                <h2 className="text-gray-900 dark:text-white text-xl font-extrabold mb-2">
+                                                    {formatDateTime(
+                                                        map.reservation
+                                                            .reservationDetailsDtos[0]
+                                                            ?.startTime
+                                                    )}{" "}
+                                                    -{" "}
+                                                    {formatVietnameseDong(
+                                                        map.reservation
+                                                            .totalPrice,
+                                                        "VND"
+                                                    )}{" "}
+                                                    vnd
+                                                </h2>
                                                 <a
-                                                    href="#"
+                                                    onClick={() => {
+                                                        navigate(
+                                                            `/contests/details/${map.id}`
+                                                        );
+                                                    }}
                                                     className="text-blue-600 dark:text-blue-500 hover:underline font-medium text-lg inline-flex items-center"
                                                 >
                                                     Xem chi tiết
