@@ -16,13 +16,13 @@ import {
 
 function AvailabilityInput({form}: FormChildProps) {
     const DayInWeek = [
-        "Thứ 2",
-        "Thứ 3",
-        "Thứ 4",
-        "Thứ 5",
-        "Thứ 6",
-        "Thứ 7",
-        "Chủ nhật",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
     ];
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
@@ -32,6 +32,27 @@ function AvailabilityInput({form}: FormChildProps) {
                 ? prevSelectedDays.filter((d) => d !== day)
                 : [...prevSelectedDays, day]
         );
+    };
+
+    const transformDayInWeek = (day: string) => {
+        switch (day) {
+            case "Monday":
+                return "Thứ 2";
+            case "Tuesday":
+                return "Thứ 3";
+            case "Wednesday":
+                return "Thứ 4";
+            case "Thursday":
+                return "Thứ 5";
+            case "Friday":
+                return "Thứ 6";
+            case "Saturday":
+                return "Thứ 7";
+            case "Sunday":
+                return "Chủ nhật";
+            default:
+                return "";
+        }
     };
 
     useEffect(() => {
@@ -76,7 +97,9 @@ function AvailabilityInput({form}: FormChildProps) {
                                                     }
                                                 >
                                                     <p className="font-semibold">
-                                                        {item}
+                                                        {transformDayInWeek(
+                                                            item
+                                                        )}
                                                     </p>
                                                 </div>
                                             ))}

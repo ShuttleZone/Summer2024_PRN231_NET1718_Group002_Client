@@ -3,11 +3,13 @@ import React from "react";
 interface DatePickerProps {
     selectedDate: Date;
     setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
+    minDate?: Date;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
     selectedDate,
     setSelectedDate,
+    minDate = new Date(),
 }) => {
     const handlePrev = () => {
         const newDate = new Date(selectedDate.getTime());
@@ -21,12 +23,11 @@ const DatePicker: React.FC<DatePickerProps> = ({
         setSelectedDate(newDate);
     };
 
-    const isToday = () => {
-        const today = new Date();
+    const isMinDate = () => {
         return (
-            selectedDate.getDate() === today.getDate() &&
-            selectedDate.getMonth() === today.getMonth() &&
-            selectedDate.getFullYear() === today.getFullYear()
+            selectedDate.getDate() === minDate.getDate() &&
+            selectedDate.getMonth() === minDate.getMonth() &&
+            selectedDate.getFullYear() === minDate.getFullYear()
         );
     };
 
@@ -35,8 +36,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
             <button
                 type="button"
                 onClick={handlePrev}
-                className={`text-2xl mx-2 ${isToday() ? "opacity-50 cursor-not-allowed" : ""}`}
-                disabled={isToday()}
+                className={`text-2xl mx-2 ${isMinDate() ? "opacity-50 cursor-not-allowed" : ""}`}
+                disabled={isMinDate()}
             >
                 <p className="w-8 h-8">&lt;</p>
             </button>
