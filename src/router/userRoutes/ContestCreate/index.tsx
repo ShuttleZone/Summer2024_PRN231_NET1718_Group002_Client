@@ -31,6 +31,7 @@ import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
+import {PiCourtBasketball} from "react-icons/pi";
 import {useNavigate, useParams} from "react-router-dom";
 import {z} from "zod";
 
@@ -180,7 +181,7 @@ function ContestCreate() {
                         <h2 className="text-xl text-center font-semibold">
                             Choose a time
                         </h2>
-                        <div className="flex flex-row justify-between w-full px-8 mb-8">
+                        <div className="flex flex-col justify-between w-full px-8 mb-8">
                             <div className="h-fit w-full mr-8 shadow-lg border-2">
                                 <DatePicker
                                     selectedDate={selectedDate}
@@ -191,6 +192,34 @@ function ContestCreate() {
                                     minDate={tomorrow}
                                     selectedDate={selectedDate}
                                 />
+                            </div>
+                            <div className="w-full flex justify-between">
+                                <div className="w-1/5">
+                                    <div className="flex flex-row justify-between items-center my-4">
+                                        <PiCourtBasketball className="text-5xl text-black" />
+                                        <span className="text-xl w-32 font-semibold">
+                                            Còn trống
+                                        </span>
+                                    </div>
+                                    <div className="flex flex-row justify-between items-center my-4">
+                                        <PiCourtBasketball className="text-5xl text-green-500" />
+                                        <span className="text-xl w-32 font-semibold">
+                                            Đang chọn
+                                        </span>
+                                    </div>
+                                    <div className="flex flex-row justify-between items-center my-4">
+                                        <PiCourtBasketball className="text-5xl text-red-500" />
+                                        <span className="text-xl w-32 font-semibold">
+                                            Đã bán
+                                        </span>
+                                    </div>
+                                    <div className="flex flex-row justify-between items-center my-4">
+                                        <PiCourtBasketball className="text-5xl text-orange-500" />
+                                        <span className="text-xl w-32 font-semibold">
+                                            Bảo trì/Bận
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
