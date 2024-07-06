@@ -57,7 +57,6 @@ const contestApi = commonApi.injectEndpoints({
                 body,
             }),
         }),
-
         createContest: build.mutation<CreateContestResponse, CreateContestType>(
             {
                 query: (contest) => ({
@@ -67,6 +66,14 @@ const contestApi = commonApi.injectEndpoints({
                 }),
             }
         ),
+        getUserContests: build.query<ContestInfo[], void>({
+            query: () => {
+                const routeBuilder = new ApiRouteBuilder(
+                    "api/Contests/get-my-contests"
+                );
+                return routeBuilder.build();
+            },
+        }),
     }),
     overrideExisting: true,
 });
@@ -74,6 +81,7 @@ const contestApi = commonApi.injectEndpoints({
 export const {
     useGetContestsQuery,
     useGetContestsDetailQuery,
+    useGetUserContestsQuery,
     useJoinContestMutation,
     useCreateContestMutation,
     useGetContestStaffQuery,

@@ -17,7 +17,7 @@ function ClubLocation({lat, lng}: ClubLocationProps) {
         <Accordion type="single" collapsible defaultValue="item-1">
             <AccordionItem value="item-1">
                 <AccordionTrigger className="text-xl font-semibold">
-                    Location
+                    Địa chỉ
                 </AccordionTrigger>
                 <AccordionContent>
                     <div className="w-full flex justify-center items-center">

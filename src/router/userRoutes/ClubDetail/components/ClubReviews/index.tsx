@@ -12,7 +12,7 @@ function ClubReviews() {
         <Accordion type="single" collapsible defaultValue="item-1">
             <AccordionItem value="item-1">
                 <AccordionTrigger className="text-xl font-semibold">
-                    Reviews
+                    Đánh giá
                 </AccordionTrigger>
                 <AccordionContent>
                     <div className="flex justify-start gap-8 mb-12">

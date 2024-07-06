@@ -52,22 +52,22 @@ function ClubList() {
     const columns: ColumnDef<Club>[] = [
         {
             accessorKey: "clubName",
-            header: "Club Name",
+            header: "TTên câu lạc bộ",
             cell: ({row}) => (
                 <div className="font-medium">{row.getValue("clubName")}</div>
             ),
         },
         {
             accessorKey: "clubAddress",
-            header: "Club Address",
+            header: "Địa chỉ",
         },
         {
             accessorKey: "openHours",
-            header: "Open Hours",
+            header: "Giờ mở cửa",
         },
         {
             accessorKey: "rating",
-            header: () => <div className="text-right">Rating</div>,
+            header: () => <div className="text-right">Đánh giá</div>,
             cell: ({row}) => (
                 <div className="flex justify-end">
                     {row.getValue("rating")}
@@ -77,11 +77,11 @@ function ClubList() {
         },
         {
             accessorKey: "totalCourt",
-            header: "Total Court",
+            header: "Tổng số sân",
         },
         {
             accessorKey: "totalReview",
-            header: "Total Review",
+            header: "Tổng số đánh giá",
             cell: ({row}) => {
                 return (
                     <div className="flex">
@@ -100,7 +100,7 @@ function ClubList() {
         },
         {
             accessorKey: "totalStaff",
-            header: "Total Staff",
+            header: "Tổng số nhân viên",
             cell: ({row}) => {
                 return (
                     <div className="flex">
@@ -145,7 +145,7 @@ function ClubList() {
         <div className="w-full">
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Filter clubs..."
+                    placeholder="Lộc câu lạc bộ..."
                     value={
                         (table
                             .getColumn("clubName")
@@ -161,7 +161,8 @@ function ClubList() {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown className="ml-2 h-4 w-4" />
+                            Chọn cột hiển thị
+                            <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -186,7 +187,7 @@ function ClubList() {
                     className="bg-white border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white ml-8"
                     onClick={() => navigate("/manager/clubs/new")}
                 >
-                    Create new Club
+                    Thêm câu lạc bộ
                 </Button>
             </div>
             <div className="rounded-md border">
@@ -205,7 +206,7 @@ function ClubList() {
                                               )}
                                     </TableHead>
                                 ))}
-                                <TableHead>Actions</TableHead>
+                                <TableHead>Hành động</TableHead>
                             </TableRow>
                         ))}
                     </TableHeader>
@@ -251,8 +252,9 @@ function ClubList() {
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
                 <div className="flex-1 text-sm text-muted-foreground">
-                    {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                    {table.getFilteredRowModel().rows.length} row(s) selected.
+                    Đã chọn {table.getFilteredSelectedRowModel().rows.length}{" "}
+                    trong số {table.getFilteredRowModel().rows.length} câu lạc
+                    bộ
                 </div>
                 <div className="space-x-2">
                     <Button
@@ -261,7 +263,7 @@ function ClubList() {
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
-                        Previous
+                        Trước đó
                     </Button>
                     <Button
                         variant="outline"
@@ -269,7 +271,7 @@ function ClubList() {
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
                     >
-                        Next
+                        Tiếp theo
                     </Button>
                 </div>
             </div>

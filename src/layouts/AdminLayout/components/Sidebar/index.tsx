@@ -54,13 +54,16 @@ function Sidebar({navItems}: SidebarProps) {
                     </h1>
                 </Link>
                 <nav className="mt-8">
-                    <ul className="flex flex-col justify-start items-start">
+                    <ul className="flex flex-col justify-start items-start gap-1">
                         {navItems.map((navItem) => (
                             <li key={navItem.title} className="w-full">
                                 <NavItem
                                     title={navItem.title}
                                     link={navItem.to}
                                     Icon={navItem.icon}
+                                    isActive={
+                                        window.location.pathname === navItem.to
+                                    }
                                 />
                             </li>
                         ))}

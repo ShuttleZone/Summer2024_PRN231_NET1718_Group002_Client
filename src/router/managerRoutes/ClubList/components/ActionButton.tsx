@@ -67,11 +67,11 @@ function ActionButton({clubId}: ActionButtonProps) {
                 </DialogHeader>
                 <CreateCourtPopUp clubId={clubId} />
             </DialogContent>
-            <DialogContent>
+            {/* <DialogContent>
                 <DialogHeader>
                     <DialogTitle>StaffList</DialogTitle>
                 </DialogHeader>
-            </DialogContent>
+            </DialogContent> */}
         </Dialog>
     );
 }
