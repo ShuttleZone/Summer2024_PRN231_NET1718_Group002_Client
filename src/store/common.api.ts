@@ -3,23 +3,11 @@ import {
     BaseQueryFn,
     FetchArgs,
     FetchBaseQueryError,
-    FetchBaseQueryMeta,
     createApi,
     fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
 import {RootState} from ".";
-import {Middleware, MiddlewareAPI, isRejectedWithValue} from "@reduxjs/toolkit";
-import {RefreshToken} from "@/@types/api";
 import {refreshToken as refreshTokenRequest} from "./slices/auth.slice";
-
-export const rtkQueryErrorLogger: Middleware =
-    (_: MiddlewareAPI) => (next) => (action) => {
-        if (isRejectedWithValue(action)) {
-            console.log("We got a rejected action!");
-        }
-
-        return next(action);
-    };
 
 const baseQuery = fetchBaseQuery({
     baseUrl: BASE_URL,
@@ -35,9 +23,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithErrorHandling: BaseQueryFn<
     string | FetchArgs,
     unknown,
-    FetchBaseQueryError,
-    {},
-    FetchBaseQueryMeta
+    FetchBaseQueryError
 > = async (args, api, extraOptions) => {
     const result = await baseQuery(args, api, extraOptions);
     if (result.error) {

@@ -1,7 +1,7 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import authReducer, {refreshToken, setLoading} from "./slices/auth.slice";
 import spinnerReducer from "./slices/spinner.slice";
-import commonApi, {rtkQueryErrorLogger} from "./common.api";
+import commonApi from "./common.api";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import bookingStageReducer from "./slices/bookingStage.slice";
 import clubCreateReducer from "./slices/club.slice";
@@ -20,9 +20,7 @@ const rootReducer = combineReducers({
 const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware()
-            .concat(commonApi.middleware)
-            .concat(rtkQueryErrorLogger),
+        getDefaultMiddleware().concat(commonApi.middleware),
 });
 
 store.dispatch(setLoading(true));
