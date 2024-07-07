@@ -1,16 +1,16 @@
 import {useGetPackagesQuery} from "@/store/services/packs/package.api";
 import {useNavigate} from "react-router-dom";
-import {PaymentRequest} from "@/@types/api";
+import {PackageInformation, PaymentRequest} from "@/@types/api";
 import paymentTypes from "@/constants/payment.constants";
 
 function PackageList() {
-    const handleGetPaymentUrl = async () => {
+    const handleGetPaymentUrl = async (p: PackageInformation) => {
         const paymentRequest: PaymentRequest = {
-            orderInfo: "demo",
-            fullName: "",
-            orderType: paymentTypes.ORDER_TYPE_BOOKING,
-            description: "pay for reservation demo",
-            amount: 10000,
+            orderInfo: p.id,
+            fullName: p.name,
+            orderType: paymentTypes.ORDER_TYPE_PACKAGE,
+            description: "Thanh toán gói đăng kí",
+            amount: p.price,
         };
         navigate("/payment", {state: paymentRequest});
     };
@@ -65,7 +65,9 @@ function PackageList() {
                                                 {p.price}vnđ/tháng
                                             </span>
                                             <a
-                                                onClick={handleGetPaymentUrl}
+                                                onClick={() =>
+                                                    handleGetPaymentUrl(p)
+                                                }
                                                 className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium  rounded-lg text-sm px-5 py-2.5 text-center"
                                             >
                                                 Đăng kí
@@ -77,7 +79,9 @@ function PackageList() {
                                                 {p.price}vnđ/năm
                                             </span>
                                             <a
-                                                onClick={handleGetPaymentUrl}
+                                                onClick={() =>
+                                                    handleGetPaymentUrl(p)
+                                                }
                                                 className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium  rounded-lg text-sm px-5 py-2.5 text-center"
                                             >
                                                 Đăng kí
