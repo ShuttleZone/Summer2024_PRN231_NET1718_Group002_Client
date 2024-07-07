@@ -2,6 +2,7 @@ import {ContestInfo} from "@/@types/api";
 import JoinContestButton from "../JoinContestButton";
 import formatTime from "@/lib/time.util";
 import formatVietnameseDong from "@/lib/currency.util";
+import {useAppSelector} from "@/store";
 
 interface ContestTableProps {
     contest: ContestInfo;
@@ -9,8 +10,7 @@ interface ContestTableProps {
 
 function CardHeader({contest}: ContestTableProps) {
     const currentDate = new Date().toLocaleString();
-    const userId = sessionStorage.getItem("userId");
-    // console.log(contest.userContests.length);
+    const userId = useAppSelector((state) => state.auth.userId);
     const firstReservationDetail =
         contest.reservation.reservationDetailsDtos[0];
     const formatDateTime = (dateTime: string) => {

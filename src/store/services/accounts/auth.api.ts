@@ -1,5 +1,10 @@
 import commonApi from "@/store/common.api";
-import {LoginAccount, RegisterAccount, UserProfile} from "@/@types/api";
+import {
+    LoginAccount,
+    RefreshToken,
+    RegisterAccount,
+    UserProfile,
+} from "@/@types/api";
 import {setAuth} from "@/store/slices/auth.slice";
 import ApiRouteBuilder from "@/lib/api.util";
 
@@ -19,12 +24,22 @@ export const authApi = commonApi.injectEndpoints({
                     const token = response.data?.token;
                     dispatch(setAuth(token));
                 } catch (err) {
-                    // what should I do when the request fails?
-                    // probably show a toast
-                    // somebody should implement this
-                    // i'm just too lazy
+                    /*
+                        what should I do when the request fails?
+                        probably show a toast
+                        somebody should implement this
+                        i'm just too lazy
+                    */
                 }
             },
+        }),
+        refreshToken: build.mutation<string, RefreshToken>({
+            query: (data) => ({
+                url: "/api/account/refresh",
+                method: "POST",
+                body: data,
+                responseHandler: (response) => response.text(),
+            }),
         }),
         register: build.mutation<string, Omit<RegisterAccount, "">>({
             query: (body) => ({
