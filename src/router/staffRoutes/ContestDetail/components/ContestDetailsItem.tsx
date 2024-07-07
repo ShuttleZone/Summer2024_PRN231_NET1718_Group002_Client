@@ -51,16 +51,16 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
 
             setDisableUpdate(true);
             toast({
-                title: "Success",
-                description: "Successfully updated the contest!",
+                title: "Thành công",
+                description: "Cập nhật cuộc thi thành công!",
                 variant: "default",
             });
         } catch (err) {
             toast({
-                title: "Error",
+                title: "Lỗi",
                 description:
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    (err as any)?.data?.value || "Unknown error occurred",
+                    (err as any)?.data?.value || "Đã xảy ra lỗi không xác định",
                 variant: "destructive",
             });
         }
@@ -69,18 +69,18 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
     return (
         <div className="w-full h-full overflow-y-auto p-8 bg-blue-100 rounded-xl shadow-lg text-gray-900">
             <h2 className="text-3xl font-bold mb-6 text-center text-purple-900">
-                Contest Details
+                Chi tiết cuộc thi
             </h2>
             <div className="space-y-4">
-                <div>
+                {/* <div>
                     <label className="block text-lg font-semibold text-gray-700">
-                        Contest ID
+                        ID cuộc thi
                     </label>
                     <p className="text-base">{contest.id}</p>
-                </div>
+                </div> */}
                 <div>
                     <label className="block text-lg font-semibold text-gray-700 flex items-center">
-                        <FaCalendarAlt className="mr-2" /> Contest Date
+                        <FaCalendarAlt className="mr-2" /> Ngày diễn ra
                     </label>
                     <p className="text-base">
                         {new Date(contest.contestDate).toUTCString()}
@@ -88,14 +88,14 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                 </div>
                 <div>
                     <label className="block text-lg font-semibold text-gray-700 flex items-center">
-                        <FaUsers className="mr-2" /> Max Players
+                        <FaUsers className="mr-2" /> Số người chơi tối đa
                     </label>
                     <p className="text-base">{contest.maxPlayer}</p>
                 </div>
                 {contest.policy && (
                     <div>
                         <label className="block text-lg font-semibold text-gray-700">
-                            Policy
+                            Chính sách
                         </label>
                         <p className="text-base">{contest.policy}</p>
                     </div>
@@ -103,7 +103,7 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                 {contest.contestStatus && (
                     <div>
                         <label className="block text-lg font-semibold text-gray-700">
-                            Contest Status
+                            Trạng thái cuộc thi
                         </label>
                         <p className="text-base">{contest.contestStatus}</p>
                     </div>
@@ -112,7 +112,7 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
             {contest.userContests && contest.userContests.length > 0 && (
                 <div className="mt-6">
                     <h3 className="text-2xl font-semibold mb-4 text-purple-900">
-                        User In Contest
+                        Người tham gia cuộc thi
                     </h3>
                     <div className="space-y-4">
                         {contest.userContests.map((userContest, index) => (
@@ -137,19 +137,12 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                                 </div>
 
                                 <p className="text-gray-600">
-                                    Participants ID:{" "}
-                                    {userContest.participantsId}
-                                </p>
-                                <p className="text-gray-600">
-                                    Contest ID: {userContest.contestId}
-                                </p>
-                                <p className="text-gray-600">
-                                    Phone Number:{" "}
+                                    Số điện thoại:{" "}
                                     {userContest.phoneNumber || "N/A"}
                                 </p>
 
                                 <p className="text-gray-600 flex items-center">
-                                    Is Created Person:{" "}
+                                    Người tạo:{" "}
                                     {userContest.isCreatedPerson ? (
                                         <FaCheckCircle className="text-green-500 ml-2" />
                                     ) : (
@@ -158,7 +151,7 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                                 </p>
                                 <div className="flex items-center space-x-2">
                                     <label className="text-gray-600">
-                                        Is Winner:
+                                        Là người chiến thắng:
                                     </label>
                                     <input
                                         disabled={disableUpdate}
@@ -175,7 +168,7 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <label className="text-gray-600">
-                                        Point:
+                                        Điểm:
                                     </label>
                                     <input
                                         disabled={
@@ -203,7 +196,7 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                         className="bg-green-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-600 transition"
                         onClick={handleSubmit}
                     >
-                        Update Points
+                        Cập nhật điểm
                     </button>
                 )}
             </div>
