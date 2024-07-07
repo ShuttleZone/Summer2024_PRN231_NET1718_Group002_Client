@@ -35,8 +35,8 @@ function Sidebar({navItems}: SidebarProps) {
         // give it some time to logout because otherwise the page will be unresponsive, idk why :((
         setTimeout(() => dispatch(clearAuth()), 500);
         toast({
-            title: "Logged out successfully",
-            description: "You have been logged out from your account.",
+            title: "Đăng xuất thành công",
+            description: "Bạn đã đăng xuất khỏi tài khoản của bạn",
         });
         navigate("/login");
     };
@@ -81,22 +81,23 @@ function Sidebar({navItems}: SidebarProps) {
                 <AlertDialog>
                     <AlertDialogTrigger className="w-full">
                         <Button className="w-full h-12 bg-red-500 text-white hover:bg-slate-700 transition-colors duration-300 text-lg font-medium">
-                            Logout
+                            Đăng xuất
                         </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
                             <AlertDialogTitle>
-                                Are you sure to logout?
+                                Bạn có chắc chắn là muốn đăng xuất ?
                             </AlertDialogTitle>
                             <AlertDialogDescription>
-                                You will be logged out from your account.
+                                Bạn sẽ thoát ra khỏi tài khoản hiện tại và cần
+                                đăng nhập lại để sử dụng
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogCancel>Huỷ</AlertDialogCancel>
                             <AlertDialogAction onClick={handleLogout}>
-                                Logout
+                                Đăng xuất
                             </AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
