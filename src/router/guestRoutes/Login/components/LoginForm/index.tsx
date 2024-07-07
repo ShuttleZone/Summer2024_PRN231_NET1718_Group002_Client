@@ -12,6 +12,7 @@ function LoginForm() {
         account: "",
         password: "",
         token: "",
+        refreshToken: "",
     };
     const [login] = useLoginMutation();
     const navigate = useNavigate();
@@ -25,16 +26,13 @@ function LoginForm() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const result = await login(formData);
-        console.log(result);
-        const token = result.data?.token;
-        const userId: any = result.data?.id; // eslint-disable-line @typescript-eslint/no-explicit-any
-        if (token != null) sessionStorage.setItem("token", token);
-        sessionStorage.setItem("userId", userId);
+        const refreshToken = result.data?.refreshToken;
+        refreshToken && localStorage.setItem("refresh_token", refreshToken);
 
         if (!result.error) {
             toast({
                 variant: "default",
-                description: "Login successful !",
+                description: "Đăng nhập thành công",
             });
             shouldCallback ? navigate(callbackRoute || "") : navigate("/");
             setFormData(initialState);
@@ -42,7 +40,7 @@ function LoginForm() {
         } else if ((result.error as any).status == 401)
             toast({
                 variant: "destructive",
-                description: "Wrong password !",
+                description: "Tài khoản hoặc mật khẩu không đúng",
             });
         else {
             toast({

@@ -29,7 +29,10 @@ function ClubList() {
                         <ClubCardSkeletons />
                     ) : (
                         clubs?.map((club) => (
-                            <CarouselItem className="pl-1 md:basis-1/2 lg:basis-1/3">
+                            <CarouselItem
+                                key={club.id}
+                                className="pl-1 md:basis-1/2 lg:basis-1/3"
+                            >
                                 <div className="p-1">
                                     <Card>
                                         <CardContent
