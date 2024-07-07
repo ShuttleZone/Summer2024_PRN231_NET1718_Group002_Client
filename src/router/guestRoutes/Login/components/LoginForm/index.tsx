@@ -32,7 +32,7 @@ function LoginForm() {
         if (!result.error) {
             toast({
                 variant: "default",
-                description: "Login successful !",
+                description: "Đăng nhập thành công",
             });
             shouldCallback ? navigate(callbackRoute || "") : navigate("/");
             setFormData(initialState);
@@ -40,7 +40,7 @@ function LoginForm() {
         } else if ((result.error as any).status == 401)
             toast({
                 variant: "destructive",
-                description: "Wrong password !",
+                description: "Tài khoản hoặc mật khẩu không đúng",
             });
         else {
             toast({
