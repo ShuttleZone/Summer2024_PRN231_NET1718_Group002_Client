@@ -25,7 +25,7 @@ const initialState: AuthState = {
 };
 
 interface AuthPayload extends JwtPayload {
-    userId: string;
+    nameid: string;
     username: string;
     email: string;
     role: string | string[];
@@ -69,7 +69,7 @@ const authSlice = createSlice({
             }
             state.isAuthenticated = true;
             state.token = token;
-            state.userId = payload.userId;
+            state.userId = payload.nameid;
             state.username = payload.username;
             state.email = payload.email;
             state.role = payload.role;
