@@ -390,3 +390,16 @@ export interface RefreshToken {
     accessToken: string;
     refreshToken: string;
 }
+
+export interface WorkingClubResponseType {
+    Id: string;
+    ClubName: string;
+    ClubAddress: string;
+    ClubPhone: string;
+}
+
+export interface UserForBooking {
+    id: string;
+    fullname: string;
+    phoneNumber: string;
+}

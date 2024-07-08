@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {useParams} from "react-router-dom";
 import {
     useGetClubReservationDetailQuery,
@@ -15,6 +15,16 @@ import {PiCourtBasketball} from "react-icons/pi";
 interface CourtScheduleProps {
     selectedDate: Date;
     minDate?: Date;
+    clubId?: string;
+    targettedCourts?: string[];
+    onBookSlot?: (bookedSlot: {
+        CourtName: string;
+        Date: string;
+        EndTime: string;
+        StartTime: string;
+        Price: number;
+        CourtId: string;
+    }) => void;
 }
 
 interface BookedSlot {
@@ -27,14 +37,20 @@ interface BookedSlot {
 const CourtSchedule: React.FC<CourtScheduleProps> = ({
     selectedDate,
     minDate = new Date(),
+    clubId,
+    targettedCourts,
+    onBookSlot,
 }) => {
-    const {id} = useParams();
+    const {id: idFromRoute} = useParams();
     const dispatch = useAppDispatch();
-    const {data, isLoading} = useGetCourtScheduleQuery(id);
-    const {data: bookedData} = useGetClubReservationDetailQuery(id);
+    const {data: club, isLoading} = useGetCourtScheduleQuery(
+        clubId ?? idFromRoute
+    );
+    const {data: bookedData} = useGetClubReservationDetailQuery(
+        clubId ?? idFromRoute
+    );
     const [selectedSlots, setSelectedSlots] = useState<BookedSlot[]>([]);
-    const openDateInWeeks = data?.openDateInWeeks;
-    const courts = data?.courts || [];
+    const openDateInWeeks = club?.openDateInWeeks;
 
     function divideSlot(
         openTime: string,
@@ -75,9 +91,9 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({
     }
 
     const timeSlots = divideSlot(
-        data?.openTime || "6:00:00",
-        data?.closeTime || "22:00:00",
-        data?.minDuration || 1
+        club?.openTime || "6:00:00",
+        club?.closeTime || "22:00:00",
+        club?.minDuration || 1
     );
 
     const recentlyBookedSlot = useAppSelector(
@@ -180,6 +196,15 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({
                 })
             );
         }
+        const bookedSlot = {
+            Date: selectedDate.toISOString().split("T")[0],
+            StartTime: slot.split(" - ")[0],
+            EndTime: slot.split(" - ")[1],
+            CourtName: courtName,
+            CourtId: courtId,
+            Price: price,
+        };
+        if (onBookSlot) onBookSlot(bookedSlot);
     };
 
     const selectedDay = selectedDate.toLocaleDateString("en-US", {
@@ -197,6 +222,15 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({
         slotDate.setHours(hours, minutes, 0, 0);
         return slotDate >= currentTime;
     });
+
+    const filteredCourts = useMemo(() => {
+        if (!targettedCourts) {
+            return club?.courts;
+        }
+        return club?.courts?.filter((court) =>
+            targettedCourts.includes(court.id)
+        );
+    }, [targettedCourts, club?.courts]);
 
     return (
         <>
@@ -228,7 +262,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({
                                     {slot}
                                 </div>
                             ))}
-                            {courts.map((court) => (
+                            {filteredCourts?.map((court) => (
                                 <React.Fragment key={court.name}>
                                     <div className="font-semibold py-2 flex items-center text-s">
                                         {court.name}
