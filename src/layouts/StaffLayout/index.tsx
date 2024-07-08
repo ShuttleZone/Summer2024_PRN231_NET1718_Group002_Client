@@ -16,6 +16,11 @@ const staffNavItems = [
         icon: FaThList,
     },
     {
+        title: "Tạo đơn đặt sân",
+        to: "/staff/reservations/new",
+        icon: FaThList,
+    },
+    {
         title: "Something Else",
         to: "/staff/something",
         icon: FaNewspaper,
