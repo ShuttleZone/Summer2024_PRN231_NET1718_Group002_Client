@@ -9,6 +9,7 @@ import {
     FaTimesCircle,
     FaUsers,
 } from "react-icons/fa";
+import ConfirmUpdateContestPopup from "./ConfirmUpdateContestPopup";
 
 interface ContestDetailsProps {
     contest: ContestResponse;
@@ -192,12 +193,7 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
             )}
             <div className="mt-6 flex justify-end">
                 {disableUpdate ? null : (
-                    <button
-                        className="bg-green-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-600 transition"
-                        onClick={handleSubmit}
-                    >
-                        Cập nhật điểm
-                    </button>
+                    <ConfirmUpdateContestPopup onSubmit={handleSubmit} />
                 )}
             </div>
         </div>
