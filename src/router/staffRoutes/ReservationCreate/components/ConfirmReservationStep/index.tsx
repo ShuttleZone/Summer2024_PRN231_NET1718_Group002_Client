@@ -2,6 +2,8 @@ import ConfirmBookingButton from "@/router/userRoutes/CourtBooking/components/Co
 import {BookedSlot} from "../..";
 import BookingStep from "../BookingStep";
 import {useStaffCreateReservationMutation} from "@/store/services/reservations/reservation.api";
+import {useToast} from "@/components/ui/use-toast";
+import {useNavigate} from "react-router-dom";
 
 interface ConfirmBookingButtonProps {
     currentStep: number;
@@ -42,15 +44,26 @@ function ConfirmReservationStep({
     selectedSlots,
 }: ConfirmBookingButtonProps) {
     const [makeReservation] = useStaffCreateReservationMutation();
+    const {toast} = useToast();
+    const navigate = useNavigate();
 
     const handleSubmit = async () => {
         const reservationDetails: ReservationDetail[] = selectedSlots.map(
-            (slot) => ({
-                startTime: slot.Date + " " + slot.StartTime,
-                endTime: slot.Date + " " + slot.EndTime,
-                price: slot.Price,
-                courtId: slot.CourtId,
-            })
+            (slot) => {
+                const startTime = new Date(slot.Date);
+                startTime.setUTCHours(parseInt(slot.StartTime.split(":")[0]));
+                startTime.setUTCMinutes(parseInt(slot.StartTime.split(":")[1]));
+                const endTime = new Date(slot.Date);
+                endTime.setUTCHours(parseInt(slot.EndTime.split(":")[0]));
+                endTime.setUTCMinutes(parseInt(slot.EndTime.split(":")[1]));
+
+                return {
+                    startTime: startTime.toISOString(),
+                    endTime: endTime.toISOString(),
+                    price: slot.Price,
+                    courtId: slot.CourtId,
+                };
+            }
         );
 
         const data: MakeReservationRequest = {
@@ -62,10 +75,24 @@ function ConfirmReservationStep({
         };
 
         try {
-            await makeReservation(data).unwrap();
-            alert("Đặt sân thành công");
+            const response = await makeReservation(data);
+            if (!response.error) {
+                toast({
+                    title: "Thành công",
+                    description: "Đặt sân thành công",
+                });
+                navigate("/staff/reservations");
+            } else {
+                toast({
+                    title: "Lỗi",
+                    description: "Đã có lỗi xảy ra khi đặt sân",
+                });
+            }
         } catch (error) {
-            alert("Đặt sân thất bại");
+            toast({
+                title: "Lỗi",
+                description: "Đã có lỗi xảy ra khi đặt sân",
+            });
         }
     };
 
