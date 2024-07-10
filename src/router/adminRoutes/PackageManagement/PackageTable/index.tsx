@@ -58,7 +58,7 @@ function PackageTable() {
     const columns: ColumnDef<PackageInformation>[] = [
         {
             accessorKey: "name",
-            header: "Package Name",
+            header: "Tên gói",
             cell: ({row}) => (
                 <div className="font-medium">{row.getValue("name")}</div>
             ),
@@ -66,7 +66,7 @@ function PackageTable() {
         },
         {
             accessorKey: "description",
-            header: "Description",
+            header: "Mô tả",
             cell: ({row}) => (
                 <div className="font-medium">{row.getValue("description")}</div>
             ),
@@ -74,7 +74,7 @@ function PackageTable() {
         },
         {
             accessorKey: "price",
-            header: "Price",
+            header: "Giá",
             cell: ({row}) => (
                 <div className="font-medium">{row.getValue("price")}</div>
             ),
@@ -82,25 +82,29 @@ function PackageTable() {
         },
         {
             accessorKey: "packageStatus",
-            header: "Status",
+            header: "Trạng thái",
             cell: ({row}) => (
                 <div className="font-medium">
-                    {row.getValue("packageStatus")}
+                    {row.getValue("packageStatus") == "VALID"
+                        ? "Đang hoạt động"
+                        : "Chưa kích hoạt"}
                 </div>
             ),
             enableSorting: true,
         },
         {
             accessorKey: "packageType",
-            header: "Package Type",
+            header: "Loại gói",
             cell: ({row}) => (
-                <div className="font-medium">{row.getValue("packageType")}</div>
+                <div className="font-medium">
+                    {row.getValue("packageType") == "MONTH" ? "Tháng" : "Năm"}
+                </div>
             ),
             enableSorting: true,
         },
         {
             accessorKey: "id",
-            header: "Action",
+            header: "Chức năng",
             cell: ({row}) => (
                 <div className="space-x-1 whitespace-nowrap">
                     <Dialog>
@@ -392,7 +396,7 @@ function PackageTable() {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown className="ml-2 h-4 w-4" />
+                            Phân loại <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
