@@ -25,6 +25,7 @@ function AvailabilityInput({form}: FormChildProps) {
         "Sunday",
     ];
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
+    const [selectAllActive, setSelectAllActive] = useState(false);
 
     const toggleDay = (day: string) => {
         setSelectedDays((prevSelectedDays) =>
@@ -32,6 +33,7 @@ function AvailabilityInput({form}: FormChildProps) {
                 ? prevSelectedDays.filter((d) => d !== day)
                 : [...prevSelectedDays, day]
         );
+        setSelectAllActive(false); // Reset select all button state
     };
 
     const transformDayInWeek = (day: string) => {
@@ -55,6 +57,16 @@ function AvailabilityInput({form}: FormChildProps) {
         }
     };
 
+    const handleSelectAll = () => {
+        setSelectedDays(DayInWeek);
+        setSelectAllActive(true);
+    };
+
+    const handleCancelSelectAll = () => {
+        setSelectedDays([]);
+        setSelectAllActive(false);
+    };
+
     useEffect(() => {
         form.setValue("availability", selectedDays);
     }, [form, selectedDays]);
@@ -68,7 +80,7 @@ function AvailabilityInput({form}: FormChildProps) {
         >
             <AccordionItem value="item-1">
                 <AccordionTrigger>
-                    <h1 className="text-2xl font-semibold ">Ngày mở cửa</h1>
+                    <h1 className="text-2xl font-semibold">Ngày mở cửa</h1>
                 </AccordionTrigger>
                 <AccordionContent className="px-4">
                     <div className="w-full">
@@ -77,8 +89,22 @@ function AvailabilityInput({form}: FormChildProps) {
                             name="availability"
                             render={() => (
                                 <FormItem>
-                                    <FormLabel htmlFor="clubName">
-                                        Chọn ngày mở cửa
+                                    <FormLabel className="flex flex-row justify-end pr-16">
+                                        {!selectAllActive ? (
+                                            <div
+                                                className="w-32 border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white transition-colors duration-300 py-2 text-center rounded-md hover:cursor-pointer"
+                                                onClick={handleSelectAll}
+                                            >
+                                                Chọn tất cả
+                                            </div>
+                                        ) : (
+                                            <div
+                                                className="w-32 border-2 border-gray-500 text-gray-500 hover:bg-gray-500 hover:text-white transition-colors duration-300 py-2 text-center rounded-md hover:cursor-pointer"
+                                                onClick={handleCancelSelectAll}
+                                            >
+                                                Hủy chọn tất cả
+                                            </div>
+                                        )}
                                     </FormLabel>
                                     <FormControl>
                                         <div className="h-fit flex flex-row justify-start gap-10">
@@ -115,4 +141,5 @@ function AvailabilityInput({form}: FormChildProps) {
         </Accordion>
     );
 }
+
 export default AvailabilityInput;

@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 
 function MultiFileInput({form}: FormChildProps) {
     const [files, setFiles] = useState<File[]>([]);
+
     const removeFile = (index: number): void => {
         const updatedFiles = [...files];
         updatedFiles.splice(index, 1);
@@ -12,7 +13,11 @@ function MultiFileInput({form}: FormChildProps) {
     const addFiles = (event: React.ChangeEvent<HTMLInputElement>): void => {
         if (event.target.files) {
             const fileList = Array.from(event.target.files);
-            setFiles([...files, ...fileList]);
+            // Filter only image files
+            const imageFiles = fileList.filter((file) =>
+                file.type.startsWith("image/")
+            );
+            setFiles([...files, ...imageFiles]);
         }
     };
 
@@ -32,6 +37,7 @@ function MultiFileInput({form}: FormChildProps) {
                 type="file"
                 id="fileInput"
                 multiple
+                accept="image/*"
                 onChange={addFiles}
                 className="mb-2 hidden"
             />
@@ -55,4 +61,5 @@ function MultiFileInput({form}: FormChildProps) {
         </div>
     );
 }
+
 export default MultiFileInput;
