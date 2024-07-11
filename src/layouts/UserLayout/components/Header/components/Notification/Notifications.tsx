@@ -16,8 +16,7 @@ import {
     useUpdateNotificationMutation,
 } from "@/store/services/notifications/notification.api";
 import {Notification} from "@/@types/api";
-import {useSelector} from "react-redux";
-import {selectToken} from "@/store/common.api";
+import {useAppSelector} from "@/store";
 
 const NotificationsDropdown: React.FC = () => {
     //const {data: notifications, refetch} = useGetNotificationsQuery();
@@ -29,7 +28,8 @@ const NotificationsDropdown: React.FC = () => {
     const [updateNotification] = useUpdateNotificationMutation();
 
     const [unreadCount, setUnreadCount] = useState<number>(0);
-    const token = useSelector(selectToken);
+    // const token = useSelector(selectToken);
+    const token = useAppSelector((state) => state.auth.token);
     useEffect(() => {
         if (notifications) {
             setUnreadCount(
@@ -93,7 +93,7 @@ const NotificationsDropdown: React.FC = () => {
                     )}
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="max-h-64 overflow-y-scroll">
+            <DropdownMenuContent className="max-h-64 overflow-y-auto">
                 <DropdownMenuLabel>Thông báo</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {notificationsData?.length === 0 ? (

@@ -60,4 +60,3 @@ const commonApi = createApi({
 });
 
 export default commonApi;
-export const selectToken = (state: RootState) => state.auth.token;
