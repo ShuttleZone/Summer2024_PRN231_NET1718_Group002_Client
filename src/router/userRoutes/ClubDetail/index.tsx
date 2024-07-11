@@ -8,6 +8,7 @@ import ClubLocation from "./components/ClubLocation";
 import {useAppDispatch} from "@/store";
 import {useEffect} from "react";
 import {setClubDetail} from "@/store/slices/bookingStage.slice";
+import {useGetClubReviewsQuery} from "@/store/services/reviews/review.api";
 
 const mockImages: string[] = [
     "https://us.123rf.com/450wm/anankkml/anankkml2204/anankkml220400024/184341315-shuttlecock-on-green-badminton-playing-court-with-player-in-background.jpg?ver=6",
@@ -26,6 +27,16 @@ function ClubDetail() {
         isError,
         isLoading,
     } = useGetClubDetailQuery(clubId);
+    const {data: reviews} = useGetClubReviewsQuery(clubId);
+
+    const getAverageRating = () => {
+        if (!reviews || !reviews.length) return 0;
+        const totalRating = reviews.reduce(
+            (acc, review) => acc + review.rating,
+            0
+        );
+        return totalRating / reviews.length;
+    };
 
     useEffect(() => {
         dispatch(setClubDetail(clubDetail));
@@ -47,10 +58,11 @@ function ClubDetail() {
                     name={clubDetail.clubName}
                     address={clubDetail.clubAddress}
                     phone={clubDetail.clubPhone}
-                    reviews={clubDetail.reviews?.length || 0}
+                    reviewsCount={clubDetail.reviews?.length || 0}
+                    rating={getAverageRating()}
                 />
                 <ClubDescription description={clubDetail.clubDescription} />
-                <ClubReviews />
+                <ClubReviews reviews={reviews} />
                 <ClubLocation lat={10.822} lng={106.6257} />
             </div>
         </div>

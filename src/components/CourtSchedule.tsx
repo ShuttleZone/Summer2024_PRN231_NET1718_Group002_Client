@@ -14,6 +14,7 @@ import {PiCourtBasketball} from "react-icons/pi";
 
 interface CourtScheduleProps {
     selectedDate: Date;
+    minDate?: Date;
 }
 
 interface BookedSlot {
@@ -23,13 +24,14 @@ interface BookedSlot {
     StartTime: string;
 }
 
-const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
+const CourtSchedule: React.FC<CourtScheduleProps> = ({
+    selectedDate,
+    minDate = new Date(),
+}) => {
     const {id} = useParams();
     const dispatch = useAppDispatch();
     const {data, isLoading} = useGetCourtScheduleQuery(id);
-    console.log(data);
     const {data: bookedData} = useGetClubReservationDetailQuery(id);
-
     const [selectedSlots, setSelectedSlots] = useState<BookedSlot[]>([]);
     const openDateInWeeks = data?.openDateInWeeks;
     const courts = data?.courts || [];
@@ -113,11 +115,10 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({selectedDate}) => {
 
     const isPast = (slot: string) => {
         const [slotStartTime] = slot.split(" - ");
-        const currentTime = new Date();
         const selectedSlotTime = new Date(selectedDate);
         const [hours, minutes] = slotStartTime.split(":").map(Number);
         selectedSlotTime.setHours(hours, minutes, 0, 0);
-        return selectedSlotTime < currentTime;
+        return selectedSlotTime < minDate;
     };
 
     const handleSlotClick = (

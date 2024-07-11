@@ -1,5 +1,8 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {JwtPayload, jwtDecode} from "jwt-decode";
+import {authApi} from "../services/accounts/auth.api";
+import {RefreshToken} from "@/@types/api";
+import {RootState} from "..";
 
 export interface AuthState {
     userId?: string;
@@ -22,31 +25,34 @@ const initialState: AuthState = {
 };
 
 interface AuthPayload extends JwtPayload {
-    userId: string;
+    nameid: string;
     username: string;
     email: string;
     role: string | string[];
 }
 
-const refreshToken = createAsyncThunk("auth/refreshToken", async () => {
-    // call refresh token api
-    // shoule be uncommented after implementing refresh token
-    // const refreshToken = localStorage.getItem('refresh_token');
-    // const formData = new FormData();
-    // formData.append('refreshToken', refreshToken || '');
-    // if (refreshToken) {
-    //     const { data: response } = await dispatch(api.endpoints.refreshToken.initiate(formData));
-    //     const refreshToken = response?.refreshToken;
-    //     const accessToken = response?.accessToken;
-    //     refreshToken && localStorage.setItem('refresh_token', refreshToken);
-    //     return accessToken;
-    //
-    // }
-
-    // temporarily return token from local storage
-    const token = localStorage.getItem("token");
-    return token;
-});
+const refreshToken = createAsyncThunk(
+    "auth/refreshToken",
+    async (_, {dispatch, rejectWithValue, getState}) => {
+        const refreshToken = localStorage.getItem("refresh_token");
+        if (refreshToken) {
+            const accessToken = (getState() as RootState).auth.token;
+            if (!accessToken) return rejectWithValue("No access token found");
+            const data: RefreshToken = {
+                accessToken,
+                refreshToken,
+            };
+            const response = await dispatch(
+                authApi.endpoints.refreshToken.initiate(data)
+            );
+            if (response.error) {
+                localStorage.removeItem("refresh_token");
+                return rejectWithValue(response.error);
+            }
+            return response.data;
+        }
+    }
+);
 
 const authSlice = createSlice({
     name: "auth",
@@ -58,21 +64,21 @@ const authSlice = createSlice({
             if (!payload || !payload.exp || payload.exp <= Date.now() / 1000) {
                 state.isAuthenticated = false;
                 state.token = undefined;
-                localStorage.removeItem("token");
+                localStorage.removeItem("refresh_token");
                 return;
             }
             state.isAuthenticated = true;
             state.token = token;
-            state.userId = payload.userId;
+            state.userId = payload.nameid;
             state.username = payload.username;
             state.email = payload.email;
             state.role = payload.role;
             // save token to local storage
             // should be removed after implementing refresh token
-            localStorage.setItem("token", action.payload);
+            // localStorage.setItem("token", action.payload);
         },
         clearAuth: () => {
-            localStorage.removeItem("token");
+            localStorage.removeItem("refresh_token");
             return initialState;
         },
         setLoading(state, action: {payload: boolean}) {
@@ -85,7 +91,7 @@ const authSlice = createSlice({
                 state.isAuthenticated = false;
                 state.token = undefined;
                 state.isLoading = false;
-                localStorage.removeItem("token");
+                localStorage.removeItem("refresh_token");
             };
 
             if (!action.payload) {

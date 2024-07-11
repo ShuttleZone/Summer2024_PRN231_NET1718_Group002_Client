@@ -119,6 +119,7 @@ export interface LoginAccount {
     account: string;
     password: string;
     token: string;
+    refreshToken: string;
 }
 
 export interface RegisterAccount {
@@ -387,4 +388,9 @@ export interface PaymentRequest {
     orderType: string;
     description: string;
     amount: number;
+}
+
+export interface RefreshToken {
+    accessToken: string;
+    refreshToken: string;
 }
