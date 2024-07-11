@@ -1,9 +1,11 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useGetMyWorkingClubQuery} from "@/store/services/clubs/club.api";
 import SelectCourtsStep from "./components/SelectCourtsStep";
 import SelectSlotsStep from "./components/SelectSlotsStep";
 import SelectCustomerStep from "./components/SelectCustomerStep";
 import ConfirmReservationStep from "./components/ConfirmReservationStep";
+import {useAppDispatch} from "@/store";
+import {clearBookingSlots} from "@/store/slices/bookingStage.slice";
 
 export interface BookedSlot {
     CourtName: string;
@@ -26,6 +28,7 @@ function ReservationCreate() {
     const [selectedSlots, setSelectedSlots] = useState<BookedSlot[]>([]);
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
     const {data: club} = useGetMyWorkingClubQuery();
+    const dispatch = useAppDispatch();
 
     const handleSelectCourt = (courtId: string) => {
         const courtSelected = selectedCourts.includes(courtId);
@@ -72,6 +75,12 @@ function ReservationCreate() {
     const getTotalPrice = () => {
         return selectedSlots.reduce((acc, slot) => acc + slot.Price, 0);
     };
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearBookingSlots());
+        };
+    }, []);
 
     return (
         <section>
