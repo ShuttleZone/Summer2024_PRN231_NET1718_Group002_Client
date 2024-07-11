@@ -18,8 +18,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import {useAppDispatch} from "@/store";
-import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {useCreateCourtMutation} from "@/store/services/courts/court.api";
 import {useToast} from "@/components/ui/use-toast";
 import {useGetClubListQuery} from "@/store/services/clubs/club.api";
@@ -84,11 +82,8 @@ function CreateCourtPopUp({clubId}: CreateCourtPopUpProps) {
         defaultValues,
     });
     const {toast} = useToast();
-    const dispatch = useAppDispatch();
-    const [createCourt, {isLoading}] = useCreateCourtMutation();
+    const [createCourt] = useCreateCourtMutation();
     const {refetch} = useGetClubListQuery();
-
-    isLoading ? dispatch(showSpinner()) : dispatch(hideSpinner());
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         const formData = new FormData();
