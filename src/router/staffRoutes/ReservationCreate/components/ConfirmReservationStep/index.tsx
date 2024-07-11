@@ -32,6 +32,12 @@ interface ReservationDetail {
     courtId: string;
 }
 
+interface CreateReservationError {
+    data: {
+        message: string;
+    };
+}
+
 function ConfirmReservationStep({
     currentStep,
     phoneNumber,
@@ -85,14 +91,15 @@ function ConfirmReservationStep({
             } else {
                 toast({
                     title: "Lỗi",
-                    description: "Đã có lỗi xảy ra khi đặt sân",
+                    description: (response.error as CreateReservationError).data
+                        .message,
                     variant: "destructive",
                 });
             }
         } catch (error) {
             toast({
                 title: "Lỗi",
-                description: "Đã có lỗi xảy ra khi đặt sân",
+                description: "Đã có lỗi xảy ra khi đặt sân in catch",
                 variant: "destructive",
             });
         }
