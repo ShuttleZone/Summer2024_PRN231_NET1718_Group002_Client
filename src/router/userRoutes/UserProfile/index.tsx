@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-
 import {Link} from "react-router-dom";
 import {
     useProfileQuery,
@@ -10,7 +9,6 @@ import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {useAppDispatch} from "@/store";
 import ChangePassword from "./components/ChangePassword.tsx";
 import formatVietnameseDong from "@/lib/currency.util.ts";
-// import {Button} from "@/components/ui/button.tsx";
 
 interface UpdateUserProfile {
     fullname: string;
@@ -27,16 +25,25 @@ function UserProfile() {
         phoneNumber: "",
         gender: 0,
     });
+    const [originalFormData, setOriginalFormData] = useState<UpdateUserProfile>(
+        {
+            fullname: "",
+            phoneNumber: "",
+            gender: 0,
+        }
+    );
     const [editMode, setEditMode] = useState(false);
     const [errors, setErrors] = useState<{[key: string]: string}>({});
 
     useEffect(() => {
         if (userProfile) {
-            setFormData({
+            const initialFormData = {
                 fullname: userProfile.fullname || "",
                 phoneNumber: userProfile.phoneNumber || "",
                 gender: userProfile.gender,
-            });
+            };
+            setFormData(initialFormData);
+            setOriginalFormData(initialFormData);
         }
     }, [userProfile]);
 
@@ -72,29 +79,34 @@ function UserProfile() {
             setEditMode(false);
             setErrors({});
             toast({
-                title: "Success",
-                description: "Update successfully",
+                title: "Thành công",
+                description: "Cập nhật thông tin người dùng thành công.",
                 variant: "default",
             });
         } catch (error) {
             toast({
-                title: "failed",
-                description: "Update Failed",
+                title: "Thất bại",
+                description: "Cập nhật thông tin người dùng thất bại.",
                 variant: "default",
             });
         }
     };
 
+    const handleCancel = () => {
+        setFormData(originalFormData);
+        setEditMode(false);
+        setErrors({});
+    };
+
     isLoading ? dispatch(showSpinner()) : dispatch(hideSpinner());
-    // const [isDialogOpen, setIsDialogOpen] = useState(false);
     if (isError) return <div>Error...</div>;
     return (
         <div className="w-2/3 mx-auto h-screen flex flex-row py-8">
             <div className="w-2/5 h-fit flex flex-col items-center py-12 border-r-2 border-gray-400">
-                <h1 className="text-2xl tracking-widest font-semibold  text-gray-500 mb-28">
+                <h1 className="text-2xl tracking-widest font-semibold text-gray-500 mb-8">
                     Cài đặt thông tin
                 </h1>
-                <div className="w-80 h-80 rounded-full border-2 border-slate-600 gap-7">
+                <div className="w-52 h-52 rounded-full border-2 border-slate-600 gap-7">
                     <img
                         className="w-full h-full object-fill rounded-full"
                         src={
@@ -116,7 +128,7 @@ function UserProfile() {
                 </div>
 
                 <div className="flex flex-col items-center">
-                    <h1 className="text-xl tracking-widest font-semibold  mt-8">
+                    <h1 className="text-xl tracking-widest font-semibold mt-8">
                         {userProfile?.fullname}
                     </h1>
                     <span className="text-lg my-2">@{userProfile?.email}</span>
@@ -151,10 +163,7 @@ function UserProfile() {
             </div>
             <div className="w-3/5 h-fit ">
                 <div className="mx-auto p-6 mt-3">
-                    <h2
-                        className="text-3xl text-gray-500 font-semibold tracking-widest mb-4 flex flex-row gap-10 items-center justify-between
-                    "
-                    >
+                    <h2 className="text-2xl text-gray-500 font-semibold tracking-widest mb-4 flex flex-row gap-10 items-center justify-between">
                         Thông tin cá nhân
                         <div className="mt-4 flex flex-row gap-10">
                             {!editMode && (
@@ -166,13 +175,21 @@ function UserProfile() {
                                 </button>
                             )}
                             {editMode && (
-                                <button
-                                    type="submit"
-                                    form="userForm"
-                                    className="w-28 text-lg font-semibold tracking-wider border-2 border-black rounded-md cursor-pointer text-black hover:bg-green-500 hover:border-green-300 hover:text-white transition-colors duration-200"
-                                >
-                                    Lưu
-                                </button>
+                                <>
+                                    <button
+                                        type="submit"
+                                        form="userForm"
+                                        className="w-28 text-lg font-semibold tracking-wider border-2 border-black rounded-md cursor-pointer text-black hover:bg-green-500 hover:border-green-300 hover:text-white transition-colors duration-200"
+                                    >
+                                        Lưu
+                                    </button>
+                                    <button
+                                        onClick={handleCancel}
+                                        className="w-28 text-lg font-semibold tracking-wider border-2 border-black rounded-md cursor-pointer text-black hover:bg-red-500 hover:border-red-300 hover:text-white transition-colors duration-200"
+                                    >
+                                        Hủy
+                                    </button>
+                                </>
                             )}
                         </div>
                     </h2>

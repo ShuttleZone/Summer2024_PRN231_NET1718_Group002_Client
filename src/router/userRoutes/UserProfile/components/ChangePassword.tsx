@@ -21,7 +21,7 @@ function ChangePassword() {
     const [updatePassword] = useUpdatePasswordMutation();
     const {toast} = useToast();
 
-    const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
@@ -32,17 +32,22 @@ function ChangePassword() {
 
             await updatePassword(payload).unwrap();
             toast({
-                title: "Success",
-                description: "Update successfully",
+                title: "Thành công",
+                description: "Cập nhật mật khẩu thành công.",
                 variant: "default",
             });
         } catch (error) {
             toast({
-                title: "Failed",
-                description: "Update failed",
+                title: "Thất bại",
+                description: "Cập nhật mật khẩu thất bại.",
                 variant: "default",
             });
         }
+    };
+
+    const handleCancel = () => {
+        setCurrentPassword("");
+        setNewPassword("");
     };
 
     return (
@@ -63,7 +68,7 @@ function ChangePassword() {
                         bạn đã hoàn tất.
                     </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={HandleSubmit}>
+                <form onSubmit={handleSubmit}>
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label
@@ -108,6 +113,13 @@ function ChangePassword() {
                             type="submit"
                         >
                             Lưu thay đổi
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={handleCancel}
+                            className="ml-4 border-2 bg-white border-red-600 rounded-md flex flex-row justify-center items-center text-red-600 hover:bg-red-600 hover:text-white transition-colors duration-200"
+                        >
+                            Hủy
                         </Button>
                     </DialogFooter>
                 </form>
