@@ -63,13 +63,16 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
 
         if (result.data != null) {
             toast({
-                description: "Your review has been sent. Thanks for telling us",
+                description:
+                    "Đánh giá của bạn đã được gửi đi. Cảm ơn bạn vì đã chia sẻ !",
             });
+            setFormData(initialState);
         } else {
             toast({
                 variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: "There was a problem with your request.",
+                title: "Uh oh! Lỗi rồi",
+                description:
+                    "Đã có lỗi trong việc gửi đánh giá! Xin hãy thử lại sau",
             });
         }
     };
@@ -191,6 +194,7 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
 
                                 <div className="grid w-full gap-2 mt-2">
                                     <Input
+                                        required
                                         placeholder="Tiêu đề"
                                         onChange={(event) =>
                                             setFormData((prev) => ({
@@ -201,6 +205,7 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
                                         value={formData.title}
                                     />
                                     <Textarea
+                                        required
                                         placeholder="Chia sẻ trải nghiệm của bạn ở đây..."
                                         onChange={(event) =>
                                             setFormData((prev) => ({

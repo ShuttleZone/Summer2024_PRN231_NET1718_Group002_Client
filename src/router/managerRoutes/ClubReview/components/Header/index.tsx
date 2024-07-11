@@ -13,22 +13,21 @@ function Header() {
         <div>
             <div className="m-2 border-2 p-4 rounded-lg border-black">
                 <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+                    Quản lý{" "}
                     <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
-                        Club's Reviews
+                        Đánh giá câu lạc bộ
                     </span>{" "}
-                    Manager
                 </h1>
                 <p className="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
-                    The{" "}
                     <strong className="font-semibold text-gray-900 dark:text-white">
-                        Club's Reviews Manager
+                        Đánh giá câu lạc bộ
                     </strong>{" "}
-                    section is dedicated to monitoring, responding to, and
-                    leveraging customer feedback across various platforms. This
-                    system ensures that all reviews, whether positive or
-                    negative, are addressed promptly and constructively,
-                    enhancing the club's reputation and improving customer
-                    satisfaction.
+                    được dành riêng để theo dõi, phản hồi và tận dụng phản hồi
+                    của khách hàng trên nhiều nền tảng khác nhau. Hệ thống này
+                    đảm bảo rằng tất cả các đánh giá, dù tích cực hay tiêu cực,
+                    đều được giải quyết kịp thời và mang tính xây dựng, nâng cao
+                    danh tiếng của câu lạc bộ và cải thiện sự hài lòng của khách
+                    hàng.
                 </p>
             </div>
             <>
@@ -38,13 +37,13 @@ function Header() {
                             {club?.clubName}
                         </h1>
                         <p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">
-                            Contact: {club?.clubPhone}
+                            SĐT: {club?.clubPhone}
                         </p>
                         <p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">
-                            Address: {club?.clubAddress}
+                            Địa chỉ: {club?.clubAddress}
                         </p>
                         <p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">
-                            Working hours: {formatTime(club?.openTime)} -{" "}
+                            Thời gian làm việc: {formatTime(club?.openTime)} -{" "}
                             {formatTime(club?.closeTime)}
                         </p>
                         <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
@@ -54,7 +53,7 @@ function Header() {
                                 }}
                                 className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
                             >
-                                Go to club page
+                                Xem trang hiển thị
                                 <svg
                                     className="w-3.5 h-3.5 ms-2 rtl:rotate-180"
                                     aria-hidden="true"
@@ -71,12 +70,12 @@ function Header() {
                                     />
                                 </svg>
                             </a>
-                            <a
+                            {/* <a
                                 href="#"
                                 className="inline-flex justify-center hover:text-gray-900 items-center py-3 px-5 sm:ms-4 text-base font-medium text-center text-white rounded-lg border border-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-400"
                             >
                                 Learn more
-                            </a>
+                            </a> */}
                         </div>
                     </div>
                 </section>

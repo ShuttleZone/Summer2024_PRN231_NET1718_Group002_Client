@@ -353,6 +353,10 @@ export interface CreatePackage {
     packageType: number;
 }
 
+export interface UnsubRespone {
+    result: boolean;
+}
+
 interface Notification {
     id: string;
     description: string;

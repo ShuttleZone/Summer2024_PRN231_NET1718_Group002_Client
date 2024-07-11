@@ -10,17 +10,17 @@ const adminNavItems = [
         icon: IoHome,
     },
     {
-        title: "Clubs List",
+        title: "Danh sách câu lạc bộ",
         to: "/admin/clubs",
         icon: FaThList,
     },
     {
-        title: "Club Requests",
+        title: "Quản lý đăng kí CLB",
         to: "/admin/club-requests",
         icon: FaNewspaper,
     },
     {
-        title: "Package Management",
+        title: "Quản lý gói đăng kí",
         to: "/admin/packages",
         icon: FaNewspaper,
     },
@@ -34,7 +34,7 @@ function AdminLayout() {
             </div>
             <div className="col-span-10">
                 <div className="px-8 py-8">
-                    <h2 className="text-2xl font-semibold">Admin Panel</h2>
+                    <h2 className="text-2xl font-semibold">Trang quản lý</h2>
                 </div>
                 <main className="px-8 h-full">
                     <Outlet />
