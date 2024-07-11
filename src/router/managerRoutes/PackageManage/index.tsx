@@ -8,6 +8,10 @@ function MyPackages() {
     const {data: packages, isError, isLoading} = useGetCurrentPackageQuery();
     if (isError) return <div>Error in loading</div>;
     if (isLoading) return <div>Loading...</div>;
+    const formatDateTime = (dateTime: string) => {
+        const date = new Date(dateTime);
+        return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
+    };
     console.log(packages);
     return (
         <div>
@@ -70,7 +74,9 @@ function MyPackages() {
                                                         Ngày đăng kí
                                                     </h3>
                                                     <p className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                                                        {packages.startDate}
+                                                        {formatDateTime(
+                                                            packages.startDate
+                                                        )}
                                                     </p>
                                                 </div>
                                             </li>
@@ -94,7 +100,9 @@ function MyPackages() {
                                                         Ngày hết hạn
                                                     </h3>
                                                     <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                                                        {packages.endDate}
+                                                        {formatDateTime(
+                                                            packages.endDate
+                                                        )}
                                                     </time>
                                                 </div>
                                             </li>

@@ -63,11 +63,20 @@ const packageApi = commonApi.injectEndpoints({
                 return routeBuilder.build();
             },
         }),
+        getPackageHistory: build.query<UserCurrentPackage[], void>({
+            query: () => {
+                const routeBuilder = new ApiRouteBuilder(
+                    "api/Package/getUserPackageHistory"
+                );
+                return routeBuilder.build();
+            },
+        }),
     }),
     overrideExisting: true,
 });
 
 export const {
+    useGetPackageHistoryQuery,
     useGetPackagesQuery,
     useGetCurrentPackageQuery,
     useCreatePackageMutation,

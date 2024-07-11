@@ -1,4 +1,4 @@
-import {ContestInfo} from "@/@types/api";
+import {ContestInfo, ReservationContest} from "@/@types/api";
 import {useNavigate} from "react-router-dom";
 
 import * as React from "react";
@@ -32,9 +32,12 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import {useGetContestsQuery} from "@/store/services/contests/contest.api";
-import ActionButton from "@/router/managerRoutes/ClubList/components/ActionButton";
 
 function ContestDataTable() {
+    const formatDateTime = (dateTime: string) => {
+        const date = new Date(dateTime);
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
+    };
     const navigate = useNavigate();
     const columns: ColumnDef<ContestInfo>[] = [
         {
@@ -80,18 +83,30 @@ function ContestDataTable() {
             enableSorting: true,
         },
         {
-            accessorKey: "policy",
-            header: "Tên sân",
-            cell: ({row}) => (
-                <div className="font-medium">{row.getValue("policy")}</div>
-            ),
+            accessorKey: "reservation",
+            header: "Tên câu lạc bộ",
+            cell: ({row}) => {
+                const reservation = row.getValue(
+                    "reservation"
+                ) as ReservationContest;
+                return (
+                    <div className="font-medium">
+                        {
+                            reservation.reservationDetailsDtos[0].court.club
+                                .clubName
+                        }
+                    </div>
+                );
+            },
             enableSorting: true,
         },
         {
             accessorKey: "contestDate",
             header: "Thời gian bắt đầu",
             cell: ({row}) => (
-                <div className="font-medium">{row.getValue("contestDate")}</div>
+                <div className="font-medium">
+                    {formatDateTime(row.getValue("contestDate"))}
+                </div>
             ),
             enableSorting: true,
         },
@@ -100,7 +115,11 @@ function ContestDataTable() {
             header: "Trạng thái",
             cell: ({row}) => (
                 <div className="font-medium">
-                    {row.getValue("contestStatus")}
+                    {row.getValue("contestStatus") == "Open"
+                        ? "Đang mở"
+                        : row.getValue("contestStatus") == "InProgress"
+                          ? "Đang diễn ra"
+                          : "Đã diễn ra"}
                 </div>
             ),
             enableSorting: true,
@@ -274,9 +293,6 @@ function ContestDataTable() {
                                             )}
                                         </TableCell>
                                     ))}
-                                    <TableCell>
-                                        <ActionButton clubId="you should not use this component, create a similar one instead" />
-                                    </TableCell>
                                 </TableRow>
                             ))
                         ) : (

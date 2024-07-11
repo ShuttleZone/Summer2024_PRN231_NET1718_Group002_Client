@@ -5,10 +5,11 @@ function BottomButtons() {
     return (
         <div className="mt-4 grid grid-cols-2 gap-2">
             <button
+                onClick={() => navigate("/manager/package-history")}
                 type="button"
                 className=" text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-8 py-4 text-center me-2 mb-2 w-full"
             >
-                Thay đổi gói cước
+                Xem lịch sử mua
             </button>
 
             <button

@@ -21,18 +21,18 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         ); // Convert to minutes
 
         if (timeDifference < 1) {
-            return "just now";
+            return "mới đây";
         } else if (timeDifference < 60) {
-            return `${timeDifference} minutes ago`;
+            return `${timeDifference} phút trước`;
         } else if (timeDifference < 1440) {
             const hours = Math.floor(timeDifference / 60);
-            return `${hours} ${hours === 1 ? "hour" : "hours"} ago`;
+            return `${hours} ${hours === 1 ? "giờ" : "giờ"} trước`;
         } else if (timeDifference < 43200) {
             const days = Math.floor(timeDifference / 1440);
-            return `${days} ${days === 1 ? "day" : "days"} ago`;
+            return `${days} ${days === 1 ? "ngày" : "ngày"} trước`;
         } else {
             const months = Math.floor(timeDifference / 43200);
-            return `${months} ${months === 1 ? "month" : "months"} ago`;
+            return `${months} ${months === 1 ? "tháng" : "tháng"} trước`;
         }
     };
 

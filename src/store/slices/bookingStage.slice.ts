@@ -91,7 +91,7 @@ const initialState: BookingStageState = {
         Slot: "",
         Path: "/payment",
     },
-    CurrentStage: 1,
+    CurrentStage: 2,
     ClubDetail: {
         id: "",
         clubName: "",

@@ -7,7 +7,6 @@ import {useAppDispatch, useAppSelector} from "@/store";
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
@@ -29,6 +28,7 @@ import {clearAuth} from "@/store/slices/auth.slice";
 import {useToast} from "@/components/ui/use-toast";
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import NotificationsDropdown from "./components/Notification/Notifications";
+import MenuItemLink from "./components/MenuItem";
 
 interface DropdownItemType {
     href: string;
@@ -91,16 +91,18 @@ function Header() {
                             <DropdownMenuLabel>Tài khoản</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             {dropdownItems.map((item) => (
-                                <DropdownMenuItem key={item.href}>
-                                    <Link to={item.href}>{item.text}</Link>
-                                </DropdownMenuItem>
+                                <MenuItemLink
+                                    key={item.href}
+                                    href={item.href}
+                                    text={item.text}
+                                />
                             ))}
                             <DropdownMenuSeparator />
                             <AlertDialog>
                                 <AlertDialogTrigger>
                                     <div className="flex items-center px-2 text-sm">
                                         <LogOut className="mr-2 h-4 w-4" />
-                                        <span>Log out</span>
+                                        <span>Đăng xuất</span>
                                     </div>
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>

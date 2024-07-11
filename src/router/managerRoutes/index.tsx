@@ -10,6 +10,7 @@ import MyPackages from "./PackageManage";
 import PackageList from "./PackageManage/components/PackageList";
 import Wallet from "./Wallet";
 import applicationRoles from "@/constants/role.constants";
+import PackageHistory from "./PackageManage/components/PackageHistory";
 
 const managerRoutes: RouteObject[] = [
     {
@@ -51,6 +52,10 @@ const managerRoutes: RouteObject[] = [
     {
         path: "wallet",
         element: <Wallet />,
+    },
+    {
+        path: "package-history",
+        element: <PackageHistory />,
     },
 ];
 
