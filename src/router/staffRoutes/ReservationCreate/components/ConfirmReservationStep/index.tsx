@@ -4,6 +4,7 @@ import BookingStep from "../BookingStep";
 import {useStaffCreateReservationMutation} from "@/store/services/reservations/reservation.api";
 import {useToast} from "@/components/ui/use-toast";
 import {useNavigate} from "react-router-dom";
+import {useAppDispatch} from "@/store";
 
 interface ConfirmBookingButtonProps {
     currentStep: number;
@@ -15,6 +16,7 @@ interface ConfirmBookingButtonProps {
     clubPhone: string;
     totalPrice: number;
     selectedSlots: BookedSlot[];
+    onGoBack: () => void;
 }
 
 interface MakeReservationRequest {
@@ -48,10 +50,12 @@ function ConfirmReservationStep({
     clubAddress,
     totalPrice,
     selectedSlots,
+    onGoBack,
 }: ConfirmBookingButtonProps) {
     const [makeReservation] = useStaffCreateReservationMutation();
     const {toast} = useToast();
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const handleSubmit = async () => {
         const reservationDetails: ReservationDetail[] = selectedSlots.map(
@@ -87,6 +91,7 @@ function ConfirmReservationStep({
                     title: "Thành công",
                     description: "Đặt sân thành công",
                 });
+                dispatch(clearBookingSlots());
                 navigate("/staff/reservations");
             } else {
                 toast({
@@ -112,6 +117,7 @@ function ConfirmReservationStep({
             currentStep={currentStep}
             shouldContinue={false}
             onGoToNextStep={() => {}}
+            onGoBack={onGoBack}
         >
             <div className="mb-16">
                 <div className="flex flex-col justify-center items-center py-4 px-16 my-4">

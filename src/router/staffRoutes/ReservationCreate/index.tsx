@@ -1,11 +1,9 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useGetMyWorkingClubQuery} from "@/store/services/clubs/club.api";
 import SelectCourtsStep from "./components/SelectCourtsStep";
 import SelectSlotsStep from "./components/SelectSlotsStep";
 import SelectCustomerStep from "./components/SelectCustomerStep";
 import ConfirmReservationStep from "./components/ConfirmReservationStep";
-import {useAppDispatch} from "@/store";
-import {clearBookingSlots} from "@/store/slices/bookingStage.slice";
 
 export interface BookedSlot {
     CourtName: string;
@@ -28,7 +26,6 @@ function ReservationCreate() {
     const [selectedSlots, setSelectedSlots] = useState<BookedSlot[]>([]);
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
     const {data: club} = useGetMyWorkingClubQuery();
-    const dispatch = useAppDispatch();
 
     const handleSelectCourt = (courtId: string) => {
         const courtSelected = selectedCourts.includes(courtId);
@@ -68,15 +65,13 @@ function ReservationCreate() {
         setCurrentStep((prev) => prev + 1);
     };
 
+    const handleGoToPreviousStep = () => {
+        setCurrentStep((prev) => prev - 1);
+    };
+
     const getTotalPrice = () => {
         return selectedSlots.reduce((acc, slot) => acc + slot.Price, 0);
     };
-
-    useEffect(() => {
-        return () => {
-            dispatch(clearBookingSlots());
-        };
-    }, [selectedCourts, selectedSlots, userInfo, dispatch]);
 
     return (
         <section>
@@ -84,6 +79,7 @@ function ReservationCreate() {
                 currentStep={currentStep}
                 shouldContinue={selectedCourts.length > 0}
                 onGoToNextStep={handleGoToNextStep}
+                onGoBack={handleGoToPreviousStep}
                 onCourtSelect={handleSelectCourt}
                 clubId={club?.Id}
             />
@@ -92,6 +88,7 @@ function ReservationCreate() {
                 shouldContinue={selectedSlots.length > 0}
                 clubId={club?.Id}
                 onGoToNextStep={handleGoToNextStep}
+                onGoBack={handleGoToPreviousStep}
                 selectedDate={selectedDate}
                 onSetSelectedDate={setSelectedDate}
                 onBookSlot={handleBookSlot}
@@ -106,6 +103,7 @@ function ReservationCreate() {
                     userInfo.phoneNumber.length === 10
                 }
                 onGoToNextStep={handleGoToNextStep}
+                onGoBack={handleGoToPreviousStep}
                 onSelectUser={handleSelectUser}
             />
             <ConfirmReservationStep
@@ -118,6 +116,7 @@ function ReservationCreate() {
                 clubPhone={club?.ClubPhone || ""}
                 clubAddress={club?.ClubAddress || ""}
                 clubName={club?.ClubName || ""}
+                onGoBack={handleGoToPreviousStep}
             />
         </section>
     );

@@ -9,6 +9,7 @@ interface SelectSlotsStepProps {
     shouldContinue: boolean;
     clubId?: string;
     onGoToNextStep: () => void;
+    onGoBack: () => void;
     selectedDate: Date;
     onSetSelectedDate: Dispatch<SetStateAction<Date>>;
     onBookSlot: (bookedSlot: {
@@ -26,6 +27,7 @@ function SelectSlotsStep({
     currentStep,
     shouldContinue,
     onGoToNextStep,
+    onGoBack,
     clubId,
     selectedDate,
     onSetSelectedDate,
@@ -39,6 +41,7 @@ function SelectSlotsStep({
             shouldContinue={shouldContinue}
             currentStep={currentStep}
             onGoToNextStep={onGoToNextStep}
+            onGoBack={onGoBack}
         >
             <div className="flex flex-col justify-between w-full px-8 mb-8">
                 <div className="h-fit w-full mr-8 shadow-lg border-2">

@@ -7,6 +7,7 @@ interface SelectCourtsStepProps {
     currentStep: number;
     shouldContinue: boolean;
     onGoToNextStep: () => void;
+    onGoBack: () => void;
     onCourtSelect: (courtId: string) => void;
     clubId?: string;
 }
@@ -15,6 +16,7 @@ function SelectCourtsStep({
     currentStep,
     shouldContinue,
     onGoToNextStep,
+    onGoBack,
     onCourtSelect,
     clubId,
 }: SelectCourtsStepProps) {
@@ -27,6 +29,7 @@ function SelectCourtsStep({
             shouldContinue={shouldContinue}
             currentStep={currentStep}
             onGoToNextStep={onGoToNextStep}
+            onGoBack={onGoBack}
         >
             <ul className="grid grid-cols-12 gap-4 py-4">
                 {courts?.map((court) => (

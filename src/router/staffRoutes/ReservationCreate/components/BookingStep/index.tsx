@@ -12,6 +12,7 @@ interface BookingStepProps {
     step: number;
     currentStep: number;
     onGoToNextStep: () => void;
+    onGoBack: () => void;
     children: JSX.Element;
 }
 
@@ -21,10 +22,15 @@ function BookingStep({
     currentStep,
     shouldContinue,
     onGoToNextStep,
+    onGoBack,
     children,
 }: BookingStepProps) {
     const handleContinue = () => {
         onGoToNextStep();
+    };
+
+    const handleBack = () => {
+        onGoBack();
     };
 
     return (
@@ -46,18 +52,31 @@ function BookingStep({
                             )}
                             {children}
                         </div>
-                        {step === currentStep && currentStep !== 3 && (
-                            <div className="flex justify-end mt-4">
-                                <Button
-                                    onClick={handleContinue}
-                                    disabled={!shouldContinue}
-                                    type="button"
-                                    variant={"outline"}
-                                >
-                                    Tiếp
-                                </Button>
-                            </div>
-                        )}
+                        <div className="flex justify-end gap-4">
+                            {step === currentStep && currentStep !== 0 && (
+                                <div className="flex justify-end mt-4">
+                                    <Button
+                                        onClick={handleBack}
+                                        type="button"
+                                        variant={"outline"}
+                                    >
+                                        Trước đó
+                                    </Button>
+                                </div>
+                            )}
+                            {step === currentStep && currentStep !== 3 && (
+                                <div className="flex justify-end mt-4">
+                                    <Button
+                                        onClick={handleContinue}
+                                        disabled={!shouldContinue}
+                                        type="button"
+                                        variant={"outline"}
+                                    >
+                                        Tiếp
+                                    </Button>
+                                </div>
+                            )}
+                        </div>
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>

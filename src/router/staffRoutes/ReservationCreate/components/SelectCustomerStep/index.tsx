@@ -11,6 +11,7 @@ interface SelectCustomerStepProps {
     currentStep: number;
     shouldContinue: boolean;
     onGoToNextStep: () => void;
+    onGoBack: () => void;
     onSelectUser: (fullname: string, phoneNumber: string) => void;
 }
 
@@ -18,6 +19,7 @@ function SelectCustomerStep({
     currentStep,
     shouldContinue,
     onGoToNextStep,
+    onGoBack,
     onSelectUser,
 }: SelectCustomerStepProps) {
     const [showSelection, setShowSelection] = useState<boolean>(true);
@@ -75,6 +77,7 @@ function SelectCustomerStep({
             shouldContinue={shouldContinue}
             currentStep={currentStep}
             onGoToNextStep={onGoToNextStep}
+            onGoBack={onGoBack}
         >
             {showSelection ? (
                 <div className="w-full flex justify-center items-center gap-8 my-4">
