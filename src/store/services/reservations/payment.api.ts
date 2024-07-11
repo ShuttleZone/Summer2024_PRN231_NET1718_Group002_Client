@@ -22,6 +22,10 @@ const paymentApi = commonApi.injectEndpoints({
             transformResponse: (response: Wallet) => {
                 return response;
             },
+            providesTags: (result) =>
+                result
+                    ? [{type: "Wallet" as never, id: result.id}]
+                    : [{type: "Wallet" as never, id: "DETAIL"}],
         }),
         updateWallet: build.mutation<
             void,
@@ -35,6 +39,7 @@ const paymentApi = commonApi.injectEndpoints({
             transformResponse: (response: void) => {
                 return response;
             },
+            invalidatesTags: (_, __, {id}) => [{type: "Wallet" as never, id}],
         }),
     }),
     overrideExisting: true,

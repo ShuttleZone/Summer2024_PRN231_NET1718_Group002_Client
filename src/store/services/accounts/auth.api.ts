@@ -69,6 +69,7 @@ export const authApi = commonApi.injectEndpoints({
                 const routeBuilder = new ApiRouteBuilder("/api/profile");
                 return routeBuilder.build();
             },
+            providesTags: [{type: "UserProfile" as never}],
         }),
         updateProfile: build.mutation({
             query(body) {
@@ -81,8 +82,8 @@ export const authApi = commonApi.injectEndpoints({
                     },
                 };
             },
+            invalidatesTags: [{type: "UserProfile" as never}],
         }),
-
         confirmEmail: build.query({
             query: ({userId, token}) => ({
                 url: "/confirm-email",

@@ -43,6 +43,9 @@ const reviewApi = commonApi.injectEndpoints({
                     body: body,
                 };
             },
+            invalidatesTags: (request) => [
+                {type: "ClubReviews" as never, id: request?.id},
+            ],
         }),
     }),
     overrideExisting: true,

@@ -14,6 +14,7 @@ const clubApi = commonApi.injectEndpoints({
                 method: "POST",
                 body: court,
             }),
+            invalidatesTags: (req) => [{type: "Courts" as never, id: req?.id}],
         }),
         getCourtByClub: build.query<CourtByClub[], string>({
             query: (clubId) => {
@@ -24,6 +25,16 @@ const clubApi = commonApi.injectEndpoints({
             transformResponse(baseQueryReturnValue: CourtByClubResponse) {
                 return baseQueryReturnValue.value;
             },
+            providesTags: (result) =>
+                result
+                    ? [
+                          ...result.map(({id}) => ({
+                              type: "Courts" as never,
+                              id,
+                          })),
+                          {type: "Courts" as never, id: "LIST"},
+                      ]
+                    : [{type: "Courts" as never, id: "LIST"}],
         }),
         changeStatusCourt: build.mutation<Record<string, never>, {id: string}>({
             query: (data) => {
@@ -32,6 +43,7 @@ const clubApi = commonApi.injectEndpoints({
                     method: "PUT",
                 };
             },
+            invalidatesTags: (req) => [{type: "Courts" as never, id: req?.id}],
         }),
     }),
     overrideExisting: true,
