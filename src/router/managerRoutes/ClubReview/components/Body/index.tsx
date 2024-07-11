@@ -342,14 +342,15 @@ function AllReviews() {
 
         if (result.data != null) {
             toast({
-                description: "Your reply has been sent !",
+                description: "Phản hồi của bạn đã được gửi đi !",
             });
             refetch();
+            setFormData(initialState);
         } else {
             toast({
                 variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: "There was a problem with your request.",
+                title: "Uh oh! Lỗi rồi",
+                description: "Có lỗi trong việc phản hồi lại đánh giá !",
             });
             refetch();
         }
@@ -362,7 +363,7 @@ function AllReviews() {
                 {" "}
                 <p className="text-lg font-normal text-center p-4 text-gray-500 lg:text-xl dark:text-gray-400">
                     <strong className="font-semibold text-gray-900 dark:text-white">
-                        This Club does not has any review yet !
+                        Câu lạc bộ này chưa có đánh giá nào !
                     </strong>{" "}
                 </p>
             </div>
@@ -410,9 +411,9 @@ function AllReviews() {
 
                             <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400">
                                 <p>
-                                    Reviewed in{" "}
+                                    Đánh giá{" "}
                                     <strong> {review.clubName} </strong>
-                                    on
+                                    vào lúc
                                     <time>
                                         <strong>
                                             {" "}
@@ -435,12 +436,13 @@ function AllReviews() {
                                             aria-disabled
                                             className="px-2 py-1.5 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                                         >
-                                            Replied
+                                            Đã trả lời
                                         </a>
                                     ) : (
                                         <Dialog
                                             open={open}
                                             onOpenChange={setOpen}
+                                            key={review.id}
                                         >
                                             <DialogTrigger>
                                                 <TooltipProvider>
@@ -468,13 +470,13 @@ function AllReviews() {
                                                                 type="button"
                                                                 className="px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                                                             >
-                                                                Reply
+                                                                Trả lời đánh giá
                                                             </button>
                                                         </TooltipTrigger>
                                                         <TooltipContent>
                                                             <p>
-                                                                Write a review
-                                                                for this club
+                                                                Trả lời đánh giá
+                                                                này
                                                             </p>
                                                         </TooltipContent>
                                                     </Tooltip>
@@ -483,18 +485,19 @@ function AllReviews() {
                                             <DialogContent>
                                                 <DialogHeader>
                                                     <DialogTitle>
-                                                        Reply to this review
+                                                        Trả lời đánh giá này
                                                     </DialogTitle>
                                                     <DialogDescription>
-                                                        Let us know your feeling
-                                                        !
+                                                        Hãy để lại phản hồi cho
+                                                        khách hàng !
                                                     </DialogDescription>
                                                 </DialogHeader>
 
                                                 <form onSubmit={handleSend}>
                                                     <div className="grid w-full gap-2 mt-2">
                                                         <Input
-                                                            placeholder="Reply Title"
+                                                            placeholder="Tiêu đề"
+                                                            required
                                                             onChange={(event) =>
                                                                 setFormData(
                                                                     (prev) => ({
@@ -511,7 +514,8 @@ function AllReviews() {
                                                             }
                                                         />
                                                         <Textarea
-                                                            placeholder="What you want to say ..."
+                                                            placeholder="Bạn muốn nhắn điều gì ..."
+                                                            required
                                                             onChange={(event) =>
                                                                 setFormData(
                                                                     (prev) => ({
@@ -528,7 +532,7 @@ function AllReviews() {
                                                             }
                                                         />
                                                         <Button type="submit">
-                                                            Send reply
+                                                            Gửi câu trả lời
                                                         </Button>
                                                     </div>
                                                 </form>
@@ -541,7 +545,7 @@ function AllReviews() {
                                     >
                                         <DropdownMenu>
                                             <DropdownMenuTrigger>
-                                                Action
+                                                Khác
                                             </DropdownMenuTrigger>
                                             {/* <DropdownMenuContent>
                                                 <DropdownMenuLabel>

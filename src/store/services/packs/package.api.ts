@@ -71,6 +71,14 @@ const packageApi = commonApi.injectEndpoints({
                 return routeBuilder.build();
             },
         }),
+        unsubPackage: build.mutation<boolean, void>({
+            query() {
+                return {
+                    url: "/api/Package/unsubPackage",
+                    method: "PUT",
+                };
+            },
+        }),
     }),
     overrideExisting: true,
 });
@@ -83,4 +91,5 @@ export const {
     useDeletePackageMutation,
     useChangePackageStatusMutation,
     useUpdatePackageMutation,
+    useUnsubPackageMutation,
 } = packageApi;
