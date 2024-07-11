@@ -5,7 +5,6 @@ function PackageHistory() {
     const {data: packages, isError, isLoading} = useGetPackageHistoryQuery();
     if (isError) return <div>Error in loading</div>;
     if (isLoading) return <div>Loading...</div>;
-    console.log(packages);
     const formatDateTime = (dateTime: string) => {
         const date = new Date(dateTime);
         return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;

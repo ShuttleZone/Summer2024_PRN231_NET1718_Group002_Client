@@ -36,7 +36,6 @@ function MyPackages() {
         const date = new Date(dateTime);
         return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
     };
-
     const handleUnsub = async () => {
         const error = await unSub();
         console.log("Response " + error);

@@ -7,6 +7,7 @@ function useQuery() {
 
 function AfterPayment() {
     const query = useQuery();
+
     const isSuccess =
         query.get("isSuccess") === "true" ||
         query.get("vnp_ResponseCode") === "00";

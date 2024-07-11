@@ -31,6 +31,11 @@ const DatePicker: React.FC<DatePickerProps> = ({
         );
     };
 
+    const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newDate = new Date(event.target.value);
+        setSelectedDate(newDate);
+    };
+
     return (
         <div className="flex items-center w-full justify-between p-4">
             <button
@@ -42,15 +47,22 @@ const DatePicker: React.FC<DatePickerProps> = ({
                 <p className="w-8 h-8">&lt;</p>
             </button>
             <div className="flex flex-col items-center mx-4">
-                <div className="font-semibold">
+                <div className="font-semibold text-lg">
                     {selectedDate.toLocaleDateString("vi-VN", {
                         weekday: "long",
                     })}
                 </div>
                 <div>
-                    {selectedDate.getDate()}/{selectedDate.getMonth() + 1}
+                    {/* {selectedDate.getDate()}/{selectedDate.getMonth() + 1} */}
+                    <input
+                        type="date"
+                        value={selectedDate.toISOString().substr(0, 10)}
+                        onChange={handleDateChange}
+                        className="mx-4 p-2 border rounded"
+                    />
                 </div>
             </div>
+
             <button
                 type="button"
                 onClick={handleNext}
