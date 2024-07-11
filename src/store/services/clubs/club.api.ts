@@ -1,9 +1,11 @@
 import {
+    AssignStaffRequest,
     BookedSlotType,
     ClubDropdownType,
     ClubListManagement,
     ClubListManagementReturnType,
     ClubManagement,
+    ClubName,
     ClubType,
     CourtScheduleType,
     StaffDto,
@@ -143,6 +145,24 @@ const clubApi = commonApi.injectEndpoints({
                 const routeBuilder = new ApiRouteBuilder("/api/clubs/staffs");
                 return routeBuilder.build();
             },
+            providesTags: [{type: "staff" as never, id: "staff"}],
+        }),
+        getClubNames: build.query<ClubName[], void>({
+            query: () => {
+                const routeBuilder = new ApiRouteBuilder(
+                    "/api/clubs/my-clubs?select=id,clubName,clubAddress"
+                );
+                return routeBuilder.build();
+            },
+        }),
+        //AssignStaffRequest
+        assignClubStaff: build.mutation<void, AssignStaffRequest>({
+            query: (data) => ({
+                url: `/api/clubs/${data.clubId}/assign-staff`,
+                method: "PUT",
+                body: data,
+            }),
+            invalidatesTags: [{type: "staff" as never, id: "staff"}],
         }),
         getMyWorkingClub: build.query<WorkingClubResponseType, void>({
             query: () => {
@@ -172,5 +192,7 @@ export const {
     useGetClubListQuery,
     useGetClubManagementQuery,
     useGetClubStaffsQuery,
+    useGetClubNamesQuery,
+    useAssignClubStaffMutation,
     useGetMyWorkingClubQuery,
 } = clubApi;

@@ -395,6 +395,22 @@ export interface RefreshToken {
     refreshToken: string;
 }
 
+export interface ClubName {
+    Id: string;
+    ClubName: string;
+    ClubAddress: string;
+}
+
+export interface AssignStaffRequest {
+    clubId: string;
+    userName: string;
+    email: string;
+    password: string;
+    fullName: string;
+    gender: number;
+    phoneNumber: string;
+}
+
 export interface WorkingClubResponseType {
     Id: string;
     ClubName: string;
