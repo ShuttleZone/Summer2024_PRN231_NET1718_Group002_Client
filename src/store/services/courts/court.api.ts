@@ -14,7 +14,7 @@ const clubApi = commonApi.injectEndpoints({
                 method: "POST",
                 body: court,
             }),
-            invalidatesTags: (req) => [{type: "Courts" as never, id: req?.id}],
+            invalidatesTags: [{type: "Courts" as never}],
         }),
         getCourtByClub: build.query<CourtByClub[], string>({
             query: (clubId) => {
