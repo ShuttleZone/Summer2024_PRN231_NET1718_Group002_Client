@@ -70,6 +70,17 @@ function SelectCustomerStep({
         }
     };
 
+    const handleSwitchMode = (mode: "select" | "type") => {
+        setUseUserInfo(mode === "select");
+        onSelectUser("", "");
+        if (mode === "select") {
+            setFullname("");
+            setPhoneNumber("");
+        } else {
+            setSelectedUser(null);
+        }
+    };
+
     return (
         <BookingStep
             title={"Thông tin khách hàng"}
@@ -89,46 +100,66 @@ function SelectCustomerStep({
                     </Button>
                 </div>
             ) : useUserInfo ? (
-                <Select
-                    onValueChange={handleSelectUser}
-                    value={selectedUser || ""}
-                >
-                    <SelectTrigger>
-                        <SelectValue placeholder="Chọn người dùng" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {!users || users.length === 0 ? (
-                            <SelectItem value="empty" disabled>
-                                Không có người dùng nào
-                            </SelectItem>
-                        ) : (
-                            users?.map((user) => (
-                                <SelectItem key={user.id} value={user.id}>
-                                    {user.fullname}
+                <>
+                    <div className="mb-4">
+                        <Button
+                            variant={"outline"}
+                            onClick={() => handleSwitchMode("type")}
+                        >
+                            Chuyển sang nhập thông tin người dùng
+                        </Button>
+                    </div>
+                    <Select
+                        onValueChange={handleSelectUser}
+                        value={selectedUser || ""}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="Chọn người dùng" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {!users || users.length === 0 ? (
+                                <SelectItem value="empty" disabled>
+                                    Không có người dùng nào
                                 </SelectItem>
-                            ))
-                        )}
-                    </SelectContent>
-                </Select>
+                            ) : (
+                                users?.map((user) => (
+                                    <SelectItem key={user.id} value={user.id}>
+                                        {user.fullname}
+                                    </SelectItem>
+                                ))
+                            )}
+                        </SelectContent>
+                    </Select>
+                </>
             ) : (
-                <div className="w-full flex flex-col gap-4 my-4 text-lg">
-                    <div>
-                        <Label>Họ và tên</Label>
-                        <Input
-                            onChange={handleFullNameChange}
-                            type="text"
-                            placeholder="Họ và tên"
-                        />
+                <>
+                    <div className="mb-4">
+                        <Button
+                            variant={"outline"}
+                            onClick={() => handleSwitchMode("select")}
+                        >
+                            Chuyển sang chọn người dùng có sẵn
+                        </Button>
                     </div>
-                    <div>
-                        <Label>Số điện thoại</Label>
-                        <Input
-                            onChange={handlePhoneNumberChange}
-                            type="text"
-                            placeholder="Nhập số điện thoại"
-                        />
+                    <div className="w-full flex flex-col gap-4 my-4 text-lg">
+                        <div>
+                            <Label>Họ và tên</Label>
+                            <Input
+                                onChange={handleFullNameChange}
+                                type="text"
+                                placeholder="Họ và tên"
+                            />
+                        </div>
+                        <div>
+                            <Label>Số điện thoại</Label>
+                            <Input
+                                onChange={handlePhoneNumberChange}
+                                type="text"
+                                placeholder="Nhập số điện thoại"
+                            />
+                        </div>
                     </div>
-                </div>
+                </>
             )}
         </BookingStep>
     );
