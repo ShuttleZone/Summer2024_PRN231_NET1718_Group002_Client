@@ -76,7 +76,7 @@ function ReservationCreate() {
         return () => {
             dispatch(clearBookingSlots());
         };
-    }, [selectedCourts, selectedSlots, userInfo]);
+    }, [selectedCourts, selectedSlots, userInfo, dispatch]);
 
     return (
         <section>
