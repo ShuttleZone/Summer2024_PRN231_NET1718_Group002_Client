@@ -1,3 +1,4 @@
+import ContentSpinner from "@/components/ContentSpinner";
 import {RootState, useAppDispatch} from "@/store";
 import {setCallback} from "@/store/slices/callback.slice";
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
@@ -28,6 +29,13 @@ function PrivateRoute({allowedRoles}: PrivateRouteProps) {
         }
         return role === allowedRole;
     });
+
+    if (isLoading)
+        return (
+            <div className="h-screen w-screen flex justify-center items-center">
+                <ContentSpinner />
+            </div>
+        );
 
     return isAuthenticated ? (
         areRolesValid ? (
