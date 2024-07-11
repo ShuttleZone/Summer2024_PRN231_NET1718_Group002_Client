@@ -3,6 +3,7 @@ import {
     LoginAccount,
     RefreshToken,
     RegisterAccount,
+    UserForBooking,
     UserProfile,
 } from "@/@types/api";
 import {setAuth} from "@/store/slices/auth.slice";
@@ -101,6 +102,11 @@ export const authApi = commonApi.injectEndpoints({
                 };
             },
         }),
+        getUsersForBooking: build.query<UserForBooking[], string>({
+            query: () => ({
+                url: "/api/users-booking",
+            }),
+        }),
     }),
 });
 
@@ -112,4 +118,5 @@ export const {
     useConfirmEmailQuery,
     useUpdatePasswordMutation,
     useRegisterManagerMutation,
+    useGetUsersForBookingQuery,
 } = authApi;

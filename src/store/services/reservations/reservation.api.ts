@@ -69,6 +69,16 @@ const reservationApi = commonApi.injectEndpoints({
                 method: "PUT",
             }),
         }),
+        staffCreateReservation: build.mutation({
+            query: (data) => ({
+                url: "/staff/make-booking",
+                method: "POST",
+                body: data,
+            }),
+            transformResponse: (response) => {
+                return response;
+            },
+        }),
     }),
     overrideExisting: true,
 });
@@ -79,4 +89,5 @@ export const {
     useGetReservationsQuery,
     useCancelReservationMutation,
     useCancelReservationDetailMutation,
+    useStaffCreateReservationMutation,
 } = reservationApi;

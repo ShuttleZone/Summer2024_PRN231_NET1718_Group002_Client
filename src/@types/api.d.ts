@@ -408,5 +408,16 @@ export interface AssignStaffRequest {
     password: string;
     fullName: string;
     gender: number;
+
+export interface WorkingClubResponseType {
+    Id: string;
+    ClubName: string;
+    ClubAddress: string;
+    ClubPhone: string;
+}
+
+export interface UserForBooking {
+    id: string;
+    fullname: string;
     phoneNumber: string;
 }

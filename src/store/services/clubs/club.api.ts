@@ -9,6 +9,7 @@ import {
     ClubType,
     CourtScheduleType,
     StaffDto,
+    WorkingClubResponseType,
 } from "@/@types/api";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
@@ -163,6 +164,20 @@ const clubApi = commonApi.injectEndpoints({
             }),
             invalidatesTags: [{type: "staff" as never, id: "staff"}],
         }),
+        getMyWorkingClub: build.query<WorkingClubResponseType, void>({
+            query: () => {
+                const routeBuilder = new ApiRouteBuilder(
+                    "/api/clubs/staff/club"
+                );
+                routeBuilder.select([
+                    "id",
+                    "clubName",
+                    "clubAddress",
+                    "clubPhone",
+                ]);
+                return routeBuilder.build();
+            },
+        }),
     }),
     overrideExisting: true,
 });
@@ -179,4 +194,5 @@ export const {
     useGetClubStaffsQuery,
     useGetClubNamesQuery,
     useAssignClubStaffMutation,
+    useGetMyWorkingClubQuery,
 } = clubApi;
