@@ -80,7 +80,7 @@ function ReservationCreate() {
         return () => {
             dispatch(clearBookingSlots());
         };
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <section>

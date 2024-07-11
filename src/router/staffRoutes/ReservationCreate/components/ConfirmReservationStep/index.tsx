@@ -5,6 +5,7 @@ import {useStaffCreateReservationMutation} from "@/store/services/reservations/r
 import {useToast} from "@/components/ui/use-toast";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "@/store";
+import {clearBookingSlots} from "@/store/slices/bookingStage.slice";
 
 interface ConfirmBookingButtonProps {
     currentStep: number;
@@ -104,7 +105,7 @@ function ConfirmReservationStep({
         } catch (error) {
             toast({
                 title: "Lỗi",
-                description: "Đã có lỗi xảy ra khi đặt sân in catch",
+                description: "Đã có lỗi xảy ra khi đặt sân",
                 variant: "destructive",
             });
         }
