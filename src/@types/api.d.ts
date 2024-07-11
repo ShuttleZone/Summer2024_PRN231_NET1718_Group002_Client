@@ -408,6 +408,8 @@ export interface AssignStaffRequest {
     password: string;
     fullName: string;
     gender: number;
+    phoneNumber: string;
+}
 
 export interface WorkingClubResponseType {
     Id: string;
