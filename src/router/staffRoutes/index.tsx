@@ -3,6 +3,7 @@ import ReservationList from "./ReservationList";
 import PrivateRoute from "../PrivateRoute";
 import applicationRoles from "@/constants/role.constants";
 import ContestDetail from "./ContestDetail";
+import ReservationCreate from "./ReservationCreate";
 
 const staffRoutes: RouteObject[] = [
     {
@@ -12,6 +13,10 @@ const staffRoutes: RouteObject[] = [
     {
         path: "reservations",
         element: <ReservationList />,
+    },
+    {
+        path: "reservations/new",
+        element: <ReservationCreate />,
     },
     {
         path: "contest",

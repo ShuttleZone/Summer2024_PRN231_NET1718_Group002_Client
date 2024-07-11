@@ -1,6 +1,7 @@
 import {FormEvent} from "react";
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -44,12 +45,14 @@ const ConfirmBookingButton: React.FC<ConfirmBookingButtonProps> = ({
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
-                        <Button
-                            className="border-2 bg-white border-green-600 rounded-md flex flex-row justify-center items-center text-green-600  hover:bg-green-600 hover:text-white transition-colors duration-200"
-                            onClick={onClick}
-                        >
-                            Đồng ý
-                        </Button>
+                        <DialogClose asChild>
+                            <Button
+                                className="border-2 bg-white border-green-600 rounded-md flex flex-row justify-center items-center text-green-600  hover:bg-green-600 hover:text-white transition-colors duration-200"
+                                onClick={onClick}
+                            >
+                                Đồng ý
+                            </Button>
+                        </DialogClose>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
