@@ -86,12 +86,14 @@ function ConfirmReservationStep({
                 toast({
                     title: "Lỗi",
                     description: "Đã có lỗi xảy ra khi đặt sân",
+                    variant: "destructive",
                 });
             }
         } catch (error) {
             toast({
                 title: "Lỗi",
                 description: "Đã có lỗi xảy ra khi đặt sân",
+                variant: "destructive",
             });
         }
     };

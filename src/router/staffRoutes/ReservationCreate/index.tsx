@@ -91,7 +91,10 @@ function ReservationCreate() {
             <SelectCustomerStep
                 currentStep={currentStep}
                 shouldContinue={
-                    !!userInfo && !!userInfo.fullname && !!userInfo.phoneNumber
+                    !!userInfo &&
+                    !!userInfo.fullname &&
+                    !!userInfo.phoneNumber &&
+                    userInfo.phoneNumber.length === 10
                 }
                 onGoToNextStep={handleGoToNextStep}
                 onSelectUser={handleSelectUser}

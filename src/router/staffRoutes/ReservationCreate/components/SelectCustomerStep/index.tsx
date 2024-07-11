@@ -61,9 +61,7 @@ function SelectCustomerStep({
         }
         if (/^\d{1,10}$/.test(value) || value === "") {
             setPhoneNumber(value);
-            if (value.length === 10) {
-                onSelectUser(fullname, value);
-            }
+            onSelectUser(fullname, value);
         } else {
             e.currentTarget.value = value.slice(0, value.length - 1);
             setPhoneNumber("");
