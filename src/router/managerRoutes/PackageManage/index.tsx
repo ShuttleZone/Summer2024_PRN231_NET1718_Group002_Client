@@ -1,16 +1,58 @@
 import {useNavigate} from "react-router-dom";
 import BottomButtons from "./components/BottomButtons";
-import {useGetCurrentPackageQuery} from "@/store/services/packs/package.api";
+import {
+    useGetCurrentPackageQuery,
+    useUnsubPackageMutation,
+} from "@/store/services/packs/package.api";
 import formatVietnameseDong from "@/lib/currency.util";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {useToast} from "@/components/ui/use-toast";
+import {Toaster} from "@/components/ui/toaster";
 
 function MyPackages() {
+    const [unSub] = useUnsubPackageMutation();
     const navigate = useNavigate();
-    const {data: packages, isError, isLoading} = useGetCurrentPackageQuery();
+    const {toast} = useToast();
+
+    const {
+        data: packages,
+        isError,
+        isLoading,
+        refetch,
+    } = useGetCurrentPackageQuery();
     if (isError) return <div>Error in loading</div>;
     if (isLoading) return <div>Loading...</div>;
     const formatDateTime = (dateTime: string) => {
         const date = new Date(dateTime);
         return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
+    };
+
+    const handleUnsub = async () => {
+        const error = await unSub();
+        console.log("Response " + error);
+        if (error.data == true) {
+            toast({
+                description: "Huỷ gói đăng kí thành công",
+            });
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Lỗi server !",
+                description: "Đã có lỗi trong quá trình huỷ gói",
+            });
+        }
+
+        refetch();
     };
     console.log(packages);
     return (
@@ -26,7 +68,9 @@ function MyPackages() {
                 <p className="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
                     Theo dõi và quản lý các gói đăng kí hiện tại của bạn.
                 </p>
+                <Toaster />
             </div>
+
             <>
                 {packages == null ? (
                     <div className="mb-2">
@@ -240,25 +284,56 @@ function MyPackages() {
                                     </span>
                                 </li> */}
                             </ul>
-                            {packages.packageUserStatus == 0 ? (
-                                <button className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
-                                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                        Huỷ gói
-                                    </span>
-                                </button>
-                            ) : (
-                                <button
-                                    type="button"
-                                    className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
-                                >
-                                    Gia hạn gói
-                                </button>
-                            )}
+                            <div>
+                                {packages.packageUserStatus == 0 ? (
+                                    <div>
+                                        <AlertDialog key={packages.package.id}>
+                                            <AlertDialogTrigger>
+                                                <button className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+                                                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                                        Huỷ gói
+                                                    </span>
+                                                </button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle>
+                                                        Bạn có chắc chắn là muốn
+                                                        huỷ gói hiện tại ?
+                                                    </AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        Bạn sẽ không thể hoàn
+                                                        tác lại gói đã huỷ !
+                                                    </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                    <AlertDialogCancel>
+                                                        Huỷ
+                                                    </AlertDialogCancel>
+                                                    <AlertDialogAction
+                                                        onClick={handleUnsub}
+                                                        className="group bg-gradient-to-br from-pink-500 to-orange-400"
+                                                    >
+                                                        Xác nhận huỷ gói
+                                                    </AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+                                    </div>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
+                                    >
+                                        Gia hạn gói
+                                    </button>
+                                )}
+                            </div>
                         </div>
-                        <BottomButtons />
                     </div>
                 )}
             </>
+            <BottomButtons />
         </div>
     );
 }

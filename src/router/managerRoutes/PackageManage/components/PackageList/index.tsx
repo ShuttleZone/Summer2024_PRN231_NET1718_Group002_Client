@@ -2,6 +2,7 @@ import {useGetPackagesQuery} from "@/store/services/packs/package.api";
 import {useNavigate} from "react-router-dom";
 import {PackageInformation, PaymentRequest} from "@/@types/api";
 import paymentTypes from "@/constants/payment.constants";
+import formatVietnameseDong from "@/lib/currency.util";
 
 function PackageList() {
     const handleGetPaymentUrl = async (p: PackageInformation) => {
@@ -62,7 +63,11 @@ function PackageList() {
                                     {p.packageType == "MONTH" ? (
                                         <div className="flex items-center justify-between">
                                             <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                                                {p.price}vnđ/tháng
+                                                {formatVietnameseDong(
+                                                    p.price,
+                                                    "VND"
+                                                )}
+                                                vnđ/tháng
                                             </span>
                                             <a
                                                 onClick={() =>
@@ -76,7 +81,11 @@ function PackageList() {
                                     ) : (
                                         <div className="flex items-center justify-between">
                                             <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                                                {p.price}vnđ/năm
+                                                {formatVietnameseDong(
+                                                    p.price,
+                                                    "VND"
+                                                )}
+                                                vnđ/tháng
                                             </span>
                                             <a
                                                 onClick={() =>
