@@ -32,7 +32,7 @@ function ClubDetail() {
     const getAverageRating = () => {
         if (!reviews || !reviews.length) return 0;
         const totalRating = reviews.reduce(
-            (acc, review) => acc + review.rating,
+            (acc, review) => acc + review.rating + 1,
             0
         );
         return totalRating / reviews.length;
@@ -58,7 +58,7 @@ function ClubDetail() {
                     name={clubDetail.clubName}
                     address={clubDetail.clubAddress}
                     phone={clubDetail.clubPhone}
-                    reviewsCount={clubDetail.reviews?.length || 0}
+                    reviewsCount={reviews?.length || 0}
                     rating={getAverageRating()}
                 />
                 <ClubDescription description={clubDetail.clubDescription} />

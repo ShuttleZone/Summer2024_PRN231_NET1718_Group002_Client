@@ -30,14 +30,14 @@ function Review({review}: ClubReviewsProps) {
                     <div className="flex gap-2 items-center">
                         <ul className="flex gap-1">
                             {Array.from({
-                                length: 5,
+                                length: review.rating + 1,
                             }).map((_, index) => (
                                 <li key={index}>
                                     <FaStar color="orange" size={20} />
                                 </li>
                             ))}
                         </ul>
-                        <span className="text-lg">{review.rating}</span>
+                        <span className="text-lg">{review.rating + 1}</span>
                     </div>
                 </div>
             </div>
