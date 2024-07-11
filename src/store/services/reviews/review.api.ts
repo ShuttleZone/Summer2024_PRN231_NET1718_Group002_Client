@@ -27,7 +27,7 @@ const reviewApi = commonApi.injectEndpoints({
             providesTags: (result, _, id) =>
                 result
                     ? [
-                          ...result.map((_) => ({
+                          ...result.map(() => ({
                               type: "ClubReviews" as never,
                               id: id,
                           })),

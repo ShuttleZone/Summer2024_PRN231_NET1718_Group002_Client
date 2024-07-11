@@ -48,7 +48,7 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({
         clubId || idFromRoute || skipToken
     );
     const {data: bookedData} = useGetClubReservationDetailQuery(
-        clubId ?? idFromRoute
+        clubId || idFromRoute || skipToken
     );
     const [selectedSlots, setSelectedSlots] = useState<BookedSlot[]>([]);
     const openDateInWeeks = club?.openDateInWeeks;
