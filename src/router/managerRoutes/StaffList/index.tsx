@@ -1,4 +1,3 @@
-import {Button} from "@/components/ui/button";
 import {
     Table,
     TableBody,
@@ -16,7 +15,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import {useNavigate} from "react-router-dom";
 import {
     useGetClubStaffsQuery,
     useGetMyClubsQuery,
@@ -24,10 +22,10 @@ import {
 import ActionButton from "./components/ActionButton";
 import {RiUserSettingsLine} from "react-icons/ri";
 import {useState, useEffect} from "react";
+import CreateStaffDialog from "./components/CreateStaffDialog";
 
 function StaffList() {
-    const navigate = useNavigate();
-    const {data: staffs, isLoading} = useGetClubStaffsQuery();
+    const {data: staffs, isLoading, refetch} = useGetClubStaffsQuery();
     const {data: clubs} = useGetMyClubsQuery();
 
     const [filteredStaff, setFilteredStaff] = useState(staffs);
@@ -55,12 +53,6 @@ function StaffList() {
                     Tổng số {staffs?.length} <RiUserSettingsLine />
                 </h1>
 
-                <Button
-                    className="bg-white border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white ml-8"
-                    onClick={() => navigate("/manager/staffs/new")}
-                >
-                    Thêm nhân viên
-                </Button>
                 <Select onValueChange={handleClubFilterChange}>
                     <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Chọn câu lạc bộ" />
@@ -76,6 +68,7 @@ function StaffList() {
                         </SelectGroup>
                     </SelectContent>
                 </Select>
+                <CreateStaffDialog afterSubmit={refetch} />
             </div>
             <div className="rounded-md border">
                 <Table>

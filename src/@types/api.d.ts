@@ -394,3 +394,19 @@ export interface RefreshToken {
     accessToken: string;
     refreshToken: string;
 }
+
+export interface ClubName {
+    Id: string;
+    ClubName: string;
+    ClubAddress: string;
+}
+
+export interface AssignStaffRequest {
+    clubId: string;
+    userName: string;
+    email: string;
+    password: string;
+    fullName: string;
+    gender: number;
+    phoneNumber: string;
+}
