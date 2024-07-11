@@ -18,7 +18,7 @@ type ClubReturnType = {
 
 const clubApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
-        getClubs: build.query<ClubType[], string | undefined>({
+        getClubs: build.query<ClubType[], void>({
             query: () => {
                 const routeBuilder = new ApiRouteBuilder(
                     "/api/clubs?$filter=clubStatusEnum eq 'CreateRequestAccepted' or clubStatusEnum eq 'Open'&$expand=clubImages($select=id,imageUrl)"
@@ -29,13 +29,13 @@ const clubApi = commonApi.injectEndpoints({
                 return baseQueryReturnValue.value;
             },
         }),
-        getClubDetail: build.query<ClubType, string | undefined>({
+        getClubDetail: build.query<ClubType, string>({
             query: (id) => {
                 const routeBuilder = new ApiRouteBuilder(`/api/clubs(${id})`);
                 return routeBuilder.build();
             },
         }),
-        getCourtSchedule: build.query<CourtScheduleType, string | undefined>({
+        getCourtSchedule: build.query<CourtScheduleType, string>({
             query: (id) => {
                 const routeBuilder = new ApiRouteBuilder(
                     `/api/clubs(${id})?$select=clubName,minDuration,openTime,closeTime&$expand=courts($select=id,name,price,courtStatus),openDateInWeeks($select=date)`
@@ -51,10 +51,7 @@ const clubApi = commonApi.injectEndpoints({
                 return routeBuilder.build();
             },
         }),
-        getClubReservationDetail: build.query<
-            BookedSlotType[],
-            string | undefined
-        >({
+        getClubReservationDetail: build.query<BookedSlotType[], string>({
             query: (id) => {
                 const routeBuilder = new ApiRouteBuilder(
                     `/Clubs(${id})/reservations-details`

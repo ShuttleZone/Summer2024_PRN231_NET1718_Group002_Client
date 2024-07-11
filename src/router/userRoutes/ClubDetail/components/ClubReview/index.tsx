@@ -1,4 +1,5 @@
 import {useGetClubReviewsQuery} from "@/store/services/reviews/review.api";
+import {skipToken} from "@reduxjs/toolkit/query";
 import {FaStar} from "react-icons/fa";
 import {useParams} from "react-router-dom";
 
@@ -11,13 +12,12 @@ function ClubReview() {
         const date = new Date(dateTime);
         return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
     };
-
     const {
         data: reviews,
         isLoading,
         isSuccess,
-    } = useGetClubReviewsQuery(clubId);
-    console.log(reviews);
+    } = useGetClubReviewsQuery(clubId || skipToken);
+
     if (isLoading) return <div>is loading...</div>;
     if (isSuccess)
         return (

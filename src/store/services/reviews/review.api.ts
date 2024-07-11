@@ -16,7 +16,7 @@ const reviewApi = commonApi.injectEndpoints({
                 {type: "ClubReviews" as never, id: request?.clubId},
             ],
         }),
-        getClubReviews: build.query<ClubReviews[], string | undefined>({
+        getClubReviews: build.query<ClubReviews[], string>({
             query: (id) => {
                 const routeBuilder = new ApiRouteBuilder(`/api/Reviews(${id})`);
                 return routeBuilder.build();

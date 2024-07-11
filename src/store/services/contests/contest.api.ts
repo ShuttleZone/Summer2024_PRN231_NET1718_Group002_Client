@@ -21,7 +21,7 @@ const contestApi = commonApi.injectEndpoints({
                 return baseQueryReturnValue.value;
             },
         }),
-        getContestsDetail: build.query<ContestInfo, string | undefined>({
+        getContestsDetail: build.query<ContestInfo, string>({
             query: (id) => {
                 const routeBuilder = new ApiRouteBuilder(
                     `/api/Contests(${id})?$expand=userContests`
@@ -32,7 +32,7 @@ const contestApi = commonApi.injectEndpoints({
                 return baseQueryReturnValue;
             },
         }),
-        getContestStaff: build.query<ContestResponse, string | undefined>({
+        getContestStaff: build.query<ContestResponse, string>({
             query: (id) => {
                 const routeBuilder = new ApiRouteBuilder(
                     `/api/ContestDetail?$expand=UserContests&filter=Id eq ${id}`

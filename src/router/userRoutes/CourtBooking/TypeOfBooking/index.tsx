@@ -3,10 +3,11 @@ import {setClubDetail} from "@/store/slices/bookingStage.slice";
 import {useGetClubDetailQuery} from "@/store/services/clubs/club.api";
 import {useEffect} from "react";
 import {useParams} from "react-router-dom";
+import {skipToken} from "@reduxjs/toolkit/query";
 
 function TypeOfBooking() {
     const {id} = useParams();
-    const {data: clubDetail} = useGetClubDetailQuery(id);
+    const {data: clubDetail} = useGetClubDetailQuery(id || skipToken);
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(setClubDetail(clubDetail));

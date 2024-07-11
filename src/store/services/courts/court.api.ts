@@ -15,7 +15,7 @@ const clubApi = commonApi.injectEndpoints({
                 body: court,
             }),
         }),
-        getCourtByClub: build.query<CourtByClub[], string | undefined>({
+        getCourtByClub: build.query<CourtByClub[], string>({
             query: (clubId) => {
                 const routeBuilder = new ApiRouteBuilder("/api/Courts");
                 routeBuilder.filter("clubId", `${clubId}`);

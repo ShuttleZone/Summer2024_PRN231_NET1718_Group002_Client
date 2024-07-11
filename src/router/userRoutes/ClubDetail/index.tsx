@@ -9,6 +9,7 @@ import {useAppDispatch} from "@/store";
 import {useEffect} from "react";
 import {setClubDetail} from "@/store/slices/bookingStage.slice";
 import {useGetClubReviewsQuery} from "@/store/services/reviews/review.api";
+import {skipToken} from "@reduxjs/toolkit/query";
 
 const mockImages: string[] = [
     "https://us.123rf.com/450wm/anankkml/anankkml2204/anankkml220400024/184341315-shuttlecock-on-green-badminton-playing-court-with-player-in-background.jpg?ver=6",
@@ -26,8 +27,8 @@ function ClubDetail() {
         data: clubDetail,
         isError,
         isLoading,
-    } = useGetClubDetailQuery(clubId);
-    const {data: reviews} = useGetClubReviewsQuery(clubId);
+    } = useGetClubDetailQuery(clubId || skipToken);
+    const {data: reviews} = useGetClubReviewsQuery(clubId || skipToken);
 
     const getAverageRating = () => {
         if (!reviews || !reviews.length) return 0;

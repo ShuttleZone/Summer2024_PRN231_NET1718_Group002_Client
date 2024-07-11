@@ -9,10 +9,9 @@ function ClubRequestList() {
         isError,
         isLoading,
         refetch,
-    } = useGetClubRequestsAdminQuery(undefined);
+    } = useGetClubRequestsAdminQuery();
 
-    console.log(clubRequests);
-    if (clubRequests == undefined) {
+    if (!clubRequests) {
         return <div>Error</div>;
     }
 

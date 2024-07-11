@@ -8,7 +8,7 @@ type ClubRequestsList = {
 
 const clubApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
-        getClubRequestsAdmin: build.query<ClubRequest[], string | undefined>({
+        getClubRequestsAdmin: build.query<ClubRequest[], void>({
             query: () => {
                 const routeBuilder = new ApiRouteBuilder("/api/ClubRequests");
                 return (
@@ -22,7 +22,7 @@ const clubApi = commonApi.injectEndpoints({
                 return baseQueryReturnValue.value;
             },
         }),
-        getClubRequestDetailAdmin: build.query<ClubType, string | undefined>({
+        getClubRequestDetailAdmin: build.query<ClubType, string>({
             query: (id) => {
                 const routeBuilder = new ApiRouteBuilder(`/api/clubs(${id})`);
                 return routeBuilder.build();
