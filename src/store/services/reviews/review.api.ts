@@ -12,6 +12,9 @@ const reviewApi = commonApi.injectEndpoints({
                     body: body,
                 };
             },
+            invalidatesTags: (request) => [
+                {type: "ClubReviews" as never, id: request?.clubId},
+            ],
         }),
         getClubReviews: build.query<ClubReviews[], string | undefined>({
             query: (id) => {
@@ -21,6 +24,16 @@ const reviewApi = commonApi.injectEndpoints({
             transformResponse(baseQueryReturnValue: ClubReviews[]) {
                 return baseQueryReturnValue;
             },
+            providesTags: (result, _, id) =>
+                result
+                    ? [
+                          ...result.map((_) => ({
+                              type: "ClubReviews" as never,
+                              id: id,
+                          })),
+                          {type: "ClubReviews" as never, id: "LIST"},
+                      ]
+                    : [{type: "ClubReviews" as never, id: "LIST"}],
         }),
         replyClubReview: build.mutation<ReplyReview, ReplyReview>({
             query(body) {
