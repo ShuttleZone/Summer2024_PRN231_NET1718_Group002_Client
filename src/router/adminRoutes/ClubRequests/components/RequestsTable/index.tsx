@@ -20,32 +20,25 @@ import {
     DialogClose,
 } from "@/components/ui/dialog";
 import React from "react";
-import {
-    BaseQueryFn,
-    FetchArgs,
-    FetchBaseQueryError,
-    FetchBaseQueryMeta,
-    QueryActionCreatorResult,
-    QueryDefinition,
-} from "@reduxjs/toolkit/query";
 
 interface InputDataProps {
     clubRequest: ClubRequest;
-    refetch: () => QueryActionCreatorResult<
-        QueryDefinition<
-            string | undefined,
-            BaseQueryFn<
-                string | FetchArgs,
-                unknown,
-                FetchBaseQueryError,
-                Record<string, never>,
-                FetchBaseQueryMeta
-            >,
-            never,
-            ClubRequest[],
-            "commonApi"
-        >
-    >;
+    refetch: () => void;
+    // refetch: () => QueryActionCreatorResult<
+    //     QueryDefinition<
+    //         string | undefined,
+    //         BaseQueryFn<
+    //             string | FetchArgs,
+    //             unknown,
+    //             FetchBaseQueryError,
+    //             Record<string, never>,
+    //             FetchBaseQueryMeta
+    //         >,
+    //         never,
+    //         ClubRequest[],
+    //         "commonApi"
+    //     >
+    // >;
 }
 
 function InputData({
@@ -83,7 +76,7 @@ function InputData({
                 description: "Error in server !",
             });
         }
-        await refetch();
+        refetch();
     };
 
     const handleReject = async () => {
@@ -103,8 +96,7 @@ function InputData({
                 description: "Error in server !",
             });
         }
-        await refetch();
-        await refetch();
+        refetch();
     };
     if (!clubRequest) return <div>Nothing</div>;
     return (
@@ -231,21 +223,22 @@ function InputData({
 
 interface RequestTableProps {
     requests?: ClubRequest[];
-    refetch: () => QueryActionCreatorResult<
-        QueryDefinition<
-            string | undefined,
-            BaseQueryFn<
-                string | FetchArgs,
-                unknown,
-                FetchBaseQueryError,
-                Record<string, never>,
-                FetchBaseQueryMeta
-            >,
-            never,
-            ClubRequest[],
-            "commonApi"
-        >
-    >;
+    refetch: () => void;
+    // refetch: () => QueryActionCreatorResult<
+    //     QueryDefinition<
+    //         string | undefined,
+    //         BaseQueryFn<
+    //             string | FetchArgs,
+    //             unknown,
+    //             FetchBaseQueryError,
+    //             Record<string, never>,
+    //             FetchBaseQueryMeta
+    //         >,
+    //         never,
+    //         ClubRequest[],
+    //         "commonApi"
+    //     >
+    // >;
 }
 
 function RequestTable({requests, refetch}: RequestTableProps) {

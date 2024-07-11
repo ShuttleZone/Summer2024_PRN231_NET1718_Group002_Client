@@ -20,7 +20,7 @@ type ClubReturnType = {
 
 const clubApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
-        getClubs: build.query<ClubType[], string | undefined>({
+        getClubs: build.query<ClubType[], void>({
             query: () => {
                 const routeBuilder = new ApiRouteBuilder(
                     "/api/clubs?$filter=clubStatusEnum eq 'CreateRequestAccepted' or clubStatusEnum eq 'Open'&$expand=clubImages($select=id,imageUrl)"
@@ -30,14 +30,28 @@ const clubApi = commonApi.injectEndpoints({
             transformResponse(baseQueryReturnValue: ClubReturnType) {
                 return baseQueryReturnValue.value;
             },
+            providesTags: (result) =>
+                result
+                    ? [
+                          ...result.map(({id}) => ({
+                              type: "Clubs" as never,
+                              id,
+                          })),
+                          {type: "Clubs" as never, id: "LIST"},
+                      ]
+                    : [{type: "Clubs" as never, id: "LIST"}],
         }),
-        getClubDetail: build.query<ClubType, string | undefined>({
+        getClubDetail: build.query<ClubType, string>({
             query: (id) => {
                 const routeBuilder = new ApiRouteBuilder(`/api/clubs(${id})`);
                 return routeBuilder.build();
             },
+            providesTags: (result, _, id) =>
+                result
+                    ? [{type: "Clubs" as never, id}]
+                    : [{type: "Clubs" as never, id: "DETAIL"}],
         }),
-        getCourtSchedule: build.query<CourtScheduleType, string | undefined>({
+        getCourtSchedule: build.query<CourtScheduleType, string>({
             query: (id) => {
                 const routeBuilder = new ApiRouteBuilder(
                     `/api/clubs(${id})?$select=clubName,minDuration,openTime,closeTime&$expand=courts($select=id,name,price,courtStatus),openDateInWeeks($select=date)`
@@ -53,10 +67,7 @@ const clubApi = commonApi.injectEndpoints({
                 return routeBuilder.build();
             },
         }),
-        getClubReservationDetail: build.query<
-            BookedSlotType[],
-            string | undefined
-        >({
+        getClubReservationDetail: build.query<BookedSlotType[], string>({
             query: (id) => {
                 const routeBuilder = new ApiRouteBuilder(
                     `/Clubs(${id})/reservations-details`
@@ -76,6 +87,13 @@ const clubApi = commonApi.injectEndpoints({
                 method: "POST",
                 body: court,
             }),
+            invalidatesTags: [
+                {type: "Clubs" as never, id: "LIST"},
+                {type: "Clubs" as never, id: "EXTENDED"},
+                {type: "MyClubs" as never, id: "LIST"},
+                {type: "MyClubs" as never, id: "EXTENDED"},
+                {type: "MyWorkingClub" as never},
+            ],
         }),
         getMyClubs: build.query<ClubDropdownType[], void>({
             query: () => {
@@ -83,6 +101,7 @@ const clubApi = commonApi.injectEndpoints({
                 routeBuilder.select(["id", "clubName"]);
                 return routeBuilder.build();
             },
+            providesTags: [{type: "MyClubs" as never, id: "LIST"}],
         }),
         getClubList: build.query<ClubManagement[], void>({
             query: () => {
@@ -111,6 +130,7 @@ const clubApi = commonApi.injectEndpoints({
                     totalStaff: club.Staffs.length,
                 }));
             },
+            providesTags: [{type: "MyClubs" as never, id: "EXTENDED"}],
         }),
         getClubManagement: build.query<ClubManagement[], void>({
             query: () => {
@@ -139,6 +159,7 @@ const clubApi = commonApi.injectEndpoints({
                     totalStaff: club.staffs.length,
                 }));
             },
+            providesTags: [{type: "Clubs" as never, id: "EXTENDED"}],
         }),
         getClubStaffs: build.query<StaffDto[], void>({
             query: () => {
@@ -177,6 +198,7 @@ const clubApi = commonApi.injectEndpoints({
                 ]);
                 return routeBuilder.build();
             },
+            providesTags: [{type: "MyWorkingClub" as never}],
         }),
     }),
     overrideExisting: true,

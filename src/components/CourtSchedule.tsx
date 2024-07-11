@@ -11,6 +11,7 @@ import {
 } from "@/store/slices/bookingStage.slice";
 import CloseImage from "/public/sorry-we-closed.png";
 import {PiCourtBasketball} from "react-icons/pi";
+import {skipToken} from "@reduxjs/toolkit/query";
 
 interface CourtScheduleProps {
     selectedDate: Date;
@@ -44,10 +45,10 @@ const CourtSchedule: React.FC<CourtScheduleProps> = ({
     const {id: idFromRoute} = useParams();
     const dispatch = useAppDispatch();
     const {data: club, isLoading} = useGetCourtScheduleQuery(
-        clubId ?? idFromRoute
+        clubId || idFromRoute || skipToken
     );
     const {data: bookedData} = useGetClubReservationDetailQuery(
-        clubId ?? idFromRoute
+        clubId || idFromRoute || skipToken
     );
     const [selectedSlots, setSelectedSlots] = useState<BookedSlot[]>([]);
     const openDateInWeeks = club?.openDateInWeeks;

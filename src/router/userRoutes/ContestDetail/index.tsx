@@ -1,6 +1,7 @@
 import {useParams} from "react-router-dom";
 import CardContainter from "./components/CardContainter";
 import {useGetContestsDetailQuery} from "@/store/services/contests/contest.api";
+import {skipToken} from "@reduxjs/toolkit/query";
 
 function ContestDetail() {
     const {contestId} = useParams();
@@ -8,8 +9,7 @@ function ContestDetail() {
         data: contestDetail,
         isError,
         isLoading,
-    } = useGetContestsDetailQuery(contestId);
-    console.log(contestDetail);
+    } = useGetContestsDetailQuery(contestId || skipToken);
     if (isLoading) {
         return <div>Loading...</div>;
     }

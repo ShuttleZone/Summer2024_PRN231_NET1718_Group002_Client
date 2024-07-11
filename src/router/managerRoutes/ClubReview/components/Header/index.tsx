@@ -1,14 +1,19 @@
 import formatTime from "@/lib/time.util";
 import {useGetClubDetailQuery} from "@/store/services/clubs/club.api";
+import {skipToken} from "@reduxjs/toolkit/query";
 import {useNavigate, useParams} from "react-router-dom";
 
 function Header() {
     const {Id} = useParams();
-    const {data: club, isLoading, isError} = useGetClubDetailQuery(Id);
-    // console.log(club);
+    const {
+        data: club,
+        isLoading,
+        isError,
+    } = useGetClubDetailQuery(Id || skipToken);
     const navigate = useNavigate();
     if (isLoading) return <div>is loading...</div>;
     if (isError) return <div>Error in loading data</div>;
+
     return (
         <div>
             <div className="m-2 border-2 p-4 rounded-lg border-black">

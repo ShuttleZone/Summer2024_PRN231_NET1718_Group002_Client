@@ -4,7 +4,7 @@ import ClubCardSkeletons from "./components/ClubCardSkeletons";
 import ClubCard from "./components/ClubCard";
 
 function ClubsList() {
-    const {data: clubs, isError, isLoading} = useGetClubsQuery(undefined);
+    const {data: clubs, isError, isLoading} = useGetClubsQuery();
 
     if (isError) {
         return <div>An error occurred</div>;

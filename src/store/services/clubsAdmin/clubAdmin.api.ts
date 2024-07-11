@@ -8,7 +8,7 @@ type ClubRequestsList = {
 
 const clubApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
-        getClubRequestsAdmin: build.query<ClubRequest[], string | undefined>({
+        getClubRequestsAdmin: build.query<ClubRequest[], void>({
             query: () => {
                 const routeBuilder = new ApiRouteBuilder("/api/ClubRequests");
                 return (
@@ -21,12 +21,26 @@ const clubApi = commonApi.injectEndpoints({
             transformResponse(baseQueryReturnValue: ClubRequestsList) {
                 return baseQueryReturnValue.value;
             },
+            providesTags: (result) =>
+                result
+                    ? [
+                          ...result.map(({id}) => ({
+                              type: "ClubRequests" as never,
+                              id,
+                          })),
+                          {type: "ClubRequests" as never, id: "LIST"},
+                      ]
+                    : [{type: "ClubRequests" as never, id: "LIST"}],
         }),
-        getClubRequestDetailAdmin: build.query<ClubType, string | undefined>({
+        getClubRequestDetailAdmin: build.query<ClubType, string>({
             query: (id) => {
                 const routeBuilder = new ApiRouteBuilder(`/api/clubs(${id})`);
                 return routeBuilder.build();
             },
+            providesTags: (result, _, id) =>
+                result
+                    ? [{type: "Clubs" as never, id}]
+                    : [{type: "Clubs" as never, id: "DETAIL"}],
         }),
         acceptClubRequest: build.mutation<AcceptClubRequest, {id: string}>({
             query(data) {
@@ -35,6 +49,7 @@ const clubApi = commonApi.injectEndpoints({
                     method: "PUT",
                 };
             },
+            invalidatesTags: [{type: "ClubRequests" as never}],
         }),
         rejectClubRequest: build.mutation<AcceptClubRequest, {id: string}>({
             query(data) {
@@ -43,6 +58,7 @@ const clubApi = commonApi.injectEndpoints({
                     method: "PUT",
                 };
             },
+            invalidatesTags: [{type: "ClubRequests" as never}],
         }),
     }),
     overrideExisting: true,

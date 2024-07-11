@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/tooltip";
 import React, {useState} from "react";
 import {useParams} from "react-router-dom";
+import {skipToken} from "@reduxjs/toolkit/query";
 
 function Ostar() {
     return (
@@ -323,7 +324,11 @@ function AllReviews() {
         return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
     };
 
-    const {data: reviews, isLoading, refetch} = useGetClubReviewsQuery(Id);
+    const {
+        data: reviews,
+        isLoading,
+        refetch,
+    } = useGetClubReviewsQuery(Id || skipToken);
     const initialState: ReplyReview = {
         id: "",
         replyTitle: "",

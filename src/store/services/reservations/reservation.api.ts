@@ -27,6 +27,16 @@ const reservationApi = commonApi.injectEndpoints({
                     total: response["@odata.count"],
                 };
             },
+            providesTags: (result) =>
+                result
+                    ? [
+                          ...result.items.map(({id}) => ({
+                              type: "ReservationDetails" as never,
+                              id,
+                          })),
+                          {type: "ReservationDetails" as never, id: "LIST"},
+                      ]
+                    : [{type: "ReservationDetails" as never, id: "LIST"}],
         }),
         getReservations: build.query<
             {items: ReservationType[]; total: number},
@@ -46,6 +56,16 @@ const reservationApi = commonApi.injectEndpoints({
                     total: response["@odata.count"],
                 };
             },
+            providesTags: (result) =>
+                result
+                    ? [
+                          ...result.items.map(({id}) => ({
+                              type: "Reservations" as never,
+                              id,
+                          })),
+                          {type: "Reservations" as never, id: "LIST"},
+                      ]
+                    : [{type: "Reservations" as never, id: "LIST"}],
         }),
         createReservation: build.mutation({
             query: (data) => ({
@@ -56,18 +76,21 @@ const reservationApi = commonApi.injectEndpoints({
             transformResponse: (response) => {
                 return response;
             },
+            invalidatesTags: [{type: "Reservations" as never}],
         }),
         cancelReservation: build.mutation({
             query: ({reservationId}) => ({
                 url: `api/Reservation/${reservationId}`,
                 method: "PUT",
             }),
+            invalidatesTags: [{type: "Reservations" as never}],
         }),
         cancelReservationDetail: build.mutation({
             query: ({reservationDetailId}) => ({
                 url: `api/ReservationDetails/${reservationDetailId}`,
                 method: "PUT",
             }),
+            invalidatesTags: [{type: "ReservationDetails" as never}],
         }),
         staffCreateReservation: build.mutation({
             query: (data) => ({
@@ -78,6 +101,10 @@ const reservationApi = commonApi.injectEndpoints({
             transformResponse: (response) => {
                 return response;
             },
+            invalidatesTags: [
+                {type: "Reservations" as never},
+                {type: "ReservationDetails" as never},
+            ],
         }),
     }),
     overrideExisting: true,

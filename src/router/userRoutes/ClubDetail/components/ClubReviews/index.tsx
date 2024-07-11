@@ -17,7 +17,7 @@ function ClubReviews({reviews}: ClubReviewsProps) {
     const getAverageRating = () => {
         if (!reviews || !reviews.length) return 0;
         const totalRating = reviews.reduce(
-            (acc, review) => acc + review.rating,
+            (acc, review) => acc + review.rating + 1,
             0
         );
         return totalRating / reviews.length;
@@ -42,24 +42,24 @@ function ClubReviews({reviews}: ClubReviewsProps) {
                     ) : (
                         <>
                             <div className="flex justify-start gap-8 mb-12">
-                                <div className="flex flex-col justify-center items-center p-6 bg-amber-300/10 rounded gap-2 aspect-square">
+                                <div className="flex flex-col justify-center items-center p-6 bg-amber-300/10 rounded gap-2 aspect-square min-w-44">
                                     <span className="text-2xl font-semibold">
-                                        {getAverageRating()}
+                                        {getAverageRating().toFixed(1)}
                                     </span>
                                     <span className="text-lg opacity-75">
                                         out of 5.0
                                     </span>
                                     <ul className="flex gap-1">
-                                        {Array.from({length: 5}).map(
-                                            (_, index) => (
-                                                <li key={index}>
-                                                    <FaStar
-                                                        color="orange"
-                                                        size={20}
-                                                    />
-                                                </li>
-                                            )
-                                        )}
+                                        {Array.from({
+                                            length: getAverageRating(),
+                                        }).map((_, index) => (
+                                            <li key={index}>
+                                                <FaStar
+                                                    color="orange"
+                                                    size={20}
+                                                />
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
                                 <ul className="grid grid-cols-3 w-full h-full gap-x-24 gap-y-12">
@@ -67,9 +67,7 @@ function ClubReviews({reviews}: ClubReviewsProps) {
                                         <Rating
                                             key={index}
                                             rating={5 - index}
-                                            reviewsCount={getReviewCount(
-                                                5 - index
-                                            )}
+                                            reviewsCount={getReviewCount(index)}
                                         />
                                     ))}
                                 </ul>

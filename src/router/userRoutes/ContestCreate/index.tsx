@@ -29,6 +29,7 @@ import {
 } from "@/store/slices/bookingStage.slice";
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {skipToken} from "@reduxjs/toolkit/query";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
 import {PiCourtBasketball} from "react-icons/pi";
@@ -84,7 +85,7 @@ function ContestCreate() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const {id} = useParams();
-    const {refetch} = useGetClubReservationDetailQuery(id);
+    const {refetch} = useGetClubReservationDetailQuery(id || skipToken);
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         if (!slots.length) {

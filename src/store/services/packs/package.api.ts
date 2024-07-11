@@ -22,6 +22,16 @@ const packageApi = commonApi.injectEndpoints({
             transformResponse(baseQueryReturnValue: PackageReturnType) {
                 return baseQueryReturnValue.value;
             },
+            providesTags: (result) =>
+                result
+                    ? [
+                          ...result.map(({id}) => ({
+                              type: "Packages" as never,
+                              id,
+                          })),
+                          {type: "Packages" as never, id: "LIST"},
+                      ]
+                    : [{type: "Packages" as never, id: "LIST"}],
         }),
         createPackage: build.mutation<CreatePackage, CreatePackage>({
             query(body) {
@@ -31,12 +41,14 @@ const packageApi = commonApi.injectEndpoints({
                     body: body,
                 };
             },
+            invalidatesTags: [{type: "Packages" as never}],
         }),
         deletePackage: build.mutation({
             query: ({packageId}) => ({
                 url: `api/Package/delete-package/${packageId}`,
                 method: "DELETE",
             }),
+            invalidatesTags: [{type: "Packages" as never}],
         }),
         updatePackage: build.mutation<UpdatePackage, UpdatePackage>({
             query(body) {
@@ -46,6 +58,9 @@ const packageApi = commonApi.injectEndpoints({
                     body: body,
                 };
             },
+            invalidatesTags: (req) => [
+                {type: "Packages" as never, id: req?.id},
+            ],
         }),
         changePackageStatus: build.mutation<ChangePackageStatus, {id: string}>({
             query(data) {
@@ -54,6 +69,9 @@ const packageApi = commonApi.injectEndpoints({
                     method: "PUT",
                 };
             },
+            invalidatesTags: (req) => [
+                {type: "Packages" as never, id: req?.id},
+            ],
         }),
         getCurrentPackage: build.query<UserCurrentPackage, void>({
             query: () => {
@@ -62,6 +80,10 @@ const packageApi = commonApi.injectEndpoints({
                 );
                 return routeBuilder.build();
             },
+            providesTags: (result) =>
+                result
+                    ? [{type: "Packages" as never, id: result.packageId}]
+                    : [{type: "Packages" as never, id: "DETAIL"}],
         }),
         getPackageHistory: build.query<UserCurrentPackage[], void>({
             query: () => {
@@ -70,6 +92,16 @@ const packageApi = commonApi.injectEndpoints({
                 );
                 return routeBuilder.build();
             },
+            providesTags: (result) =>
+                result
+                    ? [
+                          ...result.map(({packageId}) => ({
+                              type: "PackagesHistory" as never,
+                              id: packageId,
+                          })),
+                          {type: "PackagesHistory" as never, id: "LIST"},
+                      ]
+                    : [{type: "PackagesHistory" as never, id: "LIST"}],
         }),
         unsubPackage: build.mutation<boolean, void>({
             query() {
@@ -78,6 +110,7 @@ const packageApi = commonApi.injectEndpoints({
                     method: "PUT",
                 };
             },
+            invalidatesTags: [{type: "PackagesHistory" as never}],
         }),
     }),
     overrideExisting: true,
