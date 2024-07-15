@@ -32,7 +32,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
 
     return (
         <div className="text-sm">
-            Time left:{" "}
+            Thời gian còn lại:{" "}
             <span className="text-red-600">{formatTime(timeLeft)}</span>
         </div>
     );

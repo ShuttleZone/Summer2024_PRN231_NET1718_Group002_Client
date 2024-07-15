@@ -64,13 +64,13 @@ function MyReservationDetailList() {
 
         switch (status) {
             case "ongoing":
-                filterStr = `startTime le ${now} and endTime ge ${now}`;
+                filterStr = `startTime le ${now} and endTime ge ${now} and reservationDetailStatus eq 'PAYSUCCEED'`;
                 break;
             case "upcoming":
-                filterStr = `startTime gt ${now}`;
+                filterStr = `startTime gt ${now} and reservationDetailStatus eq 'PAYSUCCEED'`;
                 break;
             case "completed":
-                filterStr = `endTime lt ${now}`;
+                filterStr = `endTime lt ${now} and reservationDetailStatus eq 'PAYSUCCEED'`;
                 break;
             case "cancelled":
                 filterStr = "reservationDetailStatus eq 'CANCELLED'";
