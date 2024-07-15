@@ -86,9 +86,11 @@ const PaymentOption: React.FC = () => {
                             <input
                                 type="radio"
                                 name="paymentOption"
-                                value="wallet"
-                                checked={selectedOption === "wallet"}
-                                onChange={() => handleOptionChange("wallet")}
+                                value="Ví ShuttleZone"
+                                checked={selectedOption === "Ví ShuttleZone"}
+                                onChange={() =>
+                                    handleOptionChange("Ví ShuttleZone")
+                                }
                                 className="hidden"
                                 disabled={
                                     (walletData?.balance ?? 0) < paymentTotal
@@ -122,16 +124,25 @@ const PaymentOption: React.FC = () => {
                             <input
                                 type="radio"
                                 name="paymentOption"
-                                value="bank"
-                                checked={selectedOption === "bank"}
-                                onChange={() => handleOptionChange("bank")}
+                                value="Ngân hàng"
+                                checked={selectedOption === "Ngân hàng"}
+                                onChange={() => handleOptionChange("Ngân hàng")}
                                 className="hidden"
+                                disabled={paymentTotal < 5000}
                             />
                             <FaUniversity className="text-3xl text-green-500 mr-3" />
                             <div>
                                 <span className="text-lg font-medium">
                                     Ngân hàng
                                 </span>
+                                {paymentTotal < 5000 ? (
+                                    <span className="block text-xs text-red-500">
+                                        Số tiền thanh toán nhỏ hơn 5000 vnd.
+                                        Không thể thanh toán bằng ngân hàng
+                                    </span>
+                                ) : (
+                                    ""
+                                )}
                             </div>
                         </label>
                     </div>

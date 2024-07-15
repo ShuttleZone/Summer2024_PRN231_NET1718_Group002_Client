@@ -5,6 +5,7 @@ import CancelReservationButton from "./CancelReservationButton";
 import {PaymentRequest} from "@/@types/api";
 import {useNavigate} from "react-router-dom";
 import paymentTypes from "@/constants/payment.constants";
+import formatVietnameseDong from "@/lib/currency.util";
 
 const formatDateTime = (dateTime: string) => {
     const date = new Date(dateTime);
@@ -67,7 +68,9 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
             <td className="px-4 py-2 border-b">
                 {formatDateTime(bookingDate)}
             </td>
-            <td className="px-4 py-2 border-b">{totalPrice} VND</td>
+            <td className="px-4 py-2 border-b">
+                {formatVietnameseDong(totalPrice, "vnd")} VND
+            </td>
             <td
                 className={`px-4 py-2 border-b ${shouldBePurple ? " text-purple-500" : " text-green-500"}`}
             >
@@ -97,9 +100,14 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
                     ""
                 )}
             </td>
-            <td className="px-4 py-2 border-b">
-                <CancelReservationButton reservationId={id} refresh={refetch} />
-            </td>
+            {status === "PAYSUCCEED" && (
+                <td className="px-4 py-2 border-b">
+                    <CancelReservationButton
+                        reservationId={id}
+                        refresh={refetch}
+                    />
+                </td>
+            )}
         </tr>
     );
 };

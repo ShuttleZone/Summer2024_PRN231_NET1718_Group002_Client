@@ -20,6 +20,7 @@ import {useCreateClubReviewMutation} from "@/store/services/reviews/review.api";
 import {ReviewRequest} from "@/@types/api";
 import CancelReservationDetailButton from "./CancelReservationDetailButton";
 import {Input} from "@/components/ui/input";
+import formatVietnameseDong from "@/lib/currency.util";
 
 interface ReservationDetailsItemProps {
     id: string;
@@ -81,7 +82,9 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
         <tr>
             <td className="px-4 py-2 border-b">{courtName}</td>
             <td className="px-4 py-2 border-b">{datetime}</td>
-            <td className="px-4 py-2 border-b">{price} VND</td>
+            <td className="px-4 py-2 border-b">
+                {formatVietnameseDong(price, "vnd")} VND
+            </td>
             <td
                 className={`px-4 py-2 border-b ${shouldBePurple ? " text-purple-500" : " text-green-500"}`}
             >
@@ -93,9 +96,12 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
                         ? "ĐÃ HỦY"
                         : "ĐANG CHỜ"}
             </td>
-            <td className="px-4 py-2 border-b">
-                <CancelReservationDetailButton reservationDetailId={id} />
-            </td>
+            {status === "PAYSUCCEED" && (
+                <td className="px-4 py-2 border-b">
+                    <CancelReservationDetailButton reservationDetailId={id} />
+                </td>
+            )}
+
             <td className="px-4 py-2 border-b">
                 {/* nhi: “I’ve commented this out because even when the payment is not successful, 
                 it still shows 'Đánh giá sau'. 
