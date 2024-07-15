@@ -31,7 +31,7 @@ const PaymentOption: React.FC = () => {
         if (!selectedOption) return;
 
         try {
-            if (selectedOption === "wallet") {
+            if (selectedOption === "Ví ShuttleZone") {
                 const walletId = walletData?.id;
                 if (walletId) {
                     console.log(paymentRequest);
@@ -106,7 +106,7 @@ const PaymentOption: React.FC = () => {
                                     {formatVietnameseDong(
                                         walletData?.balance || 0,
                                         "vnd"
-                                    )}
+                                    )}{" "}
                                     vnd
                                 </span>
                                 {(walletData?.balance ?? 0) < paymentTotal ? (
