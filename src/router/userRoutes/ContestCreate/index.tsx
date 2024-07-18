@@ -21,6 +21,7 @@ import {Textarea} from "@/components/ui/textarea";
 import {useToast} from "@/components/ui/use-toast";
 import {formattedTimeToDateTime} from "@/lib/time.util";
 import {useAppDispatch, useAppSelector} from "@/store";
+import {useProfileQuery} from "@/store/services/accounts/auth.api";
 import {useGetClubReservationDetailQuery} from "@/store/services/clubs/club.api";
 import {useCreateContestMutation} from "@/store/services/contests/contest.api";
 import {
@@ -30,7 +31,7 @@ import {
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {skipToken} from "@reduxjs/toolkit/query";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {PiCourtBasketball} from "react-icons/pi";
 import {useNavigate, useParams} from "react-router-dom";
@@ -63,6 +64,7 @@ const formSchema = z.object({
 });
 
 function ContestCreate() {
+    const {data: userInfo} = useProfileQuery();
     const defaultValues = {
         policy: "",
         name: "",
@@ -167,6 +169,11 @@ function ContestCreate() {
             );
         });
     };
+
+    useEffect(() => {
+        form.setValue("name", userInfo?.fullname || "");
+        form.setValue("phone", userInfo?.phoneNumber || "");
+    }, [userInfo]); // eslint-disable-line react-hooks/exhaustive-deps
 
     isLoading ? dispatch(showSpinner()) : dispatch(hideSpinner());
 

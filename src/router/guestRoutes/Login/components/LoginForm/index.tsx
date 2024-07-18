@@ -2,9 +2,11 @@ import {useLoginMutation} from "@/store/services/accounts/auth.api";
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {LoginAccount} from "@/@types/api";
-import {useAppSelector} from "@/store";
+import {useAppDispatch, useAppSelector} from "@/store";
 import {useToast} from "@/components/ui/use-toast";
 import {Toaster} from "@/components/ui/toaster";
+import applicationRoles from "@/constants/role.constants";
+import {clearCallback} from "@/store/slices/callback.slice";
 
 function LoginForm() {
     const initialState: Omit<LoginAccount, ""> = {
@@ -22,6 +24,8 @@ function LoginForm() {
         (state) => state.callback
     );
     const {toast} = useToast();
+    const role = useAppSelector((state) => state.auth.role);
+    const dispatch = useAppDispatch();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -34,7 +38,10 @@ function LoginForm() {
                 variant: "default",
                 description: "Đăng nhập thành công",
             });
-            shouldCallback ? navigate(callbackRoute || "") : navigate("/");
+            shouldCallback
+                ? navigate(callbackRoute || "")
+                : navigate(getDefaultRoute(role || ""));
+            dispatch(clearCallback());
             setFormData(initialState);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } else if ((result.error as any).status == 401)
@@ -49,6 +56,20 @@ function LoginForm() {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 description: `${(result.error as any).data}`,
             });
+        }
+    };
+
+    const getDefaultRoute = (role: string | string[]) => {
+        if (Array.isArray(role)) {
+            if (role.includes(applicationRoles.ADMIN)) return "/admin";
+            if (role.includes(applicationRoles.MANAGER)) return "/manager";
+            if (role.includes(applicationRoles.STAFF)) return "/staff";
+            return "/";
+        } else {
+            if (role === applicationRoles.ADMIN) return "/admin";
+            if (role === applicationRoles.MANAGER) return "/manager";
+            if (role === applicationRoles.STAFF) return "/staff";
+            return "/";
         }
     };
 
