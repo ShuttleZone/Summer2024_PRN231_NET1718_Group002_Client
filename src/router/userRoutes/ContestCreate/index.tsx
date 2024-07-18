@@ -173,7 +173,7 @@ function ContestCreate() {
     useEffect(() => {
         form.setValue("name", userInfo?.fullname || "");
         form.setValue("phone", userInfo?.phoneNumber || "");
-    }, [userInfo]);
+    }, [userInfo]); // eslint-disable-line react-hooks/exhaustive-deps
 
     isLoading ? dispatch(showSpinner()) : dispatch(hideSpinner());
 
