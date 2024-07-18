@@ -11,8 +11,6 @@ jobs:
   packer:
     name: "Provisioning with Packer"
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,8 +39,9 @@ jobs:
             ${{ env.PACKER_CONTEXT }}
 
       - name: Run packer build
+        continue-on-error: true
         run: |
-          packer build -force \
+          packer build \
             -var 'email=${{ secrets.GCP_EMAIL }}' \
             -var 'domain=${{ secrets.DOMAIN }}' \
             -var 'token=${{ secrets.PAT }}' \
