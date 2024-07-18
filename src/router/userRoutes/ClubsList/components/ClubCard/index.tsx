@@ -5,6 +5,12 @@ import {MdOutlineShoppingBag} from "react-icons/md";
 import {useNavigate} from "react-router-dom";
 import {ClubImageType, ReviewType} from "@/@types/api";
 import PlaceHolderImage from "@/assets/images/file-not-found-480x480.jpg";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ClubCardProps {
     id: string;
@@ -44,7 +50,7 @@ function ClubCard({
     return (
         <div
             onClick={handleCardClick}
-            className="flex flex-col justify-between items-center cursor-pointer shadow-md shadow-gray-200 group hover:shadow-xl hover:rounded-t-xl hover:scale-[1.03] transition-all duration-300"
+            className="h-full flex flex-col justify-between items-center cursor-pointer shadow-md shadow-gray-200 group hover:shadow-xl hover:rounded-t-xl hover:scale-[1.03] transition-all duration-300 w-full"
         >
             <div className="relative w-full h-60 overflow-hidden">
                 <img
@@ -70,10 +76,30 @@ function ClubCard({
                     <p className="opacity-50">{reviews.length} reviews</p>
                 </div>
                 <p className="text-xl font-semibold">{clubName}</p>
-                <p className="opacity-50">{clubDescription}</p>
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <p className="opacity-50 line-clamp-2">
+                                {clubDescription}
+                            </p>
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-[400px]">
+                            <p className="opacity-50">{clubDescription}</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
                 <div className="flex justify-start items-center gap-2">
-                    <CiLocationOn size={20} className="opacity-50" />
-                    <p>{clubAddress}</p>
+                    <CiLocationOn size={20} className="opacity-50 min-w-5" />
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <p className="line-clamp-1">{clubAddress}</p>
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-96">
+                                <p>{clubAddress}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
                 </div>
                 <div className="w-full flex justify-between items-center">
                     <img

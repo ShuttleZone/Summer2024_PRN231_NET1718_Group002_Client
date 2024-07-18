@@ -9,9 +9,6 @@ function ClubReview() {
             </div>
             <div>
                 <AllReviews />
-                <AllReviews />
-                <AllReviews />
-                <AllReviews />
             </div>
         </div>
     );

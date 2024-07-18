@@ -1,37 +1,139 @@
-import {IoChevronDown} from "react-icons/io5";
 import {Link} from "react-router-dom";
 
+import {
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger,
+    navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import {cn} from "@/lib/utils";
+import React from "react";
+
 interface NavItem {
-    name: string;
-    link: string;
-    hasDropdown?: boolean;
+    title: string;
+    href: string;
+    description: string;
 }
 
-const navItems: NavItem[] = [
-    {name: "Home", link: "/"},
-    {name: "Coaches", link: "/coaches", hasDropdown: true},
-    {name: "User", link: "/user", hasDropdown: true},
-    {name: "Pages", link: "/pages", hasDropdown: true},
-    {name: "Blog", link: "/blog", hasDropdown: true},
-    {name: "Contact Us", link: "/contact-us"},
+const features: NavItem[] = [
+    {
+        title: "Câu lạc bộ",
+        href: "/clubs",
+        description:
+            "Tất cả các câu lạc bộ hiện có trên nền tảng của chúng tôi.",
+    },
+    {
+        title: "Cuộc thi đấu",
+        href: "/contests",
+        description:
+            "Tất cả các cuộc thi mà bạn có thể tham gia và thể hiện tài năng của mình.",
+    },
+];
+
+const information: NavItem[] = [
+    {
+        title: "Lịch đặt sân",
+        href: "/my-reservation",
+        description: "Tất cả các lịch đặt sân của bạn.",
+    },
+    {
+        title: "Hóa đơn",
+        href: "/my-invoices",
+        description: "Tất cả các hóa đơn mà bạn đã tạo ra.",
+    },
+    {
+        title: "Cuộc thi đấu của tôi",
+        href: "/my-contests",
+        description: "Tất cả các cuộc thi mà bạn đã tham gia.",
+    },
+    {
+        title: "Hồ sơ cá nhân",
+        href: "/profile",
+        description: "Thông tin cá nhân của bạn.",
+    },
 ];
 
 function Navbar() {
     return (
-        <nav>
-            <ul className="flex justify-between gap-6 font-semibold">
-                {navItems.map((item) => (
-                    <li
-                        key={item.name}
-                        className="flex justify-between items-center gap-2 cursor-pointer hover:text-green-400 transition-colors"
-                    >
-                        <Link to={item.link}>{item.name}</Link>
-                        {item.hasDropdown && <IoChevronDown size={16} />}
-                    </li>
-                ))}
-            </ul>
-        </nav>
+        <NavigationMenu>
+            <NavigationMenuList>
+                <NavigationMenuItem>
+                    <Link to="/">
+                        <NavigationMenuLink
+                            className={navigationMenuTriggerStyle()}
+                        >
+                            Trang chủ
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <NavigationMenuTrigger>Tính năng</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                            {features.map((feature) => (
+                                <ListItem
+                                    key={feature.title}
+                                    title={feature.title}
+                                    href={feature.href}
+                                >
+                                    {feature.description}
+                                </ListItem>
+                            ))}
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <NavigationMenuTrigger>
+                        Thông tin cá nhân
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                            {information.map((info) => (
+                                <ListItem
+                                    key={info.title}
+                                    title={info.title}
+                                    href={info.href}
+                                >
+                                    {info.description}
+                                </ListItem>
+                            ))}
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+            </NavigationMenuList>
+        </NavigationMenu>
     );
 }
+
+const ListItem = React.forwardRef<
+    React.ElementRef<"a">,
+    React.ComponentPropsWithoutRef<"a">
+>(({className, title, children, ...props}, ref) => {
+    return (
+        <li>
+            <NavigationMenuLink asChild>
+                <Link
+                    to={props.href || ""}
+                    ref={ref}
+                    className={cn(
+                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                        className
+                    )}
+                    {...props}
+                >
+                    <div className="text-sm font-medium leading-none">
+                        {title}
+                    </div>
+                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        {children}
+                    </p>
+                </Link>
+            </NavigationMenuLink>
+        </li>
+    );
+});
 
 export default Navbar;

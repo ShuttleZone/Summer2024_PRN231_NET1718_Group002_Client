@@ -1,5 +1,9 @@
 import {RouteObject} from "react-router-dom";
 import ClubRequestList from "./ClubRequests";
+import applicationRoles from "@/constants/role.constants";
+import PrivateRoute from "../PrivateRoute";
+import PackageManagement from "./PackageManagement";
+import ClubList from "./ClubList";
 
 const adminRoutes: RouteObject[] = [
     {
@@ -14,6 +18,27 @@ const adminRoutes: RouteObject[] = [
             </div>
         ),
     },
+    {
+        path: "packages",
+        element: (
+            <div>
+                <PackageManagement />
+            </div>
+        ),
+    },
+    {
+        path: "clubs",
+        element: (
+            <div>
+                <ClubList />
+            </div>
+        ),
+    },
 ];
 
-export default adminRoutes;
+export default [
+    {
+        element: <PrivateRoute allowedRoles={[applicationRoles.ADMIN]} />,
+        children: [...adminRoutes],
+    },
+];

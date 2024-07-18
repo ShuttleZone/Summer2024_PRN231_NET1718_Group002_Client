@@ -1,5 +1,11 @@
 import commonApi from "@/store/common.api";
-import {LoginAccount, RegisterAccount, UserProfile} from "@/@types/api";
+import {
+    LoginAccount,
+    RefreshToken,
+    RegisterAccount,
+    UserForBooking,
+    UserProfile,
+} from "@/@types/api";
 import {setAuth} from "@/store/slices/auth.slice";
 import ApiRouteBuilder from "@/lib/api.util";
 
@@ -19,20 +25,43 @@ export const authApi = commonApi.injectEndpoints({
                     const token = response.data?.token;
                     dispatch(setAuth(token));
                 } catch (err) {
-                    // what should I do when the request fails?
-                    // probably show a toast
-                    // somebody should implement this
-                    // i'm just too lazy
+                    /*
+                        what should I do when the request fails?
+                        probably show a toast
+                        somebody should implement this
+                        i'm just too lazy
+                    */
                 }
             },
         }),
-        register: build.mutation<RegisterAccount, Omit<RegisterAccount, "">>({
-            query(body) {
-                return {
-                    url: "/api/account/register",
-                    method: "POST",
-                    body,
-                };
+        refreshToken: build.mutation<string, RefreshToken>({
+            query: (data) => ({
+                url: "/api/account/refresh",
+                method: "POST",
+                body: data,
+                responseHandler: (response) => response.text(),
+            }),
+        }),
+        register: build.mutation<string, Omit<RegisterAccount, "">>({
+            query: (body) => ({
+                url: "/api/account/register",
+                method: "POST",
+                body,
+                responseHandler: (response) => response.text(),
+            }),
+            transformResponse: (response: string) => {
+                return response;
+            },
+        }),
+        registerManager: build.mutation<string, Omit<RegisterAccount, "">>({
+            query: (body) => ({
+                url: "/api/account/registerManager",
+                method: "POST",
+                body,
+                responseHandler: (response) => response.text(),
+            }),
+            transformResponse: (response: string) => {
+                return response;
             },
         }),
         profile: build.query<UserProfile, void>({
@@ -40,6 +69,7 @@ export const authApi = commonApi.injectEndpoints({
                 const routeBuilder = new ApiRouteBuilder("/api/profile");
                 return routeBuilder.build();
             },
+            providesTags: [{type: "UserProfile" as never}],
         }),
         updateProfile: build.mutation({
             query(body) {
@@ -52,6 +82,31 @@ export const authApi = commonApi.injectEndpoints({
                     },
                 };
             },
+            invalidatesTags: [{type: "UserProfile" as never}],
+        }),
+        confirmEmail: build.query({
+            query: ({userId, token}) => ({
+                url: "/confirm-email",
+                method: "GET",
+                params: {userId, token},
+            }),
+        }),
+        updatePassword: build.mutation({
+            query(body) {
+                return {
+                    url: "/api/account/password",
+                    method: "PUT",
+                    body: body,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                };
+            },
+        }),
+        getUsersForBooking: build.query<UserForBooking[], string>({
+            query: () => ({
+                url: "/api/users-booking",
+            }),
         }),
     }),
 });
@@ -61,4 +116,8 @@ export const {
     useRegisterMutation,
     useProfileQuery,
     useUpdateProfileMutation,
+    useConfirmEmailQuery,
+    useUpdatePasswordMutation,
+    useRegisterManagerMutation,
+    useGetUsersForBookingQuery,
 } = authApi;

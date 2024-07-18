@@ -16,13 +16,13 @@ const CancelReservationDetailButton: React.FC<
         try {
             await cancelReservationDetail({reservationDetailId}).unwrap();
             toast({
-                title: "Success",
-                description: "Successfully cancel reservation!",
+                title: "Thành công",
+                description: "Hủy đặt chỗ thành công!",
                 variant: "default",
             });
         } catch (err) {
             toast({
-                title: "Error",
+                title: "Có lỗi rồi",
                 description:
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     (err as any)?.data?.value || "Unknown error occurred",
@@ -37,7 +37,7 @@ const CancelReservationDetailButton: React.FC<
             disabled={isLoading}
             className="text-red-500"
         >
-            {isLoading ? "Canceling..." : "Cancel"}
+            {isLoading ? "Đang hủy..." : "Hủy"}
         </button>
     );
 };

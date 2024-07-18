@@ -1,10 +1,10 @@
-import Filter from "./components/Filter";
+// import Filter from "./components/Filter";
 import {useGetClubsQuery} from "@/store/services/clubs/club.api";
 import ClubCardSkeletons from "./components/ClubCardSkeletons";
 import ClubCard from "./components/ClubCard";
 
 function ClubsList() {
-    const {data: clubs, isError, isLoading} = useGetClubsQuery(undefined);
+    const {data: clubs, isError, isLoading} = useGetClubsQuery();
 
     if (isError) {
         return <div>An error occurred</div>;
@@ -13,7 +13,7 @@ function ClubsList() {
     return (
         <div className="w-full flex justify-center py-12">
             <div className="w-3/4">
-                <Filter />
+                {/* <Filter /> */}
                 <ul className="grid grid-cols-3 gap-8 mt-12">
                     {isLoading ? (
                         <ClubCardSkeletons />

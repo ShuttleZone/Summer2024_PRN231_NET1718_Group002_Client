@@ -9,10 +9,9 @@ function ClubRequestList() {
         isError,
         isLoading,
         refetch,
-    } = useGetClubRequestsAdminQuery(undefined);
+    } = useGetClubRequestsAdminQuery();
 
-    console.log(clubRequests);
-    if (clubRequests == undefined) {
+    if (!clubRequests) {
         return <div>Error</div>;
     }
 
@@ -68,8 +67,8 @@ function ClubRequestList() {
     }
 
     return (
-        <div className="w-full flex justify-center py-12">
-            <div className="w-3/4">
+        <div>
+            <div>
                 <FilterBarModule />
                 <RequestTable requests={clubRequests} refetch={refetch} />
             </div>

@@ -8,9 +8,12 @@ import adminRoutes from "./adminRoutes";
 import managerRoutes from "./managerRoutes";
 import staffRoutes from "./staffRoutes";
 import NotFound from "@/components/pages/NotFound";
-import guestRoutes from "./guestRoutes";
 import LoginPage from "./guestRoutes/Login";
 import RegisterPage from "./guestRoutes/Register";
+import ConfirmEmail from "./guestRoutes/ConfirmEmail";
+import CallbackConfirmEmail from "./guestRoutes/CallbackConfirmEmail";
+import Unauthorized from "@/components/pages/Unauthorized";
+import guestRoutes from "./guestRoutes";
 
 const router = createBrowserRouter([
     {
@@ -42,6 +45,20 @@ const router = createBrowserRouter([
     {
         path: "/register",
         element: <RegisterPage />,
+        children: [...guestRoutes],
+    },
+    {
+        path: "/unauthorized",
+        element: <Unauthorized />,
+    },
+    {
+        path: "/email-confirmation",
+        element: <ConfirmEmail />,
+        children: [...guestRoutes],
+    },
+    {
+        path: "/email-confirming",
+        element: <CallbackConfirmEmail />,
         children: [...guestRoutes],
     },
 ]);

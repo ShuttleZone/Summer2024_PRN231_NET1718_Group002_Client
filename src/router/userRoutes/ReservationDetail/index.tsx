@@ -19,11 +19,11 @@ const formatDateTime = (dateTime: string) => {
 };
 
 const initStatusNavList: StatusNav[] = [
-    {Id: 1, Status: "", Text: "All"},
-    {Id: 2, Status: "upcoming", Text: "Up Coming"},
-    {Id: 3, Status: "completed", Text: "Completed"},
-    {Id: 4, Status: "ongoing", Text: "On Going"},
-    {Id: 5, Status: "cancelled", Text: "Cancelled"},
+    {Id: 1, Status: "", Text: "Tất cả"},
+    {Id: 2, Status: "upcoming", Text: "Sắp tới"},
+    {Id: 3, Status: "completed", Text: "Đã hoàn thành"},
+    {Id: 4, Status: "ongoing", Text: "Đang diễn ra"},
+    {Id: 5, Status: "cancelled", Text: "Đã hủy"},
 ];
 
 function MyReservationDetailList() {
@@ -48,14 +48,14 @@ function MyReservationDetailList() {
     ): string => {
         if ("status" in error) {
             const fetchError = error as FetchBaseQueryError;
-            return `Error: ${fetchError.status}`;
+            return `Lỗi: ${fetchError.status}`;
         } else {
             const serializedError = error as SerializedError;
-            return serializedError.message ?? "An unknown error occurred";
+            return serializedError.message ?? "Đã xảy ra lỗi không xác định";
         }
     };
 
-    if (error) return <div>Error: {getErrorMessage(error)}</div>;
+    if (error) return <div>Lỗi: {getErrorMessage(error)}</div>;
 
     const handleFilterChange = (status: string, currentStatusId: number) => {
         const now = new Date().toISOString();
@@ -64,13 +64,13 @@ function MyReservationDetailList() {
 
         switch (status) {
             case "ongoing":
-                filterStr = `startTime le ${now} and endTime ge ${now}`;
+                filterStr = `startTime le ${now} and endTime ge ${now} and reservationDetailStatus eq 'PAYSUCCEED'`;
                 break;
             case "upcoming":
-                filterStr = `startTime gt ${now}`;
+                filterStr = `startTime gt ${now} and reservationDetailStatus eq 'PAYSUCCEED'`;
                 break;
             case "completed":
-                filterStr = `endTime lt ${now}`;
+                filterStr = `endTime lt ${now} and reservationDetailStatus eq 'PAYSUCCEED'`;
                 break;
             case "cancelled":
                 filterStr = "reservationDetailStatus eq 'CANCELLED'";
@@ -103,27 +103,27 @@ function MyReservationDetailList() {
                         </div>
                         <div className="flex items-center justify-between gap-2">
                             <span className="text-gray-500 min-w-16">
-                                Sort By:
+                                Sắp xếp theo:
                             </span>
                             <Select
                                 value={sort || "startTime desc"}
                                 onValueChange={(value) => setSort(value)}
                             >
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Sort by" />
+                                    <SelectValue placeholder="Sắp xếp theo" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="startTime desc">
-                                        Date Desc
+                                        Ngày giảm dần
                                     </SelectItem>
                                     <SelectItem value="startTime asc">
-                                        Date Asc
+                                        Ngày tăng dần
                                     </SelectItem>
                                     <SelectItem value="price desc">
-                                        Price Desc
+                                        Giá giảm dần
                                     </SelectItem>
                                     <SelectItem value="price asc">
-                                        Price Asc
+                                        Giá tăng dần
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
@@ -139,22 +139,22 @@ function MyReservationDetailList() {
                                 <thead>
                                     <tr className="text-gray-600">
                                         <th className="px-4 py-2 border-b">
-                                            Court Name
+                                            Tên sân
                                         </th>
                                         <th className="px-4 py-2 border-b">
-                                            Date & Time
+                                            Ngày & Giờ
                                         </th>
                                         <th className="px-4 py-2 border-b">
-                                            Payment
+                                            Thanh toán
                                         </th>
                                         <th className="px-4 py-2 border-b">
-                                            Status
+                                            Trạng thái
                                         </th>
                                         <th className="px-4 py-2 border-b">
-                                            Cancel
+                                            Hủy
                                         </th>
                                         <th className="px-4 py-2 border-b">
-                                            Action
+                                            Hành động
                                         </th>
                                     </tr>
                                 </thead>
@@ -177,7 +177,7 @@ function MyReservationDetailList() {
                             </table>
                             <div className="flex justify-between items-center mt-6">
                                 <div className="flex items-center space-x-2">
-                                    <span>Show</span>
+                                    <span>Hiển thị</span>
                                     <Select
                                         value={pageSize.toString()}
                                         onValueChange={(value) =>
@@ -185,7 +185,7 @@ function MyReservationDetailList() {
                                         }
                                     >
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Number of rows" />
+                                            <SelectValue placeholder="Số dòng" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="5">5</SelectItem>
@@ -211,7 +211,7 @@ function MyReservationDetailList() {
                                         }
                                         disabled={page === 1}
                                     >
-                                        Previous
+                                        Trước
                                     </button>
                                     <span className="p-1">{page}</span>
                                     <button
@@ -221,13 +221,13 @@ function MyReservationDetailList() {
                                         }
                                         disabled={page === totalPages}
                                     >
-                                        Next
+                                        Sau
                                     </button>
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <p>No reservation founded!</p>
+                        <p>Không tìm thấy đặt chỗ!</p>
                     )}
                 </div>
             </div>

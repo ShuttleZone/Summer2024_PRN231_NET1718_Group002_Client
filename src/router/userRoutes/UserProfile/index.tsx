@@ -1,22 +1,14 @@
-import React, {useState, useEffect} from "react";
-import {Button} from "@/components/ui/button";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label";
-
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {
     useProfileQuery,
     useUpdateProfileMutation,
 } from "@/store/services/accounts/auth.api";
+import {toast} from "@/components/ui/use-toast";
+import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
+import {useAppDispatch} from "@/store";
+import ChangePassword from "./components/ChangePassword.tsx";
+import formatVietnameseDong from "@/lib/currency.util.ts";
 
 interface UpdateUserProfile {
     fullname: string;
@@ -26,22 +18,32 @@ interface UpdateUserProfile {
 
 function UserProfile() {
     const {data: userProfile, isLoading, isError} = useProfileQuery();
+    const dispatch = useAppDispatch();
     const [updateProfile] = useUpdateProfileMutation();
     const [formData, setFormData] = useState<UpdateUserProfile>({
         fullname: "",
         phoneNumber: "",
         gender: 0,
     });
+    const [originalFormData, setOriginalFormData] = useState<UpdateUserProfile>(
+        {
+            fullname: "",
+            phoneNumber: "",
+            gender: 0,
+        }
+    );
     const [editMode, setEditMode] = useState(false);
     const [errors, setErrors] = useState<{[key: string]: string}>({});
 
     useEffect(() => {
         if (userProfile) {
-            setFormData({
+            const initialFormData = {
                 fullname: userProfile.fullname || "",
                 phoneNumber: userProfile.phoneNumber || "",
                 gender: userProfile.gender,
-            });
+            };
+            setFormData(initialFormData);
+            setOriginalFormData(initialFormData);
         }
     }, [userProfile]);
 
@@ -76,81 +78,118 @@ function UserProfile() {
             console.log("Profile updated successfully");
             setEditMode(false);
             setErrors({});
+            toast({
+                title: "Thành công",
+                description: "Cập nhật thông tin người dùng thành công.",
+                variant: "default",
+            });
         } catch (error) {
-            console.error("Error updating profile:", error);
+            toast({
+                title: "Thất bại",
+                description: "Cập nhật thông tin người dùng thất bại.",
+                variant: "default",
+            });
         }
     };
 
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error...</div>;
+    const handleCancel = () => {
+        setFormData(originalFormData);
+        setEditMode(false);
+        setErrors({});
+    };
 
+    isLoading ? dispatch(showSpinner()) : dispatch(hideSpinner());
+    if (isError) return <div>Error...</div>;
     return (
-        <div className="w-2/3 mx-auto h-fit flex flex-row py-32 bg-slate-100 px-4 my-8">
+        <div className="w-2/3 mx-auto h-screen flex flex-row py-8">
             <div className="w-2/5 h-fit flex flex-col items-center py-12 border-r-2 border-gray-400">
-                <h1 className="text-4xl tracking-widest font-semibold  text-gray-500 mb-28">
-                    Profile Setting
+                <h1 className="text-2xl tracking-widest font-semibold text-gray-500 mb-8">
+                    Cài đặt thông tin
                 </h1>
-                <div className="w-80 h-80 rounded-full border-2 border-slate-600 gap-7">
+                <div className="w-52 h-52 rounded-full border-2 border-slate-600 gap-7">
                     <img
                         className="w-full h-full object-fill rounded-full"
-                        src="../public/user.jpg"
+                        src={
+                            userProfile?.profileImage !== ""
+                                ? userProfile?.profileImage
+                                : "/public/user.jpg"
+                        }
                         alt=""
                     />
                 </div>
-                <button className="w-52 h-16 bg-gradient-to-r from-[#ececef] via-[#5F9053]/30 to-[#0dde10] text-xl rounded-3xl mt-8">
-                    Upload New Avatar
-                </button>
+                <div className="relative">
+                    <label
+                        htmlFor="avatar-upload"
+                        className="w-44 h-16 border-2 border-black text-black hover:bg-green-500 hover:border-green-300 hover:text-white transition-colors duration-200 text-lg font-semibold rounded-3xl mt-8 cursor-pointer flex items-center justify-center"
+                    >
+                        Đổi ảnh đại diện
+                    </label>
+                    <input id="avatar-upload" type="file" className="hidden" />
+                </div>
+
                 <div className="flex flex-col items-center">
-                    <h1 className="text-3xl tracking-widest font-semibold  mt-8">
+                    <h1 className="text-xl tracking-widest font-semibold mt-8">
                         {userProfile?.fullname}
                     </h1>
-                    <span className="text-xl my-2">@{userProfile?.email}</span>
+                    <span className="text-lg my-2">@{userProfile?.email}</span>
+                </div>
+                <div className="flex flex-col items-center">
+                    <span className="text-lg my-2">
+                        Số dư:{" "}
+                        {formatVietnameseDong(userProfile?.balance ?? 0, "VND")}{" "}
+                        VND
+                    </span>
                 </div>
                 <div className="grid grid-cols-2 w-full mt-8">
                     <Link
-                        className="col-span-1 flex flex-col items-center text-xl font-semibold tracking-wider border-r-2 border-slate-700 hover:text-green-600 transition-colors duration-200"
-                        to="/my-reservation"
+                        className="col-span-1 flex flex-col items-center text-lg font-semibold tracking-wider border-r-2 border-slate-700 hover:text-green-600 transition-colors duration-200"
+                        to="/my-invoices"
                     >
-                        <span className="text-5xl">
+                        <span className="text-3xl">
                             {userProfile?.totalReservation}
                         </span>
-                        <h1>Reservations</h1>
+                        <h1>Số lần đặt lịch</h1>
                     </Link>
                     <Link
-                        className="col-span-1 flex flex-col items-center text-xl font-semibold tracking-wider hover:text-green-600 transition-colors duration-200"
+                        className="col-span-1 flex flex-col items-center text-lg font-semibold tracking-wider hover:text-green-600 transition-colors duration-200"
                         to=""
                     >
-                        <span className="text-5xl">
+                        <span className="text-3xl">
                             {userProfile?.totalWinContest}
                         </span>
-                        <h1>Winning Contests</h1>
+                        <h1>Số lần thắng cuộc thi</h1>
                     </Link>
                 </div>
             </div>
             <div className="w-3/5 h-fit ">
                 <div className="mx-auto p-6 mt-3">
-                    <h2
-                        className="text-5xl text-gray-500 font-semibold tracking-widest mb-4 flex flex-row gap-10 items-center
-                    "
-                    >
-                        Basic Information
+                    <h2 className="text-2xl text-gray-500 font-semibold tracking-widest mb-4 flex flex-row gap-10 items-center justify-between">
+                        Thông tin cá nhân
                         <div className="mt-4 flex flex-row gap-10">
                             {!editMode && (
                                 <button
                                     onClick={() => setEditMode(true)}
-                                    className="w-56 text-xl font-semibold tracking-wider bg-gradient-to-r from-[#ececef] via-[#5F9053]/30 to-[#0dde10] hover:text-gray-200 py-2 px-4 hover:bg-green-600 focus:outline-none focus:bg-green-600 transition-colors duration-200 rounded-3xl"
+                                    className="w-28 text-lg font-semibold tracking-wider border-2 border-black rounded-md cursor-pointer text-black hover:bg-green-500 hover:border-green-300 hover:text-white transition-colors duration-200"
                                 >
-                                    Edit
+                                    Chỉnh sửa
                                 </button>
                             )}
                             {editMode && (
-                                <button
-                                    type="submit"
-                                    form="userForm"
-                                    className="w-56 text-xl font-semibold tracking-wider bg-gradient-to-r from-[#ececef] via-[#5F9053]/30 to-[#0dde10] hover:text-gray-200 py-2 px-4 hover:bg-green-600 focus:outline-none focus:bg-green-600 transition-colors duration-200 rounded-3xl"
-                                >
-                                    Save
-                                </button>
+                                <>
+                                    <button
+                                        type="submit"
+                                        form="userForm"
+                                        className="w-28 text-lg font-semibold tracking-wider border-2 border-black rounded-md cursor-pointer text-black hover:bg-green-500 hover:border-green-300 hover:text-white transition-colors duration-200"
+                                    >
+                                        Lưu
+                                    </button>
+                                    <button
+                                        onClick={handleCancel}
+                                        className="w-28 text-lg font-semibold tracking-wider border-2 border-black rounded-md cursor-pointer text-black hover:bg-red-500 hover:border-red-300 hover:text-white transition-colors duration-200"
+                                    >
+                                        Hủy
+                                    </button>
+                                </>
                             )}
                         </div>
                     </h2>
@@ -159,9 +198,9 @@ function UserProfile() {
                         <div>
                             <label
                                 htmlFor="fullName"
-                                className="my-4 block text-xl font-semibold tracking-wider text-gray-700"
+                                className="my-4 block text-lg font-semibold tracking-wider text-gray-700"
                             >
-                                Full Name
+                                Họ và tên
                             </label>
                             <input
                                 type="text"
@@ -175,7 +214,7 @@ function UserProfile() {
                                     errors.fullName
                                         ? "border-red-500"
                                         : "border-gray-300"
-                                } rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-xl ${
+                                } rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-lg ${
                                     !editMode
                                         ? "bg-gray-300 hover:cursor-not-allowed"
                                         : ""
@@ -190,9 +229,9 @@ function UserProfile() {
                         <div>
                             <label
                                 htmlFor="phone"
-                                className="my-4 block text-xl font-semibold tracking-wider text-gray-700"
+                                className="my-4 block text-lg font-semibold tracking-wider text-gray-700"
                             >
-                                Phone Number
+                                Số điện thoại
                             </label>
                             <input
                                 type="text"
@@ -206,7 +245,7 @@ function UserProfile() {
                                     errors.phone
                                         ? "border-red-500"
                                         : "border-gray-300"
-                                } rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-xl ${
+                                } rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-lg ${
                                     !editMode
                                         ? "bg-gray-300 hover:cursor-not-allowed"
                                         : ""
@@ -222,9 +261,9 @@ function UserProfile() {
                         <div>
                             <label
                                 htmlFor="gender"
-                                className="my-4 block text-xl font-semibold tracking-wider text-gray-700"
+                                className="my-4 block text-lg font-semibold tracking-wider text-gray-700"
                             >
-                                Gender
+                                Giới tính
                             </label>
                             <select
                                 id="gender"
@@ -236,14 +275,14 @@ function UserProfile() {
                                     errors.gender
                                         ? "border-red-500"
                                         : "border-gray-300"
-                                } rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-xl ${
+                                } rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-lg ${
                                     !editMode
                                         ? "bg-gray-300 hover:cursor-not-allowed"
                                         : ""
                                 }`}
                             >
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
+                                <option value="0">Nam</option>
+                                <option value="1">Nữ</option>
                             </select>
                             {errors.gender && (
                                 <p className="text-red-500 text-lg mt-1">
@@ -253,60 +292,7 @@ function UserProfile() {
                         </div>
                     </form>
                     <div className="mt-8 float-right">
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button
-                                    className="bg-gradient-to-r from-[#ececef] via-[#5F9053]/30 to-[#0dde10] h-12 w-52 hover:bg-black hover:text-white"
-                                    variant="outline"
-                                >
-                                    Change Password
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-[425px]">
-                                <DialogHeader>
-                                    <DialogTitle className="text-2xl">
-                                        Change your password
-                                    </DialogTitle>
-                                    <DialogDescription>
-                                        Make changes to your profile here. Click
-                                        save when you're done.
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <div className="grid gap-4 py-4">
-                                    <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label
-                                            htmlFor="name"
-                                            className="text-right"
-                                        >
-                                            Old Password
-                                        </Label>
-                                        <Input
-                                            id="name"
-                                            defaultValue="Pedro Duarte"
-                                            className="col-span-3"
-                                            type="password"
-                                        />
-                                    </div>
-                                    <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label
-                                            htmlFor="username"
-                                            className="text-right"
-                                        >
-                                            New Password
-                                        </Label>
-                                        <Input
-                                            id="username"
-                                            defaultValue="@peduarte"
-                                            className="col-span-3"
-                                            type="password"
-                                        />
-                                    </div>
-                                </div>
-                                <DialogFooter>
-                                    <Button type="submit">Save changes</Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
+                        <ChangePassword />
                     </div>
                 </div>
             </div>

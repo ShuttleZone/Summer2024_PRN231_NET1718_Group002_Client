@@ -1,91 +1,282 @@
+import * as React from "react";
+import {
+    ColumnDef,
+    ColumnFiltersState,
+    SortingState,
+    VisibilityState,
+    flexRender,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    getSortedRowModel,
+    useReactTable,
+} from "@tanstack/react-table";
+import {ChevronDown} from "lucide-react";
+import {FaStar, FaRegCommentDots} from "react-icons/fa";
+
+import {Button} from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {Input} from "@/components/ui/input";
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-
-import {FaStar} from "react-icons/fa6";
-import {FaRegCommentDots} from "react-icons/fa";
+import {RiUserSettingsLine} from "react-icons/ri";
 import {useGetClubListQuery} from "@/store/services/clubs/club.api";
 import {useNavigate} from "react-router-dom";
-import ContentSpinner from "@/components/ContentSpinner";
+import ActionButton from "./components/ActionButton";
+
+export type Club = {
+    Id: string;
+    clubName: string;
+    clubAddress: string;
+    openHours: string;
+    rating: number;
+    totalCourt: number;
+    totalReview: number;
+    totalStaff: number;
+};
 
 function ClubList() {
-    const {data: clubs, isLoading} = useGetClubListQuery();
     const navigate = useNavigate();
-    function handleClick() {
-        navigate("/manager/club-reviews");
-    }
+
+    const columns: ColumnDef<Club>[] = [
+        {
+            accessorKey: "clubName",
+            header: "TTên câu lạc bộ",
+            cell: ({row}) => (
+                <div className="font-medium">{row.getValue("clubName")}</div>
+            ),
+        },
+        {
+            accessorKey: "clubAddress",
+            header: "Địa chỉ",
+        },
+        {
+            accessorKey: "openHours",
+            header: "Giờ mở cửa",
+        },
+        {
+            accessorKey: "rating",
+            header: () => <div className="text-right">Đánh giá</div>,
+            cell: ({row}) => (
+                <div className="flex justify-end">
+                    {row.getValue("rating")}
+                    <FaStar className="mx-2 text-lg text-yellow-300" />
+                </div>
+            ),
+        },
+        {
+            accessorKey: "totalCourt",
+            header: "Tổng số sân",
+        },
+        {
+            accessorKey: "totalReview",
+            header: "Tổng số đánh giá",
+            cell: ({row}) => {
+                return (
+                    <div className="flex">
+                        {row.getValue("totalReview")}
+                        <FaRegCommentDots
+                            onClick={() => {
+                                navigate(
+                                    `/manager/club-reviews/${row.original.Id}`
+                                );
+                            }}
+                            className="mx-2 text-lg text-slate-500 cursor-pointer"
+                        />
+                    </div>
+                );
+            },
+        },
+        {
+            accessorKey: "totalStaff",
+            header: "Tổng số nhân viên",
+            cell: ({row}) => {
+                return (
+                    <div className="flex">
+                        {row.getValue("totalStaff")}
+                        <RiUserSettingsLine className="mx-2 text-lg text-slate-500 cursor-pointer" />
+                    </div>
+                );
+            },
+        },
+    ];
+
+    const {data: clubs, isLoading} = useGetClubListQuery();
+    const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] =
+        React.useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] =
+        React.useState<VisibilityState>({});
+    const [rowSelection, setRowSelection] = React.useState({});
+
+    const table = useReactTable({
+        data: clubs || [],
+        columns,
+        onSortingChange: setSorting,
+        onColumnFiltersChange: setColumnFilters,
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        onColumnVisibilityChange: setColumnVisibility,
+        onRowSelectionChange: setRowSelection,
+        state: {
+            sorting,
+            columnFilters,
+            columnVisibility,
+            rowSelection,
+        },
+    });
+
+    if (isLoading) return <div>is loading...</div>;
 
     return (
-        <div className="h-fit">
-            <Table className="border-2 border-gray-400">
-                <TableCaption>A list of your clubs.</TableCaption>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="font-bold">Club Name</TableHead>
-                        <TableHead className="font-bold">
-                            Club Address
-                        </TableHead>
-                        <TableHead className="font-bold">Open Hours</TableHead>
-                        <TableHead className="font-bold">Rating</TableHead>
-                        <TableHead className="font-bold">Total Court</TableHead>
-                        <TableHead className="font-bold">
-                            Total Review
-                        </TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {isLoading ? (
-                        <TableRow>
-                            <TableCell colSpan={6} className="text-center">
-                                <div className="flex justify-center items-center">
-                                    <ContentSpinner />
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                    ) : (
-                        clubs &&
-                        clubs.map((club, index) => (
-                            <TableRow key={index}>
-                                <TableCell className="font-medium">
-                                    {club.clubName}
-                                </TableCell>
-                                <TableCell>{club.clubAddress}</TableCell>
-                                <TableCell>{club.openHours}</TableCell>
-                                <TableCell className="flex">
-                                    {club.rating}
-                                    <FaStar className="mx-2 text-lg text-yellow-300" />
-                                </TableCell>
-                                <TableCell>{club.totalCourt}</TableCell>
-                                <TableCell className="flex">
-                                    {club.totalReview}
-                                    <FaRegCommentDots
-                                        onClick={handleClick}
-                                        className="mx-2 text-lg text-slate-500"
-                                    />
+        <div className="w-full">
+            <div className="flex items-center py-4">
+                <Input
+                    placeholder="Lộc câu lạc bộ..."
+                    value={
+                        (table
+                            .getColumn("clubName")
+                            ?.getFilterValue() as string) ?? ""
+                    }
+                    onChange={(event) =>
+                        table
+                            .getColumn("clubName")
+                            ?.setFilterValue(event.target.value)
+                    }
+                    className="max-w-sm"
+                />
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="ml-auto">
+                            Chọn cột hiển thị
+                            <ChevronDown className="ml-2 h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        {table
+                            .getAllColumns()
+                            .filter((column) => column.getCanHide())
+                            .map((column) => (
+                                <DropdownMenuCheckboxItem
+                                    key={column.id}
+                                    className="capitalize"
+                                    checked={column.getIsVisible()}
+                                    onCheckedChange={(value) =>
+                                        column.toggleVisibility(!!value)
+                                    }
+                                >
+                                    {column.id}
+                                </DropdownMenuCheckboxItem>
+                            ))}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+                <Button
+                    className="bg-white border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white ml-8"
+                    onClick={() => navigate("/manager/clubs/new")}
+                >
+                    Thêm câu lạc bộ
+                </Button>
+            </div>
+            <div className="rounded-md border">
+                <Table>
+                    <TableHeader>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => (
+                                    <TableHead key={header.id}>
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(
+                                                  header.column.columnDef
+                                                      .header,
+                                                  header.getContext()
+                                              )}
+                                    </TableHead>
+                                ))}
+                                <TableHead>Hành động</TableHead>
+                            </TableRow>
+                        ))}
+                    </TableHeader>
+                    <TableBody>
+                        {table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows.map((row) => (
+                                <TableRow
+                                    key={row.id}
+                                    data-state={
+                                        row.getIsSelected() && "selected"
+                                    }
+                                >
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell
+                                            key={cell.id}
+                                            className="max-w-40"
+                                        >
+                                            {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext()
+                                            )}
+                                        </TableCell>
+                                    ))}
+                                    <TableCell>
+                                        <ActionButton
+                                            clubId={row.original.Id}
+                                        />
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell
+                                    colSpan={columns.length}
+                                    className="h-24 text-center"
+                                >
+                                    No results.
                                 </TableCell>
                             </TableRow>
-                        ))
-                    )}
-                </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        <TableCell colSpan={5}>Total Clubs</TableCell>
-                        <TableCell className="text-right">
-                            <span className="bg-green-500 px-4 py-2 rounded-full">
-                                {clubs && clubs.length}
-                            </span>
-                        </TableCell>
-                    </TableRow>
-                </TableFooter>
-            </Table>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
+            <div className="flex items-center justify-end space-x-2 py-4">
+                <div className="flex-1 text-sm text-muted-foreground">
+                    Đã chọn {table.getFilteredSelectedRowModel().rows.length}{" "}
+                    trong số {table.getFilteredRowModel().rows.length} câu lạc
+                    bộ
+                </div>
+                <div className="space-x-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        Trước đó
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        Tiếp theo
+                    </Button>
+                </div>
+            </div>
         </div>
     );
 }
+
 export default ClubList;

@@ -4,65 +4,17 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import {useAppDispatch} from "@/store";
-import {setClubSetting} from "@/store/slices/club.slice";
-import {ChangeEvent, useState} from "react";
+import {FormChildProps} from "..";
+import {
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import {Input} from "@/components/ui/input";
 
-function SettingInput() {
-    const dispatch = useAppDispatch();
-    const [settings, setSettings] = useState({
-        openTime: "",
-        closeTime: "",
-        minDuration: 0,
-    });
-    const [validationError, setValidationError] = useState("");
-
-    const validateOpenHours = (
-        openTime: string,
-        closeTime: string,
-        minDuration: number
-    ) => {
-        if (openTime && closeTime && minDuration > 0) {
-            const [openHours, openMinutes] = openTime.split(":").map(Number);
-            const [closeHours, closeMinutes] = closeTime.split(":").map(Number);
-
-            const openTotalMinutes = openHours * 60 + openMinutes;
-            const closeTotalMinutes = closeHours * 60 + closeMinutes;
-            const durationInMinutes = minDuration * 60;
-
-            return (
-                (closeTotalMinutes - openTotalMinutes) % durationInMinutes === 0
-            );
-        }
-        return true;
-    };
-
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = event.target;
-        const updatedValue =
-            name === "minDuration" ? Math.max(0, Number(value)) : value;
-        const updatedSettings = {...settings, [name]: updatedValue};
-
-        if (
-            name === "openTime" ||
-            name === "closeTime" ||
-            name === "minDuration"
-        ) {
-            const {openTime, closeTime, minDuration} = updatedSettings;
-
-            if (!validateOpenHours(openTime, closeTime, minDuration)) {
-                setValidationError(
-                    "Open hours should be divisible by the duration."
-                );
-            } else {
-                setValidationError("");
-            }
-        }
-
-        setSettings(updatedSettings);
-        dispatch(setClubSetting(updatedSettings));
-    };
-
+function SettingInput({form}: FormChildProps) {
     return (
         <Accordion
             type="single"
@@ -72,59 +24,79 @@ function SettingInput() {
         >
             <AccordionItem value="item-1">
                 <AccordionTrigger>
-                    <h1 className="text-2xl font-semibold ">Settings</h1>
+                    <h1 className="text-2xl font-semibold ">Cài đặt</h1>
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="px-4">
                     <div className="grid grid-cols-3">
                         <div className="flex flex-col col-span-1 w-4/5">
-                            <label className="text-xl py-4">
-                                Open Time
-                                <span className="text-red-600 mx-2">*</span>
-                            </label>
-                            <input
-                                type="time"
-                                step="1800"
-                                className="pl-6 bg-white text-black h-12 text-lg pr-4"
+                            <FormField
+                                control={form.control}
                                 name="openTime"
-                                value={settings.openTime}
-                                onChange={handleChange}
-                            />
+                                render={({field}) => (
+                                    <FormItem>
+                                        <FormLabel htmlFor="openTime">
+                                            Giờ mở cửa
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                id="openTime"
+                                                type="time"
+                                                step="1800"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            ></FormField>
                         </div>
                         <div className="flex flex-col col-span-1 w-4/5">
-                            <label className="text-xl py-4">
-                                Close Time
-                                <span className="text-red-600 mx-2">*</span>
-                            </label>
-                            <input
-                                type="time"
-                                step="1800"
-                                className="pl-6 bg-white text-black h-12 text-lg pr-4"
+                            <FormField
+                                control={form.control}
                                 name="closeTime"
-                                value={settings.closeTime}
-                                onChange={handleChange}
-                            />
+                                render={({field}) => (
+                                    <FormItem>
+                                        <FormLabel htmlFor="closeTime">
+                                            Giờ đóng cửa
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                id="closeTime"
+                                                type="time"
+                                                step="60 * 30"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            ></FormField>
                         </div>
                         <div className="flex flex-col col-span-1 w-4/5">
-                            <label className="text-xl py-4">
-                                Time per slot (in hours)
-                                <span className="text-red-600 mx-2">*</span>
-                            </label>
-                            <input
-                                type="number"
-                                className="pl-6 bg-white text-black h-12 text-lg"
+                            <FormField
+                                control={form.control}
                                 name="minDuration"
-                                min="0.5"
-                                value={settings.minDuration}
-                                step={0.5}
-                                onChange={handleChange}
-                            />
+                                render={({field}) => (
+                                    <FormItem>
+                                        <FormLabel htmlFor="minDuration">
+                                            Thời gian tối thiểu của mỗi lần đặt
+                                            sân (giờ)
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                id="minDuration"
+                                                type="number"
+                                                step="0.5"
+                                                min={0.5}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            ></FormField>
                         </div>
                     </div>
-                    {validationError && (
-                        <div className="text-red-600 mt-4 text-lg">
-                            {validationError}
-                        </div>
-                    )}
                 </AccordionContent>
             </AccordionItem>
         </Accordion>

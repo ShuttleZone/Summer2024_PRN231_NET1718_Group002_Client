@@ -4,10 +4,17 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import {useAppDispatch} from "@/store";
-import {setClubAvailability} from "@/store/slices/club.slice";
 import {useEffect, useState} from "react";
-function AvailabilityInput() {
+import {FormChildProps} from "..";
+import {
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+
+function AvailabilityInput({form}: FormChildProps) {
     const DayInWeek = [
         "Monday",
         "Tuesday",
@@ -18,6 +25,7 @@ function AvailabilityInput() {
         "Sunday",
     ];
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
+    const [selectAllActive, setSelectAllActive] = useState(false);
 
     const toggleDay = (day: string) => {
         setSelectedDays((prevSelectedDays) =>
@@ -25,12 +33,43 @@ function AvailabilityInput() {
                 ? prevSelectedDays.filter((d) => d !== day)
                 : [...prevSelectedDays, day]
         );
+        setSelectAllActive(false); // Reset select all button state
     };
 
-    const dispatch = useAppDispatch();
+    const transformDayInWeek = (day: string) => {
+        switch (day) {
+            case "Monday":
+                return "Thứ 2";
+            case "Tuesday":
+                return "Thứ 3";
+            case "Wednesday":
+                return "Thứ 4";
+            case "Thursday":
+                return "Thứ 5";
+            case "Friday":
+                return "Thứ 6";
+            case "Saturday":
+                return "Thứ 7";
+            case "Sunday":
+                return "Chủ nhật";
+            default:
+                return "";
+        }
+    };
+
+    const handleSelectAll = () => {
+        setSelectedDays(DayInWeek);
+        setSelectAllActive(true);
+    };
+
+    const handleCancelSelectAll = () => {
+        setSelectedDays([]);
+        setSelectAllActive(false);
+    };
+
     useEffect(() => {
-        dispatch(setClubAvailability(selectedDays));
-    }, [dispatch, selectedDays]);
+        form.setValue("availability", selectedDays);
+    }, [form, selectedDays]);
 
     return (
         <Accordion
@@ -41,32 +80,66 @@ function AvailabilityInput() {
         >
             <AccordionItem value="item-1">
                 <AccordionTrigger>
-                    <h1 className="text-2xl font-semibold ">Availability</h1>
+                    <h1 className="text-2xl font-semibold">Ngày mở cửa</h1>
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="px-4">
                     <div className="w-full">
-                        <h1 className="text-xl text-slate-700 my-4">
-                            Select days
-                        </h1>
-                        <div className="h-fit flex flex-row justify-start gap-10">
-                            {DayInWeek.map((item) => (
-                                <div
-                                    key={item}
-                                    className={`border-2 w-32 h-12 flex justify-center items-center rounded-xl hover:cursor-pointer ${
-                                        selectedDays.includes(item)
-                                            ? "text-green-500 border-green-500"
-                                            : "hover:text-green-500 hover:border-green-500"
-                                    }`}
-                                    onClick={() => toggleDay(item)}
-                                >
-                                    <p className="font-semibold">{item}</p>
-                                </div>
-                            ))}
-                        </div>
+                        <FormField
+                            control={form.control}
+                            name="availability"
+                            render={() => (
+                                <FormItem>
+                                    <FormLabel className="flex flex-row justify-end pr-16">
+                                        {!selectAllActive ? (
+                                            <div
+                                                className="w-32 border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white transition-colors duration-300 py-2 text-center rounded-md hover:cursor-pointer"
+                                                onClick={handleSelectAll}
+                                            >
+                                                Chọn tất cả
+                                            </div>
+                                        ) : (
+                                            <div
+                                                className="w-32 border-2 border-gray-500 text-gray-500 hover:bg-gray-500 hover:text-white transition-colors duration-300 py-2 text-center rounded-md hover:cursor-pointer"
+                                                onClick={handleCancelSelectAll}
+                                            >
+                                                Hủy chọn tất cả
+                                            </div>
+                                        )}
+                                    </FormLabel>
+                                    <FormControl>
+                                        <div className="h-fit flex flex-row justify-start gap-10">
+                                            {DayInWeek.map((item) => (
+                                                <div
+                                                    key={item}
+                                                    className={`border-2 w-32 h-12 flex justify-center items-center rounded-xl hover:cursor-pointer ${
+                                                        selectedDays.includes(
+                                                            item
+                                                        )
+                                                            ? "text-green-500 border-green-500"
+                                                            : "hover:scale-110"
+                                                    }`}
+                                                    onClick={() =>
+                                                        toggleDay(item)
+                                                    }
+                                                >
+                                                    <p className="font-semibold">
+                                                        {transformDayInWeek(
+                                                            item
+                                                        )}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        ></FormField>
                     </div>
                 </AccordionContent>
             </AccordionItem>
         </Accordion>
     );
 }
+
 export default AvailabilityInput;

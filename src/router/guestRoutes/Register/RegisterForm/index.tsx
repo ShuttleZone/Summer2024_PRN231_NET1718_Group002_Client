@@ -1,64 +1,76 @@
-import {RegisterAccount} from "@/@types/api";
-import {useRegisterMutation} from "@/store/services/accounts/auth.api";
+import {
+    useRegisterManagerMutation,
+    useRegisterMutation,
+} from "@/store/services/accounts/auth.api";
 import {useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import {useToast} from "@/components/ui/use-toast";
 import {Toaster} from "@/components/ui/toaster";
 
-function RegisterForm() {
-    const initialState: Omit<RegisterAccount, ""> = {
-        fullname: "",
-        username: "",
-        email: "",
-        phoneNumber: "",
-        password: "",
-        repassword: "",
-        token: "",
-    };
+const initialState = {
+    role: 1,
+    fullname: "",
+    username: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
+    repassword: "",
+};
 
+const RegisterForm = () => {
+    const [formData, setFormData] = useState(initialState);
+    const [role, setRole] = useState(1); // Role is a number
     const [register] = useRegisterMutation();
+    const [registerManager] = useRegisterManagerMutation();
     const navigate = useNavigate();
     const {toast} = useToast();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        if (formData.repassword.match(formData.password)) {
+        event.preventDefault();
+        formData.role = role;
+        console.log("Selected role:", role);
+        if (formData.password !== formData.repassword) {
             toast({
                 variant: "destructive",
-                description: "Password is not match !",
+                description: "Mật khẩu không trùng khớp",
             });
+            return;
         }
-        event.preventDefault();
-        const result = await register(formData);
-        console.log("succeed", result);
-        console.log(result.error);
-        if (result.data?.token != null) {
-            toast({
-                variant: "default",
-                description: "Register successful! Please proceed to login.",
-            });
-            setTimeout(() => {
-                navigate("/login");
-            }, 2000); //
-        } else {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            if (!(result.error as any).data.description) {
-                toast({
-                    variant: "destructive",
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    description: `${(result.error as any).data}`,
+
+        try {
+            if (role === 1) {
+                const result = await register(formData).unwrap();
+                console.log("Register succeeded", result);
+                navigate("/email-confirmation", {
+                    state: {email: formData.email},
                 });
-            } else {
-                toast({
-                    variant: "destructive",
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    description: `${(result.error as any).data.description}`,
+            } else if (role === 2) {
+                const result = await registerManager(formData).unwrap();
+                console.log("Register Manager succeeded", result);
+                navigate("/email-confirmation", {
+                    state: {email: formData.email},
                 });
             }
+        } catch (err) {
+            console.log("err", err);
+            toast({
+                variant: "destructive",
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                description: (err as any)?.data || "Đã có lỗi xảy ra",
+            });
         }
     };
 
-    const [formData, setFormData] =
-        useState<Omit<RegisterAccount, "">>(initialState);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setRole(parseInt(e.target.value, 10)); // Ensure role is set as a number
+    };
 
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
@@ -78,18 +90,53 @@ function RegisterForm() {
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Get Started With Shuttle Zone
+                            Bắt đầu với Shuttle Zone
                         </h1>
                         <p className="text-sm font-normal leading-tight tracking-tight text-gray-900 md:text-sm dark:text-white">
-                            Ignite your sports journey with Shuttle Zone and get
-                            started now.
+                            Hãy khơi dậy hành trình thể thao của bạn với Shuttle
+                            Zone và bắt đầu ngay bây giờ.
                         </p>
                         <form
                             className="max-w-sm mx-auto"
                             onSubmit={handleSubmit}
                         >
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Your Email
+                            <div className="flex mb-2 items-center ps-4 border border-gray-200 rounded-lg dark:border-gray-700">
+                                <input
+                                    id="bordered-radio-1"
+                                    type="radio"
+                                    value="1"
+                                    checked={role === 1} // Control checked based on role state
+                                    onChange={handleRoleChange}
+                                    name="bordered-radio"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                />
+                                <label className="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                    Đăng ký với tư cách là{" "}
+                                    <strong className="text-green-700">
+                                        Người dùng
+                                    </strong>
+                                </label>
+                            </div>
+                            <div className="flex items-center mb-2 ps-4 border border-gray-200 rounded-lg dark:border-gray-700">
+                                <input
+                                    id="bordered-radio-2"
+                                    type="radio"
+                                    value="2"
+                                    checked={role === 2} // Control checked based on role state
+                                    onChange={handleRoleChange}
+                                    name="bordered-radio"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                />
+                                <label className="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                    Đăng ký với tư cách là{" "}
+                                    <strong className="text-blue-700">
+                                        Người quản lý câu lạc bộ
+                                    </strong>
+                                </label>
+                            </div>
+
+                            <label className="block mt-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Địa chỉ email
                             </label>
                             <div className="mb-5">
                                 <div className="flex">
@@ -107,13 +154,9 @@ function RegisterForm() {
                                     </div>
                                     <input
                                         value={formData.email}
-                                        onChange={(event) =>
-                                            setFormData((prev) => ({
-                                                ...prev,
-                                                email: event.target.value,
-                                            }))
-                                        }
+                                        onChange={handleChange}
                                         type="email"
+                                        name="email"
                                         required
                                         id="email-address-icon"
                                         className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -123,7 +166,7 @@ function RegisterForm() {
                             </div>
                             <div className="mb-5">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Your username
+                                    Tên đăng nhập
                                 </label>
                                 <div className="flex">
                                     <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
@@ -142,13 +185,9 @@ function RegisterForm() {
                                     </span>
                                     <input
                                         value={formData.username}
-                                        onChange={(event) =>
-                                            setFormData((prev) => ({
-                                                ...prev,
-                                                username: event.target.value,
-                                            }))
-                                        }
+                                        onChange={handleChange}
                                         type="text"
+                                        name="username"
                                         required
                                         id="website-admin"
                                         className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -158,7 +197,7 @@ function RegisterForm() {
                             </div>
                             <div className="mb-5">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Your fullname
+                                    Họ và tên
                                 </label>
                                 <div className="flex">
                                     <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
@@ -177,13 +216,9 @@ function RegisterForm() {
                                     </span>
                                     <input
                                         value={formData.fullname}
-                                        onChange={(event) =>
-                                            setFormData((prev) => ({
-                                                ...prev,
-                                                fullname: event.target.value,
-                                            }))
-                                        }
+                                        onChange={handleChange}
                                         type="text"
+                                        name="fullname"
                                         required
                                         className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Bonnie Green"
@@ -192,7 +227,7 @@ function RegisterForm() {
                             </div>
                             <div className="mb-5">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Your phone number
+                                    Số điện thoại
                                 </label>
                                 <div className="flex">
                                     <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
@@ -211,12 +246,8 @@ function RegisterForm() {
                                     </span>
                                     <input
                                         value={formData.phoneNumber}
-                                        onChange={(event) =>
-                                            setFormData((prev) => ({
-                                                ...prev,
-                                                phoneNumber: event.target.value,
-                                            }))
-                                        }
+                                        name="phoneNumber"
+                                        onChange={handleChange}
                                         type="text"
                                         required
                                         className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -226,16 +257,12 @@ function RegisterForm() {
                             </div>
                             <div className="mb-5">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Your password
+                                    Mật khẩu
                                 </label>
                                 <input
                                     value={formData.password}
-                                    onChange={(event) =>
-                                        setFormData((prev) => ({
-                                            ...prev,
-                                            password: event.target.value,
-                                        }))
-                                    }
+                                    name="password"
+                                    onChange={handleChange}
                                     type="password"
                                     id="password"
                                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
@@ -244,10 +271,13 @@ function RegisterForm() {
                             </div>
                             <div className="mb-5">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Repeat password
+                                    Nhập lại mật khẩu
                                 </label>
                                 <input
+                                    value={formData.repassword}
+                                    onChange={handleChange}
                                     type="password"
+                                    name="repassword"
                                     id="repeat-password"
                                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                                     required
@@ -257,12 +287,7 @@ function RegisterForm() {
                                 <div className="flex items-center h-5">
                                     <input
                                         value={formData.repassword}
-                                        onChange={(event) =>
-                                            setFormData((prev) => ({
-                                                ...prev,
-                                                repassword: event.target.value,
-                                            }))
-                                        }
+                                        onChange={handleChange}
                                         id="terms"
                                         type="checkbox"
                                         className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
@@ -270,12 +295,12 @@ function RegisterForm() {
                                     />
                                 </div>
                                 <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                    I agree with the{" "}
+                                    Tôi đồng ý với{" "}
                                     <a
                                         href="#"
                                         className="text-blue-600 hover:underline dark:text-blue-500"
                                     >
-                                        terms and conditions
+                                        điều khoản dịch vụ
                                     </a>
                                 </label>
                             </div>
@@ -283,15 +308,15 @@ function RegisterForm() {
                                 type="submit"
                                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
-                                Register new account
+                                Đăng ký
                             </button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400 mt-2">
-                                Have an account ? {""}
+                                Bạn đã có tài khoản?{" "}
                                 <a
                                     href="/login"
                                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >
-                                    Sign in
+                                    Đăng nhập ngay
                                 </a>
                             </p>
                         </form>
@@ -300,6 +325,6 @@ function RegisterForm() {
             </div>
         </section>
     );
-}
+};
 
 export default RegisterForm;

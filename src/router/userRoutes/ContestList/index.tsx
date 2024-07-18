@@ -1,7 +1,5 @@
-import Filter from "@/router/userRoutes/ContestList/components/Filter";
-
-import ContestTable from "@/router/userRoutes/ContestList/components/ContestTable";
 import {useGetContestsQuery} from "@/store/services/contests/contest.api";
+import ContestDataTable from "@/router/userRoutes/ContestList/components/ContestTable";
 
 function ContestList() {
     const {data: contests, isError, isLoading} = useGetContestsQuery(undefined);
@@ -52,6 +50,9 @@ function ContestList() {
                 </div>
             </div>
         );
+    if (contests == undefined) {
+        return <div>Error</div>;
+    }
 
     if (isError || !contests) {
         return (
@@ -104,8 +105,7 @@ function ContestList() {
     return (
         <div className="w-full flex justify-center py-12">
             <div className="w-3/4">
-                <Filter />
-                <ContestTable contests={contests} />
+                <ContestDataTable />
             </div>
         </div>
     );

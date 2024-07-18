@@ -16,8 +16,8 @@ function Description() {
                 </svg>
                 <span className="sr-only">Info</span>
                 <div>
-                    <span className="font-medium">Court Management -</span>{" "}
-                    Update or disable your courts here.
+                    <span className="font-medium">Quản lý sân -</span> Cập nhật
+                    hoặc vô hiệu hóa sân của bạn ở đây.
                 </div>
             </div>
         </div>

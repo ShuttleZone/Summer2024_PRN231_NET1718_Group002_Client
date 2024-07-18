@@ -14,7 +14,7 @@ function ClubDescription({description}: ClubDescriptionProps) {
         <Accordion type="single" collapsible defaultValue="item-1">
             <AccordionItem value="item-1">
                 <AccordionTrigger className="text-xl font-semibold">
-                    Overview
+                    Mô tả
                 </AccordionTrigger>
                 <AccordionContent>{description}</AccordionContent>
             </AccordionItem>

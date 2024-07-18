@@ -20,32 +20,25 @@ import {
     DialogClose,
 } from "@/components/ui/dialog";
 import React from "react";
-import {
-    BaseQueryFn,
-    FetchArgs,
-    FetchBaseQueryError,
-    FetchBaseQueryMeta,
-    QueryActionCreatorResult,
-    QueryDefinition,
-} from "@reduxjs/toolkit/query";
 
 interface InputDataProps {
     clubRequest: ClubRequest;
-    refetch: () => QueryActionCreatorResult<
-        QueryDefinition<
-            string | undefined,
-            BaseQueryFn<
-                string | FetchArgs,
-                unknown,
-                FetchBaseQueryError,
-                Record<string, never>,
-                FetchBaseQueryMeta
-            >,
-            never,
-            ClubRequest[],
-            "commonApi"
-        >
-    >;
+    refetch: () => void;
+    // refetch: () => QueryActionCreatorResult<
+    //     QueryDefinition<
+    //         string | undefined,
+    //         BaseQueryFn<
+    //             string | FetchArgs,
+    //             unknown,
+    //             FetchBaseQueryError,
+    //             Record<string, never>,
+    //             FetchBaseQueryMeta
+    //         >,
+    //         never,
+    //         ClubRequest[],
+    //         "commonApi"
+    //     >
+    // >;
 }
 
 function InputData({
@@ -83,7 +76,7 @@ function InputData({
                 description: "Error in server !",
             });
         }
-        await refetch();
+        refetch();
     };
 
     const handleReject = async () => {
@@ -103,8 +96,7 @@ function InputData({
                 description: "Error in server !",
             });
         }
-        await refetch();
-        await refetch();
+        refetch();
     };
     if (!clubRequest) return <div>Nothing</div>;
     return (
@@ -128,25 +120,25 @@ function InputData({
                         </div> */}
                     </div>
                 </th>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-pre-wrap">
                     {clubRequest.clubAddress}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                     {clubRequest.clubPhone}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                    {clubRequest.status}
+                    {clubRequest.clubStatusEnum}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                     {formatTime(clubRequest.openTime.toString())} -{" "}
                     {formatTime(clubRequest.closeTime.toString())}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                    {clubRequest.status == "CreateRequestAccepted" ? (
+                    {clubRequest.clubStatusEnum == "CreateRequestAccepted" ? (
                         <span className="text-green-500">Request Accepted</span>
-                    ) : clubRequest.status == "CreateRequestDenied" ? (
+                    ) : clubRequest.clubStatusEnum == "CreateRequestDenied" ? (
                         <span className="text-red-500">Request Rejected</span>
-                    ) : clubRequest.status == "RequestPending" ? (
+                    ) : clubRequest.clubStatusEnum == "RequestPending" ? (
                         <div className="flex">
                             <Dialog>
                                 <DialogTrigger
@@ -231,21 +223,22 @@ function InputData({
 
 interface RequestTableProps {
     requests?: ClubRequest[];
-    refetch: () => QueryActionCreatorResult<
-        QueryDefinition<
-            string | undefined,
-            BaseQueryFn<
-                string | FetchArgs,
-                unknown,
-                FetchBaseQueryError,
-                Record<string, never>,
-                FetchBaseQueryMeta
-            >,
-            never,
-            ClubRequest[],
-            "commonApi"
-        >
-    >;
+    refetch: () => void;
+    // refetch: () => QueryActionCreatorResult<
+    //     QueryDefinition<
+    //         string | undefined,
+    //         BaseQueryFn<
+    //             string | FetchArgs,
+    //             unknown,
+    //             FetchBaseQueryError,
+    //             Record<string, never>,
+    //             FetchBaseQueryMeta
+    //         >,
+    //         never,
+    //         ClubRequest[],
+    //         "commonApi"
+    //     >
+    // >;
 }
 
 function RequestTable({requests, refetch}: RequestTableProps) {

@@ -32,7 +32,7 @@ function BookingBreadcrumb() {
     return (
         <Breadcrumb className="flex flex-row justify-center items-center my-8">
             <BreadcrumbList className="text-2xl text-black">
-                <BreadcrumbItem>
+                {/* <BreadcrumbItem>
                     <p
                         className={`font-semibold transition-colors duration-200 text-black flex flex-row gap-2 ${currentStageId === 1 ? "hover:cursor-default" : "hover:cursor-pointer"}`}
                         onClick={() => handleClick(1)}
@@ -45,7 +45,7 @@ function BookingBreadcrumb() {
                         Type Of Booking
                     </p>
                 </BreadcrumbItem>
-                <BreadcrumbSeparator className="text-gray-400 transition-colors duration-200 hover:text-black scale-150" />
+                <BreadcrumbSeparator className="text-gray-400 transition-colors duration-200 hover:text-black scale-150" /> */}
                 <BreadcrumbItem>
                     <p
                         className={`font-semibold transition-colors duration-200 text-black flex flex-row gap-2 ${currentStageId === 2 ? "hover:cursor-default" : "hover:cursor-pointer"}`}
@@ -54,9 +54,9 @@ function BookingBreadcrumb() {
                         <div
                             className={`w-8 h-8 rounded-full px-3 ${currentStageId === 2 ? "bg-green-600 text-black" : "bg-gray-400"}  flex justify-center items-center`}
                         >
-                            <span className="text-white text-center">2</span>
+                            <span className="text-white text-center">1</span>
                         </div>
-                        Time & Date
+                        Thời gian tập luyện
                     </p>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="text-gray-400 transition-colors duration-200 hover:text-black scale-150" />
@@ -68,9 +68,9 @@ function BookingBreadcrumb() {
                         <div
                             className={`w-8 h-8 rounded-full px-3 ${currentStageId === 3 ? "bg-green-600 text-black" : "bg-gray-400"}  flex justify-center items-center`}
                         >
-                            <span className="text-white text-center">3</span>
+                            <span className="text-white text-center">2</span>
                         </div>
-                        Personal Information
+                        Thông tin cá nhân
                     </p>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="text-gray-400 transition-colors duration-200 hover:text-black scale-150" />
@@ -82,9 +82,9 @@ function BookingBreadcrumb() {
                         <div
                             className={`w-8 h-8 rounded-full px-3 ${currentStageId === 4 ? "bg-green-600 text-black" : "bg-gray-400"}  flex justify-center items-center`}
                         >
-                            <span className="text-white text-center">4</span>
+                            <span className="text-white text-center">3</span>
                         </div>
-                        Order Confirmation & Payment
+                        Chi tiết đơn hàng và thanh toán
                     </p>
                 </BreadcrumbItem>
             </BreadcrumbList>

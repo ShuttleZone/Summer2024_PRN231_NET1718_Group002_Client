@@ -2,9 +2,11 @@ import {useLoginMutation} from "@/store/services/accounts/auth.api";
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {LoginAccount} from "@/@types/api";
-import {useAppSelector} from "@/store";
+import {useAppDispatch, useAppSelector} from "@/store";
 import {useToast} from "@/components/ui/use-toast";
 import {Toaster} from "@/components/ui/toaster";
+import applicationRoles from "@/constants/role.constants";
+import {clearCallback} from "@/store/slices/callback.slice";
 
 function LoginForm() {
     const initialState: Omit<LoginAccount, ""> = {
@@ -12,6 +14,7 @@ function LoginForm() {
         account: "",
         password: "",
         token: "",
+        refreshToken: "",
     };
     const [login] = useLoginMutation();
     const navigate = useNavigate();
@@ -21,37 +24,52 @@ function LoginForm() {
         (state) => state.callback
     );
     const {toast} = useToast();
+    const role = useAppSelector((state) => state.auth.role);
+    const dispatch = useAppDispatch();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const result = await login(formData);
-        console.log(result);
-        const token = result.data?.token;
-        const userId: any = result.data?.id; // eslint-disable-line @typescript-eslint/no-explicit-any
-        if (token != null) sessionStorage.setItem("token", token);
-        sessionStorage.setItem("userId", userId);
+        const refreshToken = result.data?.refreshToken;
+        refreshToken && localStorage.setItem("refresh_token", refreshToken);
 
         if (!result.error) {
             toast({
                 variant: "default",
-                description: "Login successful !",
+                description: "Đăng nhập thành công",
             });
-            setTimeout(() => {
-                shouldCallback ? navigate(callbackRoute || "") : navigate("/");
-            }, 2000); //
+            shouldCallback
+                ? navigate(callbackRoute || "")
+                : navigate(getDefaultRoute(role || ""));
+            dispatch(clearCallback());
             setFormData(initialState);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } else if ((result.error as any).status == 401)
             toast({
                 variant: "destructive",
-                description: "Wrong password !",
+                description: "Tài khoản hoặc mật khẩu không đúng",
             });
         else {
             toast({
                 variant: "destructive",
+
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 description: `${(result.error as any).data}`,
             });
+        }
+    };
+
+    const getDefaultRoute = (role: string | string[]) => {
+        if (Array.isArray(role)) {
+            if (role.includes(applicationRoles.ADMIN)) return "/admin";
+            if (role.includes(applicationRoles.MANAGER)) return "/manager";
+            if (role.includes(applicationRoles.STAFF)) return "/staff";
+            return "/";
+        } else {
+            if (role === applicationRoles.ADMIN) return "/admin";
+            if (role === applicationRoles.MANAGER) return "/manager";
+            if (role === applicationRoles.STAFF) return "/staff";
+            return "/";
         }
     };
 
@@ -72,10 +90,10 @@ function LoginForm() {
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Welcome Back
+                            Chào mừng trở lại
                         </h1>
                         <h2 className="text-sm font-normal leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Login into your account
+                            Đăng nhập vào tài khoản của bạn
                         </h2>
                         <form
                             className="space-y-4 md:space-y-6"
@@ -84,7 +102,7 @@ function LoginForm() {
                             <Toaster />
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Your email or username
+                                    Email hoặc tên tài khoản
                                 </label>
                                 <input
                                     value={formData.account}
@@ -103,7 +121,7 @@ function LoginForm() {
                             </div>
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Password
+                                    Mật khẩu
                                 </label>
                                 <input
                                     value={formData.password}
@@ -133,7 +151,7 @@ function LoginForm() {
                                     </div>
                                     <div className="ml-3 text-sm">
                                         <label className="text-gray-500 dark:text-gray-300">
-                                            Remember me
+                                            Ghi nhớ tôi
                                         </label>
                                     </div>
                                 </div>
@@ -141,7 +159,7 @@ function LoginForm() {
                                     href="#"
                                     className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >
-                                    Forgot password ?
+                                    Quên mật khẩu?
                                 </a>
                             </div>
                             <div className="flex items-center justify-between">
@@ -163,7 +181,7 @@ function LoginForm() {
                                                 clip-rule="evenodd"
                                             />
                                         </svg>
-                                        Sign in with Google
+                                        Đăng nhập bằng google
                                     </button>
                                 </div>
                             </div>
@@ -171,15 +189,15 @@ function LoginForm() {
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
-                                Sign in
+                                Đăng nhập
                             </button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Don’t have an account yet?{" "}
+                                Bạn chưa có tài khoản?{" "}
                                 <a
                                     href="/register"
                                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >
-                                    Sign up
+                                    Đăng ký ngay
                                 </a>
                             </p>
                         </form>

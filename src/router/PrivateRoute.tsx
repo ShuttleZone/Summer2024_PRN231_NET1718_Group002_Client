@@ -1,3 +1,4 @@
+import ContentSpinner from "@/components/ContentSpinner";
 import {RootState, useAppDispatch} from "@/store";
 import {setCallback} from "@/store/slices/callback.slice";
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
@@ -5,8 +6,12 @@ import {useEffect} from "react";
 import {useSelector} from "react-redux";
 import {Navigate, Outlet, useLocation} from "react-router-dom";
 
-function PrivateRoute() {
-    const {isAuthenticated, isLoading} = useSelector(
+interface PrivateRouteProps {
+    allowedRoles?: string[];
+}
+
+function PrivateRoute({allowedRoles}: PrivateRouteProps) {
+    const {isAuthenticated, isLoading, role} = useSelector(
         (state: RootState) => state.auth
     );
     const dispatch = useAppDispatch();
@@ -18,7 +23,29 @@ function PrivateRoute() {
 
     isLoading ? dispatch(showSpinner()) : dispatch(hideSpinner());
 
-    return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+    const areRolesValid = allowedRoles?.some((allowedRole) => {
+        if (Array.isArray(role)) {
+            return role.includes(allowedRole);
+        }
+        return role === allowedRole;
+    });
+
+    if (isLoading)
+        return (
+            <div className="h-screen w-screen flex justify-center items-center">
+                <ContentSpinner />
+            </div>
+        );
+
+    return isAuthenticated ? (
+        areRolesValid ? (
+            <Outlet />
+        ) : (
+            <Navigate to="/unauthorized" replace />
+        )
+    ) : (
+        <Navigate to="/login" replace />
+    );
 }
 
 export default PrivateRoute;

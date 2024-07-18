@@ -34,10 +34,4 @@ build {
         playbook_file = "./.deploy/ansible/cert-bot.yml"
         extra_arguments = ["--extra-vars", "domain=${var.domain} email=${var.email}"]
     }
-
-    provisioner "ansible" {
-        playbook_file = "./.deploy/ansible/webclient.yml"
-        extra_arguments = ["--extra-vars", "email=${var.email} token=${var.token} docker_image=${var.docker_image}"]
-    }
 }
-

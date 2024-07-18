@@ -3,10 +3,12 @@ import {useCancelReservationMutation} from "@/store/services/reservations/reserv
 
 interface CancelReservationButtonProps {
     reservationId: string;
+    refresh?: () => void;
 }
 
 const CancelReservationButton: React.FC<CancelReservationButtonProps> = ({
     reservationId,
+    refresh,
 }) => {
     const [cancelReservation, {isLoading}] = useCancelReservationMutation();
     const {toast} = useToast();
@@ -15,13 +17,14 @@ const CancelReservationButton: React.FC<CancelReservationButtonProps> = ({
         try {
             await cancelReservation({reservationId}).unwrap();
             toast({
-                title: "Success",
-                description: "Successfully cancel reservation!",
+                title: "Thành công",
+                description: "Hủy đặt chỗ thành công!",
                 variant: "default",
             });
+            refresh && refresh();
         } catch (err) {
             toast({
-                title: "Error",
+                title: "Có lỗi rồi",
                 description:
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     (err as any)?.data?.value || "Unknown error occurred",
@@ -36,7 +39,7 @@ const CancelReservationButton: React.FC<CancelReservationButtonProps> = ({
             disabled={isLoading}
             className="text-red-500"
         >
-            {isLoading ? "Canceling..." : "Cancel"}
+            {isLoading ? "Đang hủy" : "Hủy"}
         </button>
     );
 };

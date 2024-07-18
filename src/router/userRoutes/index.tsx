@@ -18,6 +18,10 @@ import MyReservationDetailList from "./ReservationDetail";
 import MyReservationInvoiceList from "./Reservation";
 import ContestCreate from "./ContestCreate";
 import UserProfile from "./UserProfile";
+import applicationRoles from "@/constants/role.constants";
+import PaymentOption from "./Payment/PaymentOption";
+import AfterPayment from "./AfterPayment";
+import MyContest from "./MyContests";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -123,11 +127,23 @@ const privateRoutes: RouteObject[] = [
         path: "/profile",
         element: <UserProfile />,
     },
+    {
+        path: "/payment",
+        element: <PaymentOption />,
+    },
+    {
+        path: "/payment-result",
+        element: <AfterPayment />,
+    },
+    {
+        path: "/my-contests",
+        element: <MyContest />,
+    },
 ];
 
 const userRoutes: RouteObject[] = [
     {
-        element: <PrivateRoute />,
+        element: <PrivateRoute allowedRoles={[applicationRoles.CUSTOMER]} />,
         children: privateRoutes,
     },
     ...publicRoutes,

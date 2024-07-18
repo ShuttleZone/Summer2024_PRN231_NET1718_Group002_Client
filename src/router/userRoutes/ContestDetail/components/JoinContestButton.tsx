@@ -1,41 +1,36 @@
-import {useToast} from "@/components/ui/use-toast";
-import {useJoinContestMutation} from "@/store/services/contests/contest.api";
+import {PaymentRequest} from "@/@types/api";
+import paymentTypes from "@/constants/payment.constants";
+import {useNavigate} from "react-router-dom";
 
 interface JoinContestButtonProps {
     contestId: string;
+    total: number;
 }
 
-const JoinContestButton: React.FC<JoinContestButtonProps> = ({contestId}) => {
-    const [joinContest, {isLoading}] = useJoinContestMutation();
-    const {toast} = useToast();
+const JoinContestButton: React.FC<JoinContestButtonProps> = ({
+    contestId,
+    total,
+}) => {
+    const navigate = useNavigate();
 
-    const handleJoinContest = async () => {
-        try {
-            await joinContest({contestId}).unwrap();
-            toast({
-                title: "Success",
-                description: "Successfully joined the contest!",
-                variant: "default",
-            });
-        } catch (err) {
-            toast({
-                title: "Error",
-                description:
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    (err as any)?.data?.value || "Unknown error occurred",
-                variant: "destructive",
-            });
-        }
+    const handlePayment = async () => {
+        const paymentRequest: PaymentRequest = {
+            orderInfo: contestId,
+            fullName: "",
+            orderType: paymentTypes.ORDER_TYPE_JOIN_CONTEST,
+            description: `join contest ${contestId}`,
+            amount: total,
+        };
+        navigate("/payment", {state: paymentRequest});
     };
 
     return (
         <div>
             <button
-                onClick={handleJoinContest}
-                disabled={isLoading}
+                onClick={handlePayment}
                 className="inline-flex mt-6 items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-600 rounded-lg hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-                {isLoading ? "Joining..." : "Join Contest"}
+                Tham gia cuộc đấu này
                 <svg
                     className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
                     aria-hidden="true"

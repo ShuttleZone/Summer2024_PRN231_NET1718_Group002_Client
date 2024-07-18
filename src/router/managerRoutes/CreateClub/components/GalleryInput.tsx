@@ -5,7 +5,9 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import MultiFileInput from "@/router/userRoutes/ClubCreate/components/MultiFileInput";
-function GalleryInput() {
+import {FormChildProps} from "..";
+
+function GalleryInput({form}: FormChildProps) {
     return (
         <Accordion
             type="single"
@@ -15,14 +17,18 @@ function GalleryInput() {
         >
             <AccordionItem value="item-1">
                 <AccordionTrigger>
-                    <h1 className="text-2xl font-semibold ">Gallery</h1>
+                    <h1 className="text-2xl font-semibold ">
+                        Hình ảnh câu lạc bộ
+                    </h1>
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="px-4">
                     <div className="w-full">
+                        {/*
                         <h1 className="text-xl text-slate-700 my-4">
-                            Your club gallery
+                            Thêm hình ảnh
                         </h1>
-                        <MultiFileInput />
+                    */}
+                        <MultiFileInput form={form} />
                     </div>
                 </AccordionContent>
             </AccordionItem>

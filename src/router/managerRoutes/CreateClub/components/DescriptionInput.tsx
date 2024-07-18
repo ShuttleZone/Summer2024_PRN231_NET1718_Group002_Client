@@ -4,16 +4,17 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import {useAppDispatch} from "@/store";
-import {setClubDescription} from "@/store/slices/club.slice";
-import {ChangeEvent, useState} from "react";
-function DescriptionInput() {
-    const [clubIntro, setClubIntro] = useState("");
-    const dispatch = useAppDispatch();
-    const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-        setClubIntro(event.target.value);
-        dispatch(setClubDescription(clubIntro));
-    };
+import {FormChildProps} from "..";
+import {
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import {Textarea} from "@/components/ui/textarea";
+
+function DescriptionInput({form}: FormChildProps) {
     return (
         <Accordion
             type="single"
@@ -23,19 +24,24 @@ function DescriptionInput() {
         >
             <AccordionItem value="item-1">
                 <AccordionTrigger>
-                    <h1 className="text-2xl font-semibold ">Description</h1>
+                    <h1 className="text-2xl font-semibold ">Mô tả</h1>
                 </AccordionTrigger>
-                <AccordionContent>
-                    <h1 className="text-xl text-slate-700 my-4">
-                        Introduce your club
-                    </h1>
-                    <textarea
-                        name=""
-                        id=""
-                        className="w-full h-36 pl-4 pt-4 text-lg"
-                        value={clubIntro}
-                        onChange={handleChange}
-                    />
+                <AccordionContent className="px-4">
+                    <FormField
+                        control={form.control}
+                        name="description"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel htmlFor="description">
+                                    Giới thiệu câu lạc bộ
+                                </FormLabel>
+                                <FormControl>
+                                    <Textarea {...field} id="description" />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    ></FormField>
                 </AccordionContent>
             </AccordionItem>
         </Accordion>
