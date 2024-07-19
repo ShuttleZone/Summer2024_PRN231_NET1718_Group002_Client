@@ -23,7 +23,7 @@ const initialState: AuthState = {
     isAuthenticated: false,
 };
 
-interface AuthPayload extends JwtPayload {
+export interface AuthPayload extends JwtPayload {
     nameid: string;
     username: string;
     email: string;

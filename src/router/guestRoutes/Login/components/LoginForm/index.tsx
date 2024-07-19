@@ -7,6 +7,8 @@ import {useToast} from "@/components/ui/use-toast";
 import {Toaster} from "@/components/ui/toaster";
 import applicationRoles from "@/constants/role.constants";
 import {clearCallback} from "@/store/slices/callback.slice";
+import {jwtDecode} from "jwt-decode";
+import {AuthPayload} from "@/store/slices/auth.slice";
 
 function LoginForm() {
     const initialState: Omit<LoginAccount, ""> = {
@@ -24,12 +26,12 @@ function LoginForm() {
         (state) => state.callback
     );
     const {toast} = useToast();
-    const role = useAppSelector((state) => state.auth.role);
     const dispatch = useAppDispatch();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const result = await login(formData);
+        const payload = jwtDecode<AuthPayload>(result.data?.token || "");
         const refreshToken = result.data?.refreshToken;
         refreshToken && localStorage.setItem("refresh_token", refreshToken);
 
@@ -40,7 +42,7 @@ function LoginForm() {
             });
             shouldCallback
                 ? navigate(callbackRoute || "")
-                : navigate(getDefaultRoute(role || ""));
+                : navigate(getDefaultRoute(payload.role || ""));
             dispatch(clearCallback());
             setFormData(initialState);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
