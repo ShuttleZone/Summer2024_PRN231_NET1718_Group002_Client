@@ -7,6 +7,7 @@ import Spinner from "@/components/Spinner";
 import {Toaster} from "@/components/ui/toaster";
 import {RiUserSettingsLine} from "react-icons/ri";
 import {FaWallet} from "react-icons/fa6";
+import {AiOutlineTransaction} from "react-icons/ai";
 
 const managerNavItems = [
     {
@@ -43,6 +44,11 @@ const managerNavItems = [
         title: "Quản lý ví",
         to: "/manager/wallet",
         icon: FaWallet,
+    },
+    {
+        title: "Lịch sử giao dịch",
+        to: "/manager/transactions",
+        icon: AiOutlineTransaction,
     },
 ];
 
