@@ -9,6 +9,7 @@ import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {useAppDispatch} from "@/store";
 import ChangePassword from "./components/ChangePassword.tsx";
 import formatVietnameseDong from "@/lib/currency.util.ts";
+import AvatarUpload from "./components/AvatarUpload.tsx";
 
 interface UpdateUserProfile {
     fullname: string;
@@ -117,15 +118,7 @@ function UserProfile() {
                         alt=""
                     />
                 </div>
-                <div className="relative">
-                    <label
-                        htmlFor="avatar-upload"
-                        className="w-44 h-16 border-2 border-black text-black hover:bg-green-500 hover:border-green-300 hover:text-white transition-colors duration-200 text-lg font-semibold rounded-3xl mt-8 cursor-pointer flex items-center justify-center"
-                    >
-                        Đổi ảnh đại diện
-                    </label>
-                    <input id="avatar-upload" type="file" className="hidden" />
-                </div>
+                <AvatarUpload />
 
                 <div className="flex flex-col items-center">
                     <h1 className="text-xl tracking-widest font-semibold mt-8">

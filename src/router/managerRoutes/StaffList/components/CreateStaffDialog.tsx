@@ -4,7 +4,6 @@ import {
     Dialog,
     DialogClose,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
@@ -96,11 +95,7 @@ function CreateStaffDialog(props: CreateStaffDialogProps) {
                 </DialogTrigger>
                 <DialogContent className="min-w-[800px]">
                     <DialogHeader>
-                        <DialogTitle>Assign new staff</DialogTitle>
-                        <DialogDescription>
-                            Make changes to your profile here. Click save when
-                            you're done.
-                        </DialogDescription>
+                        <DialogTitle>Tạo mới nhân viên</DialogTitle>
                     </DialogHeader>
                     <form onSubmit={HandleSubmit} className="grid gap-4 py-4">
                         <div className="grid grid-cols-8 items-center gap-4">
@@ -111,10 +106,10 @@ function CreateStaffDialog(props: CreateStaffDialogProps) {
                                 onValueChange={(value) =>
                                     HandleSelectChange("clubId", value)
                                 }
-                                defaultValue={clubNames && clubNames[0].Id}
+                                required
                             >
                                 <SelectTrigger className="col-span-7">
-                                    <SelectValue placeholder="Câu lạc bộ" />
+                                    <SelectValue placeholder="Hãy chọn câu lạc bộ" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {clubNames &&

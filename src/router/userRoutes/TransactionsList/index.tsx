@@ -84,7 +84,7 @@ const TransactionsList = () => {
     if (isLoading) return <div>is loading...</div>;
 
     return (
-        <div className="w-full">
+        <div className="w-3/4 mx-auto my-12">
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Lọc giao dịch..."

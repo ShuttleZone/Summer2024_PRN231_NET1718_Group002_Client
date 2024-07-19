@@ -5,10 +5,10 @@ import {LoginAccount} from "@/@types/api";
 import {useAppDispatch, useAppSelector} from "@/store";
 import {useToast} from "@/components/ui/use-toast";
 import {Toaster} from "@/components/ui/toaster";
-import applicationRoles from "@/constants/role.constants";
 import {clearCallback} from "@/store/slices/callback.slice";
 import {jwtDecode} from "jwt-decode";
 import {AuthPayload} from "@/store/slices/auth.slice";
+import getDefaultRoute from "@/lib/route.util";
 
 function LoginForm() {
     const initialState: Omit<LoginAccount, ""> = {
@@ -31,7 +31,6 @@ function LoginForm() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const result = await login(formData);
-        const payload = jwtDecode<AuthPayload>(result.data?.token || "");
         const refreshToken = result.data?.refreshToken;
         refreshToken && localStorage.setItem("refresh_token", refreshToken);
 
@@ -40,6 +39,7 @@ function LoginForm() {
                 variant: "default",
                 description: "Đăng nhập thành công",
             });
+            const payload = jwtDecode<AuthPayload>(result.data?.token || "");
             shouldCallback
                 ? navigate(callbackRoute || "")
                 : navigate(getDefaultRoute(payload.role || ""));
@@ -49,7 +49,7 @@ function LoginForm() {
         } else if ((result.error as any).status == 401)
             toast({
                 variant: "destructive",
-                description: "Tài khoản hoặc mật khẩu không đúng",
+                description: "Mật khẩu không đúng",
             });
         else {
             toast({
@@ -58,20 +58,6 @@ function LoginForm() {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 description: `${(result.error as any).data}`,
             });
-        }
-    };
-
-    const getDefaultRoute = (role: string | string[]) => {
-        if (Array.isArray(role)) {
-            if (role.includes(applicationRoles.ADMIN)) return "/admin";
-            if (role.includes(applicationRoles.MANAGER)) return "/manager";
-            if (role.includes(applicationRoles.STAFF)) return "/staff";
-            return "/";
-        } else {
-            if (role === applicationRoles.ADMIN) return "/admin";
-            if (role === applicationRoles.MANAGER) return "/manager";
-            if (role === applicationRoles.STAFF) return "/staff";
-            return "/";
         }
     };
 
