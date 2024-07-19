@@ -127,14 +127,14 @@ const privateRoutes: RouteObject[] = [
         path: "/profile",
         element: <UserProfile />,
     },
-    {
-        path: "/payment",
-        element: <PaymentOption />,
-    },
-    {
-        path: "/payment-result",
-        element: <AfterPayment />,
-    },
+    // {
+    //     path: "/payment",
+    //     element: <PaymentOption />,
+    // },
+    // {
+    //     path: "/payment-result",
+    //     element: <AfterPayment />,
+    // },
     {
         path: "/my-contests",
         element: <MyContest />,

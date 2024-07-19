@@ -423,3 +423,11 @@ export interface UserForBooking {
     fullname: string;
     phoneNumber: string;
 }
+
+export interface TransactionResponseType {
+    id: string;
+    amount: number;
+    paymentMethod: string;
+    transactionStatus: string;
+    transactionDate: string;
+}
