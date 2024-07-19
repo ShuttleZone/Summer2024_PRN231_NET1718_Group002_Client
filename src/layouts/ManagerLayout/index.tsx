@@ -1,20 +1,18 @@
 import {Outlet, useLocation} from "react-router-dom";
 import Sidebar from "../AdminLayout/components/Sidebar";
-import {IoHome} from "react-icons/io5";
 import {FaNewspaper} from "react-icons/fa";
 import {IoCreateOutline} from "react-icons/io5";
 import Spinner from "@/components/Spinner";
 import {Toaster} from "@/components/ui/toaster";
 import {RiUserSettingsLine} from "react-icons/ri";
 import {FaWallet} from "react-icons/fa6";
-import {AiOutlineTransaction} from "react-icons/ai";
 
 const managerNavItems = [
-    {
-        title: "Home",
-        to: "/",
-        icon: IoHome,
-    },
+    // {
+    //     title: "Home",
+    //     to: "/",
+    //     icon: IoHome,
+    // },
     {
         title: "Quản lý sân",
         to: "/manager/courts",

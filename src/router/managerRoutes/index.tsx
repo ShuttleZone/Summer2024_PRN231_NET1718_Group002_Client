@@ -13,10 +13,10 @@ import applicationRoles from "@/constants/role.constants";
 import PackageHistory from "./PackageManage/components/PackageHistory";
 
 const managerRoutes: RouteObject[] = [
-    {
-        path: "",
-        element: <div>Home</div>,
-    },
+    // {
+    //     path: "",
+    //     element: <div>Home</div>,
+    // },
     {
         path: "courts",
         element: <CourtList />,

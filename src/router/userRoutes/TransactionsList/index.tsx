@@ -21,9 +21,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import {useState} from "react";
+import {useCallback, useMemo, useState} from "react";
 import {TransactionResponseType} from "@/@types/api";
 import formatVietnameseDong from "@/lib/currency.util";
+import ContentSpinner from "@/components/ContentSpinner";
 
 const TransactionsList = () => {
     const {data: myTransactions, isLoading} = useGetMyTransactionsQuery();
@@ -32,6 +33,9 @@ const TransactionsList = () => {
         {
             accessorKey: "transactionDate",
             header: "Ngày giao dịch",
+            cell: ({row}) => (
+                <div>{formatUtcDate(row.getValue("created"))}</div>
+            ),
         },
         {
             accessorKey: "amount",
@@ -46,12 +50,17 @@ const TransactionsList = () => {
             ),
         },
         {
-            accessorKey: "paymentMethod",
-            header: "Phương thức giao dịch",
-        },
-        {
             accessorKey: "transactionStatus",
             header: "Trạng thái",
+            cell: ({row}) => (
+                <div
+                    className={`${row.getValue("transactionStatus") === "SUCCESS" ? "text-green-500" : ""}`}
+                >
+                    {transformTransactionStatus(
+                        row.getValue("transactionStatus")
+                    )}
+                </div>
+            ),
         },
     ];
 
@@ -81,13 +90,30 @@ const TransactionsList = () => {
         },
     });
 
-    if (isLoading) return <div>is loading...</div>;
+    const transformTransactionStatus = useCallback((status: string) => {
+        switch (status) {
+            case "SUCCESS":
+                return "Thành công";
+            case "FAILED":
+                return "Thất bại";
+            default:
+                return status;
+        }
+    }, []);
+
+    if (isLoading) {
+        return (
+            <div className="w-full h-full flex justify-center items-center">
+                <ContentSpinner />
+            </div>
+        );
+    }
 
     return (
         <div className="w-3/4 mx-auto my-12">
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Lọc giao dịch..."
+                    placeholder="Tìm theo giá..."
                     value={
                         (table
                             .getColumn("amount")
