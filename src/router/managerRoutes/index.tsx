@@ -11,7 +11,6 @@ import PackageList from "./PackageManage/components/PackageList";
 import Wallet from "./Wallet";
 import applicationRoles from "@/constants/role.constants";
 import PackageHistory from "./PackageManage/components/PackageHistory";
-import TransactionsList from "./TransactionsList";
 
 const managerRoutes: RouteObject[] = [
     {
@@ -58,10 +57,10 @@ const managerRoutes: RouteObject[] = [
         path: "package-history",
         element: <PackageHistory />,
     },
-    {
-        path: "transactions",
-        element: <TransactionsList />,
-    },
+    // {
+    //     path: "transactions",
+    //     element: <TransactionsList />,
+    // },
 ];
 
 export default [

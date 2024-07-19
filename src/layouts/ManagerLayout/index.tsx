@@ -45,11 +45,11 @@ const managerNavItems = [
         to: "/manager/wallet",
         icon: FaWallet,
     },
-    {
-        title: "Lịch sử giao dịch",
-        to: "/manager/transactions",
-        icon: AiOutlineTransaction,
-    },
+    // {
+    //     title: "Lịch sử giao dịch",
+    //     to: "/manager/transactions",
+    //     icon: AiOutlineTransaction,
+    // },
 ];
 
 const getPageTitle = (pathname: string) => {
