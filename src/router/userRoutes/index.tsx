@@ -20,6 +20,7 @@ import ContestCreate from "./ContestCreate";
 import UserProfile from "./UserProfile";
 import applicationRoles from "@/constants/role.constants";
 import MyContest from "./MyContests";
+import TransactionsList from "./TransactionsList";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -136,6 +137,10 @@ const privateRoutes: RouteObject[] = [
     {
         path: "/my-contests",
         element: <MyContest />,
+    },
+    {
+        path: "/transactions",
+        element: <TransactionsList />,
     },
 ];
 
