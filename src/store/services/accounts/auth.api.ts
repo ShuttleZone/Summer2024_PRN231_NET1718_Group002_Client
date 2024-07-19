@@ -8,7 +8,6 @@ import {
 } from "@/@types/api";
 import {setAuth} from "@/store/slices/auth.slice";
 import ApiRouteBuilder from "@/lib/api.util";
-import {build} from "bun";
 
 export const authApi = commonApi.injectEndpoints({
     endpoints: (build) => ({

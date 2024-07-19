@@ -27,7 +27,7 @@ interface SidebarProps {
 }
 
 function Sidebar({navItems}: SidebarProps) {
-    const {username, email} = useAppSelector((state) => state.auth);
+    const {username} = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 

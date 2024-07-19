@@ -21,10 +21,11 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import {useCallback, useMemo, useState} from "react";
+import {useCallback, useState} from "react";
 import {TransactionResponseType} from "@/@types/api";
 import formatVietnameseDong from "@/lib/currency.util";
 import ContentSpinner from "@/components/ContentSpinner";
+import formatUtcDate from "@/lib/date.util";
 
 const TransactionsList = () => {
     const {data: myTransactions, isLoading} = useGetMyTransactionsQuery();

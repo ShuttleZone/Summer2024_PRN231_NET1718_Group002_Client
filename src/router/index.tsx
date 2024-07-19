@@ -16,7 +16,6 @@ import Unauthorized from "@/components/pages/Unauthorized";
 import guestRoutes from "./guestRoutes";
 import AfterPayment from "./userRoutes/AfterPayment";
 import PaymentOption from "./userRoutes/Payment/PaymentOption";
-import NoLayout from "@/layouts/NoLayout";
 import UnauthenticatedRoute from "./UnauthenticatedRoute";
 import GoogleOAuthCallback from "./userRoutes/GoogleOAuthCallback";
 

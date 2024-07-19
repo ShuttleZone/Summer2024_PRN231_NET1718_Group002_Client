@@ -9,7 +9,7 @@ function Unauthorized() {
                 <div className="mb-8">
                     <h1 className="text-9xl font-bold text-gray-700">403</h1>
                     <p className="text-lg text-gray-700 mt-4">
-                        You are not authorized to view this page
+                        Bạn không có quyền truy cập vào trang này
                     </p>
                 </div>
                 <div className="flex flex-col justify-between items-center">

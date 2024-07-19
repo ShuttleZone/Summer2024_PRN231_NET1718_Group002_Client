@@ -18,3 +18,5 @@ function formatUtcDate(dateString: string) {
 
     return formattedDate;
 }
+
+export default formatUtcDate;

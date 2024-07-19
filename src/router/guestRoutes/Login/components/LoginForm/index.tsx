@@ -1,6 +1,6 @@
 import {useLoginMutation} from "@/store/services/accounts/auth.api";
 import React, {useState} from "react";
-import {redirect, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {LoginAccount} from "@/@types/api";
 import {useAppDispatch, useAppSelector} from "@/store";
 import {useToast} from "@/components/ui/use-toast";
