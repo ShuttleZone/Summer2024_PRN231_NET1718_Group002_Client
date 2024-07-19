@@ -2,6 +2,7 @@ import {useLocation} from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import {useToast} from "@/components/ui/use-toast";
 import {useEffect} from "react";
+import RegisterBackground from "@/assets/images/register-bg.jpg";
 
 function LoginPage() {
     const location = useLocation();
@@ -24,7 +25,7 @@ function LoginPage() {
                     <img
                         alt="Logo"
                         className="img-fluid"
-                        src="src/assets/images/register-bg.jpg"
+                        src={RegisterBackground}
                     />
                 </div>
                 <div className="form-section">
