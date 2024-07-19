@@ -16,6 +16,8 @@ import Unauthorized from "@/components/pages/Unauthorized";
 import guestRoutes from "./guestRoutes";
 import AfterPayment from "./userRoutes/AfterPayment";
 import PaymentOption from "./userRoutes/Payment/PaymentOption";
+import NoLayout from "@/layouts/NoLayout";
+import UnauthenticatedRoute from "./UnauthenticatedRoute";
 
 const router = createBrowserRouter([
     {
@@ -41,14 +43,29 @@ const router = createBrowserRouter([
     },
     {
         path: "/login",
-        element: <LoginPage />,
-        children: [...guestRoutes],
+        element: <UnauthenticatedRoute />,
+        children: [
+            {
+                path: "",
+                element: <LoginPage />,
+            },
+        ],
     },
     {
         path: "/register",
-        element: <RegisterPage />,
-        children: [...guestRoutes],
+        element: <UnauthenticatedRoute />,
+        children: [
+            {
+                path: "",
+                element: <RegisterPage />,
+            },
+        ],
     },
+    // {
+    //     path: "/register",
+    //     element: <RegisterPage />,
+    //     children: [...guestRoutes],
+    // },
     {
         path: "/unauthorized",
         element: <Unauthorized />,
