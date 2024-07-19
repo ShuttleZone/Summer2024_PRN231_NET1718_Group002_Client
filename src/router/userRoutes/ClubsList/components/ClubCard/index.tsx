@@ -73,7 +73,7 @@ function ClubCard({
                     <div className="bg-yellow-400 w-7 h-7 flex justify-center items-center rounded-sm text-white font-semibold">
                         <p>{clubRating || 0}</p>
                     </div>
-                    <p className="opacity-50">{reviews.length} reviews</p>
+                    <p className="opacity-50">{reviews.length} đánh giá</p>
                 </div>
                 <p className="text-xl font-semibold">{clubName}</p>
                 <TooltipProvider>
@@ -109,7 +109,7 @@ function ClubCard({
                     />
                     <button className="flex justify-between items-center gap-2 py-1 px-2 rounded-lg border border-black/10 hover:bg-green-300 hover:border-green-300 transition-colors">
                         <MdOutlineShoppingBag size={20} />
-                        <p>Book Now</p>
+                        <p>Đặt ngay</p>
                     </button>
                 </div>
             </div>
