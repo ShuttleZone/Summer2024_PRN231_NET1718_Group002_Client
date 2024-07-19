@@ -83,7 +83,7 @@ function StaffList() {
                             <TableHead>Hành động</TableHead>
                         </TableRow>
                     </TableHeader>
-                    {staffs?.length == 0 ? (
+                    {staffs?.length == 0 || clubs?.length == 0 ? (
                         <TableBody>Chua co nhan vien nao</TableBody>
                     ) : (
                         <TableBody>
