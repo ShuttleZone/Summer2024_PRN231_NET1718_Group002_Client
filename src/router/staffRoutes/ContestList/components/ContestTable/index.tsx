@@ -1,8 +1,7 @@
-import { useGetContestsStaffQuery } from "@/store/services/contests/contest.api";
-import { useNavigate } from "react-router-dom";
+import {useGetContestsStaffQuery} from "@/store/services/contests/contest.api";
+import {useNavigate} from "react-router-dom";
 
 function ContestTable() {
-
     const navigate = useNavigate();
     const formatDateTime = (dateTime: string) => {
         const date = new Date(dateTime);
@@ -43,35 +42,51 @@ function ContestTable() {
                     </thead>
                     <tbody>
                         <>
-                        {
-                            contests?.map((contest) => {
-                                return(
+                            {contests?.map((contest) => {
+                                return (
                                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td className="w-4 p-4">
-                                    </td>
-                                    <th
-                                        scope="row"
-                                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                    >
-                                        {contest.reservation.reservationDetailsDtos![0].court.name}
-                                    </th>
-                                    <td className="px-6 py-4">{formatDateTime(contest.reservation.reservationDetailsDtos![0].startTime)}</td>
-                                    <td className="px-6 py-4">{contest.contestStatus == 0 ? "Đang mở" : ""}</td>
-                                    <td className="px-6 py-4">{contest.maxPlayer}</td>
-                                    <td className="px-6 py-4">
-                                        <a
-                                            onClick={() => navigate(`/staff/contest/${contest.id}`)}
-                                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                        <td className="w-4 p-4"></td>
+                                        <th
+                                            scope="row"
+                                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                         >
-                                            Chi tiết
-                                        </a>
-                                    </td>
-                                </tr>
-                                )
-                            })
-                        }
+                                            {
+                                                contest.reservation
+                                                    .reservationDetailsDtos![0]
+                                                    .court.name
+                                            }
+                                        </th>
+                                        <td className="px-6 py-4">
+                                            {formatDateTime(
+                                                contest.reservation
+                                                    .reservationDetailsDtos![0]
+                                                    .startTime
+                                            )}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {contest.contestStatus == 0
+                                                ? "Đang mở"
+                                                : ""}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {contest.maxPlayer}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <a
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/staff/contest/${contest.id}`
+                                                    )
+                                                }
+                                                className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                            >
+                                                Chi tiết
+                                            </a>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </>
-                       
                     </tbody>
                 </table>
                 {/* <nav

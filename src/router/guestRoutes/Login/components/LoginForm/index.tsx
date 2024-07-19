@@ -177,7 +177,6 @@ function LoginForm() {
                                         Đăng nhập bằng google
                                     </button>
                                 </div>
-                                </a>
                             </div>
                             <button
                                 type="submit"

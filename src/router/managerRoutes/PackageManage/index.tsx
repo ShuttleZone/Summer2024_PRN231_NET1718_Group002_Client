@@ -1,21 +1,13 @@
 import {useNavigate} from "react-router-dom";
 import BottomButtons from "./components/BottomButtons";
-import {
-    useGetCurrentPackageQuery,
-} from "@/store/services/packs/package.api";
+import {useGetCurrentPackageQuery} from "@/store/services/packs/package.api";
 import formatVietnameseDong from "@/lib/currency.util";
 import {Toaster} from "@/components/ui/toaster";
 
 function MyPackages() {
-    
     const navigate = useNavigate();
 
-
-    const {
-        data: packages,
-        isError,
-        isLoading,
-    } = useGetCurrentPackageQuery();
+    const {data: packages, isError, isLoading} = useGetCurrentPackageQuery();
     if (isError) return <div>Error in loading</div>;
     if (isLoading) return <div>Loading...</div>;
     const formatDateTime = (dateTime: string) => {
