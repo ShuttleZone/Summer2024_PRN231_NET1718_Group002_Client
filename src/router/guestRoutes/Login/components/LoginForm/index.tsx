@@ -1,6 +1,6 @@
 import {useLoginMutation} from "@/store/services/accounts/auth.api";
 import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {redirect, useNavigate} from "react-router-dom";
 import {LoginAccount} from "@/@types/api";
 import {useAppDispatch, useAppSelector} from "@/store";
 import {useToast} from "@/components/ui/use-toast";
@@ -9,6 +9,7 @@ import {clearCallback} from "@/store/slices/callback.slice";
 import {jwtDecode} from "jwt-decode";
 import {AuthPayload} from "@/store/slices/auth.slice";
 import getDefaultRoute from "@/lib/route.util";
+import {GOOGLE_OAUTH_URL} from "@/constants/api.constants";
 
 function LoginForm() {
     const initialState: Omit<LoginAccount, ""> = {
@@ -60,6 +61,8 @@ function LoginForm() {
             });
         }
     };
+
+    const redirectToGgOauth = () => (window.location.href = GOOGLE_OAUTH_URL);
 
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
@@ -153,6 +156,7 @@ function LoginForm() {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <button
+                                        onClick={redirectToGgOauth}
                                         type="button"
                                         className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 me-2 mb-2"
                                     >

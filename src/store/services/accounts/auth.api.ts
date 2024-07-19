@@ -8,6 +8,7 @@ import {
 } from "@/@types/api";
 import {setAuth} from "@/store/slices/auth.slice";
 import ApiRouteBuilder from "@/lib/api.util";
+import {build} from "bun";
 
 export const authApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
@@ -108,6 +109,37 @@ export const authApi = commonApi.injectEndpoints({
                 url: "/api/users-booking",
             }),
         }),
+        loginWithGoogle: build.mutation<
+            {accessToken: string; refreshToken: string},
+            {code: string}
+        >({
+            query: (data) => ({
+                url: "/api/account/google-auth",
+                method: "POST",
+                body: {
+                    state: "string",
+                    code: data.code,
+                    scope: "string",
+                    authser: "string",
+                    hd: "string",
+                    prompt: "string",
+                },
+            }),
+            async onQueryStarted(_, {dispatch, queryFulfilled}) {
+                try {
+                    const {data: response} = await queryFulfilled;
+                    if (response) {
+                        dispatch(setAuth(response.accessToken));
+                        localStorage.setItem(
+                            "refresh_token",
+                            response.refreshToken
+                        );
+                    }
+                } catch (error) {
+                    console.error("An error occurred:", error);
+                }
+            },
+        }),
     }),
 });
 
@@ -120,4 +152,5 @@ export const {
     useUpdatePasswordMutation,
     useRegisterManagerMutation,
     useGetUsersForBookingQuery,
+    useLoginWithGoogleMutation,
 } = authApi;
