@@ -19,8 +19,6 @@ import MyReservationInvoiceList from "./Reservation";
 import ContestCreate from "./ContestCreate";
 import UserProfile from "./UserProfile";
 import applicationRoles from "@/constants/role.constants";
-import PaymentOption from "./Payment/PaymentOption";
-import AfterPayment from "./AfterPayment";
 import MyContest from "./MyContests";
 
 const publicRoutes: RouteObject[] = [
