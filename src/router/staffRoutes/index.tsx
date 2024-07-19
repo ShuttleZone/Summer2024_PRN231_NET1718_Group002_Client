@@ -4,6 +4,7 @@ import PrivateRoute from "../PrivateRoute";
 import applicationRoles from "@/constants/role.constants";
 import ContestDetail from "./ContestDetail";
 import ReservationCreate from "./ReservationCreate";
+import ContestList from "./ContestList";
 
 const staffRoutes: RouteObject[] = [
     {
@@ -21,6 +22,10 @@ const staffRoutes: RouteObject[] = [
     {
         path: "contest",
         element: <ContestDetail />,
+    },
+    {
+        path: "club-contests",
+        element: <ContestList />,
     },
 ];
 

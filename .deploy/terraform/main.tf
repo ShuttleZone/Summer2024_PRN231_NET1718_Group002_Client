@@ -61,5 +61,25 @@ resource "google_compute_instance" "shuttle_zone_web_client" {
     enable_vtpm                 = true
   }
 
+  metadata_startup_script = <<-EOT
+    #!/bin/bash
+    sudo docker ps -q | xargs -r docker stop && \
+    sudo docker container prune -f && \
+    sudo docker images -q | xargs -r docker rmi && \
+    sudo docker login ghcr.io -u ${var.email} -p ${var.token} && \
+    sudo docker pull ${var.docker_image} && \
+    sudo docker run -d -p 80:80 -p 443:443 --name shuttlezone-client --restart always -v /etc/letsencrypt:/etc/letsencrypt ${var.docker_image}
+  EOT
+
   zone = var.zone
+}
+
+resource "null_resource" "vigig_client_restart" {
+  provisioner "local-exec" {
+    command = "gcloud compute instances reset shuttlezone-client --zone ${var.zone} --project ${var.project_id}"
+  }
+
+  triggers = {
+    always_run = "${timestamp()}"
+  }
 }

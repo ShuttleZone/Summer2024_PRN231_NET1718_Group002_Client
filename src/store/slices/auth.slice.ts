@@ -2,7 +2,6 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {JwtPayload, jwtDecode} from "jwt-decode";
 import {authApi} from "../services/accounts/auth.api";
 import {RefreshToken} from "@/@types/api";
-import {RootState} from "..";
 
 export interface AuthState {
     userId?: string;
@@ -24,7 +23,7 @@ const initialState: AuthState = {
     isAuthenticated: false,
 };
 
-interface AuthPayload extends JwtPayload {
+export interface AuthPayload extends JwtPayload {
     nameid: string;
     username: string;
     email: string;
@@ -33,13 +32,11 @@ interface AuthPayload extends JwtPayload {
 
 const refreshToken = createAsyncThunk(
     "auth/refreshToken",
-    async (_, {dispatch, rejectWithValue, getState}) => {
+    async (_, {dispatch, rejectWithValue}) => {
         const refreshToken = localStorage.getItem("refresh_token");
         if (refreshToken) {
-            const accessToken = (getState() as RootState).auth.token;
-            if (!accessToken) return rejectWithValue("No access token found");
             const data: RefreshToken = {
-                accessToken,
+                accessToken: "",
                 refreshToken,
             };
             const response = await dispatch(
@@ -73,9 +70,6 @@ const authSlice = createSlice({
             state.username = payload.username;
             state.email = payload.email;
             state.role = payload.role;
-            // save token to local storage
-            // should be removed after implementing refresh token
-            // localStorage.setItem("token", action.payload);
         },
         clearAuth: () => {
             localStorage.removeItem("refresh_token");

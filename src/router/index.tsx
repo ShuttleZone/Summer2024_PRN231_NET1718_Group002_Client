@@ -14,6 +14,8 @@ import ConfirmEmail from "./guestRoutes/ConfirmEmail";
 import CallbackConfirmEmail from "./guestRoutes/CallbackConfirmEmail";
 import Unauthorized from "@/components/pages/Unauthorized";
 import guestRoutes from "./guestRoutes";
+import AfterPayment from "./userRoutes/AfterPayment";
+import PaymentOption from "./userRoutes/Payment/PaymentOption";
 
 const router = createBrowserRouter([
     {
@@ -60,6 +62,15 @@ const router = createBrowserRouter([
         path: "/email-confirming",
         element: <CallbackConfirmEmail />,
         children: [...guestRoutes],
+    },
+    {
+        path: "/payment-result",
+        element: <AfterPayment />,
+        children: [...guestRoutes],
+    },
+    {
+        path: "/payment",
+        element: <PaymentOption />,
     },
 ]);
 

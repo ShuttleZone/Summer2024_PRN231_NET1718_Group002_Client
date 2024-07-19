@@ -1,4 +1,4 @@
-import * as React from "react";
+import {useGetMyTransactionsQuery} from "@/store/services/transactions/transaction.api";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -31,28 +31,55 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import {RiUserSettingsLine} from "react-icons/ri";
-import {useGetClubListQuery} from "@/store/services/clubs/club.api";
 import {useNavigate} from "react-router-dom";
-import ActionButton from "./components/ActionButton";
+import {useState} from "react";
+import {TransactionResponseType} from "@/@types/api";
 
-export type Club = {
-    Id: string;
-    clubName: string;
-    clubAddress: string;
-    openHours: string;
-    rating: number;
-    totalCourt: number;
-    totalReview: number;
-    totalStaff: number;
-};
+const mockTrans: TransactionResponseType[] = [
+    {
+        id: "asdf",
+        amount: 20000,
+        paymentMethod: "vnpay",
+        transactionStatus: "something",
+        transactionDate: new Date().toDateString(),
+    },
+    {
+        id: "asdf",
+        amount: 20000,
+        paymentMethod: "vnpay",
+        transactionStatus: "something",
+        transactionDate: new Date().toDateString(),
+    },
+    {
+        id: "asdf",
+        amount: 20000,
+        paymentMethod: "vnpay",
+        transactionStatus: "something",
+        transactionDate: new Date().toDateString(),
+    },
+    {
+        id: "asdf",
+        amount: 20000,
+        paymentMethod: "vnpay",
+        transactionStatus: "something",
+        transactionDate: new Date().toDateString(),
+    },
+    {
+        id: "asdf",
+        amount: 20000,
+        paymentMethod: "vnpay",
+        transactionStatus: "something",
+        transactionDate: new Date().toDateString(),
+    },
+];
 
-function ClubList() {
-    const navigate = useNavigate();
+const TransactionsList = () => {
+    const {data: myTransactions, isLoading} = useGetMyTransactionsQuery();
 
-    const columns: ColumnDef<Club>[] = [
+    const columns: ColumnDef<TransactionResponseType>[] = [
         {
             accessorKey: "clubName",
-            header: "TTên câu lạc bộ",
+            header: "Tên câu lạc bộ",
             cell: ({row}) => (
                 <div className="font-medium">{row.getValue("clubName")}</div>
             ),
@@ -89,7 +116,7 @@ function ClubList() {
                         <FaRegCommentDots
                             onClick={() => {
                                 navigate(
-                                    `/manager/club-reviews/${row.original.Id}`
+                                    `/manager/club-reviews/${row.original.id}`
                                 );
                             }}
                             className="mx-2 text-lg text-slate-500 cursor-pointer"
@@ -112,16 +139,16 @@ function ClubList() {
         },
     ];
 
-    const {data: clubs, isLoading} = useGetClubListQuery();
-    const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] =
-        React.useState<ColumnFiltersState>([]);
-    const [columnVisibility, setColumnVisibility] =
-        React.useState<VisibilityState>({});
-    const [rowSelection, setRowSelection] = React.useState({});
+    const [sorting, setSorting] = useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+        {}
+    );
+    const [rowSelection, setRowSelection] = useState({});
+    const navigate = useNavigate();
 
     const table = useReactTable({
-        data: clubs || [],
+        data: myTransactions || mockTrans,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -145,7 +172,7 @@ function ClubList() {
         <div className="w-full">
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Lộc câu lạc bộ..."
+                    placeholder="Lọc giao dịch..."
                     value={
                         (table
                             .getColumn("clubName")
@@ -183,12 +210,6 @@ function ClubList() {
                             ))}
                     </DropdownMenuContent>
                 </DropdownMenu>
-                <Button
-                    className="bg-white border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white ml-8"
-                    onClick={() => navigate("/manager/clubs/new")}
-                >
-                    Thêm câu lạc bộ
-                </Button>
             </div>
             <div className="rounded-md border">
                 <Table>
@@ -230,11 +251,6 @@ function ClubList() {
                                             )}
                                         </TableCell>
                                     ))}
-                                    <TableCell>
-                                        <ActionButton
-                                            clubId={row.original.Id}
-                                        />
-                                    </TableCell>
                                 </TableRow>
                             ))
                         ) : (
@@ -243,7 +259,7 @@ function ClubList() {
                                     colSpan={columns.length}
                                     className="h-24 text-center"
                                 >
-                                    Không có câu lạc bộ nào.
+                                    No results.
                                 </TableCell>
                             </TableRow>
                         )}
@@ -277,6 +293,6 @@ function ClubList() {
             </div>
         </div>
     );
-}
+};
 
-export default ClubList;
+export default TransactionsList;

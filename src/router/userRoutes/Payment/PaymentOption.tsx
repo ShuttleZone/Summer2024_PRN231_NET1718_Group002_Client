@@ -106,7 +106,7 @@ const PaymentOption: React.FC = () => {
                                     {formatVietnameseDong(
                                         walletData?.balance || 0,
                                         "vnd"
-                                    )}
+                                    )}{" "}
                                     vnd
                                 </span>
                                 {(walletData?.balance ?? 0) < paymentTotal ? (

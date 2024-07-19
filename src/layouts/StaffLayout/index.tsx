@@ -21,6 +21,11 @@ const staffNavItems = [
         icon: FaThList,
     },
     {
+        title: "Quản lý cuộc đấu tại CLB",
+        to: "/staff/club-contests",
+        icon: FaThList,
+    },
+    {
         title: "Something Else",
         to: "/staff/something",
         icon: FaNewspaper,
