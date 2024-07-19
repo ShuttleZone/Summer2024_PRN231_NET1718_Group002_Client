@@ -7,10 +7,11 @@ import {
 } from "@/components/ui/select";
 import {Button} from "@/components/ui/button";
 import {IoSearchOutline} from "react-icons/io5";
+
 function WallPaper() {
     return (
         <div className="w-full h-screen relative">
-            <img src="/public/wallpaper.jpg" className="w-full h-full" alt="" />
+            <img src="/wallpaper.jpg" className="w-full h-full" alt="" />
             <div className="w-1/2 h-1/3 absolute top-1/3 right-1/3">
                 <h1 className="text-6xl text-white font-bold">
                     Chọn sân của bạn và bắt đầu tập luyện cùng{" "}
