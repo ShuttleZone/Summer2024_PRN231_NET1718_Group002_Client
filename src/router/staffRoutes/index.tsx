@@ -9,7 +9,7 @@ import ContestList from "./ContestList";
 const staffRoutes: RouteObject[] = [
     {
         path: "",
-        element: <div>Home</div>,
+        element: <div></div>,
     },
     {
         path: "reservations",

@@ -29,6 +29,9 @@ import {useToast} from "@/components/ui/use-toast";
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import NotificationsDropdown from "./components/Notification/Notifications";
 import MenuItemLink from "./components/MenuItem";
+import {useMemo} from "react";
+import applicationRoles from "@/constants/role.constants";
+import getDefaultRoute from "@/lib/route.util";
 
 interface DropdownItemType {
     href: string;
@@ -44,9 +47,7 @@ const dropdownItems: DropdownItemType[] = [
 ];
 
 function Header() {
-    const isAuthenticated = useAppSelector(
-        (state) => state.auth.isAuthenticated
-    );
+    const {isAuthenticated, role} = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const {toast} = useToast();
@@ -62,6 +63,10 @@ function Header() {
         navigate("/");
         dispatch(hideSpinner());
     };
+
+    const isCustomer = useMemo(() => {
+        return role === applicationRoles.CUSTOMER;
+    }, [role]);
 
     return (
         <header className="flex justify-between items-center px-6 py-4">
@@ -91,13 +96,20 @@ function Header() {
                         <DropdownMenuContent>
                             <DropdownMenuLabel>Tài khoản</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            {dropdownItems.map((item) => (
+                            {isCustomer ? (
+                                dropdownItems.map((item) => (
+                                    <MenuItemLink
+                                        key={item.href}
+                                        href={item.href}
+                                        text={item.text}
+                                    />
+                                ))
+                            ) : (
                                 <MenuItemLink
-                                    key={item.href}
-                                    href={item.href}
-                                    text={item.text}
+                                    href={getDefaultRoute(role ?? "")}
+                                    text={"Trang quản lý"}
                                 />
-                            ))}
+                            )}
                             <DropdownMenuSeparator />
                             <AlertDialog>
                                 <AlertDialogTrigger>

@@ -45,7 +45,7 @@ function Sidebar({navItems}: SidebarProps) {
         <div className="w-full h-full flex flex-col justify-between px-4 py-4">
             <div>
                 <Link
-                    to="/admin"
+                    to="/"
                     className="flex justify-start items-center gap-4 cursor-pointer"
                 >
                     <img src={AppLogo} alt="logo" className="h-12 rounded-xl" />
@@ -74,9 +74,9 @@ function Sidebar({navItems}: SidebarProps) {
                 <img src={AppLogo} alt="logo" className="h-12 rounded-full" />
                 <div className="flex flex-col">
                     <span className="text-white">{username}</span>
-                    <span className="text-white text-sm font-medium">
+                    {/* <span className="text-white text-sm font-medium">
                         {email}
-                    </span>
+                    </span> */}
                 </div>
                 <AlertDialog>
                     <AlertDialogTrigger className="w-full">
