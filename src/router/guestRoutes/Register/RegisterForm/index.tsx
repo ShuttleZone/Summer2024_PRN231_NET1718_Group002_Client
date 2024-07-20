@@ -2,10 +2,10 @@ import {
     useRegisterManagerMutation,
     useRegisterMutation,
 } from "@/store/services/accounts/auth.api";
-import {useNavigate} from "react-router-dom";
-import React, {useState} from "react";
-import {useToast} from "@/components/ui/use-toast";
-import {Toaster} from "@/components/ui/toaster";
+import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 const initialState = {
     role: 1,
@@ -23,12 +23,22 @@ const RegisterForm = () => {
     const [register] = useRegisterMutation();
     const [registerManager] = useRegisterManagerMutation();
     const navigate = useNavigate();
-    const {toast} = useToast();
+    const { toast } = useToast();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         formData.role = role;
         console.log("Selected role:", role);
+        const phoneNumberRegex = /^0\d{10}$/;
+
+        if (!phoneNumberRegex.test(formData.phoneNumber)) {
+            toast({
+                variant: "destructive",
+                description: "Số điện thoại không đúng !",
+            });
+            return;
+        }
+
         if (formData.password !== formData.repassword) {
             toast({
                 variant: "destructive",
@@ -42,13 +52,13 @@ const RegisterForm = () => {
                 const result = await register(formData).unwrap();
                 console.log("Register succeeded", result);
                 navigate("/email-confirmation", {
-                    state: {email: formData.email},
+                    state: { email: formData.email },
                 });
             } else if (role === 2) {
                 const result = await registerManager(formData).unwrap();
                 console.log("Register Manager succeeded", result);
                 navigate("/email-confirmation", {
-                    state: {email: formData.email},
+                    state: { email: formData.email },
                 });
             }
         } catch (err) {
@@ -248,7 +258,7 @@ const RegisterForm = () => {
                                         value={formData.phoneNumber}
                                         name="phoneNumber"
                                         onChange={handleChange}
-                                        type="text"
+                                        type="tel"
                                         required
                                         className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="0123456789"

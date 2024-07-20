@@ -2,33 +2,19 @@ import {useNavigate} from "react-router-dom";
 import BottomButtons from "./components/BottomButtons";
 import {
     useGetCurrentPackageQuery,
-    useUnsubPackageMutation,
 } from "@/store/services/packs/package.api";
 import formatVietnameseDong from "@/lib/currency.util";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import {useToast} from "@/components/ui/use-toast";
 import {Toaster} from "@/components/ui/toaster";
 
 function MyPackages() {
-    const [unSub] = useUnsubPackageMutation();
+    
     const navigate = useNavigate();
-    const {toast} = useToast();
+
 
     const {
         data: packages,
         isError,
         isLoading,
-        refetch,
     } = useGetCurrentPackageQuery();
     if (isError) return <div>Error in loading</div>;
     if (isLoading) return <div>Loading...</div>;
@@ -36,24 +22,24 @@ function MyPackages() {
         const date = new Date(dateTime);
         return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
     };
-    const handleUnsub = async () => {
-        const error = await unSub();
-        console.log("Response " + error);
-        if (error.data == true) {
-            toast({
-                description: "Huỷ gói đăng kí thành công",
-            });
-        } else {
-            toast({
-                variant: "destructive",
-                title: "Lỗi server !",
-                description: "Đã có lỗi trong quá trình huỷ gói",
-            });
-        }
+    // const handleUnsub = async () => {
+    //     const error = await unSub();
+    //     console.log("Response " + error);
+    //     if (error.data == true) {
+    //         toast({
+    //             description: "Huỷ gói đăng kí thành công",
+    //         });
+    //     } else {
+    //         toast({
+    //             variant: "destructive",
+    //             title: "Lỗi server !",
+    //             description: "Đã có lỗi trong quá trình huỷ gói",
+    //         });
+    //     }
 
-        refetch();
-    };
-    console.log(packages);
+    //     refetch();
+    // };
+    // console.log(packages);
     return (
         <div>
             <div className="mb-8">
@@ -283,7 +269,7 @@ function MyPackages() {
                                     </span>
                                 </li> */}
                             </ul>
-                            <div>
+                            {/* <div>
                                 {packages.packageUserStatus == 0 ? (
                                     <div>
                                         <AlertDialog key={packages.package.id}>
@@ -327,7 +313,7 @@ function MyPackages() {
                                         Gia hạn gói
                                     </button>
                                 )}
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 )}
