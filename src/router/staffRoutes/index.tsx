@@ -20,7 +20,7 @@ const staffRoutes: RouteObject[] = [
         element: <ReservationCreate />,
     },
     {
-        path: "contest",
+        path: "contest/:id",
         element: <ContestDetail />,
     },
     {

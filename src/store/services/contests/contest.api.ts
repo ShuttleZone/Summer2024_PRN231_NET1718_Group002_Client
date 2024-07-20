@@ -112,6 +112,15 @@ const contestApi = commonApi.injectEndpoints({
             },
             providesTags: [{type: "MyContests" as never}],
         }),
+        getContestsStaff: build.query<ContestInfo[], void>({
+            query: () => {
+                const routeBuilder = new ApiRouteBuilder(
+                    "club-contest"
+                );
+                return routeBuilder.build();
+            },
+            providesTags: [{type: "MyContests" as never}],
+        }),
     }),
     overrideExisting: true,
 });
@@ -124,4 +133,5 @@ export const {
     useCreateContestMutation,
     useGetContestStaffQuery,
     useUpdateContestResultMutation,
+    useGetContestsStaffQuery
 } = contestApi;

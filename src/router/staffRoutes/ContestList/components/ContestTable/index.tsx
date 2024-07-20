@@ -1,4 +1,17 @@
+import { useGetContestsStaffQuery } from "@/store/services/contests/contest.api";
+import { useNavigate } from "react-router-dom";
+
 function ContestTable() {
+
+    const navigate = useNavigate();
+    const formatDateTime = (dateTime: string) => {
+        const date = new Date(dateTime);
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
+    };
+    const {data: contests, isError, isLoading} = useGetContestsStaffQuery();
+    console.log(contests);
+    if (isError) return <div>Lỗi trong lúc tải dữ liệu</div>;
+    if (isLoading) return <div>Đang tải...</div>;
     return (
         <div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -29,59 +42,39 @@ function ContestTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <td className="w-4 p-4">
-                                {/* <div className="flex items-center">
-                        <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-1" className="sr-only">checkbox</label>
-                    </div> */}
-                            </td>
-                            <th
-                                scope="row"
-                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                                Apple MacBook Pro 17"
-                            </th>
-                            <td className="px-6 py-4">Silver</td>
-                            <td className="px-6 py-4">Laptop</td>
-                            <td className="px-6 py-4">$2999</td>
-                            <td className="px-6 py-4">
-                                <a
-                                    href="#"
-                                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                >
-                                    Chi tiết
-                                </a>
-                            </td>
-                        </tr>
-                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <td className="w-4 p-4">
-                                {/* <div className="flex items-center">
-                        <input id="checkbox-table-search-2" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-2" className="sr-only">checkbox</label>
-                    </div> */}
-                            </td>
-                            <th
-                                scope="row"
-                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                                Microsoft Surface Pro
-                            </th>
-                            <td className="px-6 py-4">White</td>
-                            <td className="px-6 py-4">Laptop PC</td>
-                            <td className="px-6 py-4">$1999</td>
-                            <td className="px-6 py-4">
-                                <a
-                                    href="#"
-                                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                >
-                                    Chi tiết
-                                </a>
-                            </td>
-                        </tr>
+                        <>
+                        {
+                            contests?.map((contest) => {
+                                return(
+                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <td className="w-4 p-4">
+                                    </td>
+                                    <th
+                                        scope="row"
+                                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                        {contest.reservation.reservationDetailsDtos![0].court.name}
+                                    </th>
+                                    <td className="px-6 py-4">{formatDateTime(contest.reservation.reservationDetailsDtos![0].startTime)}</td>
+                                    <td className="px-6 py-4">{contest.contestStatus == 0 ? "Đang mở" : ""}</td>
+                                    <td className="px-6 py-4">{contest.maxPlayer}</td>
+                                    <td className="px-6 py-4">
+                                        <a
+                                            onClick={() => navigate(`/staff/contest/${contest.id}`)}
+                                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                        >
+                                            Chi tiết
+                                        </a>
+                                    </td>
+                                </tr>
+                                )
+                            })
+                        }
+                        </>
+                       
                     </tbody>
                 </table>
-                <nav
+                {/* <nav
                     className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4 m-2"
                     aria-label="Table navigation"
                 >
@@ -154,7 +147,7 @@ function ContestTable() {
                             </a>
                         </li>
                     </ul>
-                </nav>
+                </nav> */}
             </div>
         </div>
     );
