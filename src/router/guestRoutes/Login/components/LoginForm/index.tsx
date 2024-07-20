@@ -146,12 +146,13 @@ function LoginForm() {
                                         </label>
                                     </div>
                                 </div>
-                                <a
+                                {/* <a
                                     href="#"
                                     className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >
                                     Quên mật khẩu?
                                 </a>
+                                */}
                             </div>
                             <div className="flex items-center justify-between">
                                 <div>
@@ -176,6 +177,7 @@ function LoginForm() {
                                         Đăng nhập bằng google
                                     </button>
                                 </div>
+                                </a>
                             </div>
                             <button
                                 type="submit"
