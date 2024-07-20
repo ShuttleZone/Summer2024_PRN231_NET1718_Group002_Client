@@ -429,5 +429,5 @@ export interface TransactionResponseType {
     amount: number;
     paymentMethod: string;
     transactionStatus: string;
-    transactionDate: string;
+    created: string;
 }

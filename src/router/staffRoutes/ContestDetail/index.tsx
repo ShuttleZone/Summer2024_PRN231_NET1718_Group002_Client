@@ -1,7 +1,7 @@
 import {useGetContestStaffQuery} from "@/store/services/contests/contest.api";
 import ContestDetailsItem from "./components/ContestDetailsItem";
-import { useParams } from "react-router-dom";
-import { skipToken } from "@reduxjs/toolkit/query";
+import {useParams} from "react-router-dom";
+import {skipToken} from "@reduxjs/toolkit/query";
 
 const ContestDetail: React.FC = () => {
     const {id} = useParams();
@@ -9,7 +9,7 @@ const ContestDetail: React.FC = () => {
         data: contest,
         error,
         isLoading,
-    } = useGetContestStaffQuery(id??skipToken);
+    } = useGetContestStaffQuery(id ?? skipToken);
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center ">
@@ -20,7 +20,7 @@ const ContestDetail: React.FC = () => {
                     )}
                     {error && (
                         <p className="text-center text-red-500">
-                           Lỗi trong lúc tải dữ liệu
+                            Lỗi trong lúc tải dữ liệu
                         </p>
                     )}
                     {contest && (

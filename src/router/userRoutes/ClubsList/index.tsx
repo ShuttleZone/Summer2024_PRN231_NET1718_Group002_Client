@@ -1,4 +1,3 @@
-// import Filter from "./components/Filter";
 import {useGetClubsQuery} from "@/store/services/clubs/club.api";
 import ClubCardSkeletons from "./components/ClubCardSkeletons";
 import ClubCard from "./components/ClubCard";

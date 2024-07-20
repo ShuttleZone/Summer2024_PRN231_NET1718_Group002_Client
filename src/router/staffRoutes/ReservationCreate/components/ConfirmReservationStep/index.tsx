@@ -93,7 +93,7 @@ function ConfirmReservationStep({
                     description: "Đặt sân thành công",
                 });
                 dispatch(clearBookingSlots());
-                navigate("/staff/reservations");
+                navigate("/staff/reservations/new");
             } else {
                 toast({
                     title: "Lỗi",

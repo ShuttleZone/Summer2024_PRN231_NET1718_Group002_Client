@@ -2,10 +2,10 @@ import {
     useRegisterManagerMutation,
     useRegisterMutation,
 } from "@/store/services/accounts/auth.api";
-import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
-import { Toaster } from "@/components/ui/toaster";
+import {useNavigate} from "react-router-dom";
+import React, {useState} from "react";
+import {useToast} from "@/components/ui/use-toast";
+import {Toaster} from "@/components/ui/toaster";
 
 const initialState = {
     role: 1,
@@ -23,7 +23,7 @@ const RegisterForm = () => {
     const [register] = useRegisterMutation();
     const [registerManager] = useRegisterManagerMutation();
     const navigate = useNavigate();
-    const { toast } = useToast();
+    const {toast} = useToast();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -52,13 +52,13 @@ const RegisterForm = () => {
                 const result = await register(formData).unwrap();
                 console.log("Register succeeded", result);
                 navigate("/email-confirmation", {
-                    state: { email: formData.email },
+                    state: {email: formData.email},
                 });
             } else if (role === 2) {
                 const result = await registerManager(formData).unwrap();
                 console.log("Register Manager succeeded", result);
                 navigate("/email-confirmation", {
-                    state: { email: formData.email },
+                    state: {email: formData.email},
                 });
             }
         } catch (err) {
