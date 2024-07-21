@@ -71,11 +71,6 @@ const router = createBrowserRouter([
             },
         ],
     },
-    // {
-    //     path: "/register",
-    //     element: <RegisterPage />,
-    //     children: [...guestRoutes],
-    // },
     {
         path: "/unauthorized",
         element: <Unauthorized />,
