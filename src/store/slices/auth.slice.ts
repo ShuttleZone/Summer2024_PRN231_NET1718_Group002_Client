@@ -117,6 +117,7 @@ const authSlice = createSlice({
             state.isAuthenticated = false;
             state.token = undefined;
             state.isLoading = false;
+            localStorage.removeItem("refresh_token");
         });
     },
 });
