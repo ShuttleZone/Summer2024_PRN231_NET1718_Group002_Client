@@ -1,5 +1,6 @@
 import {PaymentRequest} from "@/@types/api";
 import paymentTypes from "@/constants/payment.constants";
+import {useAppSelector} from "@/store";
 import {useNavigate} from "react-router-dom";
 
 interface JoinContestButtonProps {
@@ -12,6 +13,9 @@ const JoinContestButton: React.FC<JoinContestButtonProps> = ({
     total,
 }) => {
     const navigate = useNavigate();
+    const isAuthenticated = useAppSelector(
+        (state) => state.auth.isAuthenticated
+    );
 
     const handlePayment = async () => {
         const paymentRequest: PaymentRequest = {
@@ -21,7 +25,12 @@ const JoinContestButton: React.FC<JoinContestButtonProps> = ({
             description: `join contest ${contestId}`,
             amount: total,
         };
-        navigate("/payment", {state: paymentRequest});
+        if (isAuthenticated) {
+            navigate("/payment", {state: paymentRequest});
+        } else {
+            // dispatch(setCallback("/payment"));
+            navigate("/login");
+        }
     };
 
     return (
