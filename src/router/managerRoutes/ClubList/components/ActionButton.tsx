@@ -45,25 +45,25 @@ function ActionButton({clubId}: ActionButtonProps) {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
-                    <DropdownMenuLabel>Action</DropdownMenuLabel>
+                    <DropdownMenuLabel>Hành động</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>
                         <PiCourtBasketball className="text-2xl mr-4" />
-                        <span>Detail</span>
+                        <span>Chi tiết</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem onSelect={handleClickAddCourt}>
                         <FiPlus className="text-2xl mr-4" />
-                        <span>Add Court</span>
+                        <span>Thêm sân</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    {/* <DropdownMenuItem>
                         <FaRegUser className="text-2xl mr-4" />
                         <span>Staff list</span>
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                 </DropdownMenuContent>
             </DropdownMenu>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Create new court</DialogTitle>
+                    <DialogTitle>Tạo sân mới</DialogTitle>
                 </DialogHeader>
                 <CreateCourtPopUp clubId={clubId} />
             </DialogContent>
