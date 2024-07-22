@@ -67,7 +67,7 @@ function PackageList() {
                                                     p.price,
                                                     "VND"
                                                 )}
-                                                vnđ/tháng
+                                                vnđ
                                             </span>
                                             <a
                                                 onClick={() =>
@@ -85,7 +85,7 @@ function PackageList() {
                                                     p.price,
                                                     "VND"
                                                 )}
-                                                vnđ/tháng
+                                                vnđ
                                             </span>
                                             <a
                                                 onClick={() =>
