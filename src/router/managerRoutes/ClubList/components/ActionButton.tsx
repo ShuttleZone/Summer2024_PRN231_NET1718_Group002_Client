@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import {useState} from "react";
 import CreateCourtPopUp from "../../CourtList/components/CreateCourtPopUp";
-import {FaRegUser} from "react-icons/fa";
+// import {FaRegUser} from "react-icons/fa";
 
 interface ActionButtonProps {
     clubId: string;

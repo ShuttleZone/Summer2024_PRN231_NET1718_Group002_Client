@@ -104,6 +104,7 @@ const authSlice = createSlice({
             }
 
             state.token = action.payload;
+            state.userId = payload.nameid;
             state.role = payload.role;
             state.email = payload.email;
             state.username = payload.username;
