@@ -29,7 +29,7 @@ const RegisterForm = () => {
         event.preventDefault();
         formData.role = role;
         console.log("Selected role:", role);
-        const phoneNumberRegex = /^0\d{10}$/;
+        const phoneNumberRegex = /^0\d{9}$/;
 
         if (!phoneNumberRegex.test(formData.phoneNumber)) {
             toast({
