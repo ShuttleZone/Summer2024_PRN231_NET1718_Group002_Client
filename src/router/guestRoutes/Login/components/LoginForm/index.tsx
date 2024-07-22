@@ -1,6 +1,6 @@
 import {useLoginMutation} from "@/store/services/accounts/auth.api";
 import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {LoginAccount} from "@/@types/api";
 import {useAppDispatch, useAppSelector} from "@/store";
 import {useToast} from "@/components/ui/use-toast";
@@ -186,12 +186,12 @@ function LoginForm() {
                             </button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Bạn chưa có tài khoản?{" "}
-                                <a
-                                    href="/register"
+                                <Link
+                                    to="/register"
                                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >
                                     Đăng ký ngay
-                                </a>
+                                </Link>
                             </p>
                         </form>
                     </div>
