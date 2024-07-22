@@ -41,12 +41,6 @@ function PackageHistory() {
                                     href="#"
                                     className="flex flex-col items-center w-full bg-white border border-gray-200 rounded-lg shadow md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
                                 >
-                                    <img
-                                        className="object-cover w-full h-48 md:h-auto md:w-48 rounded-t-lg md:rounded-none md:rounded-s-lg"
-                                        src="https://i.pinimg.com/474x/43/2b/c9/432bc9e7e387c8698b8a700b39bc4d57.jpg"
-                                        alt=""
-                                    />
-
                                     <div className="flex flex-col justify-between p-4 leading-normal w-full">
                                         {pack.packageUserStatus == 1 ? (
                                             <span className="bg-red-100 text-red-800 text-md font-medium me-2 px-2.5 py-1.5 rounded dark:bg-yellow-900 dark:text-yellow-300">

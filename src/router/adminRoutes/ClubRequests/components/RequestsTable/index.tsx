@@ -127,7 +127,7 @@ function InputData({
                     {clubRequest.clubPhone}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                    {clubRequest.clubStatusEnum}
+                    Yêu cầu đang chờ
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                     {formatTime(clubRequest.openTime.toString())} -{" "}
@@ -146,19 +146,18 @@ function InputData({
                                     key={clubRequest.id}
                                     className="p-3 bg-green-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-green-800 text-sm px-5 py-2.5 me-2 mb-2"
                                 >
-                                    Accept
+                                    Chấp thuận
                                 </DialogTrigger>
                                 <DialogContent>
                                     <DialogHeader>
                                         <DialogTitle>
-                                            Are you absolutely sure to accept
-                                            this request?
+                                            Bạn có chắc là muốn chấp thuận yêu
+                                            cầu này không ?
                                         </DialogTitle>
                                         <DialogDescription>
-                                            This action cannot be undone. This
-                                            will permanently delete your account
-                                            and remove your data from our
-                                            servers.
+                                            Chấp thuận yêu cầu không thể hoàn
+                                            tác! Hãy quyết định chắc chắn với
+                                            lựa chọn của bạn.
                                         </DialogDescription>
                                     </DialogHeader>
                                     <DialogFooter>
@@ -169,7 +168,7 @@ function InputData({
                                                 onClick={handleAccept}
                                                 variant="secondary"
                                             >
-                                                Accept the request
+                                                Chấp thuận yêu cầu
                                             </Button>
                                         </DialogClose>
                                     </DialogFooter>
@@ -182,19 +181,18 @@ function InputData({
                                     key={clubRequest.id}
                                     className="p-3 bg-red-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-red-800 text-sm px-5 py-2.5 me-2 mb-2"
                                 >
-                                    Reject
+                                    Từ chối
                                 </DialogTrigger>
                                 <DialogContent>
                                     <DialogHeader>
                                         <DialogTitle>
-                                            Are you absolutely sure to reject
-                                            this request?
+                                            Bạn có chắc là muốn từ chối yêu cầu
+                                            này không ?
                                         </DialogTitle>
                                         <DialogDescription>
-                                            This action cannot be undone. This
-                                            will permanently delete your account
-                                            and remove your data from our
-                                            servers.
+                                            Từ chối yêu cầu không thể hoàn tác!
+                                            Hãy quyết định chắc chắn với lựa
+                                            chọn của bạn.
                                         </DialogDescription>
                                     </DialogHeader>
                                     <DialogFooter>
@@ -205,7 +203,7 @@ function InputData({
                                                 onClick={handleReject}
                                                 variant="secondary"
                                             >
-                                                Reject the request
+                                                Từ chối yêu cầu
                                             </Button>
                                         </DialogClose>
                                     </DialogFooter>
@@ -213,7 +211,9 @@ function InputData({
                             </Dialog>
                         </div>
                     ) : (
-                        <span className="text-red-500">No information!</span>
+                        <span className="text-red-500">
+                            Không có thông tin!
+                        </span>
                     )}
                 </td>
             </tr>
@@ -252,9 +252,9 @@ function RequestTable({requests, refetch}: RequestTableProps) {
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
                 <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-slate-50 dark:bg-gray-900">
                     <caption className="p-5 text-4xl font-semibold text-left rtl:text-right text-gray-900 dark:text-white dark:bg-gray-800">
-                        Club Creation Requests
+                        Quản lý yêu cầu tạo Câu Lạc Bộ
                         <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
-                            Efficiently manage and respond to creation requests
+                            Quản lý nhanh chóng và hiệu quả
                         </p>
                     </caption>
                 </div>
@@ -263,22 +263,22 @@ function RequestTable({requests, refetch}: RequestTableProps) {
                     <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" className="px-6 py-3">
-                                Club Name
+                                Tên câu lạc bộ
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Address
+                                Địa chỉ
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Owner Phone
+                                SĐT chủ sân
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Status
+                                Trạng thái
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Open - Closed
+                                Giờ mở - Giờ đóng
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Action
+                                Thao tác
                             </th>
                         </tr>
                     </thead>
