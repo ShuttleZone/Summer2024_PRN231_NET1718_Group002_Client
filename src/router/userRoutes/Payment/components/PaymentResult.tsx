@@ -1,12 +1,24 @@
 import {Button} from "@/components/ui/button";
+import formatVietnameseDong from "@/lib/currency.util";
+import getDefaultRoute from "@/lib/route.util";
+import {useAppSelector} from "@/store";
 import {FaCheck} from "react-icons/fa";
 import {FaExclamation} from "react-icons/fa";
+import {useNavigate} from "react-router-dom";
 interface PaymentResultProps {
     isSuccess: boolean;
     amount: number;
 }
 
 function PaymentResult({isSuccess, amount}: PaymentResultProps) {
+    const navigate = useNavigate();
+    const role = useAppSelector((state) => state.auth.role);
+
+    const handleClose = () => {
+        const defaultRoute = getDefaultRoute(role || "");
+        navigate(defaultRoute);
+    };
+
     return (
         <div className="w-full h-fit flex flex-col items-center mt-4">
             <div
@@ -41,19 +53,22 @@ function PaymentResult({isSuccess, amount}: PaymentResultProps) {
             >
                 <span className="font-semibold mr-8">Total</span>
                 <h1>
-                    {amount} vnd
+                    {formatVietnameseDong(amount, "vnd")} vnd
                     {isSuccess ? <span> (PAID)</span> : <span> (FAILED)</span>}
                 </h1>
             </div>
             {isSuccess ? (
-                <Button className="rounded-xl bg-green-500 h-12 text-xl mt-16 w-36">
+                <Button
+                    onClick={handleClose}
+                    className="rounded-xl bg-green-500 h-12 text-xl mt-16 w-36"
+                >
                     {" "}
-                    Close{" "}
+                    Đóng{" "}
                 </Button>
             ) : (
                 <Button className="rounded-xl bg-red-500 h-12 text-xl mt-16 w-36">
                     {" "}
-                    Try again{" "}
+                    Thử lại{" "}
                 </Button>
             )}
         </div>

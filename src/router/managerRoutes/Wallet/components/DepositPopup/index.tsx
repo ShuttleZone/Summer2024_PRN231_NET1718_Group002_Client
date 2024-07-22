@@ -29,7 +29,7 @@ const formSchema = z.object({
         (value) => parseFloat(value as string),
         z
             .number({
-                invalid_type_error: "Số tiền không được để trống",
+                invalid_type_error: "Số tiền không hợp lệ",
             })
             .int()
             .nonnegative("Số tiền không hợp lệ")
@@ -45,9 +45,7 @@ function DepositPopup({walletId}: DepositPopupProps) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            amount: 0,
-        },
+        defaultValues: {},
     });
     const [createPaymenUrl] = useCreatePaymentUrlMutation();
     const {username} = useAppSelector((state) => state.auth);
@@ -98,7 +96,6 @@ function DepositPopup({walletId}: DepositPopupProps) {
                                     <FormControl>
                                         <Input
                                             type="number"
-                                            min={0}
                                             placeholder="Nhập số tiền"
                                             {...field}
                                         />

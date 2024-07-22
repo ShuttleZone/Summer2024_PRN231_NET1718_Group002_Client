@@ -131,7 +131,7 @@ function CreateCourtPopUp({clubId}: CreateCourtPopUpProps) {
                             render={({field}) => (
                                 <FormItem>
                                     <FormLabel htmlFor="name">
-                                        Court Name
+                                        Tên sân
                                     </FormLabel>
                                     <FormControl>
                                         <Input {...field} id="name" />
@@ -146,7 +146,7 @@ function CreateCourtPopUp({clubId}: CreateCourtPopUpProps) {
                             render={({field}) => (
                                 <FormItem>
                                     <FormLabel htmlFor="courtPrice">
-                                        Court Price
+                                        Giá
                                     </FormLabel>
                                     <FormControl>
                                         <Input
@@ -167,7 +167,7 @@ function CreateCourtPopUp({clubId}: CreateCourtPopUpProps) {
                             render={({field}) => (
                                 <FormItem>
                                     <FormLabel htmlFor="courtType">
-                                        Court Type
+                                        Loại sân
                                     </FormLabel>
                                     <Select
                                         onValueChange={field.onChange}
@@ -175,7 +175,7 @@ function CreateCourtPopUp({clubId}: CreateCourtPopUpProps) {
                                     >
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select court type" />
+                                                <SelectValue placeholder="Chọn loại sân" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
@@ -199,7 +199,7 @@ function CreateCourtPopUp({clubId}: CreateCourtPopUpProps) {
                             render={({field}) => (
                                 <FormItem>
                                     <FormLabel htmlFor="courtStatus">
-                                        Court Status
+                                        Trạng thái sân
                                     </FormLabel>
                                     <Select
                                         onValueChange={field.onChange}
@@ -207,7 +207,7 @@ function CreateCourtPopUp({clubId}: CreateCourtPopUpProps) {
                                     >
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select court status" />
+                                                <SelectValue placeholder="Chọn trạng thái sân" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
@@ -232,10 +232,10 @@ function CreateCourtPopUp({clubId}: CreateCourtPopUpProps) {
                             type="reset"
                             variant={"destructive"}
                         >
-                            Reset
+                            Đặt lại
                         </Button>
                         <Button type="submit" className="bg-green-500">
-                            Submit
+                            Xác nhận
                         </Button>
                     </div>
                 </form>

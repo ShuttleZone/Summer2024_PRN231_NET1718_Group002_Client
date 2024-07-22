@@ -2,7 +2,7 @@ import {
     useRegisterManagerMutation,
     useRegisterMutation,
 } from "@/store/services/accounts/auth.api";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import {useToast} from "@/components/ui/use-toast";
 import {Toaster} from "@/components/ui/toaster";
@@ -29,6 +29,16 @@ const RegisterForm = () => {
         event.preventDefault();
         formData.role = role;
         console.log("Selected role:", role);
+        const phoneNumberRegex = /^0\d{9}$/;
+
+        if (!phoneNumberRegex.test(formData.phoneNumber)) {
+            toast({
+                variant: "destructive",
+                description: "Số điện thoại không đúng !",
+            });
+            return;
+        }
+
         if (formData.password !== formData.repassword) {
             toast({
                 variant: "destructive",
@@ -248,7 +258,7 @@ const RegisterForm = () => {
                                         value={formData.phoneNumber}
                                         name="phoneNumber"
                                         onChange={handleChange}
-                                        type="text"
+                                        type="tel"
                                         required
                                         className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="0123456789"
@@ -312,12 +322,12 @@ const RegisterForm = () => {
                             </button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400 mt-2">
                                 Bạn đã có tài khoản?{" "}
-                                <a
-                                    href="/login"
+                                <Link
+                                    to="/login"
                                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >
                                     Đăng nhập ngay
-                                </a>
+                                </Link>
                             </p>
                         </form>
                     </div>

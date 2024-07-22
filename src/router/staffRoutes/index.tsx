@@ -9,7 +9,7 @@ import ContestList from "./ContestList";
 const staffRoutes: RouteObject[] = [
     {
         path: "",
-        element: <div>Home</div>,
+        element: <div></div>,
     },
     {
         path: "reservations",
@@ -20,7 +20,7 @@ const staffRoutes: RouteObject[] = [
         element: <ReservationCreate />,
     },
     {
-        path: "contest",
+        path: "contest/:id",
         element: <ContestDetail />,
     },
     {

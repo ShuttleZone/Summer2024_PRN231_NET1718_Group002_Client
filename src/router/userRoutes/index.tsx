@@ -19,9 +19,9 @@ import MyReservationInvoiceList from "./Reservation";
 import ContestCreate from "./ContestCreate";
 import UserProfile from "./UserProfile";
 import applicationRoles from "@/constants/role.constants";
-import PaymentOption from "./Payment/PaymentOption";
-import AfterPayment from "./AfterPayment";
 import MyContest from "./MyContests";
+import TransactionsList from "./TransactionsList";
+import Wallet from "../managerRoutes/Wallet";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -127,17 +127,25 @@ const privateRoutes: RouteObject[] = [
         path: "/profile",
         element: <UserProfile />,
     },
-    {
-        path: "/payment",
-        element: <PaymentOption />,
-    },
-    {
-        path: "/payment-result",
-        element: <AfterPayment />,
-    },
+    // {
+    //     path: "/payment",
+    //     element: <PaymentOption />,
+    // },
+    // {
+    //     path: "/payment-result",
+    //     element: <AfterPayment />,
+    // },
     {
         path: "/my-contests",
         element: <MyContest />,
+    },
+    {
+        path: "/transactions",
+        element: <TransactionsList />,
+    },
+    {
+        path: "/wallet",
+        element: <Wallet />,
     },
 ];
 

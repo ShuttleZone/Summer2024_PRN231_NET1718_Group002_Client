@@ -14,6 +14,10 @@ import ConfirmEmail from "./guestRoutes/ConfirmEmail";
 import CallbackConfirmEmail from "./guestRoutes/CallbackConfirmEmail";
 import Unauthorized from "@/components/pages/Unauthorized";
 import guestRoutes from "./guestRoutes";
+import AfterPayment from "./userRoutes/AfterPayment";
+import PaymentOption from "./userRoutes/Payment/PaymentOption";
+import UnauthenticatedRoute from "./UnauthenticatedRoute";
+import GoogleOAuthCallback from "./userRoutes/GoogleOAuthCallback";
 
 const router = createBrowserRouter([
     {
@@ -39,13 +43,33 @@ const router = createBrowserRouter([
     },
     {
         path: "/login",
-        element: <LoginPage />,
-        children: [...guestRoutes],
+        element: <UnauthenticatedRoute />,
+        children: [
+            {
+                path: "",
+                element: <LoginPage />,
+            },
+        ],
     },
     {
         path: "/register",
-        element: <RegisterPage />,
-        children: [...guestRoutes],
+        element: <UnauthenticatedRoute />,
+        children: [
+            {
+                path: "",
+                element: <RegisterPage />,
+            },
+        ],
+    },
+    {
+        path: "/oauth/gg",
+        element: <UnauthenticatedRoute />,
+        children: [
+            {
+                path: "",
+                element: <GoogleOAuthCallback />,
+            },
+        ],
     },
     {
         path: "/unauthorized",
@@ -60,6 +84,15 @@ const router = createBrowserRouter([
         path: "/email-confirming",
         element: <CallbackConfirmEmail />,
         children: [...guestRoutes],
+    },
+    {
+        path: "/payment-result",
+        element: <AfterPayment />,
+        children: [...guestRoutes],
+    },
+    {
+        path: "/payment",
+        element: <PaymentOption />,
     },
 ]);
 

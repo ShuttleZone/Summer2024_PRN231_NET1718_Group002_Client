@@ -83,56 +83,62 @@ function StaffList() {
                             <TableHead>Hành động</TableHead>
                         </TableRow>
                     </TableHeader>
-                    <TableBody>
-                        {filteredStaff?.length ? (
-                            filteredStaff.map((staff) => (
-                                <TableRow key={staff.id}>
-                                    <TableCell className="font-medium">
-                                        {staff.id}
-                                    </TableCell>
-                                    <TableCell className="font-medium">
-                                        {staff.userName}
-                                    </TableCell>
-                                    <TableCell className="font-medium">
-                                        {staff.gender === 0 ? "Male" : "Female"}
-                                    </TableCell>
-                                    <TableCell className="font-medium">
-                                        {staff.profileImage ? (
-                                            <img
-                                                src={staff.profileImage}
-                                                alt="Profile"
-                                                className="w-10 h-10 rounded-full"
-                                            />
-                                        ) : (
-                                            <img
-                                                src="/public/user.jpg"
-                                                alt="Profile"
-                                                className="w-8 h-8 rounded-full border-2 border-black"
-                                            />
-                                        )}
-                                    </TableCell>
-                                    <TableCell className="font-medium">
-                                        {staff.clubName}
-                                    </TableCell>
-                                    <TableCell className="font-medium">
-                                        {staff.clubAddress}
-                                    </TableCell>
-                                    <TableCell>
-                                        <ActionButton />
+                    {staffs?.length == 0 || clubs?.length == 0 ? (
+                        <TableBody>Chua co nhan vien nao</TableBody>
+                    ) : (
+                        <TableBody>
+                            {filteredStaff?.length ? (
+                                filteredStaff.map((staff) => (
+                                    <TableRow key={staff.id}>
+                                        <TableCell className="font-medium">
+                                            {staff.id}
+                                        </TableCell>
+                                        <TableCell className="font-medium">
+                                            {staff.userName}
+                                        </TableCell>
+                                        <TableCell className="font-medium">
+                                            {staff.gender === 0
+                                                ? "Male"
+                                                : "Female"}
+                                        </TableCell>
+                                        <TableCell className="font-medium">
+                                            {staff.profileImage ? (
+                                                <img
+                                                    src={staff.profileImage}
+                                                    alt="Profile"
+                                                    className="w-10 h-10 rounded-full"
+                                                />
+                                            ) : (
+                                                <img
+                                                    src="/public/user.jpg"
+                                                    alt="Profile"
+                                                    className="w-8 h-8 rounded-full border-2 border-black"
+                                                />
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="font-medium">
+                                            {staff.clubName}
+                                        </TableCell>
+                                        <TableCell className="font-medium">
+                                            {staff.clubAddress}
+                                        </TableCell>
+                                        <TableCell>
+                                            <ActionButton />
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={7}
+                                        className="h-24 text-center"
+                                    >
+                                        Không có nhân viên nào
                                     </TableCell>
                                 </TableRow>
-                            ))
-                        ) : (
-                            <TableRow>
-                                <TableCell
-                                    colSpan={7}
-                                    className="h-24 text-center"
-                                >
-                                    Không có nhân viên nào
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
+                            )}
+                        </TableBody>
+                    )}
                 </Table>
             </div>
         </div>
