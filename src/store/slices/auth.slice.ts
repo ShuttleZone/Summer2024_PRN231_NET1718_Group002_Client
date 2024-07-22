@@ -104,6 +104,7 @@ const authSlice = createSlice({
             }
 
             state.token = action.payload;
+            state.userId = payload.nameid;
             state.role = payload.role;
             state.email = payload.email;
             state.username = payload.username;
@@ -117,6 +118,7 @@ const authSlice = createSlice({
             state.isAuthenticated = false;
             state.token = undefined;
             state.isLoading = false;
+            localStorage.removeItem("refresh_token");
         });
     },
 });

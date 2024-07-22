@@ -5,12 +5,14 @@ import DescriptionInput from "./components/DescriptionInput";
 import GalleryInput from "./components/GalleryInput";
 import {useCreateClubMutation} from "@/store/services/clubs/club.api";
 import {useToast} from "@/components/ui/use-toast";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {z} from "zod";
 import {UseFormReturn, useForm} from "react-hook-form";
 import {Form} from "@/components/ui/form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import CourtsInput from "./components/CourtsInput";
+import {useGetCurrentPackageQuery} from "@/store/services/packs/package.api";
+import ContentSpinner from "@/components/ContentSpinner";
 
 export interface FormChildProps {
     form: UseFormReturn<z.infer<typeof formSchema>, any, undefined>; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -101,6 +103,7 @@ function CreateClub() {
     const [createClub] = useCreateClubMutation();
     const navigate = useNavigate();
     const {toast} = useToast();
+    const {data: currentPackage, isLoading} = useGetCurrentPackageQuery();
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         if (values.availability.length === 0) {
@@ -152,9 +155,29 @@ function CreateClub() {
                 description: "Tạo câu lạc bộ thành công",
                 variant: "default",
             });
-            navigate("/manager/courts/new");
+            navigate("/manager/clubs");
         }
     };
+
+    if (isLoading) {
+        return <ContentSpinner />;
+    }
+
+    if (!currentPackage) {
+        return (
+            <div className="w-full flex flex-col items-center py-8">
+                <p className="text-xl mt-4 text-red-400 font-bold">
+                    Bạn cần mua gói dịch vụ để tạo câu lạc bộ
+                </p>
+                <Link
+                    to="/manager/packages"
+                    className="text-blue-700 mt-4 hover:underline"
+                >
+                    Mua gói dịch vụ
+                </Link>
+            </div>
+        );
+    }
 
     return (
         <Form {...form}>

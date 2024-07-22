@@ -26,7 +26,7 @@ const baseQueryWithErrorHandling: BaseQueryFn<
     FetchBaseQueryError
 > = async (args, api, extraOptions) => {
     const result = await baseQuery(args, api, extraOptions);
-    if (result.error) {
+    if (result.error && api.endpoint !== "refreshToken") {
         const refreshToken = localStorage.getItem("refresh_token");
         if (!refreshToken) {
             return result;

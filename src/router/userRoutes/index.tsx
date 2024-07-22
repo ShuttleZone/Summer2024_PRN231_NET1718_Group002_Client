@@ -21,6 +21,7 @@ import UserProfile from "./UserProfile";
 import applicationRoles from "@/constants/role.constants";
 import MyContest from "./MyContests";
 import TransactionsList from "./TransactionsList";
+import Wallet from "../managerRoutes/Wallet";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -141,6 +142,10 @@ const privateRoutes: RouteObject[] = [
     {
         path: "/transactions",
         element: <TransactionsList />,
+    },
+    {
+        path: "/wallet",
+        element: <Wallet />,
     },
 ];
 

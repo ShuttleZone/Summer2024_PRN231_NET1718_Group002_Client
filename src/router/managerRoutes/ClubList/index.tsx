@@ -145,7 +145,7 @@ function ClubList() {
         <div className="w-full">
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Lộc câu lạc bộ..."
+                    placeholder="Lọc câu lạc bộ..."
                     value={
                         (table
                             .getColumn("clubName")
