@@ -12,7 +12,6 @@ import {Form} from "@/components/ui/form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import CourtsInput from "./components/CourtsInput";
 import {useGetCurrentPackageQuery} from "@/store/services/packs/package.api";
-import Spinner from "@/components/Spinner";
 import ContentSpinner from "@/components/ContentSpinner";
 
 export interface FormChildProps {
@@ -156,7 +155,7 @@ function CreateClub() {
                 description: "Tạo câu lạc bộ thành công",
                 variant: "default",
             });
-            navigate("/manager/courts/new");
+            navigate("/manager/clubs");
         }
     };
 
