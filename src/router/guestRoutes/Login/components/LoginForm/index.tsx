@@ -73,7 +73,7 @@ function LoginForm() {
                 >
                     <img
                         className="w-8 h-8 mr-2"
-                        src="src/assets/images/apple-touch-icon-120x120.png"
+                        src="/assets/images/apple-touch-icon-120x120.png"
                         alt="logo"
                     />
                     Shuttle Zone

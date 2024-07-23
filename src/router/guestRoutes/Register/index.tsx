@@ -7,7 +7,7 @@ function RegisterPage() {
                     <img
                         alt="Logo"
                         className="img-fluid"
-                        src="src/assets/images/register-bg.jpg"
+                        src="/assets/images/register-bg.jpg"
                     />
                 </div>
                 <div className="form-section">
