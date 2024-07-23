@@ -58,12 +58,6 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
         <tr>
             <td className="px-4 py-2 border-b">
                 <p className="text-orange-700">{courtNames.length} đặt chỗ</p>
-                {/* {courtNames.map((c) => (
-                    <>
-                        <span>|{c}|</span>
-                        <br></br>
-                    </>
-                ))} */}
             </td>
             <td className="px-4 py-2 border-b">
                 {formatDateTime(bookingDate)}
