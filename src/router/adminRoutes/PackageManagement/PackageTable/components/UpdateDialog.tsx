@@ -23,8 +23,6 @@ interface UpdateDialogProps {
 
 function UpdateDialog({id}: UpdateDialogProps) {
     const {data: packageDetail, isError} = useGetPackageDetailQuery(id);
-    console.log(id);
-    console.log(packageDetail);
     const [updateData, setUpdateData] = useState<UpdatePackage>({
         name: packageDetail?.name ?? "",
         description: packageDetail?.description ?? "",
@@ -52,7 +50,6 @@ function UpdateDialog({id}: UpdateDialogProps) {
         event.preventDefault();
         try {
             await updatePackage({...updateData});
-            console.log("Update successful");
         } catch (error) {
             console.error("Failed to update package:", error);
         }

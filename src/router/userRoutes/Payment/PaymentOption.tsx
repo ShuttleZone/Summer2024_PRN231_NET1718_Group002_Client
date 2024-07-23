@@ -34,7 +34,6 @@ const PaymentOption: React.FC = () => {
             if (selectedOption === "Ví ShuttleZone") {
                 const walletId = walletData?.id;
                 if (walletId) {
-                    console.log(paymentRequest);
                     await updateWallet({
                         id: walletId,
                         request: {...paymentRequest, amount: -paymentTotal},
@@ -47,7 +46,6 @@ const PaymentOption: React.FC = () => {
                 );
             } else {
                 const url = await createPaymentUrl(paymentRequest).unwrap();
-                console.log("Payment URL:", url);
                 setCanPay(false);
                 window.open(url, "_self");
             }

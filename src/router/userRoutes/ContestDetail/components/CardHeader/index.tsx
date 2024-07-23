@@ -93,8 +93,16 @@ function CardHeader({contest}: ContestTableProps) {
                                 </div>
                                 <div className="w-full text-gray-700">
                                     {formatDateTime(
-                                        contest.reservation
-                                            .reservationDetailsDtos[0].startTime
+                                        contest.reservation.reservationDetailsDtos
+                                            .reduce((min, rd) => {
+                                                const startTime = new Date(
+                                                    rd.startTime
+                                                );
+                                                return startTime < min
+                                                    ? startTime
+                                                    : min;
+                                            }, new Date(contest.reservation.reservationDetailsDtos[0].startTime))
+                                            .toString()
                                     )}
                                 </div>
                             </div>

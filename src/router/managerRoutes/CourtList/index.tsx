@@ -29,7 +29,6 @@ function InputCourtData({clubId}: InputCourtDataProps) {
     const [changeCourtStatus] = useChangeStatusCourtMutation();
     const [maintainCourt] = useMaintainCourtMutation();
 
-    console.log(courts);
     if (isLoading)
         return (
             <div>
@@ -85,7 +84,6 @@ function InputCourtData({clubId}: InputCourtDataProps) {
 
     const handleChangeStatus = async (courtId: string) => {
         const {error} = await changeCourtStatus({id: courtId});
-        console.log(error);
         if (!error) {
             toast({
                 variant: "default",

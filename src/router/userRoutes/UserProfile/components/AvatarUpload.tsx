@@ -6,18 +6,11 @@ const uploadFile = async (file: File) => {
         const formData = new FormData();
         formData.append("file", file);
 
-        const response = await axios.post(
-            "https://ourproject.io.vn/api/Media",
-            formData,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }
-        );
-
-        // Handle success
-        console.log("File uploaded successfully", response.data);
+        await axios.post("https://ourproject.io.vn/api/Media", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
     } catch (error) {
         // Handle error
         console.error("Error uploading file", error);

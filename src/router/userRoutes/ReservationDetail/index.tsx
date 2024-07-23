@@ -40,7 +40,6 @@ function MyReservationDetailList() {
         pageSize,
     });
     const reservations = data?.items;
-    console.log(reservations);
     const totalItems = data?.total || 0;
     const totalPages = Math.ceil(totalItems / pageSize);
 

@@ -116,7 +116,6 @@ const bookingStageSlice = createSlice({
             state.TimeAndDate.Slots.push(action.payload);
         },
         setBookingTotalPrice(state, action) {
-            console.log("can save");
             state.TimeAndDate.TotalPrice = action.payload;
         },
         removeBookingSlots(state, action) {
