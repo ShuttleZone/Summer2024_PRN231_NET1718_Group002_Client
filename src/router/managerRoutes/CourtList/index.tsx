@@ -9,8 +9,10 @@ import Description from "./components/HeaderDescription";
 import {
     useChangeStatusCourtMutation,
     useGetCourtByClubQuery,
+    useMaintainCourtMutation,
 } from "@/store/services/courts/court.api";
 import {useToast} from "@/components/ui/use-toast";
+import MaintainButton from "./components/MaintainButton";
 
 interface InputCourtDataProps {
     clubId: string;
@@ -25,6 +27,7 @@ function InputCourtData({clubId}: InputCourtDataProps) {
         refetch,
     } = useGetCourtByClubQuery(clubId);
     const [changeCourtStatus] = useChangeStatusCourtMutation();
+    const [maintainCourt] = useMaintainCourtMutation();
 
     console.log(courts);
     if (isLoading)
@@ -98,6 +101,23 @@ function InputCourtData({clubId}: InputCourtDataProps) {
         }
     };
 
+    const handleMaintainCourt = async (courtId: string) => {
+        const response = await maintainCourt({id: courtId});
+        if (response.error) {
+            toast({
+                title: "Thông báo",
+                description: "Đã xảy ra lỗi",
+                variant: "destructive",
+            });
+        } else {
+            toast({
+                title: "Thông báo",
+                description: "Đã lưu thay đổi",
+                variant: "default",
+            });
+        }
+    };
+
     return (
         <>
             {courts?.map((court) => (
@@ -112,27 +132,35 @@ function InputCourtData({clubId}: InputCourtDataProps) {
                     <td className="px-6 py-4">{court.courtStatus}</td>
                     <td className="px-6 py-4">{court.price} VND</td>
                     <td className="px-6 py-4">
-                        <button
-                            type="button"
-                            className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                        >
-                            Cập nhật
-                        </button>
-                        -{" "}
-                        <button
-                            type="button"
-                            className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                        >
-                            Xóa
-                        </button>
-                        -{" "}
-                        <button
-                            type="button"
-                            className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                        >
-                            Bảo trì
-                        </button>
-                        -{" "}
+                        {court.courtStatus === "Maintain" ? (
+                            <MaintainButton
+                                onClick={() => handleMaintainCourt(court.id)}
+                                title="Xác nhận"
+                                content="Hoàn thành bảo trì sân"
+                                buttonTitle="Hoàn thành"
+                            >
+                                <button
+                                    type="button"
+                                    className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                >
+                                    Hoàn thành bảo trì
+                                </button>
+                            </MaintainButton>
+                        ) : (
+                            <MaintainButton
+                                onClick={() => handleMaintainCourt(court.id)}
+                                title="Xác nhận"
+                                content="Xác nhận bảo trì sân"
+                                buttonTitle="Bảo trì"
+                            >
+                                <button
+                                    type="button"
+                                    className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                >
+                                    Bảo trì
+                                </button>
+                            </MaintainButton>
+                        )}
                         {court.courtStatus != "Unavailable" ? (
                             <button
                                 value={court.id}
