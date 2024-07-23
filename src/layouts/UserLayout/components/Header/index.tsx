@@ -45,6 +45,7 @@ const dropdownItems: DropdownItemType[] = [
     {href: "/contests", text: "Cuộc thi đấu"},
     {href: "/profile", text: "Hồ sơ"},
     {href: "/transactions", text: "Giao dịch"},
+    {href: "/wallet", text: "Ví"},
 ];
 
 function Header() {

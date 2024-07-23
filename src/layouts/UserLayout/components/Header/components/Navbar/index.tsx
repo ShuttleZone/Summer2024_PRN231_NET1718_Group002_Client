@@ -59,6 +59,11 @@ const information: NavItem[] = [
         href: "/transactions",
         description: "Các giao dịch bạn đã từng thanh toán",
     },
+    {
+        title: "Ví",
+        href: "/wallet",
+        description: "Thông tin ví của bạn",
+    },
 ];
 
 function Navbar() {
