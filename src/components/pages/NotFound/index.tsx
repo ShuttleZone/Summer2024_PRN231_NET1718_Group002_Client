@@ -9,7 +9,7 @@ function NotFound() {
                 <div className="mb-8">
                     <h1 className="text-9xl font-bold text-gray-700">404</h1>
                     <p className="text-lg text-gray-700 mt-4">
-                        Sorry, Page Not Found
+                        Trang bạn đang tìm kiếm không tồn tại
                     </p>
                 </div>
                 <div className="flex flex-col justify-between items-center">

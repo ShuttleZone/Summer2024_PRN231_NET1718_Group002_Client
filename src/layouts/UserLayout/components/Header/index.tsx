@@ -29,6 +29,10 @@ import {useToast} from "@/components/ui/use-toast";
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import NotificationsDropdown from "./components/Notification/Notifications";
 import MenuItemLink from "./components/MenuItem";
+import {useMemo} from "react";
+import applicationRoles from "@/constants/role.constants";
+import getDefaultRoute from "@/lib/route.util";
+import DefaultAvatar from "/user.jpg";
 
 interface DropdownItemType {
     href: string;
@@ -40,12 +44,12 @@ const dropdownItems: DropdownItemType[] = [
     {href: "/my-invoices", text: "Hóa đơn"},
     {href: "/contests", text: "Cuộc thi đấu"},
     {href: "/profile", text: "Hồ sơ"},
+    {href: "/transactions", text: "Giao dịch"},
+    {href: "/wallet", text: "Ví"},
 ];
 
 function Header() {
-    const isAuthenticated = useAppSelector(
-        (state) => state.auth.isAuthenticated
-    );
+    const {isAuthenticated, role} = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const {toast} = useToast();
@@ -61,6 +65,10 @@ function Header() {
         navigate("/");
         dispatch(hideSpinner());
     };
+
+    const isCustomer = useMemo(() => {
+        return role === applicationRoles.CUSTOMER;
+    }, [role]);
 
     return (
         <header className="flex justify-between items-center px-6 py-4">
@@ -82,21 +90,28 @@ function Header() {
 
                     <DropdownMenu>
                         <DropdownMenuTrigger>
-                            <Avatar>
-                                <AvatarImage src="https://github.com/shadcn.png" />
+                            <Avatar className="border border-gray-500 p-1">
+                                <AvatarImage src={DefaultAvatar} />
                                 <AvatarFallback>Avatar</AvatarFallback>
                             </Avatar>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             <DropdownMenuLabel>Tài khoản</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            {dropdownItems.map((item) => (
+                            {isCustomer ? (
+                                dropdownItems.map((item) => (
+                                    <MenuItemLink
+                                        key={item.href}
+                                        href={item.href}
+                                        text={item.text}
+                                    />
+                                ))
+                            ) : (
                                 <MenuItemLink
-                                    key={item.href}
-                                    href={item.href}
-                                    text={item.text}
+                                    href={getDefaultRoute(role ?? "")}
+                                    text={"Trang quản lý"}
                                 />
-                            ))}
+                            )}
                             <DropdownMenuSeparator />
                             <AlertDialog>
                                 <AlertDialogTrigger>

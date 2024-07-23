@@ -1,14 +1,13 @@
 import {Outlet} from "react-router-dom";
 import Sidebar from "./components/Sidebar";
-import {IoHome} from "react-icons/io5";
 import {FaNewspaper, FaThList} from "react-icons/fa";
 
 const adminNavItems = [
-    {
-        title: "Home",
-        to: "/admin/home",
-        icon: IoHome,
-    },
+    // {
+    //     title: "Home",
+    //     to: "/admin/home",
+    //     icon: IoHome,
+    // },
     {
         title: "Danh sách câu lạc bộ",
         to: "/admin/clubs",

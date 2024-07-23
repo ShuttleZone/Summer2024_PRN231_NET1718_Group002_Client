@@ -54,6 +54,16 @@ const information: NavItem[] = [
         href: "/profile",
         description: "Thông tin cá nhân của bạn.",
     },
+    {
+        title: "Lịch sử giao dịch",
+        href: "/transactions",
+        description: "Các giao dịch bạn đã từng thanh toán",
+    },
+    {
+        title: "Ví",
+        href: "/wallet",
+        description: "Thông tin ví của bạn",
+    },
 ];
 
 function Navbar() {

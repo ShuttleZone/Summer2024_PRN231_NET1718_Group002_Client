@@ -374,7 +374,7 @@ export interface UpdatePackage {
     name: string;
     description: string;
     price: number;
-    packageType: number;
+    packageType: string;
 }
 
 interface Wallet {
@@ -429,5 +429,5 @@ export interface TransactionResponseType {
     amount: number;
     paymentMethod: string;
     transactionStatus: string;
-    transactionDate: string;
+    created: string;
 }

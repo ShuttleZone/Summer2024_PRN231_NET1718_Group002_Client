@@ -1,14 +1,15 @@
 import {useLoginMutation} from "@/store/services/accounts/auth.api";
 import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {LoginAccount} from "@/@types/api";
 import {useAppDispatch, useAppSelector} from "@/store";
 import {useToast} from "@/components/ui/use-toast";
 import {Toaster} from "@/components/ui/toaster";
-import applicationRoles from "@/constants/role.constants";
 import {clearCallback} from "@/store/slices/callback.slice";
 import {jwtDecode} from "jwt-decode";
 import {AuthPayload} from "@/store/slices/auth.slice";
+import getDefaultRoute from "@/lib/route.util";
+import {GOOGLE_OAUTH_URL} from "@/constants/api.constants";
 
 function LoginForm() {
     const initialState: Omit<LoginAccount, ""> = {
@@ -31,7 +32,6 @@ function LoginForm() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const result = await login(formData);
-        const payload = jwtDecode<AuthPayload>(result.data?.token || "");
         const refreshToken = result.data?.refreshToken;
         refreshToken && localStorage.setItem("refresh_token", refreshToken);
 
@@ -40,6 +40,7 @@ function LoginForm() {
                 variant: "default",
                 description: "Đăng nhập thành công",
             });
+            const payload = jwtDecode<AuthPayload>(result.data?.token || "");
             shouldCallback
                 ? navigate(callbackRoute || "")
                 : navigate(getDefaultRoute(payload.role || ""));
@@ -49,7 +50,7 @@ function LoginForm() {
         } else if ((result.error as any).status == 401)
             toast({
                 variant: "destructive",
-                description: "Tài khoản hoặc mật khẩu không đúng",
+                description: "Mật khẩu không đúng",
             });
         else {
             toast({
@@ -61,19 +62,7 @@ function LoginForm() {
         }
     };
 
-    const getDefaultRoute = (role: string | string[]) => {
-        if (Array.isArray(role)) {
-            if (role.includes(applicationRoles.ADMIN)) return "/admin";
-            if (role.includes(applicationRoles.MANAGER)) return "/manager";
-            if (role.includes(applicationRoles.STAFF)) return "/staff";
-            return "/";
-        } else {
-            if (role === applicationRoles.ADMIN) return "/admin";
-            if (role === applicationRoles.MANAGER) return "/manager";
-            if (role === applicationRoles.STAFF) return "/staff";
-            return "/";
-        }
-    };
+    const redirectToGgOauth = () => (window.location.href = GOOGLE_OAUTH_URL);
 
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
@@ -143,7 +132,7 @@ function LoginForm() {
                             </div>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-start">
-                                    <div className="flex items-center h-5">
+                                    {/* <div className="flex items-center h-5">
                                         <input
                                             id="remember"
                                             aria-describedby="remember"
@@ -155,18 +144,20 @@ function LoginForm() {
                                         <label className="text-gray-500 dark:text-gray-300">
                                             Ghi nhớ tôi
                                         </label>
-                                    </div>
+                                    </div> */}
                                 </div>
-                                <a
+                                {/* <a
                                     href="#"
                                     className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >
                                     Quên mật khẩu?
                                 </a>
+                                */}
                             </div>
                             <div className="flex items-center justify-between">
                                 <div>
                                     <button
+                                        onClick={redirectToGgOauth}
                                         type="button"
                                         className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 me-2 mb-2"
                                     >
@@ -195,12 +186,12 @@ function LoginForm() {
                             </button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Bạn chưa có tài khoản?{" "}
-                                <a
-                                    href="/register"
+                                <Link
+                                    to="/register"
                                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >
                                     Đăng ký ngay
-                                </a>
+                                </Link>
                             </p>
                         </form>
                     </div>
