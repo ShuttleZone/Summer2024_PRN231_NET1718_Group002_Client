@@ -8,7 +8,6 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {BsThreeDots} from "react-icons/bs";
-import {PiCourtBasketball} from "react-icons/pi";
 import {FiPlus} from "react-icons/fi";
 import {
     Dialog,
@@ -47,10 +46,10 @@ function ActionButton({clubId}: ActionButtonProps) {
                 <DropdownMenuContent className="w-56">
                     <DropdownMenuLabel>Hành động</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
+                    {/* <DropdownMenuItem>
                         <PiCourtBasketball className="text-2xl mr-4" />
                         <span>Chi tiết</span>
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                     <DropdownMenuItem onSelect={handleClickAddCourt}>
                         <FiPlus className="text-2xl mr-4" />
                         <span>Thêm sân</span>

@@ -126,7 +126,7 @@ function UserProfile() {
                     <h1 className="text-xl tracking-widest font-semibold mt-8">
                         {userProfile?.fullname}
                     </h1>
-                    <span className="text-lg my-2">@{userProfile?.email}</span>
+                    <span className="text-lg my-2">{userProfile?.email}</span>
                 </div>
                 <div className="flex place-items-end justify-between gap-6">
                     <span className="text-lg my-2">

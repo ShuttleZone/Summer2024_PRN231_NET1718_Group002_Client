@@ -112,6 +112,12 @@ const packageApi = commonApi.injectEndpoints({
             },
             invalidatesTags: [{type: "PackagesHistory" as never}],
         }),
+        getPackageDetail: build.query<PackageInformation, string>({
+            query: (id) => {
+                const routeBuilder = new ApiRouteBuilder(`api/Package/${id}`);
+                return routeBuilder.build();
+            },
+        }),
     }),
     overrideExisting: true,
 });
@@ -125,4 +131,5 @@ export const {
     useChangePackageStatusMutation,
     useUpdatePackageMutation,
     useUnsubPackageMutation,
+    useGetPackageDetailQuery,
 } = packageApi;

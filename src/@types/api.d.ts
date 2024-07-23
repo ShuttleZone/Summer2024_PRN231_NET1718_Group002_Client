@@ -375,7 +375,7 @@ export interface UpdatePackage {
     name: string;
     description: string;
     price: number;
-    packageType: number;
+    packageType: string;
 }
 
 interface Wallet {
