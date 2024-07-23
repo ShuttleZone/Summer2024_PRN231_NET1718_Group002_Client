@@ -113,7 +113,7 @@ function UserProfile() {
                         src={
                             userProfile?.profileImage !== ""
                                 ? userProfile?.profileImage
-                                : "/public/user.jpg"
+                                : "/user.jpg"
                         }
                         alt=""
                     />

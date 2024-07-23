@@ -32,6 +32,7 @@ import MenuItemLink from "./components/MenuItem";
 import {useMemo} from "react";
 import applicationRoles from "@/constants/role.constants";
 import getDefaultRoute from "@/lib/route.util";
+import DefaultAvatar from "/user.jpg";
 
 interface DropdownItemType {
     href: string;
@@ -88,8 +89,8 @@ function Header() {
 
                     <DropdownMenu>
                         <DropdownMenuTrigger>
-                            <Avatar>
-                                <AvatarImage src="https://github.com/shadcn.png" />
+                            <Avatar className="border border-gray-500 p-1">
+                                <AvatarImage src={DefaultAvatar} />
                                 <AvatarFallback>Avatar</AvatarFallback>
                             </Avatar>
                         </DropdownMenuTrigger>
