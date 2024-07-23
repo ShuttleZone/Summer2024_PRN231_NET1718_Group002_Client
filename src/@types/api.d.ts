@@ -279,6 +279,7 @@ interface ReplyReview {
 
 interface ClubReviews {
     id: string;
+    reviewerId: string;
     rating: number;
     title: string;
     comment: string;

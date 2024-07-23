@@ -1,3 +1,12 @@
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {Button} from "@/components/ui/button";
+import {IoSearchOutline} from "react-icons/io5";
 function WallPaper() {
     return (
         <div className="w-full h-screen relative">

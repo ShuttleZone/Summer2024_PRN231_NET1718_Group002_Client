@@ -6,6 +6,7 @@ import {Link, useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import {useToast} from "@/components/ui/use-toast";
 import {Toaster} from "@/components/ui/toaster";
+import AppMiniLogo from "@/assets/images/apple-touch-icon-120x120.png";
 
 const initialState = {
     role: 1,
@@ -91,7 +92,7 @@ const RegisterForm = () => {
                 >
                     <img
                         className="w-8 h-8 mr-2"
-                        src="src/assets/images/apple-touch-icon-120x120.png"
+                        src={AppMiniLogo}
                         alt="logo"
                     />
                     Shuttle Zone

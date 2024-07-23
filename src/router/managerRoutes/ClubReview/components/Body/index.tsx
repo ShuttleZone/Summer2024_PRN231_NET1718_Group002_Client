@@ -11,14 +11,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-    DropdownMenu,
-    // DropdownMenuContent,
-    // DropdownMenuItem,
-    // DropdownMenuLabel,
-    // DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
 import {useToast} from "@/components/ui/use-toast";
@@ -321,7 +313,7 @@ function AllReviews() {
 
     const formatDateTime = (dateTime: string) => {
         const date = new Date(dateTime);
-        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
+        return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
     };
 
     const {
@@ -360,7 +352,6 @@ function AllReviews() {
             refetch();
         }
     };
-    console.log(reviews);
     if (isLoading) return <div>is loading...</div>;
     if (reviews?.length == 0) {
         return (
@@ -381,11 +372,11 @@ function AllReviews() {
                     <div className="border-2 rounded-lg p-4 m-2 border-green-500/50">
                         <article>
                             <div className="flex items-center mb-4">
-                                <img
+                                {/* <img
                                     className="w-10 h-10 me-4 rounded-full"
                                     src="/docs/images/people/profile-picture-5.jpg"
                                     alt=""
-                                />
+                                /> */}
                                 <div className="font-medium dark:text-white">
                                     <p>
                                         {review.createdBy}{" "}
@@ -409,9 +400,9 @@ function AllReviews() {
                             ) : review.rating == 5 ? (
                                 Fistar()
                             ) : review.rating == 0 ? (
-                                <div> No stars rated !</div>
+                                <div> Không có sao !</div>
                             ) : (
-                                <div> No information</div>
+                                <div> Không có thông tin</div>
                             )}
 
                             <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400">
@@ -441,7 +432,7 @@ function AllReviews() {
                                             aria-disabled
                                             className="px-2 py-1.5 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                                         >
-                                            Đã trả lời
+                                            Đã phản hồi !
                                         </a>
                                     ) : (
                                         <Dialog
@@ -475,13 +466,14 @@ function AllReviews() {
                                                                 type="button"
                                                                 className="px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                                                             >
-                                                                Trả lời đánh giá
+                                                                Phản hồi đánh
+                                                                giá
                                                             </button>
                                                         </TooltipTrigger>
                                                         <TooltipContent>
                                                             <p>
-                                                                Trả lời đánh giá
-                                                                này
+                                                                Phản hồi đánh
+                                                                giá này
                                                             </p>
                                                         </TooltipContent>
                                                     </Tooltip>
@@ -490,7 +482,7 @@ function AllReviews() {
                                             <DialogContent>
                                                 <DialogHeader>
                                                     <DialogTitle>
-                                                        Trả lời đánh giá này
+                                                        Phản hồi đánh giá này
                                                     </DialogTitle>
                                                     <DialogDescription>
                                                         Hãy để lại phản hồi cho
@@ -537,7 +529,7 @@ function AllReviews() {
                                                             }
                                                         />
                                                         <Button type="submit">
-                                                            Gửi câu trả lời
+                                                            Gửi câu phản hồi
                                                         </Button>
                                                     </div>
                                                 </form>
@@ -548,99 +540,7 @@ function AllReviews() {
                                         href="#"
                                         className="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600"
                                     >
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger>
-                                                Khác
-                                            </DropdownMenuTrigger>
-                                            {/* <DropdownMenuContent>
-                                                <DropdownMenuLabel>
-                                                    Review Action
-                                                </DropdownMenuLabel>
-                                                <DropdownMenuSeparator />
-                                                <DropdownMenuItem>
-                                                    <Dialog
-        
-                                                    >
-                                                        <DialogTrigger>
-                                                            Hide Review
-                                                        </DialogTrigger>
-                                                        <DialogContent>
-                                                            <DialogHeader>
-                                                                <DialogTitle>
-                                                                    Are you
-                                                                    absolutely
-                                                                    sure to hide
-                                                                    this review?
-                                                                </DialogTitle>
-                                                                <DialogDescription>
-                                                                    This action
-                                                                    cannot be
-                                                                    undone.
-                                                                </DialogDescription>
-                                                            </DialogHeader>
-                                                            <DialogFooter>
-                                                                <DialogClose>
-                                                                    <Button
-                                                                        className="p-3 bg-green-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-green-800 text-sm px-5 py-2.5 me-2 mb-2"
-                                                                        type="submit"
-                                                                        // onClick={
-                                                                        //     handleAccept
-                                                                        // }
-                                                                        variant="secondary"
-                                                                    >
-                                                                        Hide the
-                                                                        review
-                                                                    </Button>
-                                                                </DialogClose>
-                                                            </DialogFooter>
-                                                        </DialogContent>
-                                                    </Dialog>
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem>
-                                                    <Dialog>
-                                                        <DialogTrigger>
-                                                            Delete Review
-                                                        </DialogTrigger>
-                                                        <DialogContent>
-                                                            <DialogHeader>
-                                                                <DialogTitle>
-                                                                    Are you
-                                                                    absolutely
-                                                                    sure to
-                                                                    reject this
-                                                                    request?
-                                                                </DialogTitle>
-                                                                <DialogDescription>
-                                                                    This action
-                                                                    cannot be
-                                                                    undone. This
-                                                                    will
-                                                                    permanently
-                                                                    delete your
-                                                                    account and
-                                                                    remove your
-                                                                    data from
-                                                                    our servers.
-                                                                </DialogDescription>
-                                                            </DialogHeader>
-                                                            <DialogFooter>
-                                                                <DialogClose>
-                                                                    <Button
-                                                                        className="p-3 bg-red-600 rounded-lg font-medium text-white dark:text-blue-500 hover:bg-red-800 text-sm px-5 py-2.5 me-2 mb-2"
-                                                                        type="submit"
-                                                                        variant="secondary"
-                                                                    >
-                                                                        Reject
-                                                                        the
-                                                                        request
-                                                                    </Button>
-                                                                </DialogClose>
-                                                            </DialogFooter>
-                                                        </DialogContent>
-                                                    </Dialog>
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent> */}
-                                        </DropdownMenu>
+                                        {" "}
                                     </a>
                                 </div>
                             </aside>
@@ -649,11 +549,11 @@ function AllReviews() {
                             <div className="mt-2 ">
                                 <div className="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-lg dark:bg-gray-700">
                                     <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                                        <img
+                                        {/* <img
                                             className="w-8 h-8 rounded-lg"
                                             src="src/assets/images/app-logo.png"
                                             // alt="Jese image"
-                                        />
+                                        /> */}
                                         <span className="text-sm font-semibold text-gray-900 dark:text-white">
                                             {review.replyPerson}
                                         </span>
@@ -667,9 +567,6 @@ function AllReviews() {
                                     <p className="text-sm font-normal py-2.5 text-gray-900 dark:text-white">
                                         {review.replyContent}
                                     </p>
-                                    <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                                        Replied
-                                    </span>
                                 </div>
                             </div>
                         ) : (

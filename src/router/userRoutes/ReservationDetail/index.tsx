@@ -40,6 +40,7 @@ function MyReservationDetailList() {
         pageSize,
     });
     const reservations = data?.items;
+    console.log(reservations);
     const totalItems = data?.total || 0;
     const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -168,6 +169,7 @@ function MyReservationDetailList() {
                                             price={r.price}
                                             status={r.reservationDetailStatus}
                                             datetime={`${formatDateTime(r.startTime)} - ${formatDateTime(r.endTime)}`}
+                                            starttime={r.startTime}
                                             isPaymentExpired={
                                                 r.isPaymentExpired
                                             }
