@@ -12,7 +12,6 @@ import getDefaultRoute from "@/lib/route.util";
 import {GOOGLE_OAUTH_URL} from "@/constants/api.constants";
 import AppMiniLogo from "@/assets/images/apple-touch-icon-120x120.png";
 
-
 function LoginForm() {
     const initialState: Omit<LoginAccount, ""> = {
         id: "",

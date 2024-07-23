@@ -122,7 +122,6 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
             <td className="px-4 py-2 border-b">
                 {status === "PENDING" ? (
                     <button
-
                         disabled
                         data-tooltip-target="tooltip-default"
                         type="button"
@@ -143,7 +142,6 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
                         Đánh giá không khả dụng
                     </button>
                 ) : status === "PAYSUCCEED" && isReviewed == null ? (
-
                     <Dialog open={open} onOpenChange={setOpen}>
                         <DialogTrigger>
                             <TooltipProvider>
@@ -253,7 +251,6 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-
                             x="0px"
                             y="0px"
                             width="16"
