@@ -132,7 +132,7 @@ function LoginForm() {
                             </div>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-start">
-                                    <div className="flex items-center h-5">
+                                    {/* <div className="flex items-center h-5">
                                         <input
                                             id="remember"
                                             aria-describedby="remember"
@@ -144,7 +144,7 @@ function LoginForm() {
                                         <label className="text-gray-500 dark:text-gray-300">
                                             Ghi nhớ tôi
                                         </label>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 {/* <a
                                     href="#"
