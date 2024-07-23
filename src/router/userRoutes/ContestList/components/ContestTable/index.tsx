@@ -39,7 +39,7 @@ function ContestDataTable() {
     const dispatch = useAppDispatch();
     const formatDateTime = (dateTime: string) => {
         const date = new Date(dateTime);
-        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} `;
     };
     const navigate = useNavigate();
     const columns: ColumnDef<ContestInfo>[] = [
@@ -113,20 +113,20 @@ function ContestDataTable() {
             ),
             enableSorting: true,
         },
-        {
-            accessorKey: "contestStatus",
-            header: "Trạng thái",
-            cell: ({row}) => (
-                <div className="font-medium">
-                    {row.getValue("contestStatus") == "Open"
-                        ? "Đang mở"
-                        : row.getValue("contestStatus") == "InProgress"
-                          ? "Đang diễn ra"
-                          : "Đã diễn ra"}
-                </div>
-            ),
-            enableSorting: true,
-        },
+        // {
+        //     accessorKey: "contestStatus",
+        //     header: "Trạng thái",
+        //     cell: ({row}) => (
+        //         <div className="font-medium">
+        //             {row.getValue("contestStatus") == "Open"
+        //                 ? "Đang mở"
+        //                 : row.getValue("contestStatus") == "InProgress"
+        //                   ? "Đang diễn ra"
+        //                   : "Đã diễn ra"}
+        //         </div>
+        //     ),
+        //     enableSorting: true,
+        // },
         {
             accessorKey: "maxPlayer",
             header: "Số người chơi",

@@ -44,7 +44,6 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
     courtName,
     price,
     datetime,
-    starttime,
     status,
     isPaymentExpired,
 }) => {
@@ -60,10 +59,7 @@ const ReservationDetailsItem: React.FC<ReservationDetailsItemProps> = ({
         clubId || skipToken
     );
     const isReviewed = reviews?.find((r) => r.reviewerId == userId);
-    console.log(starttime.toString());
-    function handleClick() {
-        console.log("clicked");
-    }
+    function handleClick() {}
     const {toast} = useToast();
     const [open, setOpen] = React.useState(false);
     const [formData, setFormData] = useState<ReviewRequest>(initialState);

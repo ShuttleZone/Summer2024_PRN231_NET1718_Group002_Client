@@ -29,7 +29,6 @@ const RegisterForm = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         formData.role = role;
-        console.log("Selected role:", role);
         const phoneNumberRegex = /^0\d{9}$/;
 
         if (!phoneNumberRegex.test(formData.phoneNumber)) {
@@ -50,20 +49,17 @@ const RegisterForm = () => {
 
         try {
             if (role === 1) {
-                const result = await register(formData).unwrap();
-                console.log("Register succeeded", result);
+                await register(formData).unwrap();
                 navigate("/email-confirmation", {
                     state: {email: formData.email},
                 });
             } else if (role === 2) {
-                const result = await registerManager(formData).unwrap();
-                console.log("Register Manager succeeded", result);
+                await registerManager(formData).unwrap();
                 navigate("/email-confirmation", {
                     state: {email: formData.email},
                 });
             }
         } catch (err) {
-            console.log("err", err);
             toast({
                 variant: "destructive",
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any

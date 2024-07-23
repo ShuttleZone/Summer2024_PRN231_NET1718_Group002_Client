@@ -78,7 +78,6 @@ function UserProfile() {
         }
         try {
             await updateProfile(formData);
-            console.log("Profile updated successfully");
             setEditMode(false);
             setErrors({});
             toast({

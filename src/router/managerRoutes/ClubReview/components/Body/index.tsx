@@ -333,7 +333,6 @@ function AllReviews() {
     const [replyReview] = useReplyClubReviewMutation();
     const handleSend = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(formData);
         const result = await replyReview(formData);
         setOpen(false);
 
