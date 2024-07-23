@@ -10,6 +10,7 @@ import {jwtDecode} from "jwt-decode";
 import {AuthPayload} from "@/store/slices/auth.slice";
 import getDefaultRoute from "@/lib/route.util";
 import {GOOGLE_OAUTH_URL} from "@/constants/api.constants";
+import AppMiniLogo from "@/assets/images/apple-touch-icon-120x120.png";
 
 function LoginForm() {
     const initialState: Omit<LoginAccount, ""> = {
@@ -73,7 +74,7 @@ function LoginForm() {
                 >
                     <img
                         className="w-8 h-8 mr-2"
-                        src="/assets/images/apple-touch-icon-120x120.png"
+                        src={AppMiniLogo}
                         alt="logo"
                     />
                     Shuttle Zone

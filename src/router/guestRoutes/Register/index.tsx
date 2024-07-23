@@ -1,4 +1,6 @@
 import RegisterForm from "./RegisterForm";
+import RegisteBackground from "@/assets/images/register-bg.jpg";
+
 function RegisterPage() {
     return (
         <div>
@@ -7,7 +9,7 @@ function RegisterPage() {
                     <img
                         alt="Logo"
                         className="img-fluid"
-                        src="/assets/images/register-bg.jpg"
+                        src={RegisteBackground}
                     />
                 </div>
                 <div className="form-section">
