@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {
     useProfileQuery,
     useUpdateProfileMutation,
@@ -10,6 +10,7 @@ import {useAppDispatch} from "@/store";
 import ChangePassword from "./components/ChangePassword.tsx";
 import formatVietnameseDong from "@/lib/currency.util.ts";
 import AvatarUpload from "./components/AvatarUpload.tsx";
+import {Button} from "@/components/ui/button.tsx";
 
 interface UpdateUserProfile {
     fullname: string;
@@ -35,6 +36,7 @@ function UserProfile() {
     );
     const [editMode, setEditMode] = useState(false);
     const [errors, setErrors] = useState<{[key: string]: string}>({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (userProfile) {
@@ -126,12 +128,20 @@ function UserProfile() {
                     </h1>
                     <span className="text-lg my-2">@{userProfile?.email}</span>
                 </div>
-                <div className="flex flex-col items-center">
+                <div className="flex place-items-end justify-between gap-6">
                     <span className="text-lg my-2">
                         Số dư:{" "}
                         {formatVietnameseDong(userProfile?.balance ?? 0, "VND")}{" "}
                         VND
                     </span>
+                    <Button
+                        className="mt-4"
+                        variant="outline"
+                        onClick={() => navigate("/wallet")}
+                    >
+                        {" "}
+                        Nạp tiền{" "}
+                    </Button>
                 </div>
                 <div className="grid grid-cols-2 w-full mt-8">
                     <Link
