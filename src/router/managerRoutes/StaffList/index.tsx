@@ -24,6 +24,7 @@ import {RiUserSettingsLine} from "react-icons/ri";
 import {useState, useEffect} from "react";
 import CreateStaffDialog from "./components/CreateStaffDialog";
 import {Link} from "react-router-dom";
+import DefaultAvatar from "/user.jpg";
 
 function StaffList() {
     const {data: staffs, isLoading, refetch} = useGetClubStaffsQuery();
@@ -129,7 +130,7 @@ function StaffList() {
                                                 />
                                             ) : (
                                                 <img
-                                                    src="/public/user.jpg"
+                                                    src={DefaultAvatar}
                                                     alt="Profile"
                                                     className="w-8 h-8 rounded-full border-2 border-black"
                                                 />
