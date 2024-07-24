@@ -78,7 +78,7 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
                     ? "THẤT BẠI"
                     : status === "PAYSUCCEED"
                       ? "THÀNH CÔNG"
-                      : status === "CANCELED"
+                      : status === "CANCELLED"
                         ? "ĐÃ HỦY"
                         : "ĐANG CHỜ"}
             </td>
