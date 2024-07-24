@@ -10,13 +10,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import {Textarea} from "@/components/ui/textarea";
 import {useToast} from "@/components/ui/use-toast";
 import {formattedTimeToDateTime} from "@/lib/time.util";
@@ -69,7 +62,7 @@ function ContestCreate() {
         policy: "",
         name: "",
         phone: "",
-        maxPlayer: 0,
+        maxPlayer: 2,
     };
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -134,7 +127,12 @@ function ContestCreate() {
         if (response.error) {
             toast({
                 title: "Lỗi",
-                description: "Đã xảy ra lỗi khi tạo cuộc thi",
+                description:
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (response.error as any)?.data?.value ||
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (response.error as any)?.data ||
+                    "Đã xảy ra lỗi khi tạo cuộc thi",
                 variant: "destructive",
             });
             return;
@@ -268,7 +266,7 @@ function ContestCreate() {
                                     </FormItem>
                                 )}
                             ></FormField>
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="maxPlayer"
                                 render={({field}) => (
@@ -294,7 +292,7 @@ function ContestCreate() {
                                         <FormMessage />
                                     </FormItem>
                                 )}
-                            ></FormField>
+                            ></FormField> */}
                             <FormField
                                 control={form.control}
                                 name="policy"

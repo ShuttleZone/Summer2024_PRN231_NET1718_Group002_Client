@@ -64,7 +64,6 @@ function TimeAndDateBooking() {
     }, [currentStage, navigate, bookingLocation]);
 
     useEffect(() => {
-        console.log(bookingSlot);
         const dates = bookingSlot.map(
             (x) => `${x.Date} - ${x.StartTime} - ${x.EndTime}`
         );

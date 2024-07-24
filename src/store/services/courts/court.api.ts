@@ -45,6 +45,15 @@ const clubApi = commonApi.injectEndpoints({
             },
             invalidatesTags: (req) => [{type: "Courts" as never, id: req?.id}],
         }),
+        maintainCourt: build.mutation<Record<string, never>, {id: string}>({
+            query: (data) => {
+                return {
+                    url: `/api/Courts/maintain/${data.id}`,
+                    method: "PUT",
+                };
+            },
+            invalidatesTags: (req) => [{type: "Courts" as never, id: req?.id}],
+        }),
     }),
     overrideExisting: true,
 });
@@ -53,4 +62,5 @@ export const {
     useCreateCourtMutation,
     useGetCourtByClubQuery,
     useChangeStatusCourtMutation,
+    useMaintainCourtMutation,
 } = clubApi;

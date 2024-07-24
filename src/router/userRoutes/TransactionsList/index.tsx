@@ -32,7 +32,7 @@ const TransactionsList = () => {
 
     const columns: ColumnDef<TransactionResponseType>[] = [
         {
-            accessorKey: "transactionDate",
+            accessorKey: "created",
             header: "Ngày giao dịch",
             cell: ({row}) => (
                 <div>{formatUtcDate(row.getValue("created"))}</div>

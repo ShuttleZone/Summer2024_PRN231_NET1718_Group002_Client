@@ -6,6 +6,7 @@ import {Link, useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import {useToast} from "@/components/ui/use-toast";
 import {Toaster} from "@/components/ui/toaster";
+import AppMiniLogo from "@/assets/images/apple-touch-icon-120x120.png";
 
 const initialState = {
     role: 1,
@@ -28,7 +29,6 @@ const RegisterForm = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         formData.role = role;
-        console.log("Selected role:", role);
         const phoneNumberRegex = /^0\d{9}$/;
 
         if (!phoneNumberRegex.test(formData.phoneNumber)) {
@@ -49,20 +49,17 @@ const RegisterForm = () => {
 
         try {
             if (role === 1) {
-                const result = await register(formData).unwrap();
-                console.log("Register succeeded", result);
+                await register(formData).unwrap();
                 navigate("/email-confirmation", {
                     state: {email: formData.email},
                 });
             } else if (role === 2) {
-                const result = await registerManager(formData).unwrap();
-                console.log("Register Manager succeeded", result);
+                await registerManager(formData).unwrap();
                 navigate("/email-confirmation", {
                     state: {email: formData.email},
                 });
             }
         } catch (err) {
-            console.log("err", err);
             toast({
                 variant: "destructive",
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -91,7 +88,7 @@ const RegisterForm = () => {
                 >
                     <img
                         className="w-8 h-8 mr-2"
-                        src="src/assets/images/apple-touch-icon-120x120.png"
+                        src={AppMiniLogo}
                         alt="logo"
                     />
                     Shuttle Zone
@@ -293,7 +290,7 @@ const RegisterForm = () => {
                                     required
                                 />
                             </div>
-                            <div className="flex items-start mb-5">
+                            {/* <div className="flex items-start mb-5">
                                 <div className="flex items-center h-5">
                                     <input
                                         value={formData.repassword}
@@ -313,7 +310,7 @@ const RegisterForm = () => {
                                         điều khoản dịch vụ
                                     </a>
                                 </label>
-                            </div>
+                            </div> */}
                             <button
                                 type="submit"
                                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

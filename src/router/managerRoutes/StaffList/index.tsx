@@ -23,6 +23,8 @@ import ActionButton from "./components/ActionButton";
 import {RiUserSettingsLine} from "react-icons/ri";
 import {useState, useEffect} from "react";
 import CreateStaffDialog from "./components/CreateStaffDialog";
+import {Link} from "react-router-dom";
+import DefaultAvatar from "/user.jpg";
 
 function StaffList() {
     const {data: staffs, isLoading, refetch} = useGetClubStaffsQuery();
@@ -45,6 +47,24 @@ function StaffList() {
             setFilteredStaff(staffs);
         }
     };
+
+    if (!clubs || clubs.length === 0) {
+        return (
+            <div className="flex flex-col justify-center items-center gap-8">
+                <h1 className="text-center text-2xl font-bold text-red-500">
+                    Bạn chưa có câu lạc bộ nào!
+                </h1>
+                <p>
+                    Hãy
+                    <Link to="/manager/clubs/new" className="text-blue-500">
+                        {" "}
+                        tạo câu lạc bộ{" "}
+                    </Link>
+                    đầu tiên của bạn để thêm nhân viên vào câu lạc bộ
+                </p>
+            </div>
+        );
+    }
 
     return (
         <div className="w-full">
@@ -110,7 +130,7 @@ function StaffList() {
                                                 />
                                             ) : (
                                                 <img
-                                                    src="/public/user.jpg"
+                                                    src={DefaultAvatar}
                                                     alt="Profile"
                                                     className="w-8 h-8 rounded-full border-2 border-black"
                                                 />

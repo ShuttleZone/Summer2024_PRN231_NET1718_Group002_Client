@@ -7,19 +7,16 @@ import {CreateContestType, UpdateContestRequest} from "@/@types/requests";
 import ApiRouteBuilder from "@/lib/api.util";
 import commonApi from "@/store/common.api";
 
-type ContestsListQueryReturnType = {
-    value: ContestInfo[];
-};
-
 const contestApi = commonApi.injectEndpoints({
     endpoints: (build) => ({
         getContests: build.query<ContestInfo[], void>({
-            query: () => "api/Contests?$expand=userContests",
-            transformResponse(
-                baseQueryReturnValue: ContestsListQueryReturnType
-            ) {
-                return baseQueryReturnValue.value;
-            },
+            query: () => "/contests",
+            // transformResponse(
+            //     baseQueryReturnValue: ContestsListQueryReturnType
+            // ) {
+            //     console.log("AAAA" + baseQueryReturnValue);
+            //     return baseQueryReturnValue;
+            // },
             providesTags: (result) =>
                 result
                     ? [
@@ -34,7 +31,7 @@ const contestApi = commonApi.injectEndpoints({
         getContestsDetail: build.query<ContestInfo, string>({
             query: (id) => {
                 const routeBuilder = new ApiRouteBuilder(
-                    `/api/Contests(${id})?$expand=userContests`
+                    `/api/Contests(${id})?$expand=userContests,Reservation($expand=ReservationDetailsDtos($expand=Court($expand=Club)))`
                 );
                 return routeBuilder.build();
             },

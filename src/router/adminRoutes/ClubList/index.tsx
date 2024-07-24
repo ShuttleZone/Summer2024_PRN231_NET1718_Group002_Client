@@ -102,7 +102,6 @@ function ClubList() {
         },
     ];
     const {data: clubs, isLoading} = useGetClubManagementQuery();
-    console.log(clubs?.length);
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);

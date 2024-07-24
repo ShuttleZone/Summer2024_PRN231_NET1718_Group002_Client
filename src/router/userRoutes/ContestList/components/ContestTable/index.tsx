@@ -31,13 +31,17 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {useGetContestsQuery} from "@/store/services/contests/contest.api";
+import {useAppDispatch} from "@/store";
+export const formatDateTime = (dateTime: string) => {
+    const date = new Date(dateTime);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} `;
+};
 
 function ContestDataTable() {
-    const formatDateTime = (dateTime: string) => {
-        const date = new Date(dateTime);
-        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
-    };
+    const dispatch = useAppDispatch();
+
     const navigate = useNavigate();
     const columns: ColumnDef<ContestInfo>[] = [
         {
@@ -110,20 +114,20 @@ function ContestDataTable() {
             ),
             enableSorting: true,
         },
-        {
-            accessorKey: "contestStatus",
-            header: "Trạng thái",
-            cell: ({row}) => (
-                <div className="font-medium">
-                    {row.getValue("contestStatus") == "Open"
-                        ? "Đang mở"
-                        : row.getValue("contestStatus") == "InProgress"
-                          ? "Đang diễn ra"
-                          : "Đã diễn ra"}
-                </div>
-            ),
-            enableSorting: true,
-        },
+        // {
+        //     accessorKey: "contestStatus",
+        //     header: "Trạng thái",
+        //     cell: ({row}) => (
+        //         <div className="font-medium">
+        //             {row.getValue("contestStatus") == "Open"
+        //                 ? "Đang mở"
+        //                 : row.getValue("contestStatus") == "InProgress"
+        //                   ? "Đang diễn ra"
+        //                   : "Đã diễn ra"}
+        //         </div>
+        //     ),
+        //     enableSorting: true,
+        // },
         {
             accessorKey: "maxPlayer",
             header: "Số người chơi",
@@ -185,9 +189,7 @@ function ContestDataTable() {
         },
     });
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+    isLoading ? dispatch(showSpinner()) : dispatch(hideSpinner());
     if (isError) {
         return <div>Error in getting data</div>;
     }

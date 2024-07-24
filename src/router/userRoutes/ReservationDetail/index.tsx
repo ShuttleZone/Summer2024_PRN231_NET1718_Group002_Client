@@ -168,6 +168,7 @@ function MyReservationDetailList() {
                                             price={r.price}
                                             status={r.reservationDetailStatus}
                                             datetime={`${formatDateTime(r.startTime)} - ${formatDateTime(r.endTime)}`}
+                                            starttime={r.startTime}
                                             isPaymentExpired={
                                                 r.isPaymentExpired
                                             }

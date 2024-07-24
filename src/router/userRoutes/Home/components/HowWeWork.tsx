@@ -1,4 +1,4 @@
-import {Button} from "@/components/ui/button";
+// import {Button} from "@/components/ui/button";
 import {IoSearchOutline} from "react-icons/io5";
 
 function HowWeWord() {
@@ -24,9 +24,9 @@ function HowWeWord() {
                             thống chúng tôi bắt đầu từ việc tạo tài khoản
                         </span>
                     </div>
-                    <Button className="border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white bg-white">
+                    {/* <Button className="border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white bg-white">
                         Đăng kí ngay
-                    </Button>
+                    </Button> */}
                 </div>
                 <div className="w-1/4 h-fit flex flex-col gap-5 items-center shadow-md px-2 shadow-gray-400 rounded-2xl py-8 justify-between py-2">
                     <IoSearchOutline className="text-4xl" />
@@ -39,9 +39,9 @@ function HowWeWord() {
                             thống chúng tôi bắt đầu từ việc tạo tài khoản
                         </span>
                     </div>
-                    <Button className="border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white bg-white">
+                    {/* <Button className="border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white bg-white">
                         Đăng kí ngay
-                    </Button>
+                    </Button> */}
                 </div>
                 <div className="w-1/4 h-fit flex flex-col gap-5 items-center shadow-md px-2 shadow-gray-400 rounded-2xl py-8 justify-between py-2">
                     <IoSearchOutline className="text-4xl" />
@@ -54,9 +54,9 @@ function HowWeWord() {
                             thống chúng tôi bắt đầu từ việc tạo tài khoản
                         </span>
                     </div>
-                    <Button className="border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white bg-white">
+                    {/* <Button className="border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white bg-white">
                         Đăng kí ngay
-                    </Button>
+                    </Button> */}
                 </div>
             </div>
         </div>

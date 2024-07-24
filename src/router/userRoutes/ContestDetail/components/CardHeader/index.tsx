@@ -9,7 +9,7 @@ interface ContestTableProps {
 }
 
 function CardHeader({contest}: ContestTableProps) {
-    const currentDate = new Date().toLocaleString();
+    const currentDate = Date.now.toString();
     const userId = useAppSelector((state) => state.auth.userId);
     const firstReservationDetail =
         contest.reservation.reservationDetailsDtos[0];
@@ -59,7 +59,7 @@ function CardHeader({contest}: ContestTableProps) {
                                     }
                                 </div>
                                 <div className="w-full text-lg font-semibold inline align-middle mx-1 text-green-600">
-                                    Giá của cuộc đấu
+                                    Chi phí trả sân
                                 </div>
                                 <div className="w-full text-gray-700">
                                     {formatVietnameseDong(
@@ -93,8 +93,16 @@ function CardHeader({contest}: ContestTableProps) {
                                 </div>
                                 <div className="w-full text-gray-700">
                                     {formatDateTime(
-                                        contest.reservation
-                                            .reservationDetailsDtos[0].startTime
+                                        contest.reservation.reservationDetailsDtos
+                                            .reduce((min, rd) => {
+                                                const startTime = new Date(
+                                                    rd.startTime
+                                                );
+                                                return startTime < min
+                                                    ? startTime
+                                                    : min;
+                                            }, new Date(contest.reservation.reservationDetailsDtos[0].startTime))
+                                            .toString()
                                     )}
                                 </div>
                             </div>
@@ -175,20 +183,20 @@ function CardHeader({contest}: ContestTableProps) {
                     </li>
                 </ul>
                 {contest.userContests[0].participantsId == userId ? (
-                    <p className="inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-green-600 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Bạn là người tạo cuộc đấu này !
+                    <p className="disabled inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-green-600 rounded-lg  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Bạn đã ở trong cuộc đấu này!
                     </p>
                 ) : // <button className="inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-green-600 rounded-lg hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 //     Bạn là người tạo cuộc đấu này !
                 // </button>
                 contest.userContests.length == contest.maxPlayer ? (
-                    <button className="inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button className="disabled inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Cuộc đấu đã đủ số lượng người chơi !
                     </button>
                 ) : contest.contestStatus.toString() == "Closed" &&
                   contest.reservation.reservationDetailsDtos[0].startTime <
                       currentDate ? (
-                    <button className="inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button className="disabled inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Cuộc thi đã hết hạn tham gia !
                     </button>
                 ) : contest.userContests.length < contest.maxPlayer &&

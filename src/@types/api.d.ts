@@ -279,6 +279,7 @@ interface ReplyReview {
 
 interface ClubReviews {
     id: string;
+    reviewerId: string;
     rating: number;
     title: string;
     comment: string;
@@ -374,7 +375,7 @@ export interface UpdatePackage {
     name: string;
     description: string;
     price: number;
-    packageType: number;
+    packageType: string;
 }
 
 interface Wallet {

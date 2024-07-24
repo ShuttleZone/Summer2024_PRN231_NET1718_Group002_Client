@@ -52,7 +52,7 @@ function ClubList() {
     const columns: ColumnDef<Club>[] = [
         {
             accessorKey: "clubName",
-            header: "TTên câu lạc bộ",
+            header: "Tên câu lạc bộ",
             cell: ({row}) => (
                 <div className="font-medium">{row.getValue("clubName")}</div>
             ),
