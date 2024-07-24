@@ -127,7 +127,12 @@ function ContestCreate() {
         if (response.error) {
             toast({
                 title: "Lỗi",
-                description: "Đã xảy ra lỗi khi tạo cuộc thi",
+                description:
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (response.error as any)?.data?.value ||
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (response.error as any)?.data ||
+                    "Đã xảy ra lỗi khi tạo cuộc thi",
                 variant: "destructive",
             });
             return;

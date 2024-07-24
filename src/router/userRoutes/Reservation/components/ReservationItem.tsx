@@ -100,13 +100,18 @@ const ReservationItem: React.FC<ReservationItemProps> = ({
                     ""
                 )}
             </td>
-            {status === "PAYSUCCEED" && (
+
+            {status === "PAYSUCCEED" ? (
                 <td className="px-4 py-2 border-b">
                     <CancelReservationButton
                         reservationId={id}
                         refresh={refetch}
                     />
                 </td>
+            ) : Date.parse(expiredTime) < Date.now() && status === "PENDING" ? (
+                <td className="px-4 py-2 border-b text-red-500">-</td>
+            ) : (
+                <td className="px-4 py-2 border-b text-red-500">-</td>
             )}
         </tr>
     );
