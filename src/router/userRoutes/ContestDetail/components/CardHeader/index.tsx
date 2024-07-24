@@ -183,8 +183,8 @@ function CardHeader({contest}: ContestTableProps) {
                     </li>
                 </ul>
                 {contest.userContests[0].participantsId == userId ? (
-                    <p className="disabled inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-green-600 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Bạn là người tạo cuộc đấu này !
+                    <p className="disabled inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-green-600 rounded-lg  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Bạn đã ở trong cuộc đấu này!
                     </p>
                 ) : // <button className="inline-flex mt-6 items-center px-3 py-2 text-lg font-medium text-center text-white bg-green-600 rounded-lg hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 //     Bạn là người tạo cuộc đấu này !

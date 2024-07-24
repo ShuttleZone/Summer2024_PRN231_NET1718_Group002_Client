@@ -51,6 +51,14 @@ function SubscriptionList() {
                                         {subscription.description}
                                     </p>
 
+                                    <p className="mb-3 font-semibold text-black">
+                                        {subscription.packageType == "MONTH"
+                                            ? "Hàng tháng"
+                                            : subscription.packageType == "YEAR"
+                                              ? "Hàng năm"
+                                              : "Trọn đời"}
+                                    </p>
+
                                     <span className="block mb-2 text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
                                         {formatVietnameseDong(
                                             subscription.price,
