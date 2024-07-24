@@ -18,6 +18,7 @@ import AfterPayment from "./userRoutes/AfterPayment";
 import PaymentOption from "./userRoutes/Payment/PaymentOption";
 import UnauthenticatedRoute from "./UnauthenticatedRoute";
 import GoogleOAuthCallback from "./userRoutes/GoogleOAuthCallback";
+import NoLayout from "@/layouts/NoLayout";
 
 const router = createBrowserRouter([
     {
@@ -91,8 +92,14 @@ const router = createBrowserRouter([
         children: [...guestRoutes],
     },
     {
-        path: "/payment",
-        element: <PaymentOption />,
+        path: "",
+        element: <NoLayout />,
+        children: [
+            {
+                path: "/payment",
+                element: <PaymentOption />,
+            },
+        ],
     },
 ]);
 
