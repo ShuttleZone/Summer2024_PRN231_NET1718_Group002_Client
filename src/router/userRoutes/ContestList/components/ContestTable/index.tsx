@@ -34,13 +34,14 @@ import {
 import {hideSpinner, showSpinner} from "@/store/slices/spinner.slice";
 import {useGetContestsQuery} from "@/store/services/contests/contest.api";
 import {useAppDispatch} from "@/store";
+export const formatDateTime = (dateTime: string) => {
+    const date = new Date(dateTime);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} `;
+};
 
 function ContestDataTable() {
     const dispatch = useAppDispatch();
-    const formatDateTime = (dateTime: string) => {
-        const date = new Date(dateTime);
-        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} `;
-    };
+
     const navigate = useNavigate();
     const columns: ColumnDef<ContestInfo>[] = [
         {

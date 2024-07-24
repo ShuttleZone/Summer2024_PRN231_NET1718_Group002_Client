@@ -3,12 +3,7 @@ import {UserContestRequest} from "@/@types/requests";
 import {useToast} from "@/components/ui/use-toast";
 import {useUpdateContestResultMutation} from "@/store/services/contests/contest.api";
 import React, {useEffect, useState} from "react";
-import {
-    FaCalendarAlt,
-    FaCheckCircle,
-    FaTimesCircle,
-    FaUsers,
-} from "react-icons/fa";
+import {FaCheckCircle, FaTimesCircle, FaUsers} from "react-icons/fa";
 import ConfirmUpdateContestPopup from "./ConfirmUpdateContestPopup";
 
 interface ContestDetailsProps {
@@ -79,14 +74,21 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                     </label>
                     <p className="text-base">{contest.id}</p>
                 </div> */}
-                <div>
+                {/* <div>
                     <label className="block text-lg font-semibold text-gray-700 flex items-center">
                         <FaCalendarAlt className="mr-2" /> Ngày diễn ra
                     </label>
                     <p className="text-base">
-                        {new Date(contest.contestDate).toUTCString()}
+                        {formatDateTime(
+                            contest.reservation.reservationDetailsDtos
+                                .reduce((min, rd) => {
+                                    const startTime = new Date(rd.startTime);
+                                    return startTime < min ? startTime : min;
+                                }, new Date(contest.reservation.reservationDetailsDtos[0].startTime))
+                                .toString()
+                        )}
                     </p>
-                </div>
+                </div> */}
                 <div>
                     <label className="block text-lg font-semibold text-gray-700 flex items-center">
                         <FaUsers className="mr-2" /> Số người chơi tối đa
@@ -150,7 +152,7 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                                         <FaTimesCircle className="text-red-500 ml-2" />
                                     )}
                                 </p>
-                                <div className="flex items-center space-x-2">
+                                {/* <div className="flex items-center space-x-2">
                                     <label className="text-gray-600">
                                         Là người chiến thắng:
                                     </label>
@@ -166,7 +168,7 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                                         //     )
                                         // }
                                     />
-                                </div>
+                                </div> */}
                                 <div className="flex items-center space-x-2">
                                     <label className="text-gray-600">
                                         Điểm:
@@ -175,6 +177,7 @@ const ContestDetailsItem: React.FC<ContestDetailsProps> = ({contest}) => {
                                         disabled={
                                             contest.contestStatus === "Closed"
                                         }
+                                        min={0}
                                         type="number"
                                         className="w-20 p-1 border border-gray-300 rounded-lg"
                                         value={userContests[index].point}
